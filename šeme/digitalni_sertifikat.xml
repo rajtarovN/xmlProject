@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Digitalni_zeleni_sertifikat xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="digitalni_sertifikat.xsd" qr_kod="1234">
+    xsi:noNamespaceSchemaLocation="digitalni_sertifikat.xsd" qr_kod="1234" Id_sertifikata="123">
     <Podaci_o_sertifikatu>
         <Broj_sertifikata>1</Broj_sertifikata>
         <Datum_i_vreme_izdavanja>2021-11-11T12:11:00</Datum_i_vreme_izdavanja>
