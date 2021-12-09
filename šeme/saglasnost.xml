@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju file:/C:/Users/rajno/Desktop/xmlProject/%C5%A1eme/saglasnost_schema.xsd">
+    <Pacijent>
+        <Drzavljanin_srbije>
+            <JMBG>1234567891234</JMBG>
+        </Drzavljanin_srbije>
+        <Licni_podaci>
+            <Prezime>Pera</Prezime>
+            <Ime>Peric</Ime>
+            <Ime_roditelja>Veselin</Ime_roditelja>
+            <Pol>Muski</Pol>
+            <Datum_rodjenja>1999-01-01</Datum_rodjenja>
+            <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
+            <Adresa>
+                <Ulica>Jevrejska</Ulica>
+                <Broj>5</Broj>
+                <Mesto>Novi Sad</Mesto>
+                <Grad>Novi Sad</Grad>
+            </Adresa>
+            <Kontakt_informacije>
+                <Fiksni_telefon>021 123 456</Fiksni_telefon>
+                <Mobilni_telefon>065 123 45 67</Mobilni_telefon>
+                <Email>email@gmail.com</Email>
+            </Kontakt_informacije>
+            <Radni_status>Zaposlen</Radni_status>
+            <Zanimanje_zaposlenog>prosveta</Zanimanje_zaposlenog>
+            <Socijalna_zastita>
+                <Naziv_sedista>Novi Sad</Naziv_sedista>
+                <Opstina_sedista>Novi Sad</Opstina_sedista>
+            </Socijalna_zastita>
+        </Licni_podaci>
+        <Saglasnost_pacijenta>
+            <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
+        </Saglasnost_pacijenta>
+        <Datum>2021-11-11</Datum>
+    </Pacijent>
+    <Evidencija_o_vakcinaciji>
+        <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
+        <Vakcinacijski_punkt>5</Vakcinacijski_punkt>
+        <Lekar>
+            <Ime>Boban</Ime>
+            <Prezime>Mikic</Prezime>
+            <Telefon>065 765 43 21</Telefon>
+        </Lekar>
+        <Vakcine>
+            <Vakcina>
+                <Naziv>Pfizer-BioNTech</Naziv>
+                <Datum_davanja>2021-11-11</Datum_davanja>
+                <Nacin_davanja></Nacin_davanja>
+                <Ekstremiter>desna ruka</Ekstremiter>
+                <Serija>1</Serija>
+                <Proizvodjac>Pfizer</Proizvodjac>
+                <Nezeljena_reakcija></Nezeljena_reakcija>
+            </Vakcina>
+            <Privremene_kontraindikacije>
+                <Datum_utvrdjivanja>2021-11-11</Datum_utvrdjivanja>
+                <Dijagnoza>Povisena temperatura</Dijagnoza>
+            </Privremene_kontraindikacije>
+            <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>
+        </Vakcine>
+    </Evidencija_o_vakcinaciji>
+</Saglasnost>
