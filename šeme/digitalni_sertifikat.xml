@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Digitalni_zeleni_sertifikat xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="digitalni_sertifikat.xsd" qr_kod="1234">
+    <Podaci_o_sertifikatu>
+        <Broj_sertifikata>1</Broj_sertifikata>
+        <Datum_i_vreme_izdavanja>2021-11-11T12:11:00</Datum_i_vreme_izdavanja>
+    </Podaci_o_sertifikatu>
+    <Podaci_o_osobi>
+        <Ime>Mika</Ime>
+        <Prezime>Mikic</Prezime>
+        <Pol>Muski</Pol>
+        <Datum_rodjenja>1999-01-01</Datum_rodjenja>
+        <Jmbg>1234567891234</Jmbg>
+        <Broj_pasosa>123456789</Broj_pasosa>
+    </Podaci_o_osobi>
+    <Podaci_o_vakcinaciji>
+        <Vakcinacija>
+            <Tip>AstraZeneca</Tip>
+            <Proizvodjac>AstraZeneca plc</Proizvodjac>
+            <Serija>2</Serija>
+            <Datum>2021-11-11</Datum>
+            <Zdravstvena_ustanova>Dom Zdravlje, Novi Sad</Zdravstvena_ustanova>
+        </Vakcinacija>
+    </Podaci_o_vakcinaciji>
+    <Testovi>
+        <Naziv_testa></Naziv_testa>
+        <Vrsta_uzorka></Vrsta_uzorka>
+        <Datum_i_vreme_uzorkovanja></Datum_i_vreme_uzorkovanja>
+        <Datum_i_vreme_izdavanja_rezultata></Datum_i_vreme_izdavanja_rezultata>
+    </Testovi>
+    <Datum>2021-11-11</Datum>
+</Digitalni_zeleni_sertifikat>
