@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Izvestaj_o_imunizaciji xmlns="IzvestajOImunizaciji"
+<Izvestaj_o_imunizaciji xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="IzvestajOImunizaciji file:/D:/faks/xmlProj/izvestaj_sema.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji file:izvestaj_sema.xsd">
     <Period_izvestaja>
         <Pocetak_perioda>2021-12-12</Pocetak_perioda>
         <Kraj_perioda>2021-12-16</Kraj_perioda>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju file:/C:/Users/rajno/Desktop/xmlProject/%C5%A1eme/saglasnost_schema.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju file:saglasnost_schema.xsd">
     <Pacijent>
         <Drzavljanin_srbije>
             <JMBG>1234567891234</JMBG>

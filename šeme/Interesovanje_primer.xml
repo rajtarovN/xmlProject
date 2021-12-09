@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Interesovanje xmlns="www.ftn.uns.ac.rs/Interesovanje"
+<Interesovanje xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="www.ftn.uns.ac.rs/Interesovanje file:/D:/FTN/7.semestar/XML%20i%20veb%20servisi/projekat/Interesovanje_sema.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje file:Interesovanje_sema.xsd">
     <Licne_informacije>
         <Drzavljanstvo>Drzavljanin_republike_srbije</Drzavljanstvo>
         <Jmbg>1234567890999</Jmbg>

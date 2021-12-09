@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
-    vc:minVersion="1.1" targetNamespace="IzvestajOImunizaciji" xmlns="IzvestajOImunizaciji">
+    vc:minVersion="1.1"
+    targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji"
+    xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji">
 
     <xs:element name="Izvestaj_o_imunizaciji">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="Period_izvestaja"/>
-                <xs:element ref="Podaci_o_zahtevima"/>
-                <xs:element ref="Lista_vakcina"/>
-                <xs:element ref="Raspodela_po_proizvodjacima"/>
+                <xs:element ref="ftn:Period_izvestaja"/>
+                <xs:element ref="ftn:Podaci_o_zahtevima"/>
+                <xs:element ref="ftn:Lista_vakcina"/>
+                <xs:element ref="ftn:Raspodela_po_proizvodjacima"/>
                 <xs:element name="Datum_izdavanja" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
@@ -17,8 +19,7 @@
     <xs:element name="Period_izvestaja">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Pocetak_perioda" targetNamespace="IzvestajOImunizaciji"
-                    type="xs:date"/>
+                <xs:element name="Pocetak_perioda" type="xs:date"/>
                 <xs:element name="Kraj_perioda" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>
@@ -41,7 +42,7 @@
     <xs:element name="Lista_vakcina">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="Vakcina"/>
+                <xs:element maxOccurs="unbounded" ref="ftn:Vakcina"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -53,10 +54,10 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element  name="Raspodela_po_proizvodjacima">
+    <xs:element name="Raspodela_po_proizvodjacima">
         <xs:complexType>
             <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="Proizvodjac"/>
+                <xs:element maxOccurs="unbounded" ref="ftn:Proizvodjac"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
