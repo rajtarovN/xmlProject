@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.1" targetNamespace="IzvestajOImunizaciji" xmlns="IzvestajOImunizaciji">
+
+    <xs:element name="Izvestaj_o_imunizaciji">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Period_izvestaja"/>
+                <xs:element ref="Podaci_o_zahtevima"/>
+                <xs:element ref="Lista_vakcina"/>
+                <xs:element ref="Raspodela_po_proizvodjacima"/>
+                <xs:element name="Datum_izdavanja" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Period_izvestaja">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Pocetak_perioda" targetNamespace="IzvestajOImunizaciji"
+                    type="xs:date"/>
+                <xs:element name="Kraj_perioda" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Podaci_o_zahtevima">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Broj_dokumenata_o_interesovanju" type="xs:nonNegativeInteger"/>
+                <xs:element name="Broj_zahteva">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Primljeno" type="xs:nonNegativeInteger"/>
+                            <xs:element name="Izdato" type="xs:nonNegativeInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Lista_vakcina">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Vakcina"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Vakcina">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Redni_broj_doze" type="xs:positiveInteger"/>
+                <xs:element name="Broj_datih_doza" type="xs:nonNegativeInteger"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element  name="Raspodela_po_proizvodjacima">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Proizvodjac"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Proizvodjac">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Ime_proizvodjaca" type="xs:string"/>
+                <xs:element name="Broj_doza" type="xs:nonNegativeInteger"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

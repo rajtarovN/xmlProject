@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zahtev_za_zeleni_sertifikat xmlns="zeleni_sertifikat"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="zeleni_sertifikat file:/D:/faks/xmlProj/zahtev_sema.xsd">
+    <Podnosilac_zahteva>
+        <Ime>Pera</Ime>
+        <Prezime>Peric</Prezime>
+        <Datum_rodjenja>1999-12-22</Datum_rodjenja>
+        <Pol>Muski</Pol>
+        <Jmbg>1111111111111</Jmbg>
+        <Broj_pasosa>111111111</Broj_pasosa>
+        <Razlog_podnosenja_zahteva>Put kod Teodore na more.</Razlog_podnosenja_zahteva>
+    </Podnosilac_zahteva>
+    <Zaglavlje>
+        <Mesto_podnosenja_zahteva>Novi Sad</Mesto_podnosenja_zahteva>
+        <Dan_podnosenja_zahteva>1999-12-22</Dan_podnosenja_zahteva>
+    </Zaglavlje>
+</Zahtev_za_zeleni_sertifikat>
