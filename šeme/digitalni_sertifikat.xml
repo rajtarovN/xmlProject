@@ -15,12 +15,19 @@
         <Broj_pasosa>123456789</Broj_pasosa>
     </Podaci_o_osobi>
     <Podaci_o_vakcinaciji>
-        <Vakcinacija>
+        <Vakcinacija br_doze="1">
+            <Tip>AstraZeneca</Tip>
+            <Proizvodjac>AstraZeneca plc</Proizvodjac>
+            <Serija>2</Serija>
+            <Datum>2021-10-11</Datum>
+            <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
+        </Vakcinacija>
+        <Vakcinacija br_doze="2">
             <Tip>AstraZeneca</Tip>
             <Proizvodjac>AstraZeneca plc</Proizvodjac>
             <Serija>2</Serija>
             <Datum>2021-11-11</Datum>
-            <Zdravstvena_ustanova>Dom Zdravlje, Novi Sad</Zdravstvena_ustanova>
+            <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
         </Vakcinacija>
     </Podaci_o_vakcinaciji>
     <Testovi>
