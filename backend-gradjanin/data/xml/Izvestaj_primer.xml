@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Izvestaj_o_imunizaciji xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji file:izvestaj_sema.xsd">
+    <Period_izvestaja>
+        <Pocetak_perioda>2021-12-12</Pocetak_perioda>
+        <Kraj_perioda>2021-12-16</Kraj_perioda>
+    </Period_izvestaja>
+    <Podaci_o_zahtevima>
+        <Broj_dokumenata_o_interesovanju>34</Broj_dokumenata_o_interesovanju>
+        <Broj_zahteva>
+            <Primljeno>12</Primljeno>
+            <Izdato>4</Izdato>
+        </Broj_zahteva>
+    </Podaci_o_zahtevima>
+    <Lista_vakcina>
+        <Vakcina>
+            <Redni_broj_doze>1</Redni_broj_doze>
+            <Broj_datih_doza>4</Broj_datih_doza>
+        </Vakcina>
+        <Vakcina>
+            <Redni_broj_doze>2</Redni_broj_doze>
+            <Broj_datih_doza>4</Broj_datih_doza>
+        </Vakcina>
+    </Lista_vakcina>
+    <Raspodela_po_proizvodjacima>
+        <Proizvodjac>
+            <Ime_proizvodjaca>Prozivodjac1</Ime_proizvodjaca>
+            <Broj_doza>2</Broj_doza>
+        </Proizvodjac>
+        <Proizvodjac>
+            <Ime_proizvodjaca>Prozivodjac1</Ime_proizvodjaca>
+            <Broj_doza>2</Broj_doza>
+        </Proizvodjac>
+    </Raspodela_po_proizvodjacima>
+    <Datum_izdavanja>2021-12-16</Datum_izdavanja>
+</Izvestaj_o_imunizaciji>
