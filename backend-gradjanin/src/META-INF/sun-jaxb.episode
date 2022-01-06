@@ -20,7 +20,7 @@ Generated on: 2022.01.04 at 02:16:55 PM CET
             
         <bindings if-exists="true" scd="tns:Digitalni_zeleni_sertifikat">
                   
-            <class ref="rs.ac.uns.ftn.xml_i_veb_servisi.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat"/>
+            <class ref="rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat"/>
                 
         </bindings>
           
