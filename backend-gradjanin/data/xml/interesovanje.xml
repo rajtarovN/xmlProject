@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interesovanje
+    xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:pred="http://www.ftn.uns.ac.rs/rdf/zalbacutanje/predicate/"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje ../schema/interesovanje.xsd"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/1234567890999_2021-09-24">
+    <Licne_informacije>
+        <Drzavljanstvo property="pred:drzavljanstvo">Drzavljanin_republike_srbije</Drzavljanstvo>
+        <Jmbg property="pred:jmbg">1234567890999</Jmbg>
+        <Ime property="pred:ime">Laza</Ime>
+        <Prezime property="pred:prezime">Lazic</Prezime>
+        <Kontakt>
+            <Email property="pred:email">laza@gmail.com</Email>
+            <Broj_mobilnog property="pred:broj_mobilnog">0612345678</Broj_mobilnog>
+            <Broj_fiksnog property="pred:broj_fiksnog">1234567</Broj_fiksnog>
+        </Kontakt>
+        <Davalac_krvi/>
+    </Licne_informacije>
+    <Lokacija_primanja_vakcine property="pred:lokacija_primanja_vakcine">Beograd</Lokacija_primanja_vakcine>
+    <Proizvodjac property="pred:proizvodjac">Pfizer-BioNTech</Proizvodjac>
+    <Datum_podnosenja_interesovanja property="pred:datum_podnosenja_interesovanja">2021-09-24</Datum_podnosenja_interesovanja>
+</Interesovanje>
