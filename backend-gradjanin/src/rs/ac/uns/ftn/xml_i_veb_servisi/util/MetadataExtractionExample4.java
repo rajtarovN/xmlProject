@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 import javax.xml.transform.TransformerException;
 
@@ -20,6 +21,7 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 import org.xml.sax.SAXException;
 
+import static rs.ac.uns.ftn.xml_i_veb_servisi.util.PathConstants.*;
 
 /**
  *
@@ -37,18 +39,60 @@ public class MetadataExtractionExample4 {
 	private static final String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
 	
 	public static void main(String[] args) throws Exception {
-		//TODO Natasa
-		run(FusekiAuthenticationUtilities.loadProperties());
+		System.out.println("Wellcome to the candy shop!");
+		Scanner scanner = new Scanner(System.in);
+		
+		boolean work = true;
+		while(work) {
+			System.out.println("===============================");
+			System.out.println("Odaberite jednu opciju:");
+			System.out.println("1) Digitalni sertifikat ");
+			System.out.println("2) Interesovanje");
+			System.out.println("3) Izvestaj ");
+			System.out.println("4) Potvrda o vakcinaciji");
+			System.out.println("5) Saglasnost");
+			System.out.println("6) Zahtev za sertifikat");
+			System.out.println("x) Kraj");
+			System.out.println(">>>");
+			String input = scanner.nextLine();
+			
+			switch(input) {
+			case("1"):
+				run(FusekiAuthenticationUtilities.loadProperties(), DIGITALNISERTIFIKAT_XML, DIGITALNISERTIFIKAT_RDF);
+				break;
+			case("2"):
+				run(FusekiAuthenticationUtilities.loadProperties(), INTERESOVANJE_XML, INTERESOVANJE_RDF);
+				break;
+			case("3"):
+				run(FusekiAuthenticationUtilities.loadProperties(), IZVESTAJ_XML, IZVESTAJ_RDF);
+				break;
+			case("4"):
+				run(FusekiAuthenticationUtilities.loadProperties(), POTVRDA_O_VAKCINACIJI_XML, POTVRDA_O_VAKCINACIJI_RDF);
+				break;
+			case("5"):
+				run(FusekiAuthenticationUtilities.loadProperties(), SAGLASNOST_XML, SAGLASNOST_RDF);
+				break;
+			case("6"):
+				run(FusekiAuthenticationUtilities.loadProperties(), ZAHTEV_ZA_SERTIFIKAT_XML, ZAHTEV_ZA_SERTIFIKAT_RDF);
+				break;
+			case("x"):
+				work = false;
+				break;
+			}
+		
+		}
+		
+		
 	}
 	
-	public static void run(FusekiAuthenticationUtilities.ConnectionProperties conn) throws IOException, SAXException, TransformerException {
+	public static void run(FusekiAuthenticationUtilities.ConnectionProperties conn, String xmlFilePath, String rdfFilePath) throws IOException, SAXException, TransformerException {
 		
 		System.out.println("[INFO] " + MetadataExtractionExample4.class.getSimpleName());
 		
 		// Referencing XML file with RDF data in attributes
-		String xmlFilePath = "data/xml/digitalni_sertifikat.xml";
+		//String xmlFilePath = "data/xml/digitalni_sertifikat.xml";
 		
-		String rdfFilePath = "gen/digitalni_sertifikat.rdf";
+		//String rdfFilePath = "gen/digitalni_sertifikat.rdf";
 		
 		// Automatic extraction of RDF triples from XML file
 		MetadataExtractor metadataExtractor = new MetadataExtractor();

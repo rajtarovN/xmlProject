@@ -1,0 +1,11 @@
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:h="http://www.w3.org/1999/xhtml">
+  <rdf:Description rdf:about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji/2021-10-10T00:00:00/2021-12-10T00:00:00">
+    <pred:pocetak_perioda xmlns:pred="http://www.ftn.uns.ac.rs/rdf/zalbacutanje/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">2021-10-10T00:00:00</pred:pocetak_perioda>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji/2021-10-10T00:00:00/2021-12-10T00:00:00">
+    <pred:kraj_perioda xmlns:pred="http://www.ftn.uns.ac.rs/rdf/zalbacutanje/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">2021-12-10T00:00:00</pred:kraj_perioda>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji/2021-10-10T00:00:00/2021-12-10T00:00:00">
+    <pred:datum_izdavanja xmlns:pred="http://www.ftn.uns.ac.rs/rdf/zalbacutanje/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">2021-12-10T00:01:00</pred:datum_izdavanja>
+  </rdf:Description>
+</rdf:RDF>

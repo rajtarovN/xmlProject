@@ -6,21 +6,50 @@
     xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji">
 
     <xs:element name="Izvestaj_o_imunizaciji">
+
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="ftn:Period_izvestaja"/>
                 <xs:element ref="ftn:Podaci_o_zahtevima"/>
                 <xs:element ref="ftn:Lista_vakcina"/>
                 <xs:element ref="ftn:Raspodela_po_proizvodjacima"/>
-                <xs:element name="Datum_izdavanja" type="xs:date"/>
+                <xs:element name="Datum_izdavanja">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:dateTime">
+                                <xs:attribute fixed="pred:datum_izdavanja" name="property"
+                                    type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
+            <xs:attribute name="about" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Period_izvestaja">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Pocetak_perioda" type="xs:date"/>
-                <xs:element name="Kraj_perioda" type="xs:date"/>
+                <xs:element name="Pocetak_perioda">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:dateTime">
+                                <xs:attribute fixed="pred:pocetak_perioda" name="property"
+                                    type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Kraj_perioda">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:dateTime">
+                                <xs:attribute fixed="pred:kraj_perioda" name="property"
+                                    type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
