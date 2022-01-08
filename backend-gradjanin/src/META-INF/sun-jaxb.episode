@@ -36,7 +36,7 @@ Generated on: 2022.01.04 at 02:16:55 PM CET
             
         <bindings if-exists="true" scd="tns:Interesovanje">
                   
-            <class ref="rs.ac.uns.ftn.xml_i_veb_servisi.interesovanje.Interesovanje"/>
+            <class ref="rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.Interesovanje"/>
                 
         </bindings>
           
