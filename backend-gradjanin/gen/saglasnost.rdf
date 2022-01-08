@@ -1,1 +1,7 @@
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:h="http://www.w3.org/1999/xhtml"/>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:h="http://www.w3.org/1999/xhtml">
+  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345 - pred:jmbg - 1234567891234-->
+  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345 - pred:prezime - Pera-->
+  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345 - pred:ime - Peric-->
+  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345 - pred:datum_izdavanja - 2021-11-11-->
+  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345 - pred:naziv_zdravstvene_ustanove - Dom Zdravlja, Novi Sad-->
+</rdf:RDF>

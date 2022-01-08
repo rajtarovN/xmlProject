@@ -5,11 +5,11 @@ public class PathConstants {
 	
 	 public static final String XML_DOCUMENTS =  BASE + "/xml/";
 	 public static final String DIGITALNISERTIFIKAT_XML =  BASE + "/xml/digitalni_sertifikat.xml";
-	 public static final String INTERESOVANJE_XML =  BASE + "/xml/Interesovanje_primer.xml";
-	 public static final String IZVESTAJ_XML =  BASE + "/xml/Izvestaj.xml";
-	 public static final String POTVRDA_O_VAKCINACIJI_XML =  BASE + "/xml/Potvrda_o_vakcinaciji_primer.xml";
+	 public static final String INTERESOVANJE_XML =  BASE + "/xml/interesovanje.xml";
+	 public static final String IZVESTAJ_XML =  BASE + "/xml/izvestaj.xml";
+	 public static final String POTVRDA_O_VAKCINACIJI_XML =  BASE + "/xml/potvrda_o_vakcinaciji.xml";
 	 public static final String SAGLASNOST_XML =  BASE + "/xml/saglasnost.xml";
-	 public static final String ZAHTEV_ZA_SERTIFIKAT_XML =  BASE + "/xml/Zahtev_za_sertifikat.xml";
+	 public static final String ZAHTEV_ZA_SERTIFIKAT_XML =  BASE + "/xml/zahtev_za_sertifikat.xml";
 	 
 	 public static final String DIGITALNISERTIFIKAT_XSL =  BASE + "/xsl/digitalni_sertifikat.xsl";
 	 public static final String INTERESOVANJE_XSL =  BASE + "/xsl/Interesovanje.xsl";
@@ -26,7 +26,7 @@ public class PathConstants {
 	 public static final String ZAHTEV_ZA_SERTIFIKAT_XSD =  BASE + "/schema/zahtev_sema.xsd";
 	 
 	 public static final String DIGITALNISERTIFIKAT_RDF =  "gen/digitalni_sertifikat.rdf";
-	 public static final String INTERESOVANJE_RDF =  "gen/Interesovanje_primer.rdf";
+	 public static final String INTERESOVANJE_RDF =  "gen/interesovanje.rdf";
 	 public static final String IZVESTAJ_RDF =  "gen/Izvestaj_primer.rdf";
 	 public static final String POTVRDA_O_VAKCINACIJI_RDF = "gen/Potvrda_o_vakcinaciji_primer.rdf";
 	 public static final String SAGLASNOST_RDF = "gen/saglasnost.rdf";

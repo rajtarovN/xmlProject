@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.xml_i_veb_servisi.util;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -18,17 +19,89 @@ import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.Interesovanje;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.IzvestajOImunizaciji;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vacinaciji.PotvrdaOVakcinaciji;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import rs.ac.uns.ftn.xml_i_veb_servisi.util.AuthenticationUtilities.ConnectionProperties;
+
+import static rs.ac.uns.ftn.xml_i_veb_servisi.util.PathConstants.*;
+
 
 public class DBManager {
 	private static ConnectionProperties conn;
 
 	public static void main(String[] args) throws Exception {
-		DBManager.saveToDb("2.xml", conn = AuthenticationUtilities.loadProperties(), "");
+		Scanner scanner = new Scanner(System.in);
+		
+		boolean work = true;
+		while(work) {
+			System.out.println("===============================");
+			System.out.println("Odaberite jednu opciju:");
+			System.out.println("1) Cuvanje digitalnog sertifikata");
+			System.out.println("2) Cuvanje interesovanje");
+			System.out.println("3) Cuvanje izvestaja");
+			System.out.println("4) Cuvanje potvrde o vakcinaciji");
+			System.out.println("5) Cuvanje saglasnosti");
+			System.out.println("6) Cuvanje zahteva za sertifikat");
+			System.out.println("7) Ucitavanje digitalnog sertifikata");
+			System.out.println("8) Ucitavanje interesovanje");
+			System.out.println("9) Ucitavanje izvestaja");
+			System.out.println("10) Ucitavanje potvrde o vakcinaciji");
+			System.out.println("11) Ucitavanje saglasnosti");
+			System.out.println("12) Ucitavanje zahteva za sertifikat");
+			System.out.println("x) Kraj");
+			System.out.println(">>>");
+			String input = scanner.nextLine();
+			
+			switch(input) {
+			case("1"):
+				DBManager.saveToDb("2", "digitalni_zeleni_sertifikat", conn = AuthenticationUtilities.loadProperties());
+				break;
+			case("2"):
+				DBManager.saveToDb("2", "interesovanje", conn = AuthenticationUtilities.loadProperties());
+				break;
+			case("3"):
+				DBManager.saveToDb("2", "izvestaj_o_imunizaciji", conn = AuthenticationUtilities.loadProperties());
+				break;
+			case("4"):
+				DBManager.saveToDb("2", "potvrda_o_vacinaciji", conn = AuthenticationUtilities.loadProperties());
+				break;
+			case("5"):
+				DBManager.saveToDb("2", "obrazac_saglasnosti_za_imunizaciju", conn = AuthenticationUtilities.loadProperties());
+				break;
+			case("6"):
+				DBManager.saveToDb("2", "zahtev_za_sertifikatom", conn = AuthenticationUtilities.loadProperties());
+				break;
+			case("7"):
+				DBManager.loadFromDb("2_digitalni_zeleni_sertifikat", conn = AuthenticationUtilities.loadProperties(), "digitalni_zeleni_sertifikat");
+				break;
+			case("8"):
+				DBManager.loadFromDb("2_interesovanje", conn = AuthenticationUtilities.loadProperties(), "interesovanje");
+				break;
+			case("9"):
+				DBManager.loadFromDb("2_izvestaj_o_imunizaciji", conn = AuthenticationUtilities.loadProperties(), "izvestaj_o_imunizaciji");
+				break;
+			case("10"):
+				DBManager.loadFromDb("2_potvrda_o_vacinaciji", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vacinaciji");
+				break;
+			case("11"):
+				DBManager.loadFromDb("2_obrazac_saglasnosti_za_imunizaciju", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju");
+				break;
+			case("12"):
+				DBManager.loadFromDb("2_zahtev_za_sertifikatom", conn = AuthenticationUtilities.loadProperties(), "zahtev_za_sertifikatom");
+				break;
+			case("x"):
+				work = false;
+				break;
+			}
+		}
+		scanner.close();
 	}
 
 	// Save document to db. DocumentId -> store under name.
-	public static void saveToDb(String documentId, ConnectionProperties conn, String data) throws Exception {
+	public static void saveToDb(String documentId, String type, ConnectionProperties conn) throws Exception {
 
 		System.out.println("[INFO] " + DBManager.class.getSimpleName());
 
@@ -60,30 +133,63 @@ public class DBManager {
 			col = getOrCreateCollection(collectionId);
 
 			System.out.println("[INFO] Inserting the document: " + documentId);
-			res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
-
-			// TODO - marshalling will be done in service class before saving, send string
-			// param
-			// of marshalled object
+			res = (XMLResource) col.createResource(documentId +"_" + type + ".xml", XMLResource.RESOURCE_TYPE);
 
 			System.out.println("[INFO] Unmarshalling XML document to an JAXB instance: ");
 			JAXBContext context = JAXBContext
-					.newInstance("rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat");
+					.newInstance("rs.ac.uns.ftn.xml_i_veb_servisi.model." + type);
 
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-			DigitalniZeleniSertifikat digitalniZeleniSertifikat = (DigitalniZeleniSertifikat) unmarshaller
-					.unmarshal(new File("data/xml/digitalni_sertifikat.xml"));
-			System.out.println(digitalniZeleniSertifikat);
-
-			Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-			// marshal the contents to an output stream
-			marshaller.marshal(digitalniZeleniSertifikat, os);
-			// ------------------- TODO DELETE
-
-			// link the stream to the XML resource
+			if(type.startsWith("digitalni")) {
+				
+				DigitalniZeleniSertifikat digitalniZeleniSertifikat = (DigitalniZeleniSertifikat) unmarshaller
+						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml"));
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.marshal(digitalniZeleniSertifikat, os);
+				
+			}else if(type.startsWith("izvestaj")) {
+				
+				IzvestajOImunizaciji izvestaj = (IzvestajOImunizaciji) unmarshaller
+						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.marshal(izvestaj, os);
+				
+			}else if(type.startsWith("interesovanje")) {
+				
+				Interesovanje interesovanje = (Interesovanje) unmarshaller
+						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.marshal(interesovanje, os);
+				
+			}else if(type.startsWith("potvrda")) {
+				
+				PotvrdaOVakcinaciji potvrda = (PotvrdaOVakcinaciji) unmarshaller
+						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.marshal(potvrda, os);
+			
+			}else if(type.startsWith("obrazac")) {
+				
+				Saglasnost saglasnost = (Saglasnost) unmarshaller
+						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.marshal(saglasnost, os);
+			
+			}else {
+				
+				ZahtevZaZeleniSertifikat zahtev = (ZahtevZaZeleniSertifikat) unmarshaller
+						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
+				Marshaller marshaller = context.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				marshaller.marshal(zahtev, os);
+			}
+			
 			res.setContent(os);
 			System.out.println("[INFO] Storing the document: " + res.getId());
 
@@ -164,21 +270,18 @@ public class DBManager {
 		}
 	}
 
-	public static XMLResource loadFromDb(String documentId, ConnectionProperties conn, String args[]) throws Exception {
+	public static XMLResource loadFromDb(String documentId, ConnectionProperties conn, String type) throws Exception {
 
 		System.out.println("[INFO] " + DBManager.class.getSimpleName());
 
-		// initialize collection and document identifiers
 		String collectionId = null;
 
 		System.out.println("[INFO] Read from db");
 
 		collectionId = "/db/sample/library";
-		documentId = "2.xml"; // TODO
-
+		
 		System.out.println("\t- document ID: " + documentId + "\n");
 
-		// initialize database driver
 		System.out.println("[INFO] Loading driver class: " + conn.driver);
 		Class<?> cl = Class.forName(conn.driver);
 
@@ -197,24 +300,24 @@ public class DBManager {
 			col.setProperty(OutputKeys.INDENT, "yes");
 
 			System.out.println("[INFO] Retrieving the document: " + documentId);
-			res = (XMLResource) col.getResource(documentId);
+			res = (XMLResource) col.getResource(documentId + ".xml");
 
 			if (res == null) {
 				System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
 			} else {
-				/*
-				 * System.out.println("[INFO] Binding XML resouce to an JAXB instance: ");
-				 * JAXBContext context =
-				 * JAXBContext.newInstance("rs.ac.uns.ftn.examples.xmldb.bookstore");
-				 * 
-				 * Unmarshaller unmarshaller = context.createUnmarshaller();
-				 * 
-				 * //Bookstore bookstore = (Bookstore)
-				 * unmarshaller.unmarshal(res.getContentAsDOM());
-				 * 
-				 * System.out.println("[INFO] Showing the document as JAXB instance: ");
-				 * System.out.println(bookstore);
-				 */
+				
+				  System.out.println("[INFO] Binding XML resouce to an JAXB instance: ");
+				  JAXBContext context =
+				  JAXBContext.newInstance("rs.ac.uns.ftn.xml_i_veb_servisi.model."+type);
+				  
+				  Unmarshaller unmarshaller = context.createUnmarshaller();
+				  
+				  //Bookstore bookstore = (Bookstore)
+				  unmarshaller.unmarshal(res.getContentAsDOM());
+				  
+				  System.out.println("[INFO] Showing the document as JAXB instance: ");
+				  System.out.println(res);
+				 
 
 			}
 		} finally {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<potvrda_o_vakcinaciji xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vacinaciji/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vacinaciji/ file:Potvrda_o_vakcinaciji_sema.xsd"
+    sifra_potvrde_vakcine="1034253332"
+    Qr_kod="123">
+    <licni_podaci>
+        <ime>Pera</ime>
+        <prezime>Peric</prezime>
+        <datum_rodjenja>1987-02-23</datum_rodjenja>
+        <pol>Muski</pol>
+        <jmbg>1234567890123</jmbg>
+    </licni_podaci>
+    <vakcinacija>
+        <doze>
+            <doza>
+                <broj>1</broj>
+                <datum_davanja>2021-08-05</datum_davanja>
+                <broj_serije>23</broj_serije>
+            </doza>
+        </doze>
+        <zdravstvena_ustanova>Bolnica</zdravstvena_ustanova>
+        <naziv_vakcine>Pfeizer</naziv_vakcine>
+    </vakcinacija>
+    <datum_izdavanja>2021-09-18</datum_izdavanja>
+</potvrda_o_vakcinaciji>
