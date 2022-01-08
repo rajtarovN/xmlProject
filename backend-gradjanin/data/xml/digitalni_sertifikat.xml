@@ -3,7 +3,7 @@
     xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-    xmlns:pred="http://www.ftn.uns.ac.rs/rdf/zalbacutanje/predicate/"
+    xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/digitalni_sertifikat ../schema/digitalni_sertifikat.xsd"
     qr_kod="1234" Id_sertifikata="8516543579"
     about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/8516543579">

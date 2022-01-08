@@ -39,7 +39,6 @@ public class MetadataExtractionExample4 {
 	private static final String SPARQL_NAMED_GRAPH_URI = "/example/sparql/metadata";
 	
 	public static void main(String[] args) throws Exception {
-		System.out.println("Wellcome to the candy shop!");
 		Scanner scanner = new Scanner(System.in);
 		
 		boolean work = true;

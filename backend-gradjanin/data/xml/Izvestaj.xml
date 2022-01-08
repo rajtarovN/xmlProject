@@ -2,8 +2,8 @@
 <Izvestaj_o_imunizaciji 
     xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:pred="http://www.ftn.uns.ac.rs/rdf/zalbacutanje/predicate/"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji file:/D:/faks/xml/xmlProject/backend-gradjanin/data/schema/izvestaj_sema.xsd"
+    xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/izvestaj_o_imunizaciji/predicate/"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji ../schema/izvestaj_sema.xsd"
     about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/izvestaj_o_imunizaciji/2021-10-10T00:00:00/2021-12-10T00:00:00">
     <Period_izvestaja>
         <Pocetak_perioda property="pred:pocetak_perioda">2021-10-10T00:00:00</Pocetak_perioda>
