@@ -11,14 +11,13 @@
                     <xs:complexType>
                         <xs:all>
                             <xs:element name="Drzavljanstvo">
-                                <xs:complexType>
-                                    <xs:simpleContent>
-                                        <xs:extension base="ftn:TDrzavljanstvo">
-                                            <xs:attribute fixed="pred:drzavljanstvo" name="property"
-                                                          type="xs:string"/>
-                                        </xs:extension>
-                                    </xs:simpleContent>
-                                </xs:complexType>
+                                <xs:simpleType >
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Drzavljanin_republike_srbije"/>
+                                        <xs:enumeration value="Strani_drzavljanin_sa_boravkom_u_rs"/>
+                                        <xs:enumeration value="Strani_drzavljanin_bez_boravka_u_rs"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
                             </xs:element>
                             <xs:element name="Jmbg">
                                 <xs:complexType>
@@ -64,24 +63,18 @@
                                             </xs:complexType>
                                         </xs:element>
                                         <xs:element name="Broj_mobilnog">
-                                            <xs:complexType>
-                                                <xs:simpleContent>
-                                                    <xs:extension base="ftn:TBroj_mobilnog">
-                                                        <xs:attribute fixed="pred:broj_mobilnog" name="property"
-                                                                      type="xs:string"/>
-                                                    </xs:extension>
-                                                </xs:simpleContent>
-                                            </xs:complexType>
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="06\d{8,10}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
                                         </xs:element>
                                         <xs:element name="Broj_fiksnog">
-                                            <xs:complexType>
-                                                <xs:simpleContent>
-                                                    <xs:extension base="ftn:TBroj_fiksnog">
-                                                        <xs:attribute fixed="pred:broj_fiksnog" name="property"
-                                                                      type="xs:string"/>
-                                                    </xs:extension>
-                                                </xs:simpleContent>
-                                            </xs:complexType>
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="\d{7,10}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
                                         </xs:element>
                                     </xs:sequence>
                                 </xs:complexType>
@@ -105,14 +98,16 @@
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="Proizvodjac">
-                    <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="ftn:TProizvodjac">
-                                <xs:attribute fixed="pred:proizvodjac"
-                                              name="property" type="xs:string"/>
-                            </xs:extension>
-                        </xs:simpleContent>
-                    </xs:complexType>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Pfizer-BioNTech"/>
+                            <xs:enumeration value="Sputnik V"/>
+                            <xs:enumeration value="Sinopharm"/>
+                            <xs:enumeration value="AstraZeneca"/>
+                            <xs:enumeration value="Moderna"/>
+                            <xs:enumeration value="Bilo koja"/>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:element>
                 <xs:element name="Datum_podnosenja_interesovanja">
                     <xs:complexType>
@@ -137,33 +132,6 @@
     <xs:simpleType name="TEmail">
         <xs:restriction base="xs:string">
             <xs:pattern value="[^@]+@[^\.]+\..+"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="TBroj_mobilnog">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="06\d{8,10}"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="TBroj_fiksnog">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="\d{7,10}"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="TProizvodjac">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Pfizer-BioNTech"/>
-            <xs:enumeration value="Sputnik V"/>
-            <xs:enumeration value="Sinopharm"/>
-            <xs:enumeration value="AstraZeneca"/>
-            <xs:enumeration value="Moderna"/>
-            <xs:enumeration value="Bilo koja"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="TDrzavljanstvo">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Drzavljanin_republike_srbije"/>
-            <xs:enumeration value="Strani_drzavljanin_sa_boravkom_u_rs"/>
-            <xs:enumeration value="Strani_drzavljanin_bez_boravka_u_rs"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
