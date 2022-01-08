@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju file:saglasnost_schema.xsd">
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju file:saglasnost_schema.xsd"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345"
+    Broj_saglasnosti="12345">
     <Pacijent>
         <Drzavljanin_srbije>
-            <JMBG>1234567891234</JMBG>
+            <Jmbg property="pred:jmbg">1234567891234</Jmbg>
         </Drzavljanin_srbije>
         <Licni_podaci>
-            <Prezime>Pera</Prezime>
-            <Ime>Peric</Ime>
+            <Prezime property="pred:prezime">Pera</Prezime>
+            <Ime property="pred:ime">Peric</Ime>
             <Ime_roditelja>Veselin</Ime_roditelja>
             <Pol>Muski</Pol>
             <Datum_rodjenja>1999-01-01</Datum_rodjenja>
@@ -34,10 +36,10 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum>2021-11-11</Datum>
+        <Datum property="pred:datum_izdavanja">2021-11-11</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
-        <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
+        <Zdravstvena_ustanova property="pred:naziv_zdravstvene_ustanove">Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
         <Vakcinacijski_punkt>5</Vakcinacijski_punkt>
         <Lekar>
             <Ime>Boban</Ime>
@@ -48,7 +50,7 @@
             <Vakcina>
                 <Naziv>Pfizer-BioNTech</Naziv>
                 <Datum_davanja>2021-11-11</Datum_davanja>
-                <Nacin_davanja></Nacin_davanja>
+                <Nacin_davanja>IM</Nacin_davanja>
                 <Ekstremiter>desna ruka</Ekstremiter>
                 <Serija>1</Serija>
                 <Proizvodjac>Pfizer</Proizvodjac>
