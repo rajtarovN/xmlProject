@@ -81,6 +81,7 @@ public class MetadataExtractionExample4 {
 		
 		}
 		
+		scanner.close();
 		
 	}
 	

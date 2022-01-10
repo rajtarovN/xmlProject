@@ -22,7 +22,7 @@ import rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat.Digital
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.Interesovanje;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.IzvestajOImunizaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
-import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vacinaciji.PotvrdaOVakcinaciji;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import rs.ac.uns.ftn.xml_i_veb_servisi.util.AuthenticationUtilities.ConnectionProperties;
 
@@ -33,6 +33,7 @@ public class DBManager {
 	private static ConnectionProperties conn;
 
 	public static void main(String[] args) throws Exception {
+		
 		Scanner scanner = new Scanner(System.in);
 		
 		boolean work = true;
@@ -66,7 +67,7 @@ public class DBManager {
 				DBManager.saveToDb("2", "izvestaj_o_imunizaciji", conn = AuthenticationUtilities.loadProperties());
 				break;
 			case("4"):
-				DBManager.saveToDb("2", "potvrda_o_vacinaciji", conn = AuthenticationUtilities.loadProperties());
+				DBManager.saveToDb("2", "potvrda_o_vakcinaciji", conn = AuthenticationUtilities.loadProperties());
 				break;
 			case("5"):
 				DBManager.saveToDb("2", "obrazac_saglasnosti_za_imunizaciju", conn = AuthenticationUtilities.loadProperties());
@@ -84,7 +85,7 @@ public class DBManager {
 				DBManager.loadFromDb("2_izvestaj_o_imunizaciji", conn = AuthenticationUtilities.loadProperties(), "izvestaj_o_imunizaciji");
 				break;
 			case("10"):
-				DBManager.loadFromDb("2_potvrda_o_vacinaciji", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vacinaciji");
+				DBManager.loadFromDb("2_potvrda_o_vakcinaciji", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vakcinaciji");
 				break;
 			case("11"):
 				DBManager.loadFromDb("2_obrazac_saglasnosti_za_imunizaciju", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju");

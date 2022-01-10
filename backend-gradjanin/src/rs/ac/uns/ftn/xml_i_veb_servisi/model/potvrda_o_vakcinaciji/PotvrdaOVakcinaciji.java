@@ -6,7 +6,7 @@
 //
 
 
-package rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vacinaciji;
+package rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji;
 
 import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
