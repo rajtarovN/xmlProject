@@ -20,7 +20,9 @@ import org.xmldb.api.modules.XMLResource;
 
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.Interesovanje;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.PrintInteresovanje;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.IzvestajOImunizaciji;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.PrintIzvestajOImunizaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.PrintZahtev;
@@ -135,7 +137,7 @@ public class DBManager {
 			col = getOrCreateCollection(collectionId);
 
 			System.out.println("[INFO] Inserting the document: " + documentId);
-			res = (XMLResource) col.createResource(documentId +"_" + type + ".xml", XMLResource.RESOURCE_TYPE);
+			res = (XMLResource) col.createResource( type +"_" + documentId + ".xml", XMLResource.RESOURCE_TYPE);
 
 			System.out.println("[INFO] Unmarshalling XML document to an JAXB instance: ");
 			JAXBContext context = JAXBContext
@@ -306,12 +308,31 @@ public class DBManager {
 				  Unmarshaller unmarshaller = context.createUnmarshaller();
 				  
 				  //Bookstore bookstore = (Bookstore)
-				  unmarshaller.unmarshal(res.getContentAsDOM());
-				  System.out.println("[INFO] Showing the document as JAXB instance: ");
-				  
-				  System.out.println(res.toString());
-				  
-				 
+				if(type.startsWith("digitalni")){
+					DigitalniZeleniSertifikat digitalniZeleniSertifikat = (DigitalniZeleniSertifikat) unmarshaller.unmarshal(res.getContentAsDOM());
+					//PrintDigitalniZeleniSertifikat.printSertifikat(digitalniZeleniSertifikat);
+
+				}else if(type.startsWith("izvestaj")) {
+					IzvestajOImunizaciji izvestaj = (IzvestajOImunizaciji) unmarshaller.unmarshal(res.getContentAsDOM());
+					PrintIzvestajOImunizaciji.printIzvestaj(izvestaj);
+
+				}else if(type.startsWith("interesovanje")) {
+					Interesovanje interesovanje = (Interesovanje) unmarshaller.unmarshal(res.getContentAsDOM());
+					PrintInteresovanje.printInteresovanje(interesovanje);
+
+				}else if(type.startsWith("potvrda")) {
+					PotvrdaOVakcinaciji potvrda = (PotvrdaOVakcinaciji) unmarshaller.unmarshal(res.getContentAsDOM());
+					//PrintPotvrdaOVakcinaciji.printPotvrda(potvrda);
+
+				}else if(type.startsWith("obrazac")) {
+					Saglasnost saglasnost = (Saglasnost) unmarshaller.unmarshal(res.getContentAsDOM());
+					//PrintSaglasnost.printSaglasnost(saglasnost);
+
+				}else {
+					ZahtevZaZeleniSertifikat zahtev = (ZahtevZaZeleniSertifikat) unmarshaller.unmarshal(res.getContentAsDOM());
+					//PrintZahtevZaZeleniSertifikat.printZahtev(zahtev);
+				}
+				 //System.out.println("[INFO] Showing the document as JAXB instance: ");
 
 			}
 		} finally {

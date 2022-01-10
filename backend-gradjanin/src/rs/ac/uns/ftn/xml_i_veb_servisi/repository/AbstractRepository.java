@@ -3,7 +3,6 @@ package rs.ac.uns.ftn.xml_i_veb_servisi.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import rs.ac.uns.ftn.xml_i_veb_servisi.util.DBManager;
-import rs.ac.uns.ftn.xml_i_veb_servisi.util.FusekiManager;
 import rs.ac.uns.ftn.xml_i_veb_servisi.util.MetadataExtractor;
 
 import java.io.ByteArrayInputStream;
@@ -16,8 +15,8 @@ public abstract class AbstractRepository {
     @Autowired
     private DBManager dbManager;
 
-    @Autowired
-    private FusekiManager fusekiManager;
+    /*@Autowired
+    private FusekiManager fusekiManager;*/
 
     public void saveXML(String documentId, String collectionId, String content) throws Exception {
         //dbManager.saveToDb(documentId, collectionId, content);
@@ -32,7 +31,7 @@ public abstract class AbstractRepository {
 
         String rdfAsString = new String(out.toByteArray());
         InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
-        fusekiManager.writeFuseki(rdfInputStream, uri);
+        //fusekiManager.writeFuseki(rdfInputStream, uri);
     }
 
 }
