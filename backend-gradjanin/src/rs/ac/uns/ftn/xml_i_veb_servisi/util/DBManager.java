@@ -75,22 +75,22 @@ public class DBManager {
 				DBManager.saveToDb("2", "zahtev_za_sertifikatom", conn = AuthenticationUtilities.loadProperties());
 				break;
 			case("7"):
-				DBManager.loadFromDb("2_digitalni_zeleni_sertifikat", conn = AuthenticationUtilities.loadProperties(), "digitalni_zeleni_sertifikat");
+				DBManager.loadFromDb("digitalni_zeleni_sertifikat_2", conn = AuthenticationUtilities.loadProperties(), "digitalni_zeleni_sertifikat");
 				break;
 			case("8"):
-				DBManager.loadFromDb("2_interesovanje", conn = AuthenticationUtilities.loadProperties(), "interesovanje");
+				DBManager.loadFromDb("interesovanje_2", conn = AuthenticationUtilities.loadProperties(), "interesovanje");
 				break;
 			case("9"):
-				DBManager.loadFromDb("2_izvestaj_o_imunizaciji", conn = AuthenticationUtilities.loadProperties(), "izvestaj_o_imunizaciji");
+				DBManager.loadFromDb("izvestaj_o_imunizaciji_2", conn = AuthenticationUtilities.loadProperties(), "izvestaj_o_imunizaciji");
 				break;
 			case("10"):
-				DBManager.loadFromDb("2_potvrda_o_vacinaciji", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vacinaciji");
+				DBManager.loadFromDb("potvrda_o_vacinaciji_2", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vacinaciji");
 				break;
 			case("11"):
-				DBManager.loadFromDb("2_obrazac_saglasnosti_za_imunizaciju", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju");
+				DBManager.loadFromDb("obrazac_saglasnosti_za_imunizaciju_2", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju");
 				break;
 			case("12"):
-				DBManager.loadFromDb("2_zahtev_za_sertifikatom", conn = AuthenticationUtilities.loadProperties(), "zahtev_za_sertifikatom");
+				DBManager.loadFromDb("zahtev_za_sertifikatom_2", conn = AuthenticationUtilities.loadProperties(), "zahtev_za_sertifikatom");
 				break;
 			case("x"):
 				work = false;
@@ -140,53 +140,44 @@ public class DBManager {
 					.newInstance("rs.ac.uns.ftn.xml_i_veb_servisi.model." + type);
 
 			Unmarshaller unmarshaller = context.createUnmarshaller();
-
+			
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			
 			if(type.startsWith("digitalni")) {
 				
 				DigitalniZeleniSertifikat digitalniZeleniSertifikat = (DigitalniZeleniSertifikat) unmarshaller
-						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml"));
-				Marshaller marshaller = context.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+						.unmarshal(new File(XML_DOCUMENTS +  type +  "_" + documentId +".xml"));
 				marshaller.marshal(digitalniZeleniSertifikat, os);
 				
 			}else if(type.startsWith("izvestaj")) {
 				
 				IzvestajOImunizaciji izvestaj = (IzvestajOImunizaciji) unmarshaller
-						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
-				Marshaller marshaller = context.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+						.unmarshal(new File(XML_DOCUMENTS +  type +  "_" + documentId +".xml")); 
 				marshaller.marshal(izvestaj, os);
 				
 			}else if(type.startsWith("interesovanje")) {
 				
 				Interesovanje interesovanje = (Interesovanje) unmarshaller
-						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
-				Marshaller marshaller = context.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+						.unmarshal(new File(XML_DOCUMENTS +  type +  "_" + documentId +".xml"));
 				marshaller.marshal(interesovanje, os);
 				
 			}else if(type.startsWith("potvrda")) {
 				
 				PotvrdaOVakcinaciji potvrda = (PotvrdaOVakcinaciji) unmarshaller
-						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
-				Marshaller marshaller = context.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+						.unmarshal(new File(XML_DOCUMENTS +  type +  "_" + documentId +".xml"));
 				marshaller.marshal(potvrda, os);
 			
 			}else if(type.startsWith("obrazac")) {
 				
 				Saglasnost saglasnost = (Saglasnost) unmarshaller
-						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
-				Marshaller marshaller = context.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+						.unmarshal(new File(XML_DOCUMENTS +  type +  "_" + documentId +".xml"));
 				marshaller.marshal(saglasnost, os);
 			
 			}else {
 				
 				ZahtevZaZeleniSertifikat zahtev = (ZahtevZaZeleniSertifikat) unmarshaller
-						.unmarshal(new File(XML_DOCUMENTS + documentId + "_" + type +".xml")); 
-				Marshaller marshaller = context.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+						.unmarshal(new File(XML_DOCUMENTS +  type +  "_" + documentId +".xml"));
 				marshaller.marshal(zahtev, os);
 			}
 			
@@ -316,7 +307,9 @@ public class DBManager {
 				  unmarshaller.unmarshal(res.getContentAsDOM());
 				  
 				  System.out.println("[INFO] Showing the document as JAXB instance: ");
-				  System.out.println(res);
+				  
+				  System.out.println(res.toString());
+				  
 				 
 
 			}
@@ -342,4 +335,5 @@ public class DBManager {
 		return res;
 	}
 
+	
 }
