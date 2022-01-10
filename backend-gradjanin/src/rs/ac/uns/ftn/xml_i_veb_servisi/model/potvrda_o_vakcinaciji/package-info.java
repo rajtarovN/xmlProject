@@ -5,5 +5,5 @@
 // Generated on: 2022.01.04 at 02:16:55 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vacinaciji/", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vacinaciji;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji;
