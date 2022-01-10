@@ -28,6 +28,7 @@ import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.PrintZahtev;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.PrintSaglasnost;
 import rs.ac.uns.ftn.xml_i_veb_servisi.util.AuthenticationUtilities.ConnectionProperties;
 
 import static rs.ac.uns.ftn.xml_i_veb_servisi.util.PathConstants.*;
@@ -92,7 +93,7 @@ public class DBManager {
 				DBManager.loadFromDb("potvrda_o_vakcinaciji_2", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vakcinaciji");
 				break;
 			case("11"):
-				DBManager.loadFromDb("obrazac_saglasnosti_za_imunizaciju_2", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju");
+				DBManager.loadFromDb("obrazac_saglasnosti_za_imunizaciju_2", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju_2");
 				break;
 			case("12"):
 				DBManager.loadFromDb("zahtev_za_sertifikatom_2", conn = AuthenticationUtilities.loadProperties(), "zahtev_za_sertifikatom");
@@ -327,7 +328,7 @@ public class DBManager {
 
 				}else if(type.startsWith("obrazac")) {
 					Saglasnost saglasnost = (Saglasnost) unmarshaller.unmarshal(res.getContentAsDOM());
-					//PrintSaglasnost.printSaglasnost(saglasnost);
+					PrintSaglasnost.printSaglasnost(saglasnost);
 
 				}else {
 					ZahtevZaZeleniSertifikat zahtev = (ZahtevZaZeleniSertifikat) unmarshaller.unmarshal(res.getContentAsDOM());
