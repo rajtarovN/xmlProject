@@ -23,6 +23,7 @@ import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.Interesovanje;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.IzvestajOImunizaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.PrintZahtev;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import rs.ac.uns.ftn.xml_i_veb_servisi.util.AuthenticationUtilities.ConnectionProperties;
 
@@ -92,7 +93,7 @@ public class DBManager {
 				break;
 			case("12"):
 				DBManager.loadFromDb("zahtev_za_sertifikatom_2", conn = AuthenticationUtilities.loadProperties(), "zahtev_za_sertifikatom");
-				break;
+				break;                
 			case("x"):
 				work = false;
 				break;
@@ -292,10 +293,10 @@ public class DBManager {
 			col.setProperty(OutputKeys.INDENT, "yes");
 
 			System.out.println("[INFO] Retrieving the document: " + documentId);
-			res = (XMLResource) col.getResource(documentId + ".xml");
-
+			res = (XMLResource) col.getResource( documentId + ".xml");
+			
 			if (res == null) {
-				System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
+				System.out.println("[WARNING] Document '" +  documentId + ".xml" + "' can not be found!");
 			} else {
 				
 				  System.out.println("[INFO] Binding XML resouce to an JAXB instance: ");
@@ -306,7 +307,6 @@ public class DBManager {
 				  
 				  //Bookstore bookstore = (Bookstore)
 				  unmarshaller.unmarshal(res.getContentAsDOM());
-				  
 				  System.out.println("[INFO] Showing the document as JAXB instance: ");
 				  
 				  System.out.println(res.toString());
