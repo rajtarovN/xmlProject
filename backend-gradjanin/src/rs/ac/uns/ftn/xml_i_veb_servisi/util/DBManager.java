@@ -19,6 +19,7 @@ import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.digitalni_zeleni_sertifikat.PrintDigitalniZeleniSertifikat;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.Interesovanje;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.interesovanje.PrintInteresovanje;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.IzvestajOImunizaciji;
@@ -310,7 +311,7 @@ public class DBManager {
 				  //Bookstore bookstore = (Bookstore)
 				if(type.startsWith("digitalni")){
 					DigitalniZeleniSertifikat digitalniZeleniSertifikat = (DigitalniZeleniSertifikat) unmarshaller.unmarshal(res.getContentAsDOM());
-					//PrintDigitalniZeleniSertifikat.printSertifikat(digitalniZeleniSertifikat);
+					PrintDigitalniZeleniSertifikat.printSertifikat(digitalniZeleniSertifikat);
 
 				}else if(type.startsWith("izvestaj")) {
 					IzvestajOImunizaciji izvestaj = (IzvestajOImunizaciji) unmarshaller.unmarshal(res.getContentAsDOM());
