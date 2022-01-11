@@ -93,7 +93,7 @@ public class DBManager {
 				DBManager.loadFromDb("potvrda_o_vakcinaciji_2", conn = AuthenticationUtilities.loadProperties(), "potvrda_o_vakcinaciji");
 				break;
 			case("11"):
-				DBManager.loadFromDb("obrazac_saglasnosti_za_imunizaciju_2", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju_2");
+				DBManager.loadFromDb("obrazac_saglasnosti_za_imunizaciju_2", conn = AuthenticationUtilities.loadProperties(), "obrazac_saglasnosti_za_imunizaciju");
 				break;
 			case("12"):
 				DBManager.loadFromDb("zahtev_za_sertifikatom_2", conn = AuthenticationUtilities.loadProperties(), "zahtev_za_sertifikatom");
