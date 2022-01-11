@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <potvrda_o_vakcinaciji
-    xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/"
+    xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/"

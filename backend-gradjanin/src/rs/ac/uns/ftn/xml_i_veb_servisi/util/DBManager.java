@@ -26,6 +26,7 @@ import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.IzvestajOImu
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.izvestaj_o_imunizaciji.PrintIzvestajOImunizaciji;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import rs.ac.uns.ftn.xml_i_veb_servisi.model.potvrda_o_vakcinaciji.PrintPotvrda;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.PrintZahtev;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import rs.ac.uns.ftn.xml_i_veb_servisi.model.obrazac_saglasnosti_za_imunizaciju.PrintSaglasnost;
@@ -324,7 +325,7 @@ public class DBManager {
 
 				}else if(type.startsWith("potvrda")) {
 					PotvrdaOVakcinaciji potvrda = (PotvrdaOVakcinaciji) unmarshaller.unmarshal(res.getContentAsDOM());
-					//PrintPotvrdaOVakcinaciji.printPotvrda(potvrda);
+					PrintPotvrda.printPotvrda(potvrda);
 
 				}else if(type.startsWith("obrazac")) {
 					Saglasnost saglasnost = (Saglasnost) unmarshaller.unmarshal(res.getContentAsDOM());
@@ -332,7 +333,7 @@ public class DBManager {
 
 				}else {
 					ZahtevZaZeleniSertifikat zahtev = (ZahtevZaZeleniSertifikat) unmarshaller.unmarshal(res.getContentAsDOM());
-					//PrintZahtevZaZeleniSertifikat.printZahtev(zahtev);
+					PrintZahtev.printZahtev(zahtev);
 				}
 				 //System.out.println("[INFO] Showing the document as JAXB instance: ");
 
