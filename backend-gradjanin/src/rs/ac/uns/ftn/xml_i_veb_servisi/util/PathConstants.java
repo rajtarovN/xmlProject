@@ -22,7 +22,7 @@ public class PathConstants {
 	 public static final String INTERESOVANJE_XSD =  BASE + "/schema/Interesovanje_sema.xsd";
 	 public static final String IZVESTAJ_XSD =  BASE + "/schema/izvestaj_sema.xsd";
 	 public static final String POTVRDA_O_VAKCINACIJI_XSD =  BASE + "/schema/Potvrda_o_vakcinaciji_sema.xsd";
-	 public static final String SAGLASNOST_XSD =  BASE + "/schema/saglasnost_schema.xsd";
+	 public static final String SAGLASNOST_XSD =  BASE + "/schema/saglasnost.xsd";
 	 public static final String ZAHTEV_ZA_SERTIFIKAT_XSD =  BASE + "/schema/zahtev_sema.xsd";
 	 
 	 public static final String DIGITALNISERTIFIKAT_RDF =  "gen/digitalni_sertifikat.rdf";
