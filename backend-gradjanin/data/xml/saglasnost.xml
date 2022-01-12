@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju file:saglasnost_schema.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost_schema.xsd"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345"
     Broj_saglasnosti="12345">
     <Pacijent>
         <Drzavljanin_srbije>
