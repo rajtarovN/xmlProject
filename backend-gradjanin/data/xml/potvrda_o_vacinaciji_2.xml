@@ -2,6 +2,7 @@
 <potvrda_o_vakcinaciji xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vacinaciji/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vacinaciji/ file:Potvrda_o_vakcinaciji_sema.xsd"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1034253332">
     sifra_potvrde_vakcine="1034253332"
     Qr_kod="123">
     <licni_podaci>
