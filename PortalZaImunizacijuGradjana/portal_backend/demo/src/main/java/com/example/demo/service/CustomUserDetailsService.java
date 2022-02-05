@@ -16,8 +16,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private KorisnikService korisnikService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    /*@Autowired
+    private PasswordEncoder passwordEncoder;*/
 
    /* @Autowired
     private AuthenticationManager authenticationManager;*/

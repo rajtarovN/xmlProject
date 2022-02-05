@@ -91,6 +91,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
                 .antMatchers("/korisnik/prijava").permitAll()
+                .antMatchers("/korisnik/registracija").permitAll()
                 .anyRequest().authenticated().and()
                 // za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
                 .cors().and()

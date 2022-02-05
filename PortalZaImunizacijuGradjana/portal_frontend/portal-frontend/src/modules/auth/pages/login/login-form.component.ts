@@ -51,25 +51,20 @@ export class LoginFormComponent implements OnInit {
           include: false
         }
       };
-      let data: any = JsonToXML.parse("korisnikPrijavaDto", user, options);
+      let data: any = JsonToXML.parse("korisnikPrijavaDTO", user, options);
       this.loginForm.reset();
       this.authService.login(data).subscribe(response => {
-        this.toastr.success('Successful login!');
-        /*let xmlDoc = this.parser.parseFromString(response,"text/xml");
-        let token = xmlDoc.getElementsByTagName("authenticationToken")[0].childNodes[0].nodeValue;
-        let uloga = xmlDoc.getElementsByTagName("uloga")[0].childNodes[0].nodeValue;
-        let email = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;*/
+        this.toastr.success('Uspesno logovanje!');
         localStorage.setItem('email',response.email);
-        /*let imeIprezime = xmlDoc.getElementsByTagName("imeIprezime")[0].childNodes[0].nodeValue;*/
         localStorage.setItem('accessToken', response.authenticationToken);
         localStorage.setItem('uloga', response.uloga);
         localStorage.setItem('imeIprezime', response.imeIprezime);
 
         if(response.uloga === "G") {//gradjanin
-          this.router.navigate(['/gradjanin-homepage']);
+          this.router.navigate(['/portal/gradjanin/homepage']);
         }
         else if(response.uloga === "Z"){//zdravstveni radnik
-          this.router.navigate(['/zradnik-homepage']);
+          this.router.navigate(['/portal/zradnik/homepage']);
         }
       }, error => {
         this.toastr.error(error.error);

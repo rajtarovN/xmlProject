@@ -9,7 +9,7 @@ import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.Resource;
 
 @Repository
-public class KorisnikRepository {
+public class KorisnikRepository{
 
     private String collectionId = "/db/portal";
     private String documentId = "korisnik.xml";
@@ -60,13 +60,11 @@ public class KorisnikRepository {
     }
 
     public boolean registracija(String korisnik) {
-
         try {
             this.existManager.append(collectionId, documentId, "/lista_korisnika", korisnik, APPEND);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return true;
     }
 

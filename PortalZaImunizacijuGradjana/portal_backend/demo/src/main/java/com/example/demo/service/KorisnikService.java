@@ -2,20 +2,28 @@ package com.example.demo.service;
 
 import com.example.demo.dto.KorisnikPrijavaDTO;
 import com.example.demo.model.korisnik.Korisnik;
+import com.example.demo.model.liste.JaxbLista;
 import com.example.demo.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.modules.XMLResource;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class KorisnikService {
+public class KorisnikService  {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
+
 
     public boolean registruj(String email, String korisnik) {
         boolean postoji = this.korisnikRepository.postojiPoMejlu(email);
@@ -36,7 +44,7 @@ public class KorisnikService {
 
         if (res != null) {
             try {
-                JAXBContext context = JAXBContext.newInstance("com.ftn.xml.model.korisnik");
+                JAXBContext context = JAXBContext.newInstance("com.example.demo.model.korisnik");
 
                 Unmarshaller unmarshaller = context.createUnmarshaller();
                 Korisnik korisnik = (Korisnik) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
@@ -48,4 +56,5 @@ public class KorisnikService {
         } else
             return null;
     }
+
 }

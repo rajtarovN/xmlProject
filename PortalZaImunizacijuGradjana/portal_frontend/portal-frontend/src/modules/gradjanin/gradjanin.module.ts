@@ -1,25 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GradjaninHomepageComponent } from './pages/gradjanin-homepage/gradjanin-homepage.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { LoginFormComponent } from './pages/login/login-form.component';
-import { AuthRoutes } from './auth.routes';
+import { GradjaninRoutes } from './gradjanin.routes';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from '../root/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { ToastrModule } from 'ngx-toastr';
+import { AppRoutingModule } from '../root/app-routing.module';
 import { MaterialModule } from '../root/material-module';
-import { RegisterComponent } from './pages/register/register.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
 @NgModule({
-  declarations: [LoginFormComponent, RegisterComponent],
+  declarations: [
+    GradjaninHomepageComponent
+  ],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
-    RouterModule.forChild(AuthRoutes),
+    RouterModule.forChild(GradjaninRoutes),
     HttpClientModule,
     MaterialModule,
     ToastrModule.forRoot({
@@ -27,7 +27,6 @@ import { RegisterComponent } from './pages/register/register.component';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-  ],
-  exports:[LoginFormComponent]
+  ]
 })
-export class AuthModule { }
+export class GradjaninModule { }

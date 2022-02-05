@@ -8,6 +8,22 @@
   <div id="form-holder-div">
     <form class="example-form" [formGroup]="loginForm">
       <mat-card-content>
+        <mat-form-field class="example-full-width" id="name-field">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Ime i Prezime"
+            formControlName="name"
+            id="name"
+            name="name"
+            required
+          />
+          <mat-hint
+            *ngIf="loginForm.controls['name'].dirty && loginForm.controls['name'].errors?.['required']"
+            >Unesite vase ime i prezime</mat-hint
+          >
+        </mat-form-field>
         <mat-form-field class="example-full-width" id="email-field">
           <input
             matInput
@@ -50,22 +66,14 @@
           color="accent"
           type="submit"
           class="submit-button"
-          (click)="login()"
+          (click)="register()"
           id="submit-button"
           [disabled]="loginForm.invalid"
         >
-          Login
+          Registruj se
         </button>
       </div>
-      
     </form>
-    <div class="row">
-      <mat-icon matBadgeColor="primary" matBadgePosition="before"
-        >information</mat-icon
-      >
-      <span >Nemate nalog? Registrujte se <a [routerLink]="['/portal/auth/registracija']">ovde </a></span>
-      
-    </div>
   </div>
 </div>
 <div class="jw-modal-background"></div>

@@ -20,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/korisnik")
 public class KorisnikController {
@@ -34,32 +36,36 @@ public class KorisnikController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping(path = "/registracija", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<HttpStatus> registracija(@RequestBody KorisnikRegistracijaDTO korisnikDTO) {
-        KorisnikDTO korisnik = new KorisnikDTO();
-        korisnik.setEmail(korisnikDTO.getEmail());
-        korisnik.setIme_i_prezime(korisnikDTO.getIme_i_prezime());
-        korisnik.setUloga("K");
-
-        BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-        korisnik.setLozinka(bc.encode(korisnikDTO.getLozinka()));
-
-        String userXML = null;
-
+    public ResponseEntity<?> registracija(@RequestBody KorisnikRegistracijaDTO korisnikDTO) {
         try {
+            Korisnik korisnik = new Korisnik();
 
-            XmlMapper mapper = new XmlMapper();
-            userXML = mapper.writeValueAsString(korisnik);
+            korisnik.setEmail(korisnikDTO.getEmail());
+            korisnik.setImeIPrezime(korisnikDTO.getIme_i_prezime());
+            korisnik.setUloga("G");
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
+            korisnik.setLozinka(bc.encode(korisnikDTO.getLozinka()));
+
+            String userXML = null;
+
+            try {
+
+                XmlMapper mapper = new XmlMapper();
+                userXML = mapper.writeValueAsString(korisnik);
+
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
+            boolean ok = this.korisnikService.registruj(korisnik.getEmail(), userXML);
+            /*String documentId = UUID.randomUUID().toString();
+            korisnikService.saveXML(documentId, userXML);*/
+            return  new ResponseEntity<>("Uspesno kreiran nalog!", HttpStatus.CREATED);
         }
-
-        boolean ok = this.korisnikService.registruj(korisnik.getEmail(), userXML);
-
-        if (ok)
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        catch (Exception e) {
+            return new ResponseEntity<>("Pokusajte ponovo.",HttpStatus.NOT_FOUND);
+        }
 
     }
 
@@ -92,6 +98,7 @@ public class KorisnikController {
             // Vrati token kao odgovor na uspesnu autentifikaciju
             return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getImeIPrezime()));
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("Uneti kredencijali su losi, pokusajte ponovo.",HttpStatus.NOT_FOUND);
         }
     }
