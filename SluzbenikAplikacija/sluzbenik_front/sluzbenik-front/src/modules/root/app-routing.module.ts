@@ -1,23 +1,16 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  
   {
-    path: "portal",
+    path: "sluzbenik",
     component: AppComponent,
     children: [
       {
-        path: "gradjanin",
+        path: "sluzbenik",
         loadChildren: () =>
-          import("./../gradjanin/gradjanin.module").then((m) => m.GradjaninModule),
-      },
-      {
-        path: "zradnik",
-        loadChildren: () =>
-          import("./../zradnik/zradnik.module").then((m) => m.ZRadnikModule),
+          import("./../sluzbenik/sluzbenik.module").then((m) => m.SluzbenikModule),
       },
       {
         path: "auth",
@@ -28,13 +21,13 @@ const routes: Routes = [
   },
   {
     path: "",
-    redirectTo: "/portal/auth/login",
+    redirectTo: "/sluzbenik/auth/login",
     pathMatch: "full",
   },
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

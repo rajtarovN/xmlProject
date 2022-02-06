@@ -1,28 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GradjaninHomepageComponent } from './pages/gradjanin-homepage/gradjanin-homepage.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GradjaninRoutes } from './gradjanin.routes';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '../root/app-routing.module';
 import { MaterialModule } from '../root/material-module';
 import { ToastrModule } from 'ngx-toastr';
+import { ZRadnikRoutes } from './zradnik.routes';
+import { ZradnikHomepageComponent } from './pages/zradnik-homepage/zradnik-homepage.component';
+import { SharedModule } from '../shared/shared.module';
+import { AuthModule } from '../auth/auth.module';
 
 
 
 @NgModule({
-  declarations: [
-    GradjaninHomepageComponent
+  declarations: [  
+    ZradnikHomepageComponent
   ],
   imports: [
     
     
     CommonModule,
     ReactiveFormsModule,
-    RouterModule.forChild(GradjaninRoutes),
+    RouterModule.forChild(ZRadnikRoutes),
     HttpClientModule,
     MaterialModule,
     ToastrModule.forRoot({
@@ -30,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    SharedModule
   ]
 })
-export class GradjaninModule { }
+export class ZRadnikModule { }

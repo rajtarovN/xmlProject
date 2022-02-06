@@ -1,28 +1,25 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GradjaninHomepageComponent } from './pages/gradjanin-homepage/gradjanin-homepage.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GradjaninRoutes } from './gradjanin.routes';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from '../root/app-routing.module';
 import { MaterialModule } from '../root/material-module';
 import { ToastrModule } from 'ngx-toastr';
+import { SluzbenikHomepageComponent } from './pages/sluzbenik-homepage/sluzbenik-homepage.component';
+import { SluzbenikRoutes } from './sluzbenik.routes';
+import { LogoutComponent } from './components/logout/logout.component';
+import { CommonModule } from '@angular/common';
 
 
 
 @NgModule({
   declarations: [
-    GradjaninHomepageComponent
+    SluzbenikHomepageComponent,
+    LogoutComponent
   ],
   imports: [
-    
-    
     CommonModule,
     ReactiveFormsModule,
-    RouterModule.forChild(GradjaninRoutes),
+    RouterModule.forChild(SluzbenikRoutes),
     HttpClientModule,
     MaterialModule,
     ToastrModule.forRoot({
@@ -32,4 +29,4 @@ import { ToastrModule } from 'ngx-toastr';
     }),
   ]
 })
-export class GradjaninModule { }
+export class SluzbenikModule { }

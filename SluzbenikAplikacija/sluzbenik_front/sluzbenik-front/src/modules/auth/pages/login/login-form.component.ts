@@ -54,11 +54,7 @@ export class LoginFormComponent implements OnInit {
       let data: any = JsonToXML.parse("korisnikPrijavaDTO", user, options);
       this.loginForm.reset();
       this.toastr.success('TODO logovanje!');
-      if(user.email === "G"){
-        this.router.navigate(['/portal/gradjanin/homepage']);
-      }else if(user.email === "Z"){
-        this.router.navigate(['/portal/zradnik/homepage']);
-      }
+      this.router.navigate(['/sluzbenik/sluzbenik/homepage']);
       /*this.authService.login(data).subscribe(response => {
         this.toastr.success('Uspesno logovanje!');
         localStorage.setItem('email',response.email);
@@ -66,11 +62,8 @@ export class LoginFormComponent implements OnInit {
         localStorage.setItem('uloga', response.uloga);
         localStorage.setItem('imeIprezime', response.imeIprezime);
 
-        if(response.uloga === "G") {//gradjanin
-          this.router.navigate(['/portal/gradjanin/homepage']);
-        }
-        else if(response.uloga === "Z"){//zdravstveni radnik
-          this.router.navigate(['/portal/zradnik/homepage']);
+        if(response.uloga === "S") {//sluzbenik
+          this.router.navigate(['/sluzbenik/sluzbenik/homepage']);
         }
       }, error => {
         this.toastr.error(error.error);

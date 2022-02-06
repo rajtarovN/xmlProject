@@ -1,28 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GradjaninHomepageComponent } from './pages/gradjanin-homepage/gradjanin-homepage.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { GradjaninRoutes } from './gradjanin.routes';
+import { LoginFormComponent } from './pages/login/login-form.component';
+import { AuthRoutes } from './auth.routes';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '../root/app-routing.module';
-import { MaterialModule } from '../root/material-module';
+import { BrowserModule } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
+import { MaterialModule } from '../root/material-module';
 
 
 
 @NgModule({
-  declarations: [
-    GradjaninHomepageComponent
-  ],
+  declarations: [LoginFormComponent],
   imports: [
-    
-    
     CommonModule,
     ReactiveFormsModule,
-    RouterModule.forChild(GradjaninRoutes),
+    RouterModule.forChild(AuthRoutes),
     HttpClientModule,
     MaterialModule,
     ToastrModule.forRoot({
@@ -30,6 +26,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-  ]
+  ],
+  exports:[LoginFormComponent]
 })
-export class GradjaninModule { }
+export class AuthModule { }
