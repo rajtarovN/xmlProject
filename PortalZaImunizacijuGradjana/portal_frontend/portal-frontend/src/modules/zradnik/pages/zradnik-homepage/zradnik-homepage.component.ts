@@ -13,6 +13,7 @@ export class ZradnikHomepageComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   showModalLogout: boolean;
+  mail: string = '';
 
   constructor(
     private observer: BreakpointObserver,
@@ -20,10 +21,12 @@ export class ZradnikHomepageComponent implements OnInit {
     private toastr: ToastrService,
   ) { 
     this.showModalLogout = false;
+    this.mail = localStorage.getItem("email")!;
   }
 
   ngOnInit(): void {
   }
+  
 
   ngAfterViewInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((res) => {

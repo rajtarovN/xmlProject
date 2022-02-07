@@ -14,10 +14,10 @@ export class LoginGuard implements CanActivate {
       const userType = localStorage.getItem("uloga");;
 
       if(userType === "G") {//gradjanin
-        this.router.navigate(['/gradjanin-homepage']);
+        this.router.navigate(['/portal/gradjanin/homepage']);
       }
       else if(userType === "Z"){//zdravstveni radnik
-        this.router.navigate(['/zradnik-homepage']);
+        this.router.navigate(['/portal/zradnik/homepage']);
       }
 
       return false;

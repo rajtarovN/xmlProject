@@ -17,8 +17,6 @@ import { RegisterComponent } from './pages/register/register.component';
 @NgModule({
   declarations: [LoginFormComponent, RegisterComponent],
   imports: [
-    
-    
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(AuthRoutes),

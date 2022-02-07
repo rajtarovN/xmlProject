@@ -7,6 +7,7 @@ import com.example.demo.dto.UserTokenStateDTO;
 import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.security.TokenUtils;
 import com.example.demo.service.KorisnikService;
+import com.example.demo.util.ExistManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,11 +34,15 @@ public class KorisnikController {
     private TokenUtils tokenUtils;
 
     @Autowired
+    private ExistManager existManager;
+
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @PostMapping(path = "/registracija", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> registracija(@RequestBody KorisnikRegistracijaDTO korisnikDTO) {
         try {
+            //existManager.saveToDb("korisnik", "lista_korisnika");
             Korisnik korisnik = new Korisnik();
 
             korisnik.setEmail(korisnikDTO.getEmail());
@@ -48,6 +53,7 @@ public class KorisnikController {
             korisnik.setLozinka(bc.encode(korisnikDTO.getLozinka()));
 
             String userXML = null;
+
 
             try {
 
@@ -96,7 +102,8 @@ public class KorisnikController {
             int expiresIn = tokenUtils.getExpiredIn();
 
             // Vrati token kao odgovor na uspesnu autentifikaciju
-            return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getImeIPrezime()));
+            UserTokenStateDTO dto = new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getImeIPrezime());
+            return ResponseEntity.ok(dto);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Uneti kredencijali su losi, pokusajte ponovo.",HttpStatus.NOT_FOUND);

@@ -1,9 +1,15 @@
 package com.example.demo.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.OutputKeys;
 
+import com.example.demo.model.korisnik.ListaKorisnika;
 import org.exist.xmldb.EXistResource;
 import org.exist.xupdate.XUpdateProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,6 +164,83 @@ public class ExistManager {
             return getOrCreateCollection(collectionUri, ++pathSegmentOffset);
         } else {
             return col;
+        }
+    }
+
+    public void saveToDb(String documentId, String type) throws Exception {
+        type = "korisnik";
+        documentId = "korisnik";
+
+        System.out.println("[INFO] " + DBManager.class.getSimpleName());
+
+        System.out.println("[INFO] Save to db");
+
+        String collectionId = "/db/portal";
+
+        System.out.println("\t- document ID: " + documentId + "\n");
+
+        // initialize database driver
+        System.out.println("[INFO] Loading driver class: " + this.authManager.getDriver());
+        Class<?> cl = Class.forName(this.authManager.getDriver());
+
+        // encapsulation of the database driver functionality
+        Database database = (Database) cl.newInstance();
+        database.setProperty("create-database", "true");
+
+        // entry point for the API which enables you to get the Collection reference
+        DatabaseManager.registerDatabase(database);
+
+        // a collection of Resources stored within an XML database
+        Collection col = null;
+        XMLResource res = null;
+        OutputStream os = new ByteArrayOutputStream();
+
+        try {
+
+            System.out.println("[INFO] Retrieving the collection: " + collectionId);
+            col = getOrCreateCollection(collectionId);
+
+            System.out.println("[INFO] Inserting the document: " + documentId);
+            res = (XMLResource) col.createResource(  documentId + ".xml", XMLResource.RESOURCE_TYPE);
+
+            System.out.println("[INFO] Unmarshalling XML document to an JAXB instance: ");
+            JAXBContext context = JAXBContext
+                    .newInstance("com.example.demo.model." + type);
+
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            ListaKorisnika listaKorisnika = (ListaKorisnika) unmarshaller
+                    .unmarshal(new File( "data/xml/" + documentId +".xml"));
+            marshaller.marshal(listaKorisnika, os);
+
+
+            res.setContent(os);
+            System.out.println("[INFO] Storing the document: " + res.getId());
+
+            col.storeResource(res);
+            System.out.println("[INFO] Done.");
+
+        } finally {
+
+            // don't forget to cleanup
+            if (res != null) {
+                try {
+                    ((EXistResource) res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if (col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
         }
     }
 }

@@ -14,5 +14,6 @@ export const AuthRoutes: Routes = [
     path: "registracija",
     pathMatch: "full",
     component: RegisterComponent,
+    canActivate: [LoginGuard]
   },
 ];

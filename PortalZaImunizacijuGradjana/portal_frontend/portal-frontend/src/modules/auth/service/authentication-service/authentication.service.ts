@@ -13,15 +13,16 @@ import { UserTokenState } from 'src/modules/shared/models/user-token-state';
 export class AuthenticationService {
   constructor(private http: HttpClient, private route: Router) {}
 
-  login(user: Login): Observable<UserTokenState> {
+  login(user: Login): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/xml',
       Accept: 'application/xml',
     });
-    return this.http.post<UserTokenState>(
+    return this.http.post(
       `${environment.baseUrl}/${environment.login}`,
       user,
-      { headers: headers }
+      { headers: headers,
+        responseType: "text" }
     );
   }
 
