@@ -38,6 +38,13 @@ export class AuthenticationService {
     );
   }
 
+  logout(): Observable<string> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.logout}`,
+      { responseType: "text" }
+    );
+  }
+
   isLoggedIn(): boolean {
     if (!localStorage.getItem("email")) {
       return false;

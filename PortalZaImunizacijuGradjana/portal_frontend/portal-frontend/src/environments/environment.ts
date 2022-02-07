@@ -7,7 +7,8 @@ export const environment = {
   baseUrl: 'http://localhost:8081',
   login: 'korisnik/prijava',
   register: 'korisnik/registracija',
-  test: 'korisnik/test',
+  logout: 'korisnik/logout',
+
 };
 
 /*

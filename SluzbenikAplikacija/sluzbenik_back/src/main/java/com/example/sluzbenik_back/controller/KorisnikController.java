@@ -1,24 +1,22 @@
-package com.example.demo.controller;
+package com.example.sluzbenik_back.controller;
 
-import com.example.demo.dto.KorisnikPrijavaDTO;
-import com.example.demo.dto.KorisnikRegistracijaDTO;
-import com.example.demo.dto.UserTokenStateDTO;
-import com.example.demo.exceptions.BadRequestException;
-import com.example.demo.model.korisnik.Korisnik;
-import com.example.demo.security.TokenUtils;
-import com.example.demo.service.KorisnikService;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.example.sluzbenik_back.dto.KorisnikPrijavaDTO;
+import com.example.sluzbenik_back.dto.UserTokenStateDTO;
+import com.example.sluzbenik_back.exceptions.BadRequestException;
+import com.example.sluzbenik_back.model.korisnik.Korisnik;
+import com.example.sluzbenik_back.security.TokenUtils;
+import com.example.sluzbenik_back.service.KorisnikService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,34 +32,11 @@ public class KorisnikController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
-    @PostMapping(path = "/registracija", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> registracija(@RequestBody KorisnikRegistracijaDTO korisnikDTO) {
-        try {
-            Korisnik korisnik = new Korisnik();
-            korisnik.setEmail(korisnikDTO.getEmail());
-            korisnik.setImeIPrezime(korisnikDTO.getIme_i_prezime());
-            korisnik.setUloga("G");
-
-            BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-            korisnik.setLozinka(bc.encode(korisnikDTO.getLozinka()));
-
-            String userXML = null;
-            try {
-                XmlMapper mapper = new XmlMapper();
-                userXML = mapper.writeValueAsString(korisnik);
-
-            } catch (Exception e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-
-            boolean ok = this.korisnikService.registruj(korisnik.getEmail(), userXML);
-            return  new ResponseEntity<>("Uspesno kreiran nalog!", HttpStatus.CREATED);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>("Pokusajte ponovo.",HttpStatus.NOT_FOUND);
-        }
-
+    @ResponseBody
+    @GetMapping(path = "/test")
+    @PreAuthorize("hasRole('G')")
+    public ResponseEntity<?> test() throws Exception{
+        return  new ResponseEntity<>("Uspesno testiranje", HttpStatus.OK);
     }
 
 
@@ -105,5 +80,6 @@ public class KorisnikController {
         }
 
     }
+
 
 }

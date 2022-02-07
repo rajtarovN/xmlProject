@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject } from 'rxjs';
+import { AuthenticationService } from 'src/modules/auth/service/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-logout',
@@ -15,6 +16,7 @@ export class LogoutComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     public router: Router,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {}
@@ -24,8 +26,17 @@ export class LogoutComponent implements OnInit {
   }
 
   confirm() {
-    this.toastr.success('TODO logout!');
-    this.router.navigate(['/sluzbenik/auth/login']);
+    this.authService.logout().subscribe(response => {
+      localStorage.removeItem('email');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('uloga');
+      localStorage.removeItem('imeIprezime');
+      this.router.navigate(['/sluzbenik/auth/login']);
+      this.toastr.success('Uspesan logout!');
+      
+    }, error => {
+      this.toastr.error(error.error);
+    })
   }
 
 }

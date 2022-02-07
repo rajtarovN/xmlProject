@@ -13,10 +13,9 @@ import org.xmldb.api.modules.XMLResource;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.OutputKeys;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.sluzbenik_back.util.PathConstants.*;
 
 
 @Component
@@ -82,7 +81,7 @@ public class DBManager {
         return res;
     }
 
-    public XMLResource saveFileToDB(String documentId, String collectionId, String content)
+    public XMLResource saveFileToDB(String documentId, String collectionId, OutputStream os)
             throws XMLDBException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 
         // initialize database driver
@@ -110,9 +109,9 @@ public class DBManager {
              * if left empty (null)
              */
             System.out.println("[INFO] Inserting the document: " + documentId);
-            res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
+            res = (XMLResource) col.createResource(documentId  + ".xml", XMLResource.RESOURCE_TYPE);
 
-            res.setContent(content);
+            res.setContent(os);
             System.out.println("[INFO] Storing the document: " + res.getId());
 
             col.storeResource(res);

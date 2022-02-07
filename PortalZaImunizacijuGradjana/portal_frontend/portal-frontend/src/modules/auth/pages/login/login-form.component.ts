@@ -53,8 +53,7 @@ export class LoginFormComponent implements OnInit {
         }
       };
       let data: any = JsonToXML.parse("korisnikPrijavaDTO", user, options);
-      this.loginForm.reset();
-
+      
       this.authService.login(data).subscribe(response => {
         let xmlDoc = this.parser.parseFromString(response,"text/xml");
         let imeIprezime = xmlDoc.getElementsByTagName("imeIprezime")[0].childNodes[0].nodeValue;
@@ -69,6 +68,7 @@ export class LoginFormComponent implements OnInit {
         localStorage.setItem('imeIprezime', String(imeIprezime));
         let ul = String(uloga);
 
+        this.loginForm.reset();
         if(ul.toUpperCase() === "G") {//gradjanin
           this.router.navigate(['/portal/gradjanin/homepage']);
         }

@@ -1,6 +1,5 @@
 package com.example.sluzbenik_back.model.liste;
 
-
 import com.example.sluzbenik_back.model.korisnik.Korisnik;
 
 import javax.xml.bind.annotation.XmlAnyElement;

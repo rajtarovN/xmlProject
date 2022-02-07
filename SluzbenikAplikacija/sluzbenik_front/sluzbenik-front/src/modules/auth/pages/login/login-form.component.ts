@@ -52,22 +52,28 @@ export class LoginFormComponent implements OnInit {
         }
       };
       let data: any = JsonToXML.parse("korisnikPrijavaDTO", user, options);
-      this.loginForm.reset();
-      this.toastr.success('TODO logovanje!');
-      this.router.navigate(['/sluzbenik/sluzbenik/homepage']);
-      /*this.authService.login(data).subscribe(response => {
-        this.toastr.success('Uspesno logovanje!');
-        localStorage.setItem('email',response.email);
-        localStorage.setItem('accessToken', response.authenticationToken);
-        localStorage.setItem('uloga', response.uloga);
-        localStorage.setItem('imeIprezime', response.imeIprezime);
+      
+      this.authService.login(data).subscribe(response => {
+        let xmlDoc = this.parser.parseFromString(response,"text/xml");
+        let imeIprezime = xmlDoc.getElementsByTagName("imeIprezime")[0].childNodes[0].nodeValue;
+        let token = xmlDoc.getElementsByTagName("authenticationToken")[0].childNodes[0].nodeValue;
+        let uloga = xmlDoc.getElementsByTagName("uloga")[0].childNodes[0].nodeValue;
+        let email = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
 
-        if(response.uloga === "S") {//sluzbenik
+        this.toastr.success('Uspesno logovanje!');
+        localStorage.setItem('email', String(email));
+        localStorage.setItem('accessToken', String(token));
+        localStorage.setItem('uloga', String(uloga));
+        localStorage.setItem('imeIprezime', String(imeIprezime));
+        let ul = String(uloga);
+
+        this.loginForm.reset();
+        if(ul.toUpperCase() === "S") {//sluzbenik
           this.router.navigate(['/sluzbenik/sluzbenik/homepage']);
         }
       }, error => {
         this.toastr.error(error.error);
-      })*/
+      })
     }
   }
 

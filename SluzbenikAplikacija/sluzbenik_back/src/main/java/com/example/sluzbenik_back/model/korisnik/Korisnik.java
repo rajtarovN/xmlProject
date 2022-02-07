@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -150,8 +151,11 @@ public class Korisnik implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<Authority> authorities = new ArrayList<Authority>();
+
+        authorities.add(new Authority("ROLE_" + this.uloga));
+
+        return authorities;
     }
 
     @Override

@@ -1,9 +1,9 @@
-package com.example.demo.security;
+package com.example.sluzbenik_back.security;
 
-import com.example.demo.security.auth.RestAuthenticationEntryPoint;
-import com.example.demo.security.auth.TokenAuthenticationFilter;
-import com.example.demo.security.auth.TokenAuthenticationProvider;
-import com.example.demo.service.CustomUserDetailsService;
+import com.example.sluzbenik_back.security.auth.RestAuthenticationEntryPoint;
+import com.example.sluzbenik_back.security.auth.TokenAuthenticationFilter;
+import com.example.sluzbenik_back.security.auth.TokenAuthenticationProvider;
+import com.example.sluzbenik_back.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -91,7 +91,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
                 .antMatchers("/korisnik/prijava").permitAll()
-                .antMatchers("/korisnik/registracija").permitAll()
                 .antMatchers("/korisnik/logout").permitAll()
                 .anyRequest().authenticated().and()
                 // za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
@@ -110,7 +109,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
-        web.ignoring().antMatchers(HttpMethod.POST, "/korisnik/prijava","/korisnik/registracija", "/ws/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/korisnik/prijava", "/ws/**");
 
 
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik/logout", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",

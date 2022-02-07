@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   baseUrl: 'http://localhost:8082',
   login: 'korisnik/prijava',
+  logout: 'korisnik/logout',
 };
 
 /*
