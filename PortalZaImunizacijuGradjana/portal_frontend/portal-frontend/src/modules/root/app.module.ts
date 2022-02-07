@@ -10,6 +10,8 @@ import { GradjaninModule } from '../gradjanin/gradjanin.module';
 import { ZRadnikModule } from '../zradnik/zradnik.module';
 import { SharedModule } from '../shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorInterceptor } from '../shared/interceptors/interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,13 @@ import { ToastrModule } from 'ngx-toastr';
     AppRoutingModule,
     ToastrModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

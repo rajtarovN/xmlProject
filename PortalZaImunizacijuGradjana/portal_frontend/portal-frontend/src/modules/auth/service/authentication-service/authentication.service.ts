@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login } from 'src/modules/shared/models/login';
 import { Register } from 'src/modules/shared/models/register';
-import { UserTokenState } from 'src/modules/shared/models/user-token-state';
 
 @Injectable({
   providedIn: 'root',

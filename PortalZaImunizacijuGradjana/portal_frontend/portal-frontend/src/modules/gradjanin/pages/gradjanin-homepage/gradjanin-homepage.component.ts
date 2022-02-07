@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from 'src/modules/auth/service/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-gradjanin-homepage',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GradjaninHomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthenticationService,
+    private toastr: ToastrService,
+  ) { }
 
   ngOnInit(): void {
   }
 
+ 
 }
