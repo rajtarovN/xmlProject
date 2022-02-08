@@ -6,21 +6,30 @@
         >
 
     <korisnik>
-        <ime_i_prezime>Gradjanin Gradjanic</ime_i_prezime>
+        <ime>Gradjanin</ime>
+		<prezime>Gradjanic</prezime>
+		<pol>M</pol>
+		<rodjendan>2000-10-10</rodjendan>
         <email>gradjanin@maildrop.cc</email>
         <lozinka>$2a$10$O3kSN7IVySPBM7BTlgVOfu9toOubgKYYrjywtwdUWgSxKPYSBd6YO</lozinka>
         <uloga>G</uloga>
     </korisnik>
 
     <korisnik>
-        <ime_i_prezime>Gradjica Gradjic</ime_i_prezime>
+		<ime>Gradjica</ime>
+		<prezime>Gradjic</prezime>
+		<pol>Z</pol>
+		<rodjendan>2000-10-10</rodjendan>
         <email>gradjica@maildrop.cc</email>
         <lozinka>$2a$10$V/4xHn/Ej9wX6rblKO2YuOZuGFi6JnifSte4j2Zg0znWugF0HGG3W</lozinka>
         <uloga>G</uloga>
     </korisnik>
 
     <korisnik>
-        <ime_i_prezime>Zdravstveni Radnik</ime_i_prezime>
+		<ime>Zdravstveni</ime>
+		<prezime>Radnik</prezime>
+		<pol>M</pol>
+		<rodjendan>2000-10-10</rodjendan>
         <email>zradnik@maildrop.cc</email>
         <lozinka>$2a$10$lR.P3q9TUo42.EYgMTInleGQz4WYbkn12MoG0SYJwo69GYg3lOD9S</lozinka>
         <uloga>Z</uloga>

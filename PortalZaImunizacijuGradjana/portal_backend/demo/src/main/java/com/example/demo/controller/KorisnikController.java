@@ -8,6 +8,9 @@ import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.security.TokenUtils;
 import com.example.demo.service.KorisnikService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,15 +37,21 @@ public class KorisnikController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    private static final Logger LOG = LoggerFactory.getLogger(KorisnikController.class);
 
     @PostMapping(path = "/registracija", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> registracija(@RequestBody KorisnikRegistracijaDTO korisnikDTO) {
+    	LOG.info("1");
         try {
             Korisnik korisnik = new Korisnik();
             korisnik.setEmail(korisnikDTO.getEmail());
-            korisnik.setImeIPrezime(korisnikDTO.getIme_i_prezime());
+            korisnik.setIme(korisnikDTO.getIme());
+            korisnik.setPrezime(korisnik.getPrezime());
+            korisnik.setPol(korisnik.getPol());
+            korisnik.setRodjendan(korisnik.getRodjendan());
             korisnik.setUloga("G");
-
+            LOG.info(korisnik.getPol());
+            LOG.info(korisnikDTO.getPol());
             BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
             korisnik.setLozinka(bc.encode(korisnikDTO.getLozinka()));
 
@@ -83,7 +92,7 @@ public class KorisnikController {
             String jwt = tokenUtils.generateToken(user.getEmail());
             int expiresIn = tokenUtils.getExpiredIn();
 
-            UserTokenStateDTO dto = new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getImeIPrezime());
+            UserTokenStateDTO dto = new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getIme(), user.getPrezime(), user.getPol(), user.getRodjendan());
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             e.printStackTrace();

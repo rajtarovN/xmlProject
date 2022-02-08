@@ -13,7 +13,7 @@
             matInput
             class="form-control"
             type="text"
-            placeholder="Ime i Prezime"
+            placeholder="Ime"
             formControlName="name"
             id="name"
             name="name"
@@ -21,8 +21,44 @@
           />
           <mat-hint
             *ngIf="loginForm.controls['name'].dirty && loginForm.controls['name'].errors?.['required']"
-            >Unesite vase ime i prezime</mat-hint
+            >Unesite vase ime</mat-hint
           >
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="surname-field">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Prezime"
+            formControlName="surname"
+            id="surname"
+            name="surname"
+            required
+          />
+          <mat-hint
+            *ngIf="loginForm.controls['surname'].dirty && loginForm.controls['surname'].errors?.['required']"
+            >Unesite vase prezime</mat-hint
+          >
+        </mat-form-field>
+        <div class="radio-button-class">
+          <mat-label>Pol</mat-label>
+          <mat-radio-group formControlName="gender">
+            <mat-radio-button style="padding: 5px" value="M"
+              >Muski</mat-radio-button
+            >
+            <mat-radio-button style="padding: 5px" value="Z"
+              >Zenski</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Datum rodjenja:</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birthday" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="example-full-width" id="email-field">
           <input
