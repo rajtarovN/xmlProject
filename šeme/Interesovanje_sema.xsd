@@ -83,18 +83,20 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="Proizvodjac">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="Pfizer-BioNTech"/>
-                            <xs:enumeration value="Sputnik V"/>
-                            <xs:enumeration value="Sinopharm"/>
-                            <xs:enumeration value="AstraZeneca"/>
-                            <xs:enumeration value="Moderna"/>
-                            <xs:enumeration value="Bilo koja"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
+                <xs:sequence>
+                    <xs:element name="Proizvodjac">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="Pfizer-BioNTech"/>
+                                <xs:enumeration value="Sputnik"/>
+                                <xs:enumeration value="Sinopharm"/>
+                                <xs:enumeration value="AstraZeneca"/>
+                                <xs:enumeration value="Moderna"/>
+                                <xs:enumeration value="Bilo koja"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
                 <xs:element name="Datum_podnosenja_interesovanja" type="xs:date"/>
             </xs:sequence>
         </xs:complexType>

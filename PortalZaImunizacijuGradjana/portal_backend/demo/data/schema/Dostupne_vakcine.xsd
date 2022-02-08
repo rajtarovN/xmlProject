@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.0" vc:maxVersion="1.1"
+    targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/dostupne_vakcine"
+    xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/dostupne_vakcine">
+
+    <xs:element name="Zalihe">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded" minOccurs="1">
+                <xs:element name="Vakcina">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Naziv">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Pfizer-BioNTech"/>
+                                        <xs:enumeration value="Sputnik"/>
+                                        <xs:enumeration value="Sinopharm"/>
+                                        <xs:enumeration value="AstraZeneca"/>
+                                        <xs:enumeration value="Moderna"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Dostupno">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:int">
+                                        <xs:minInclusive value="0"/>
+                                        <xs:maxInclusive value="2147483647"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Rezervisano">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:int">
+                                        <xs:minInclusive value="0"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
