@@ -69,6 +69,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Interesovanje.Proizvodjaci }
+     * 
+     */
+    public Interesovanje.Proizvodjaci createInteresovanjeProizvodjaci() {
+        return new Interesovanje.Proizvodjaci();
+    }
+
+    /**
      * Create an instance of {@link Interesovanje.DatumPodnosenjaInteresovanja }
      * 
      */
