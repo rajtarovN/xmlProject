@@ -1,16 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.KorisnikPrijavaDTO;
-import com.example.demo.dto.KorisnikRegistracijaDTO;
-import com.example.demo.dto.UserTokenStateDTO;
-import com.example.demo.exceptions.BadRequestException;
-import com.example.demo.model.korisnik.Korisnik;
-import com.example.demo.security.TokenUtils;
-import com.example.demo.service.KorisnikService;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +11,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.dto.KorisnikPrijavaDTO;
+import com.example.demo.dto.KorisnikRegistracijaDTO;
+import com.example.demo.dto.UserTokenStateDTO;
+import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.model.korisnik.Korisnik;
+import com.example.demo.security.TokenUtils;
+import com.example.demo.service.KorisnikService;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 @RestController
 @RequestMapping(value = "/korisnik")
@@ -37,21 +39,16 @@ public class KorisnikController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    private static final Logger LOG = LoggerFactory.getLogger(KorisnikController.class);
-
     @PostMapping(path = "/registracija", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> registracija(@RequestBody KorisnikRegistracijaDTO korisnikDTO) {
-    	LOG.info("1");
         try {
             Korisnik korisnik = new Korisnik();
             korisnik.setEmail(korisnikDTO.getEmail());
             korisnik.setIme(korisnikDTO.getIme());
-            korisnik.setPrezime(korisnik.getPrezime());
-            korisnik.setPol(korisnik.getPol());
-            korisnik.setRodjendan(korisnik.getRodjendan());
+            korisnik.setPrezime(korisnikDTO.getPrezime());
+            korisnik.setPol(korisnikDTO.getPol());
+            korisnik.setRodjendan(korisnikDTO.getRodjendan());
             korisnik.setUloga("G");
-            LOG.info(korisnik.getPol());
-            LOG.info(korisnikDTO.getPol());
             BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
             korisnik.setLozinka(bc.encode(korisnikDTO.getLozinka()));
 

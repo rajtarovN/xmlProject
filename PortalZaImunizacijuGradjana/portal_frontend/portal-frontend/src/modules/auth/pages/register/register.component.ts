@@ -31,7 +31,12 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  yesterday: Date = new Date();
+
+  ngOnInit() {
+    let dte = new Date();
+    this.yesterday.setDate(dte.getDate() - 1);
+  }
 
   register() {
     if (
@@ -41,11 +46,13 @@ export class RegisterComponent implements OnInit {
     ) {
       this.toastr.error('Sva polja moraju biti popunjena!');
     } else {
+      var d = this.loginForm.value.birthday;
+      var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
       let user = {
         ime: this.loginForm.value.name,
         prezime: this.loginForm.value.surname,
         pol: this.loginForm.value.gender,
-        rodjendan: this.loginForm.value.birthday,
+        rodjendan: date,
         email: this.loginForm.value.email,
         lozinka: this.loginForm.value.password,
       };

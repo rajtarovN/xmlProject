@@ -8,6 +8,12 @@
 
 package com.example.demo.model.korisnik;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -51,7 +57,7 @@ import javax.xml.bind.annotation.XmlType;
     "uloga"
 })
 @XmlRootElement(name = "korisnik")
-public class Korisnik {
+public class Korisnik implements UserDetails{
 
     @XmlElement(required = true)
     protected String ime;
@@ -236,4 +242,48 @@ public class Korisnik {
         this.uloga = value;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        ArrayList<Authority> authorities = new ArrayList<Authority>();
+
+        authorities.add(new Authority("ROLE_" + this.uloga));
+
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return this.lozinka;
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }
