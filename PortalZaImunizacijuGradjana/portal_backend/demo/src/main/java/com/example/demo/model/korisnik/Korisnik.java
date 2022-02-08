@@ -11,6 +11,9 @@ package com.example.demo.model.korisnik;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -57,9 +60,11 @@ import javax.xml.bind.annotation.XmlType;
     "uloga"
 })
 @XmlRootElement(name = "korisnik")
+@JsonRootName(value = "korisnik")
 public class Korisnik implements UserDetails{
 
     @XmlElement(required = true)
+    @JsonProperty("ime")
     protected String ime;
     @XmlElement(required = true)
     protected String prezime;
