@@ -1,9 +1,5 @@
 package com.example.demo.model.interesovanje;
 
-import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac;
-
-import main.java.com.example.demo.model.interesovanje.Interesovanje.Proizvodjaci;
-
 public class PrintInteresovanje {
 
     public static void printInteresovanje(Interesovanje interesovanje){
@@ -20,8 +16,8 @@ public class PrintInteresovanje {
         System.out.println("------------->Broj mobilnog: "+ interesovanje.getLicneInformacije().getKontakt().getBrojMobilnog());
         System.out.println("------------->Broj fiksnog: "+ interesovanje.getLicneInformacije().getKontakt().getBrojFiksnog());
         System.out.println("Lokacija primanja vakcine: " + interesovanje.getLokacijaPrimanjaVakcine().getValue());
-        for (Proizvodjac p : Proizvodjaci) {
-        	System.out.println("Proizvodjac: " + p.getProizvodjac());
+        for (String p : interesovanje.getProizvodjaci().getProizvodjac()) {
+        	System.out.println("Proizvodjac: " + p);
 		}
         System.out.println("Datum podnosenja interesovanja: " + interesovanje.getDatumPodnosenjaInteresovanja().getValue());
     }
