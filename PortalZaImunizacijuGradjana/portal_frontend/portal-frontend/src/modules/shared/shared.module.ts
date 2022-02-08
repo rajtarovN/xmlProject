@@ -11,13 +11,11 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
-  declarations: [
-    LogoutComponent
-  ],
+  declarations: [LogoutComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,  
+    HttpClientModule,
     MaterialModule,
     ToastrModule.forRoot({
       timeOut: 3000,
@@ -25,10 +23,9 @@ import { AuthModule } from '../auth/auth.module';
       preventDuplicates: true,
     }),
   ],
-  exports: [
-    LogoutComponent,
-  ],
-  providers: [/*
+  exports: [LogoutComponent],
+  providers: [
+    /*
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorInterceptor,

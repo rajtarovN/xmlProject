@@ -10,16 +10,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '../root/app-routing.module';
 import { MaterialModule } from '../root/material-module';
 import { ToastrModule } from 'ngx-toastr';
-
-
+import { SharedModule } from '../shared/shared.module';
+import { SaglasnostFormComponent } from './components/saglasnost-form/saglasnost-form.component';
+import { InteresovanjeFormComponent } from './components/interesovanje-form/interesovanje-form.component';
 
 @NgModule({
   declarations: [
-    GradjaninHomepageComponent
+    GradjaninHomepageComponent,
+    SaglasnostFormComponent,
+    InteresovanjeFormComponent,
   ],
   imports: [
-    
-    
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(GradjaninRoutes),
@@ -30,6 +31,7 @@ import { ToastrModule } from 'ngx-toastr';
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-  ]
+    SharedModule,
+  ],
 })
-export class GradjaninModule { }
+export class GradjaninModule {}
