@@ -8,6 +8,7 @@ export const environment = {
   login: 'korisnik/prijava',
   register: 'korisnik/registracija',
   logout: 'korisnik/logout',
+  searchTermine: 'saglasnost/pretragaTermina'
 
 };
 

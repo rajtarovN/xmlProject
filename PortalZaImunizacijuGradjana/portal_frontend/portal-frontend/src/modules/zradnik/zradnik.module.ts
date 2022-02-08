@@ -12,12 +12,13 @@ import { ZRadnikRoutes } from './zradnik.routes';
 import { ZradnikHomepageComponent } from './pages/zradnik-homepage/zradnik-homepage.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../auth/auth.module';
+import { SaglasnostiGradjanaComponent } from './components/saglasnosti-gradjana/saglasnosti-gradjana.component';
 
 
 
 @NgModule({
   declarations: [  
-    ZradnikHomepageComponent
+    ZradnikHomepageComponent, SaglasnostiGradjanaComponent
   ],
   imports: [
     

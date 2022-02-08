@@ -4,30 +4,30 @@
 	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345"
-    Broj_saglasnosti="12345"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/54321"
+    Broj_saglasnosti="54321"
     vocab="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/">
     <Pacijent>
         <Drzavljanin_srbije>
-            <Jmbg property="pred:jmbg">1234567891234</Jmbg>
+            <Jmbg property="pred:jmbg">3216549877418</Jmbg>
         </Drzavljanin_srbije>
         <Licni_podaci>
-            <Prezime property="pred:prezime">Peric</Prezime>
-            <Ime property="pred:ime">Pera</Ime>
-            <Ime_roditelja>Veselin</Ime_roditelja>
+            <Prezime property="pred:prezime">Mikic</Prezime>
+            <Ime property="pred:ime">Mika</Ime>
+            <Ime_roditelja>Milenko</Ime_roditelja>
             <Pol>Muski</Pol>
-            <Datum_rodjenja>1999-01-01</Datum_rodjenja>
+            <Datum_rodjenja>1998-01-01</Datum_rodjenja>
             <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
             <Adresa>
                 <Ulica>Jevrejska</Ulica>
-                <Broj>5</Broj>
+                <Broj>55</Broj>
                 <Mesto>Novi Sad</Mesto>
                 <Grad>Novi Sad</Grad>
             </Adresa>
             <Kontakt_informacije>
-                <Fiksni_telefon>021 123 456</Fiksni_telefon>
-                <Mobilni_telefon>065 123 45 67</Mobilni_telefon>
-                <Email>email@gmail.com</Email>
+                <Fiksni_telefon>021 120 456</Fiksni_telefon>
+                <Mobilni_telefon>065 120 45 67</Mobilni_telefon>
+                <Email>mika@gmail.com</Email>
             </Kontakt_informacije>
             <Radni_status>Zaposlen</Radni_status>
             <Zanimanje_zaposlenog>prosveta</Zanimanje_zaposlenog>

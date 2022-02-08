@@ -231,7 +231,7 @@
                                 <xs:complexType>
                                     <xs:simpleContent>
                                         <xs:extension base="xs:date">
-                                            <xs:attribute fixed="pred:datum_izdavanja"
+                                            <xs:attribute fixed="pred:datum_termina"
                                                 name="property" type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
@@ -380,8 +380,9 @@
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
-            <xs:attribute name="about" type="xs:string"/>
+            <xs:attribute name="about" type="xs:anyURI"/>
             <xs:attribute name="Broj_saglasnosti" type="xs:string"/>
+            <xs:attribute name="vocab" use="required" type="xs:anyURI"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="TJmbg">

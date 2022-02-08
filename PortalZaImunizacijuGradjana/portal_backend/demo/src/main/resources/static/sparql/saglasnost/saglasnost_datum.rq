@@ -1,0 +1,5 @@
+SELECT ?obrazac_saglasnosti_za_imunizaciju FROM <%s>
+WHERE {
+  ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/datum_termina> ?date .
+  FILTER ( ?date == %s^^xs:date )
+}

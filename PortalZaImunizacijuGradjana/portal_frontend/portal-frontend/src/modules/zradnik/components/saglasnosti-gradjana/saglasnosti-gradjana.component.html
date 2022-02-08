@@ -1,0 +1,139 @@
+
+<form class="example-form" [formGroup]="searchForm">
+    <mat-form-field class="example-container">
+      <span matPrefix> </span>
+      <input
+        matInput
+        class="form-control"
+        type="text"
+        placeholder="Pretraga po imenu/prezimenu..."
+        formControlName="search"
+        id="employee-search"
+        name="itemSearch"
+      />
+    </mat-form-field>
+    <mat-form-field class="form_input">
+        <mat-label>Izaberite datum</mat-label>
+        <input matInput [min]="minDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <button
+      color="accent"
+      type="submit"
+      class="submit-button"
+      (click)="search()"
+      id="submit-button"
+      matSuffix
+      mat-icon-button
+    >
+      <mat-icon>search</mat-icon>
+    </button>
+    
+  </form>
+  <mat-card>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+      class="mat-elevation-z8"
+      id="userTable"
+    >
+      <!-- Email Column -->
+      <ng-container matColumnDef="Email">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="email"
+          sortActionDescription="Sort by email"
+        >
+          Email
+        </th>
+        <td mat-cell name="email" *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+  
+      <!-- Ime Column -->
+      <ng-container matColumnDef="Ime">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="ime"
+          sortActionDescription="Sort by ime"
+        >
+          Ime
+        </th>
+        <td mat-cell *matCellDef="let element" name="ime">{{ element.ime }}</td>
+      </ng-container>
+  
+      <!-- Prezime Column -->
+      <ng-container matColumnDef="Prezime">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="prezime"
+          sortActionDescription="Sort by prezime"
+        >
+        Prezime
+        </th>
+        <td mat-cell *matCellDef="let element" name="prezime">{{ element.prezime }}</td>
+      </ng-container>
+    
+        
+      <!-- datum Column -->
+      <ng-container matColumnDef="Datum">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header="datum"
+          sortActionDescription="Sort by datum"
+        >
+        Datum
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.datum_termina }}
+        </td>
+      </ng-container>
+  
+      <!-- Edit employee -->
+      <ng-container matColumnDef="Popuni evidenciju">
+        <td></td>
+        <th mat-header-cell *matHeaderCellDef>Popuni evidenciju</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-button
+            color="accent"
+            type="submit"
+            class="submit-button"
+            (click)="openEvidencija(element.brojSaglasnosti)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <!-- Delete employee -->
+      <ng-container matColumnDef="Izdaj potvrdu">
+        <td></td>
+        <th mat-header-cell *matHeaderCellDef>Izdaj potvrdu</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-button
+            color="accent"
+            type="submit"
+            class="submit-button"
+            (click)="givePotvrdu(element.brojSaglasnosti)"
+          >
+            <mat-icon>upload_file</mat-icon> <!--insert_drive_file-->
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card>
+  
+  
+  
