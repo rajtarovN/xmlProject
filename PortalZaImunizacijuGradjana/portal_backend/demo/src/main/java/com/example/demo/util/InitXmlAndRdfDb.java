@@ -169,36 +169,39 @@ public class InitXmlAndRdfDb {
 
     public static void runRDF() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        String xmlFilePath = "data/xml/saglasnost_54321.xml";
-        String rdfFilePath = "gen/saglasnost1.rdf";
+        List<String> docIds = Arrays.asList("saglasnost_12345.xml", "saglasnost_54321.xml");
+        for(String documentId : docIds) {
+            String xmlFilePath = "data/xml/" + documentId;
+            String rdfFilePath = "gen/saglasnost.rdf";
 
-        MetadataExtractor metadataExtractor = new MetadataExtractor();
+            MetadataExtractor metadataExtractor = new MetadataExtractor();
 
-        System.out.println("[INFO] Extracting metadata from RDFa attributes...");
-        metadataExtractor.extractMetadata(
-                new FileInputStream(new File(xmlFilePath)),
-                new FileOutputStream(new File(rdfFilePath)));
+            System.out.println("[INFO] Extracting metadata from RDFa attributes...");
+            metadataExtractor.extractMetadata(
+                    new FileInputStream(new File(xmlFilePath)),
+                    new FileOutputStream(new File(rdfFilePath)));
 
-        Model model = ModelFactory.createDefaultModel();
-        model.read(rdfFilePath);
+            Model model = ModelFactory.createDefaultModel();
+            model.read(rdfFilePath);
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        model.write(out, SparqlUtil.NTRIPLES);
+            model.write(out, SparqlUtil.NTRIPLES);
 
-        System.out.println("[INFO] Extracted metadata as RDF/XML...");
-        //model.write(System.out, SparqlUtil.RDF_XML);
+            System.out.println("[INFO] Extracted metadata as RDF/XML...");
+            //model.write(System.out, SparqlUtil.RDF_XML);
 
-        String graphUri = "/lista_saglasnosti";
-        System.out.println("[INFO] Populating named graph \"" + graphUri + "\" with extracted metadata.");
-        String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + graphUri, out.toString());
-        System.out.println(sparqlUpdate);
+            String graphUri = "/lista_saglasnosti";
+            System.out.println("[INFO] Populating named graph \"" + graphUri + "\" with extracted metadata.");
+            String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + graphUri, out.toString());
+            System.out.println(sparqlUpdate);
 
-        // UpdateRequest represents a unit of execution
-        UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+            // UpdateRequest represents a unit of execution
+            UpdateRequest update = UpdateFactory.create(sparqlUpdate);
 
-        UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, fusekiConn.updateEndpoint);
-        processor.execute();
-        model.close();
+            UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, fusekiConn.updateEndpoint);
+            processor.execute();
+            model.close();
+        }
     }
 }

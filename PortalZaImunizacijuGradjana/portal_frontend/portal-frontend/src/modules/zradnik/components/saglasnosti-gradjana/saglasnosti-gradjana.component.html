@@ -13,8 +13,8 @@
       />
     </mat-form-field>
     <mat-form-field class="form_input">
-        <mat-label>Izaberite datum</mat-label>
-        <input matInput [min]="minDate" [matDatepicker]="picker" (dateInput)="onDateChange($event)">
+        <mat-label>Pretraga po datumu</mat-label>
+        <input matInput [min]="minDate" [matDatepicker]="picker" (dateInput)="onDateChange($event)" formControlName="date">
         <mat-datepicker-toggle style="color: gray;" matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -106,7 +106,7 @@
             color="accent"
             type="submit"
             class="submit-button"
-            (click)="openEvidencija(element.brojSaglasnosti)"
+            (click)="openEvidencija(element.brojSaglasnosti, element.email)"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -134,6 +134,10 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card>
-  
-  
+  <app-popuni-evidenciju
+  *ngIf="this.showEvidenciju"
+  [email]="this.evidencijaEmail"
+  [brojSaglasnosti]="this.evidencijaBrojSaglasnosti"
+  (onEvidencijaClose)="onEvidencijaCloseClicked($event)"
+  ></app-popuni-evidenciju>  
   

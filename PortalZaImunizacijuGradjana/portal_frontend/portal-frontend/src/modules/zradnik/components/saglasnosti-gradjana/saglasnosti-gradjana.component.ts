@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,6 +26,9 @@ export class SaglasnostiGradjanaComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   parser = new DOMParser();
+  showEvidenciju: boolean;
+  evidencijaEmail: string;
+  evidencijaBrojSaglasnosti: string;
 
   displayedColumns: string[] = ['Email', 'Ime', 'Prezime', 'Datum', "Popuni evidenciju", "Izdaj potvrdu"];
 
@@ -36,15 +39,18 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     private liveAnnouncer: LiveAnnouncer,
     private saglasnostService: SaglasnostService
   ) {
-    //const currentYear = new Date().getFullYear();
     this.minDate = new Date();
     this.data = [];
     this.searchForm = this.fb.group({
       search: [null],
-      filter: [null],
+      date: [null, Validators.required],
     });
+    this.searchForm.value.date = this.minDate;
     this.searchString = "";
     this.searchDate = new Date();
+    this.showEvidenciju = false;
+    this.evidencijaEmail = "";
+    this.evidencijaBrojSaglasnosti = "";
    }
 
   ngOnInit(): void {
@@ -111,6 +117,16 @@ export class SaglasnostiGradjanaComponent implements OnInit {
 
   givePotvrdu(brojSaglasnosti: string){}
 
-  openEvidencija(brojSaglasnosti: string){}
+  openEvidencija(brojSaglasnosti: string, email: string){
+    this.evidencijaBrojSaglasnosti = brojSaglasnosti;
+    this.evidencijaEmail = email;
+    this.showEvidenciju = true;
+  }
+
+  onEvidencijaCloseClicked(item: boolean){    
+    this.showEvidenciju = false;
+    this.evidencijaBrojSaglasnosti = "";
+    this.evidencijaEmail = "";
+  }
 
 }

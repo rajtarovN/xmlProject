@@ -27,7 +27,7 @@
             <Kontakt_informacije>
                 <Fiksni_telefon>021 120 456</Fiksni_telefon>
                 <Mobilni_telefon>065 120 45 67</Mobilni_telefon>
-                <Email>mika@gmail.com</Email>
+                <Email property="pred:email">mika@gmail.com</Email>
             </Kontakt_informacije>
             <Radni_status>Zaposlen</Radni_status>
             <Zanimanje_zaposlenog>prosveta</Zanimanje_zaposlenog>

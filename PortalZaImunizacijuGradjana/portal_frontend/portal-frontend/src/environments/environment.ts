@@ -8,8 +8,9 @@ export const environment = {
   login: 'korisnik/prijava',
   register: 'korisnik/registracija',
   logout: 'korisnik/logout',
-  searchTermine: 'saglasnost/pretragaTermina'
-
+  searchTermine: 'saglasnost/pretragaTermina',
+  getEvidentiraneVakcine: 'saglasnost/pronadjiPoEmailu',
+  saveEvidenciju: 'saglasnost/sacuvajEvidenciju'
 };
 
 /*

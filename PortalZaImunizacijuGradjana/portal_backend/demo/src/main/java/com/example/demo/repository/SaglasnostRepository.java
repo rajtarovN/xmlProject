@@ -73,19 +73,16 @@ public class SaglasnostRepository {
         return ids;
     }
 
-    public XMLResource pronadjiPoId(long id) throws IllegalAccessException, JAXBException, InstantiationException, IOException, XMLDBException, ClassNotFoundException {
-        //TODO jedan xml il posebni xml-ovi
-        //String id_Str = ID_STRING + id;
-        /*String xPath = "/lista_saglasnosti/zalba_cutanje[@Broj_saglasnosti='" + id + "']";
-        ResourceSet set;
-        try {
-            set = this.existManager.retrieve(collectionId, xPath, TARGET_NAMESPACE);
+    public List<String> pronadjiPoEmailu(String email) throws Exception {
+        List<String> ids = new ArrayList<>();
+        ArrayList<String> params = new ArrayList<>();
+        params.add("\"" + email +"\"");
 
-            return set;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }*/
+        ids = this.fusekiManager.query("/lista_saglasnosti", SPARQL_FILE + "saglasnost_email.rq", params);
+        return ids;
+    }
+
+    public XMLResource pronadjiPoId(long id) throws IllegalAccessException, JAXBException, InstantiationException, IOException, XMLDBException, ClassNotFoundException {
         return dbManager.readFileFromDB("saglasnost_"+id+".xml", collectionId);
     }
 
@@ -99,4 +96,5 @@ public class SaglasnostRepository {
         InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
         fusekiManager.writeFuseki(rdfInputStream, uri);
     }
+
 }

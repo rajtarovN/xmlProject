@@ -1,16 +1,19 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.EvidencijaVakcinacijeDTO;
+import com.example.demo.dto.EvidentiraneVakcineDTO;
+import com.example.demo.dto.KorisnikRegistracijaDTO;
 import com.example.demo.dto.SaglasnostDTO;
+import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.service.SaglasnostService;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +27,7 @@ public class SaglasnostController {
 
     @PreAuthorize("hasRole('Z')")
     @GetMapping(path = "/pretragaTermina/{imePrezime}/{datumTermina}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<ArrayList<SaglasnostDTO>> pretragaTermina(@PathVariable("imePrezime") String imePrezime,
+    public ResponseEntity<?> pretragaTermina(@PathVariable("imePrezime") String imePrezime,
                                                              @PathVariable("datumTermina") Date datumTermina) {
         ArrayList<SaglasnostDTO> lista = new ArrayList<>();
         if(imePrezime.equals("all")){
@@ -41,8 +44,37 @@ public class SaglasnostController {
         if(!lista.isEmpty())
             return new ResponseEntity<>(lista, HttpStatus.OK);
         else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Nema termina po trazenim parametrima.", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('Z')")
+    @GetMapping(path = "/pronadjiPoEmailu/{email}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> pronadjiPoEmailu(@PathVariable("email") String email) {
+        ArrayList<EvidentiraneVakcineDTO> lista = new ArrayList<>();
 
+        try {
+            lista = this.saglasnostService.pronadjiPoEmailu(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(!lista.isEmpty())
+            return new ResponseEntity<>(lista, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("Nema prethodno evidentiranih vakcina.", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('Z')")
+    @PostMapping(path = "/sacuvajEvidenciju/{brojSaglasnosti}", consumes = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> sacuvajEvidenciju(@PathVariable("brojSaglasnosti") String brojSaglasnosti,
+                                              @RequestBody EvidencijaVakcinacijeDTO evidencijaVakcinacijeDTO) {
+        try {
+            return new ResponseEntity<>(this.saglasnostService.dodajEvidenciju(evidencijaVakcinacijeDTO, brojSaglasnosti),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

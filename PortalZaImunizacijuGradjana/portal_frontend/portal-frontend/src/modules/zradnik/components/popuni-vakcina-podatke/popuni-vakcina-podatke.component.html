@@ -1,0 +1,133 @@
+<div id="container-div">
+    <div id="img-div">
+      <img
+        src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+        alt="”animated”"
+      />
+    </div>
+    <div id="form-holder-div">
+      <h2>Podaci o vakcini</h2>
+      <form class="example-form" [formGroup]="vakcPodaciForm">
+        <mat-card-content>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              class="form-control"
+              type="text"
+              placeholder="Naziv vakcine"
+              formControlName="nazivVakcine"
+              name="nazivVakcine"
+              required
+            />
+            <mat-hint
+              *ngIf="vakcPodaciForm.controls['nazivVakcine'].dirty && vakcPodaciForm.controls['nazivVakcine'].errors?.['required']"
+              >Unesite naziv vakcine</mat-hint
+            >
+          </mat-form-field>
+          <div class="m_l_r_20">
+            <mat-label style="margin-right: 15px;">Ekstremitet</mat-label>
+            <mat-radio-group aria-label="Ekstremitet">
+                <mat-radio-button style="margin-right: 15px;" value="1">DR</mat-radio-button>
+                <mat-radio-button style="margin-right: 15px;" value="2">LR</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              class="form-control"
+              placeholder="Serija vakcine (lot)"
+              type="text"
+              formControlName="serijaVakcine"
+              required
+              name="serijaVakcine"
+            />
+            <mat-hint
+              *ngIf="vakcPodaciForm.controls['serijaVakcine'].dirty && vakcPodaciForm.controls['serijaVakcine'].errors?.['required'] "
+              >Unesite seriju vakcine</mat-hint
+            >
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              class="form-control"
+              placeholder="Proizvodjac"
+              type="text"
+              formControlName="proizvodjac"
+              required
+              name="proizvodjac"
+            />
+            <mat-hint
+              *ngIf="vakcPodaciForm.controls['proizvodjac'].dirty && vakcPodaciForm.controls['proizvodjac'].errors?.['required'] "
+              >Unesite naziv proizvodjaca vakcine</mat-hint
+            >
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              class="form-control"
+              placeholder="Nezeljena reakcija"
+              type="text"
+              formControlName="reakcija"
+              name="reakcija"
+            />
+          </mat-form-field>
+          <mat-divider></mat-divider>
+          <h3>Privremene kontraindikacije</h3>
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              class="form-control"
+              placeholder="Dijagnoza"
+              type="text"
+              formControlName="dijagnoza"
+              name="dijagnoza"
+            />
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Datum utvrdjivanja</mat-label>
+            <input
+              matInput
+              [min]="minDate"
+              [matDatepicker]="picker"
+              formControlName="datum"
+            />
+            <mat-datepicker-toggle
+              style="color: gray"
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          
+          <div class="m_l_r_20">
+            <mat-label>Odluka komisije za trajne kontraindikacije (ako postoji oznaciti Da)</mat-label>
+            <mat-checkbox class="example-margin" [ngModelOptions]="{standalone: true}" [(ngModel)]="trajneKontraindikacije">Da</mat-checkbox>
+          </div>
+          
+        </mat-card-content>
+        <div class="modal-footer">
+          <button
+            mat-flat-button
+            type="button"
+            color="accent"
+            class="btn btn-danger"
+            (click)="cancel()"
+          >
+            Odustani
+          </button>
+          <button
+            mat-flat-button
+            type="submit"
+            color="primary"
+            class="btn btn-primary"
+            (click)="confirm()"
+            [disabled]="vakcPodaciForm.invalid"
+          >
+            Sacuvaj
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="jw-modal-background"></div>
+  

@@ -1157,6 +1157,10 @@ public class Saglasnost {
                 return this.vakcina;
             }
 
+            public void setVakcina(List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> lista) {
+                this.vakcina = lista;
+            }
+
             /**
              * Gets the value of the privremeneKontraindikacije property.
              * 

@@ -13,12 +13,14 @@ import { ZradnikHomepageComponent } from './pages/zradnik-homepage/zradnik-homep
 import { SharedModule } from '../shared/shared.module';
 import { AuthModule } from '../auth/auth.module';
 import { SaglasnostiGradjanaComponent } from './components/saglasnosti-gradjana/saglasnosti-gradjana.component';
+import { PopuniEvidencijuComponent } from './components/popuni-evidenciju/popuni-evidenciju.component';
+import { PopuniVakcinaPodatkeComponent } from './components/popuni-vakcina-podatke/popuni-vakcina-podatke.component';
 
 
 
 @NgModule({
   declarations: [  
-    ZradnikHomepageComponent, SaglasnostiGradjanaComponent
+    ZradnikHomepageComponent, SaglasnostiGradjanaComponent, PopuniEvidencijuComponent, PopuniVakcinaPodatkeComponent
   ],
   imports: [
     
