@@ -33,7 +33,7 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
   send(): void {
     let text: string = Xonomy.harvest();
     // console.log(text);  // ispis xml-a koji se salje
-
+    console.log(text)
     this.zahtevService.addNew(text)
       .subscribe(
         response => {
