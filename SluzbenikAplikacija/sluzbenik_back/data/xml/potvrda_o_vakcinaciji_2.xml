@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<potvrda_o_vakcinaciji
+    xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/potvrda_o_vakcinaciji ../schema/Potvrda_o_vakcinaciji_sema.xsd"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/0492837583">
+    Qr_kod="345" sifra_potvrde_vakcine="0492837583">
+    <licni_podaci>
+        <ime property="pred:ime">Pera</ime>
+        <prezime property="pred:prezime">Peric</prezime>
+        <datum_rodjenja>1987-02-23</datum_rodjenja>
+        <pol>Muski</pol>
+        <jmbg property="pred:jmbg">1234567890123</jmbg>
+    </licni_podaci>
+    <vakcinacija>
+        <doze>
+            <doza>
+                <broj>1</broj>
+                <datum_davanja>2021-02-01</datum_davanja>
+                <broj_serije>23</broj_serije>
+            </doza>
+            <doza>
+                <broj>2</broj>
+                <datum_davanja>2021-08-05</datum_davanja>
+                <broj_serije>73</broj_serije>
+            </doza>
+            <doza>
+                <broj>3</broj>
+                <datum_davanja>2022-01-05</datum_davanja>
+                <broj_serije>233</broj_serije>
+            </doza>
+        </doze>
+        <zdravstvena_ustanova>Bolnica</zdravstvena_ustanova>
+        <naziv_vakcine>Pfeizer</naziv_vakcine>
+    </vakcinacija>
+    <datum_izdavanja>2022-01-05</datum_izdavanja>
+</potvrda_o_vakcinaciji>

@@ -11,15 +11,14 @@ import { AppRoutingModule } from '../root/app-routing.module';
 import { MaterialModule } from '../root/material-module';
 import { ToastrModule } from 'ngx-toastr';
 import { PodnosenjeZahtevaComponent } from './components/podnosenje-zahteva/podnosenje-zahteva.component';
-
+import { SharedModule } from '../shared/shared.module';
+import { InteresovanjeFormComponent } from './components/interesovanje-form/interesovanje-form.component';
 
 
 @NgModule({
-  declarations: [
-    GradjaninHomepageComponent,
-    PodnosenjeZahtevaComponent
-  ],
+  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent,  PodnosenjeZahtevaComponent],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(GradjaninRoutes),
     HttpClientModule,
@@ -29,6 +28,7 @@ import { PodnosenjeZahtevaComponent } from './components/podnosenje-zahteva/podn
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-  ]
+    SharedModule,
+  ],
 })
-export class GradjaninModule { }
+export class GradjaninModule {}

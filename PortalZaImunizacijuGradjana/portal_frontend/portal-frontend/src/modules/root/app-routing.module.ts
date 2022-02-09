@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginFormComponent } from '../auth/pages/login/login-form.component';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
@@ -14,6 +13,11 @@ const routes: Routes = [
         path: "gradjanin",
         loadChildren: () =>
           import("./../gradjanin/gradjanin.module").then((m) => m.GradjaninModule),
+      },
+      {
+        path: "zradnik",
+        loadChildren: () =>
+          import("./../zradnik/zradnik.module").then((m) => m.ZRadnikModule),
       },
       {
         path: "auth",

@@ -1,0 +1,82 @@
+<mat-toolbar class="mat-elevation-z8">
+    <button
+      mat-icon-button
+      *ngIf="sidenav.mode === 'over'"
+      (click)="sidenav.toggle()"
+    >
+      <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+      <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+    </button>
+    <span class="span">Aplikacija za Sluzbenike</span>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+      <img
+        class="avatar mat-elevation-z8"
+        src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+        alt="”animated”"
+      />
+  
+      <h4 class="name" id="current-user">sluzbenik@maildrop.cc</h4>
+  
+        
+      <button
+        mat-button
+        class="menu-button"
+        (click)="onLogoutButtonClicked()"
+        id="logout-button"
+      >
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+  
+      <mat-divider></mat-divider>
+  
+      <button
+        mat-button
+        class="menu-button"
+        (click)="onRegistarGradjanaClicked()"
+      >
+       <!---- <mat-icon>supervised_user_circle</mat-icon>-->
+        <span>Registar Gradjana</span>
+      </button>
+
+      <button
+        mat-button
+        class="menu-button"
+        (click)="onIzvestajOImunizacijiClicked()"
+      >
+        <span>Izvestaj o Imunizaciji</span>
+      </button>
+
+      <button
+        mat-button
+        class="menu-button"
+        (click)="onDostupnevakcineClicked()"
+      >
+        <span>Dostupne Vakcine</span>
+      </button>
+
+      <button
+        mat-button
+        class="menu-button"
+        (click)="onArhivaClicked()"
+      >
+        <span>Arhiva gradjanskih dokumenata</span>
+      </button>
+  
+      
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        
+  
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <app-logout
+  *ngIf="this.showModalLogout"
+  (onLogoutClose)="onLogoutCloseClicked($event)"
+></app-logout>
+  

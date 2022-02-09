@@ -14,7 +14,7 @@ public class KorisnikRepository{
     private String collectionId = "/db/portal";
     private String documentId = "korisnik.xml";
 
-    private static final String TARGET_NAMESPACE = "http://ftn.uns.ac.rs/xml_i_veb_servisi/korisnik";
+    private static final String TARGET_NAMESPACE = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/korisnik";
 
     public static final String APPEND = "<xu:modifications version=\"1.0\" xmlns:xu=\"" + XUpdateProcessor.XUPDATE_NS
             + "\" xmlns=\"" + TARGET_NAMESPACE + "\">" + "<xu:append select=\"%1$s\" child=\"last()\">%2$s</xu:append>"

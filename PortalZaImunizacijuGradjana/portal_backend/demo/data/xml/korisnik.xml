@@ -8,21 +8,21 @@
     <korisnik>
         <ime_i_prezime>Gradjanin Gradjanic</ime_i_prezime>
         <email>gradjanin@maildrop.cc</email>
-        <lozinka>test</lozinka>
+        <lozinka>$2a$10$O3kSN7IVySPBM7BTlgVOfu9toOubgKYYrjywtwdUWgSxKPYSBd6YO</lozinka>
         <uloga>G</uloga>
     </korisnik>
 
     <korisnik>
         <ime_i_prezime>Gradjica Gradjic</ime_i_prezime>
         <email>gradjica@maildrop.cc</email>
-        <lozinka>teste</lozinka>
+        <lozinka>$2a$10$V/4xHn/Ej9wX6rblKO2YuOZuGFi6JnifSte4j2Zg0znWugF0HGG3W</lozinka>
         <uloga>G</uloga>
     </korisnik>
 
     <korisnik>
         <ime_i_prezime>Zdravstveni Radnik</ime_i_prezime>
         <email>zradnik@maildrop.cc</email>
-        <lozinka>test</lozinka>
+        <lozinka>$2a$10$lR.P3q9TUo42.EYgMTInleGQz4WYbkn12MoG0SYJwo69GYg3lOD9S</lozinka>
         <uloga>Z</uloga>
     </korisnik>
 </lista_korisnika>

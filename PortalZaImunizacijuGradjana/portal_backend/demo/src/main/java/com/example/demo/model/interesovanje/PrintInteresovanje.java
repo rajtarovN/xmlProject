@@ -16,7 +16,9 @@ public class PrintInteresovanje {
         System.out.println("------------->Broj mobilnog: "+ interesovanje.getLicneInformacije().getKontakt().getBrojMobilnog());
         System.out.println("------------->Broj fiksnog: "+ interesovanje.getLicneInformacije().getKontakt().getBrojFiksnog());
         System.out.println("Lokacija primanja vakcine: " + interesovanje.getLokacijaPrimanjaVakcine().getValue());
-        System.out.println("Proizvodjac: " + interesovanje.getProizvodjac());
+        for (String p : interesovanje.getProizvodjaci().getProizvodjac()) {
+        	System.out.println("Proizvodjac: " + p);
+		}
         System.out.println("Datum podnosenja interesovanja: " + interesovanje.getDatumPodnosenjaInteresovanja().getValue());
     }
 }

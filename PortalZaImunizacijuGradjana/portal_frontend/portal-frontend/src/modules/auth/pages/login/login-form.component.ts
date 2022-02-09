@@ -8,6 +8,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import * as JsonToXML from  'js2xmlparser';
 import { AuthenticationService } from '../../service/authentication-service/authentication.service';
+import { XmlParser } from '@angular/compiler';
 
 @Component({
   selector: 'app-login-form',
@@ -52,26 +53,34 @@ export class LoginFormComponent implements OnInit {
         }
       };
       let data: any = JsonToXML.parse("korisnikPrijavaDTO", user, options);
-      this.loginForm.reset();
+      
       this.authService.login(data).subscribe(response => {
-        this.toastr.success('Uspesno logovanje!');
-        localStorage.setItem('email',response.email);
-        localStorage.setItem('accessToken', response.authenticationToken);
-        localStorage.setItem('uloga', response.uloga);
-        localStorage.setItem('imeIprezime', response.imeIprezime);
+        let xmlDoc = this.parser.parseFromString(response,"text/xml");
+        let imeIprezime = xmlDoc.getElementsByTagName("imeIprezime")[0].childNodes[0].nodeValue;
+        let token = xmlDoc.getElementsByTagName("authenticationToken")[0].childNodes[0].nodeValue;
+        let uloga = xmlDoc.getElementsByTagName("uloga")[0].childNodes[0].nodeValue;
+        let email = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
 
-        if(response.uloga === "G") {//gradjanin
+        this.toastr.success('Uspesno logovanje!');
+        localStorage.setItem('email', String(email));
+        localStorage.setItem('accessToken', String(token));
+        localStorage.setItem('uloga', String(uloga));
+        localStorage.setItem('imeIprezime', String(imeIprezime));
+        let ul = String(uloga);
+
+        this.loginForm.reset();
+        if(ul.toUpperCase() === "G") {//gradjanin
           this.router.navigate(['/portal/gradjanin/homepage']);
         }
-        else if(response.uloga === "Z"){//zdravstveni radnik
+        else if(ul.toUpperCase() === "Z"){//zdravstveni radnik
           this.router.navigate(['/portal/zradnik/homepage']);
         }
       }, error => {
         this.toastr.error(error.error);
       })
     }
+  
   }
-
 
 
  }

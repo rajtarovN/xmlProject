@@ -1,6 +1,12 @@
 package com.example.demo.model.korisnik;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -156,8 +162,11 @@ public class Korisnik implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<Authority> authorities = new ArrayList<Authority>();
+
+        authorities.add(new Authority("ROLE_" + this.uloga));
+
+        return authorities;
     }
 
     @Override
