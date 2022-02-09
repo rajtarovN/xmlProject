@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.util.DBManager;
 import com.example.demo.util.ExistManager;
 import com.example.demo.util.FusekiManager;
 import com.example.demo.util.MetadataExtractor;
@@ -7,9 +8,13 @@ import org.exist.xupdate.XUpdateProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.xmldb.api.base.ResourceSet;
+import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
+import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +22,7 @@ import java.util.List;
 @Repository
 public class SaglasnostRepository {
 
-    private String collectionId = "/db/portal/saglasnosti";
-    private String documentId = "saglasnost.xml";
+    private String collectionId = "/db/portal/lista_saglasnosti";
 
     private static final String ID_STRING = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/";
 
@@ -40,6 +44,9 @@ public class SaglasnostRepository {
     @Autowired
     private FusekiManager fusekiManager;
 
+    @Autowired
+    private DBManager dbManager;
+
     public List<String> pretragaTermina(String imePrezime, String datumTermina) throws Exception {
         List<String> ids = new ArrayList<>();
 
@@ -47,8 +54,8 @@ public class SaglasnostRepository {
         if (imePrezime != null && datumTermina != null) {
             // po imePrezime i datumTermina
             ArrayList<String> params = new ArrayList<>();
-            params.add(datumTermina);
-            params.add(imePrezime);
+            params.add("\"" +datumTermina+"\"");
+            params.add("\"" + imePrezime + "\"" );
 
             ids = this.fusekiManager.query("/lista_saglasnosti", SPARQL_FILE + "saglasnost_datum_imeprezime.rq", params);
             return ids;
@@ -56,7 +63,7 @@ public class SaglasnostRepository {
             if (datumTermina != null) {
                 // samo po datumu
                 ArrayList<String> params = new ArrayList<>();
-                params.add(datumTermina);
+                params.add("\"" + datumTermina +"\"");
 
                 ids = this.fusekiManager.query("/lista_saglasnosti", SPARQL_FILE + "saglasnost_datum.rq", params);
                 return ids;
@@ -66,10 +73,10 @@ public class SaglasnostRepository {
         return ids;
     }
 
-    public ResourceSet pronadjiPoId(long id) {
+    public XMLResource pronadjiPoId(long id) throws IllegalAccessException, JAXBException, InstantiationException, IOException, XMLDBException, ClassNotFoundException {
         //TODO jedan xml il posebni xml-ovi
         //String id_Str = ID_STRING + id;
-        String xPath = "/lista_saglasnosti/zalba_cutanje[@Broj_saglasnosti='" + id + "']";
+        /*String xPath = "/lista_saglasnosti/zalba_cutanje[@Broj_saglasnosti='" + id + "']";
         ResourceSet set;
         try {
             set = this.existManager.retrieve(collectionId, xPath, TARGET_NAMESPACE);
@@ -78,7 +85,8 @@ public class SaglasnostRepository {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }
+        }*/
+        return dbManager.readFileFromDB("saglasnost_"+id+".xml", collectionId);
     }
 
     public void saveRDF(String content, String uri)  throws Exception {

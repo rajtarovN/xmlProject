@@ -21,7 +21,7 @@ public class SaglasnostDTO {
         this.ime = saglasnost.getPacijent().getLicniPodaci().getIme().getValue();
         this.prezime = saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        this.datum_termina = ft.format(saglasnost.getPacijent().getDatum().getValue());
+        this.datum_termina = saglasnost.getPacijent().getDatum().getValue().toString();
         this.email = saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().getValue();
     }
 

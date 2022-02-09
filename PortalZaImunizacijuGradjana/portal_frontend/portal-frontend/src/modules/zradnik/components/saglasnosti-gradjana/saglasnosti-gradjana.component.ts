@@ -6,7 +6,10 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import * as txml from 'txml';
 import { SaglasnostService } from 'src/modules/shared/services/saglasnost-service/saglasnost.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { SaglasnostGradjanaElement } from 'src/modules/zradnik/models/saglasnost-gradjana-element';
 
 @Component({
   selector: 'app-saglasnosti-gradjana',
@@ -19,10 +22,12 @@ export class SaglasnostiGradjanaComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   searchForm: FormGroup;
   searchString: string;
+  searchDate: Date;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  parser = new DOMParser();
 
-  displayedColumns: string[] = ['Email', 'Ime', 'Prezime', 'Datum'];
+  displayedColumns: string[] = ['Email', 'Ime', 'Prezime', 'Datum', "Popuni evidenciju", "Izdaj potvrdu"];
 
   constructor(
     private fb: FormBuilder,
@@ -39,11 +44,50 @@ export class SaglasnostiGradjanaComponent implements OnInit {
       filter: [null],
     });
     this.searchString = "";
+    this.searchDate = new Date();
    }
 
   ngOnInit(): void {
-    this.saglasnostService.searchTermine(new Date(), '').subscribe((response) => {
-      this.setData(response);
+    this.getData();
+  }
+
+  getData(){
+    this.saglasnostService.searchTermine(new Date(), 'all').subscribe((response) => {
+      let obj: any = txml.parse(response);
+      let list: Array<SaglasnostGradjanaElement> = [];
+      obj[0].children.forEach((element:any )=> {
+        const temp : SaglasnostGradjanaElement = {
+          brojSaglasnosti: String(element.children[0].children[0]),
+          ime: String(element.children[1].children[0]),
+          prezime: String(element.children[2].children[0]),
+          datum_termina: String(element.children[3].children[0]),
+          email: String(element.children[4].children[0]),
+          vakcinisan: false
+        };
+        list.push(temp);
+      });
+      this.setData(list);
+    });
+  }
+
+  search(){
+    this.searchString =
+      this.searchForm.value.search != null ? this.searchForm.value.search : 'all';
+    this.saglasnostService.searchTermine(this.searchDate, this.searchString).subscribe((response) => {
+      let obj: any = txml.parse(response);
+      let list: Array<SaglasnostGradjanaElement> = [];
+      obj[0].children.forEach((element:any )=> {
+        const temp : SaglasnostGradjanaElement = {
+          brojSaglasnosti: String(element.children[0].children[0]),
+          ime: String(element.children[1].children[0]),
+          prezime: String(element.children[2].children[0]),
+          datum_termina: String(element.children[3].children[0]),
+          email: String(element.children[4].children[0]),
+          vakcinisan: false
+        };
+        list.push(temp);
+      });
+      this.setData(list);
     });
   }
 
@@ -60,4 +104,13 @@ export class SaglasnostiGradjanaComponent implements OnInit {
       this.liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+  onDateChange( event: MatDatepickerInputEvent<Date>) {
+    this.searchDate = (event.value != null ? event.value : new Date());
+  }
+
+  givePotvrdu(brojSaglasnosti: string){}
+
+  openEvidencija(brojSaglasnosti: string){}
+
 }

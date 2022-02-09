@@ -1,14 +1,11 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
 SELECT ?obrazac_saglasnosti_za_imunizaciju FROM <%s>
 WHERE {
-  {
     ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/datum_termina> ?date .
     ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/prezime> ?prezime .
-    FILTER ( ?date == %s^^xs:date && regex(str(?prezime), %s, "i"))
-  }
-  UNION
-  {
-    ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/datum_termina> ?date .
     ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/ime> ?ime .
-    FILTER ( ?date == %s^^xs:date && regex(str(?ime), %s, "i"))
-  }
+    BIND(xs:string(%s) as ?date1) .
+    BIND(xs:string(%s) as ?searchPhrase) .
+    BIND(xs:string(?date) as ?date2) .
+    FILTER ( ?date1 = ?date2 && ( regex(str(?prezime), ?searchPhrase, "i") || regex(str(?ime), ?searchPhrase, "i")))
 }

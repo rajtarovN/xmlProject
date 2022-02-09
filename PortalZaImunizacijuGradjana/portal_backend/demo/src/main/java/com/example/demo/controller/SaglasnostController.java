@@ -23,10 +23,13 @@ public class SaglasnostController {
     private SaglasnostService saglasnostService;
 
     @PreAuthorize("hasRole('Z')")
-    @GetMapping(path = "/pretragaTermina/{imePrezime}/{datumTermina}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/pretragaTermina/{imePrezime}/{datumTermina}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<ArrayList<SaglasnostDTO>> pretragaTermina(@PathVariable("imePrezime") String imePrezime,
                                                              @PathVariable("datumTermina") Date datumTermina) {
         ArrayList<SaglasnostDTO> lista = new ArrayList<>();
+        if(imePrezime.equals("all")){
+            imePrezime = null;
+        }
 
         try {
             lista = this.saglasnostService.pretragaTermina(imePrezime, datumTermina);

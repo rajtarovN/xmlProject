@@ -11,9 +11,14 @@ import { SaglasnostGradjanaElement } from 'src/modules/zradnik/models/saglasnost
 export class SaglasnostService {
   constructor(private http: HttpClient, private route: Router) {}
 
-  searchTermine(datumTermina: Date, imePrezime: string): Observable<Array<SaglasnostGradjanaElement>> {
-    return this.http.get<Array<SaglasnostGradjanaElement>>(
-      `${environment.baseUrl}/${environment.searchTermine}/${imePrezime}/${datumTermina}`
+  searchTermine(datumTermina: Date, imePrezime: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.searchTermine}/${imePrezime}/${datumTermina}`,
+      { headers: headers,
+        responseType: "text" }
     );
   }
 }

@@ -127,9 +127,10 @@ public class FusekiManager {
 
         // Querying the named graph with a referenced SPARQL query
         System.out.println("[INFO] Loading SPARQL query from file \"" + sparqlFilePath + "\"");
+        System.out.println(queryParams.toArray());
         String sparqlQuery = String.format(FileUtil.readFile(sparqlFilePath, StandardCharsets.UTF_8),
                 queryParams.toArray());
-        System.out.println(queryParams.toArray());
+
 
         System.out.println(sparqlQuery);
 
