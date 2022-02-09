@@ -1,14 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
-import { HelperService } from '../helper-service/helper.service';
+
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryService {
-  constructor(private http: HttpClient, private helper: HelperService) {}
+  constructor(private http: HttpClient) {}
 
   url = 'http://localhost:8082/api/zalihe';
 
