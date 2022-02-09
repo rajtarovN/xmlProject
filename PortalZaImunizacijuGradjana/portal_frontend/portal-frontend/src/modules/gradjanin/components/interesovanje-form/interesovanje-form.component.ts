@@ -130,7 +130,7 @@ export class InteresovanjeFormComponent implements OnInit {
                           about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/${this.addInteresovanjeForm.value.JMBG}/${date}">
                           <Licne_informacije>
                             <Drzavljanstvo>${this.addInteresovanjeForm.value.drzavljanstva}</Drzavljanstvo>
-                            <Jmbg property="pred:jmbg>${this.addInteresovanjeForm.value.Jmbg}</Jmbg>
+                            <Jmbg property="pred:jmbg">${this.addInteresovanjeForm.value.Jmbg}</Jmbg>
                             <Ime property="pred:ime">${this.addInteresovanjeForm.value.ime}</Ime>
                             <Prezime property="pred:prezime">${this.addInteresovanjeForm.value.prezime}</Prezime>
                             <Kontakt>
@@ -153,7 +153,7 @@ export class InteresovanjeFormComponent implements OnInit {
       .addInteresovanje(
         interesovanje,
         this.addInteresovanjeForm.value.JMBG,
-        this.datum
+        date
       )
       .subscribe(
         (response) => {

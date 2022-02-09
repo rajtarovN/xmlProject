@@ -11,15 +11,10 @@ import { AppRoutingModule } from '../root/app-routing.module';
 import { MaterialModule } from '../root/material-module';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from '../shared/shared.module';
-import { SaglasnostFormComponent } from './components/saglasnost-form/saglasnost-form.component';
 import { InteresovanjeFormComponent } from './components/interesovanje-form/interesovanje-form.component';
 
 @NgModule({
-  declarations: [
-    GradjaninHomepageComponent,
-    SaglasnostFormComponent,
-    InteresovanjeFormComponent,
-  ],
+  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

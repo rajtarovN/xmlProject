@@ -1,26 +1,27 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.KorisnikPrijavaDTO;
-import com.example.demo.exceptions.ForbiddenException;
-import com.example.demo.model.korisnik.Korisnik;
-import com.example.demo.model.korisnik.ListaKorisnika;
-import com.example.demo.model.liste.JaxbLista;
-import com.example.demo.repository.KorisnikRepository;
-import com.example.demo.util.DBManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.xmldb.api.base.Resource;
-import org.xmldb.api.base.XMLDBException;
-import org.xmldb.api.modules.XMLResource;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
+
+import com.example.demo.dto.KorisnikPrijavaDTO;
+import com.example.demo.exceptions.ForbiddenException;
+import com.example.demo.model.korisnik.Korisnik;
+import com.example.demo.model.korisnik.ListaKorisnika;
+import com.example.demo.repository.KorisnikRepository;
+import com.example.demo.util.DBManager;
 
 @Service
 public class KorisnikService  {
@@ -89,7 +90,7 @@ public class KorisnikService  {
             String documentId = "korisnik";
             String collectionId = "/db/portal";
             OutputStream os = parsiraj(documentId, "korisnik");
-            dbManager.saveFileToDB(documentId, collectionId, os);
+            dbManager.saveFileToDB(documentId, collectionId, os.toString());
         }catch (Exception e){
             e.printStackTrace();
             throw new ForbiddenException("Error pri inicijalizaciji baze.");

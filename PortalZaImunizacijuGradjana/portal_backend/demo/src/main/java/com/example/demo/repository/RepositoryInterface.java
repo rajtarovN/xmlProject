@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.xmldb.api.modules.XMLResource;
 
-import com.example.demo.util.DataManager;
+import com.example.demo.util.DBManager;
 import com.example.demo.util.FusekiManager;
 import com.example.demo.util.MetadataExtractor;
 
@@ -17,7 +17,7 @@ import com.example.demo.util.MetadataExtractor;
 public abstract class RepositoryInterface {
 
     @Autowired
-    private DataManager dbManager;
+    private DBManager dbManager;
   
     @Autowired
     private FusekiManager fusekiManager;

@@ -1,13 +1,10 @@
 package com.example.demo.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringReader;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
@@ -15,19 +12,11 @@ import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.model.interesovanje.Interesovanje;
-import com.example.demo.model.korisnik.ListaKorisnika;
 import com.example.demo.repository.InteresovanjeRepository;
 
 @Service
 public class InteresovanjeService extends AbstractService{
-
-	protected String collectionId;
-
-	protected String fusekiCollectionId;
-
-	protected InteresovanjeRepository interesovanjeRepository;
 	
 	@Autowired
 	public InteresovanjeService(InteresovanjeRepository interesovanjeRepository) {
@@ -58,7 +47,7 @@ public class InteresovanjeService extends AbstractService{
 		content = finalString;
 
 		repository.saveXML(documentId, collectionId, content);
-		repository.saveRDF(content, documentId);
+		//repository.saveRDF(content, documentId);
 	}
 
 }
