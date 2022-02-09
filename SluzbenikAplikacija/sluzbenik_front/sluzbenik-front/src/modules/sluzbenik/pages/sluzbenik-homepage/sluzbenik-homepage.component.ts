@@ -7,23 +7,23 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-sluzbenik-homepage',
   templateUrl: './sluzbenik-homepage.component.html',
-  styleUrls: ['./sluzbenik-homepage.component.scss']
+  styleUrls: ['./sluzbenik-homepage.component.scss'],
 })
 export class SluzbenikHomepageComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   showModalLogout: boolean;
+  activeView = '3';
 
   constructor(
     private observer: BreakpointObserver,
     public router: Router,
-    private toastr: ToastrService,
-  ) { 
+    private toastr: ToastrService
+  ) {
     this.showModalLogout = false;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.observer.observe(['(max-width: 800px)']).subscribe((res) => {
@@ -45,11 +45,11 @@ export class SluzbenikHomepageComponent implements OnInit {
     this.showModalLogout = false;
   }
 
-  onRegistarGradjanaClicked(){}
+  onRegistarGradjanaClicked() {}
 
-  onIzvestajOImunizacijiClicked(){}
+  onIzvestajOImunizacijiClicked() {}
 
-  onDostupnevakcineClicked(){}
+  onDostupnevakcineClicked() {}
 
-  onArhivaClicked(){}
+  onArhivaClicked() {}
 }

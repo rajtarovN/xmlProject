@@ -58,14 +58,6 @@ export class InteresovanjeFormComponent implements OnInit {
     },
   ];
 
-  idZalbe: String | null = '';
-  brojResenja = '';
-  datum = '';
-  sadrzajObrazlozenja = '';
-  ime = '';
-  prezime = '';
-  cena = '';
-
   constructor(
     private fb: FormBuilder,
     private service: InteresovanjeService,

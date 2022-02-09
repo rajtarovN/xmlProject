@@ -78,7 +78,7 @@ public class KorisnikService  {
             String documentId = "korisnik";
             String collectionId = "/db/sluzbenik";
             OutputStream os = parsiraj(documentId, "korisnik");
-            dbManager.saveFileToDB(documentId, collectionId, os);
+            dbManager.saveFileToDB(documentId, collectionId, os.toString());
         }catch (Exception e){
             e.printStackTrace();
             throw new ForbiddenException("Error pri inicijalizaciji baze.");
