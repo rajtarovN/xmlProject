@@ -12,9 +12,10 @@ import { MaterialModule } from '../root/material-module';
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from '../shared/shared.module';
 import { InteresovanjeFormComponent } from './components/interesovanje-form/interesovanje-form.component';
+import { PodnosenjeZahtevaComponent } from './components/podnosenje-zahteva/podnosenje-zahteva.component';
 
 @NgModule({
-  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent],
+  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
