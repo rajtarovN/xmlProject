@@ -5,7 +5,8 @@
     xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost_schema.xsd"
     about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345"
-    Broj_saglasnosti="12345">
+    Broj_saglasnosti="12345"
+    Termin="12:00:00">
     <Pacijent>
         <Drzavljanin_srbije>
             <Jmbg property="pred:jmbg">1234567891234</Jmbg>
