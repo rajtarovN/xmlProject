@@ -281,7 +281,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *                     &lt;complexType&gt;
  *                       &lt;simpleContent&gt;
  *                         &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;date"&gt;
- *                           &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:datum_izdavanja" /&gt;
+ *                           &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:datum_termina" /&gt;
  *                         &lt;/extension&gt;
  *                       &lt;/simpleContent&gt;
  *                     &lt;/complexType&gt;
@@ -448,8 +448,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *           &lt;/complexType&gt;
  *         &lt;/element&gt;
  *       &lt;/sequence&gt;
- *       &lt;attribute name="about" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="about" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
  *       &lt;attribute name="Broj_saglasnosti" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
+ *       &lt;attribute name="vocab" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
@@ -470,9 +471,13 @@ public class Saglasnost {
     @XmlElement(name = "Evidencija_o_vakcinaciji", required = true)
     protected Saglasnost.EvidencijaOVakcinaciji evidencijaOVakcinaciji;
     @XmlAttribute(name = "about")
+    @XmlSchemaType(name = "anyURI")
     protected String about;
     @XmlAttribute(name = "Broj_saglasnosti")
     protected String brojSaglasnosti;
+    @XmlAttribute(name = "vocab")
+    @XmlSchemaType(name = "anyURI")
+    protected String vocab;
 
     /**
      * Gets the value of the pacijent property.
@@ -569,7 +574,29 @@ public class Saglasnost {
     public void setBrojSaglasnosti(String value) {
         this.brojSaglasnosti = value;
     }
+    /**
+     * Gets the value of the vocab property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getVocab() {
+        return vocab;
+    }
 
+    /**
+     * Sets the value of the vocab property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setVocab(String value) {
+        this.vocab = value;
+    }
 
     /**
      * <p>Java class for anonymous complex type.
@@ -1130,6 +1157,10 @@ public class Saglasnost {
                 return this.vakcina;
             }
 
+            public void setVakcina(List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> lista) {
+                this.vakcina = lista;
+            }
+
             /**
              * Gets the value of the privremeneKontraindikacije property.
              * 
@@ -1211,8 +1242,9 @@ public class Saglasnost {
             })
             public static class PrivremeneKontraindikacije {
 
-                @XmlElementRef(name = "Datum_utvrdjivanja", namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju", type = JAXBElement.class, required = false)
-                protected JAXBElement<XMLGregorianCalendar> datumUtvrdjivanja;
+                @XmlElement(name = "Datum_utvrdjivanja")
+                @XmlSchemaType(name = "date")
+                protected XMLGregorianCalendar datumUtvrdjivanja;
                 @XmlElement(name = "Dijagnoza", required = true)
                 protected String dijagnoza;
 
@@ -1221,10 +1253,10 @@ public class Saglasnost {
                  * 
                  * @return
                  *     possible object is
-                 *     {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
+                 *     {@link XMLGregorianCalendar }
                  *     
                  */
-                public JAXBElement<XMLGregorianCalendar> getDatumUtvrdjivanja() {
+                public XMLGregorianCalendar getDatumUtvrdjivanja() {
                     return datumUtvrdjivanja;
                 }
 
@@ -1233,10 +1265,10 @@ public class Saglasnost {
                  * 
                  * @param value
                  *     allowed object is
-                 *     {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
+                 *     {@link XMLGregorianCalendar }
                  *     
                  */
-                public void setDatumUtvrdjivanja(JAXBElement<XMLGregorianCalendar> value) {
+                public void setDatumUtvrdjivanja(XMLGregorianCalendar value) {
                     this.datumUtvrdjivanja = value;
                 }
 
@@ -1903,7 +1935,7 @@ public class Saglasnost {
      *           &lt;complexType&gt;
      *             &lt;simpleContent&gt;
      *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;date"&gt;
-     *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:datum_izdavanja" /&gt;
+     *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:datum_termina" /&gt;
      *               &lt;/extension&gt;
      *             &lt;/simpleContent&gt;
      *           &lt;/complexType&gt;
@@ -2067,7 +2099,7 @@ public class Saglasnost {
          * &lt;complexType&gt;
          *   &lt;simpleContent&gt;
          *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;date"&gt;
-         *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:datum_izdavanja" /&gt;
+         *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:datum_termina" /&gt;
          *     &lt;/extension&gt;
          *   &lt;/simpleContent&gt;
          * &lt;/complexType&gt;
@@ -2121,7 +2153,7 @@ public class Saglasnost {
              */
             public String getProperty() {
                 if (property == null) {
-                    return "pred:datum_izdavanja";
+                    return "pred:datum_termina";
                 } else {
                     return property;
                 }

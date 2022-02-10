@@ -8,7 +8,7 @@ public class PathConstants {
 	 public static final String INTERESOVANJE_XML =  BASE + "/xml/interesovanje.xml";
 	 public static final String IZVESTAJ_XML =  BASE + "/xml/izvestaj.xml";
 	 public static final String POTVRDA_O_VAKCINACIJI_XML =  BASE + "/xml/potvrda_o_vakcinaciji.xml";
-	 public static final String SAGLASNOST_XML =  BASE + "/xml/saglasnost.xml";
+	 public static final String SAGLASNOST_XML =  BASE + "/xml/saglasnost_12345.xml";
 	 public static final String ZAHTEV_ZA_SERTIFIKAT_XML =  BASE + "/xml/zahtev_za_sertifikat.xml";
 	 
 	 public static final String DIGITALNISERTIFIKAT_XSL =  BASE + "/xsl/digitalni_sertifikat.xsl";

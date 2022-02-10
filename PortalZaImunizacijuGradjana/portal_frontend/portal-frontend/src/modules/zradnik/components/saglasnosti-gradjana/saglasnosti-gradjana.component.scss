@@ -1,0 +1,47 @@
+table {
+  width: 100%;
+}
+
+.example-form {
+  width: 100%;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
+  text-shadow: 0 0 black;
+}
+
+input{
+    background: transparent;
+    background-color: transparent;
+}
+
+.example-container {
+  width: 45%;
+  margin-left: 10px;
+  font-size: large;
+  background: transparent;
+}
+
+.form_input {
+  width: 45%;
+  margin-left: 10px;
+  font-size: large;
+  text-shadow: 0 0 black;
+}
+
+.addEmployeeBttn {
+  text-align: right;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+mat-card {
+  height: 75%;
+  background-color: transparent;
+  box-shadow: none !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0.4375em 0;
+  text-shadow: 0 0 black;
+}

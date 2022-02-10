@@ -118,7 +118,6 @@ public class DBManager {
             System.out.println("[INFO] Done. File is save to DB.");
 
         } finally {
-
             // don't forget to cleanup
             if (res != null) {
                 try {
@@ -127,7 +126,6 @@ public class DBManager {
                     xe.printStackTrace();
                 }
             }
-
             if (col != null) {
                 try {
                     col.close();
@@ -136,7 +134,6 @@ public class DBManager {
                 }
             }
         }
-
         return res;
     }
 
