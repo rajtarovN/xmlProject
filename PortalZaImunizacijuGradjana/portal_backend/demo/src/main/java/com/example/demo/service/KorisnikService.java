@@ -1,37 +1,21 @@
 package com.example.demo.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
+import com.example.demo.dto.KorisnikPrijavaDTO;
+import com.example.demo.model.korisnik.Korisnik;
+import com.example.demo.repository.KorisnikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.Resource;
-import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import com.example.demo.dto.KorisnikPrijavaDTO;
-import com.example.demo.exceptions.ForbiddenException;
-import com.example.demo.model.korisnik.Korisnik;
-import com.example.demo.model.korisnik.ListaKorisnika;
-import com.example.demo.repository.KorisnikRepository;
-import com.example.demo.util.DBManager;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 @Service
 public class KorisnikService  {
 
     @Autowired
     private KorisnikRepository korisnikRepository;
-
-    @Autowired
-    private DBManager dbManager;
-
 
     public boolean registruj(String email, String korisnik) {
         boolean postoji = this.korisnikRepository.postojiPoMejlu(email);

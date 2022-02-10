@@ -50,7 +50,7 @@ public class SaglasnostService  extends AbstractService{
     @Autowired
     public SaglasnostService(SaglasnostRepository saglasnostRepository) {
 
-        super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/saglasnost/" );
+        super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/lista_saglasnosti" );
     }
 
     public ArrayList<SaglasnostDTO> pretragaTermina(String imePrezime, Date datumTermina) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException, ParseException, DatatypeConfigurationException {
@@ -59,11 +59,6 @@ public class SaglasnostService  extends AbstractService{
             datumTermina = new Date();
         }
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-
-        /*DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-        Date date=df.parse( ft.format(datumTermina));
-        XMLGregorianCalendar gDateFormatted =
-                DatatypeFactory.newInstance().newXMLGregorianCalendar(df.format(date));*/
 
         try {
             ids = this.saglasnostRepository.pretragaTermina(imePrezime, ft.format(datumTermina));
