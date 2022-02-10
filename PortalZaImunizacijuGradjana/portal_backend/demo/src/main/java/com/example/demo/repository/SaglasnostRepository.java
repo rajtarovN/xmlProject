@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class SaglasnostRepository {
+public class SaglasnostRepository extends RepositoryInterface{
 
     private String collectionId = "/db/portal/lista_saglasnosti";
 
@@ -96,5 +96,6 @@ public class SaglasnostRepository {
         InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
         fusekiManager.writeFuseki(rdfInputStream, uri);
     }
+
 
 }

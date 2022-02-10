@@ -8,13 +8,15 @@ import { SluzbenikHomepageComponent } from './pages/sluzbenik-homepage/sluzbenik
 import { SluzbenikRoutes } from './sluzbenik.routes';
 import { LogoutComponent } from './components/logout/logout.component';
 import { CommonModule } from '@angular/common';
+import { InventoryFormComponent } from './components/inventory-form/inventory-form.component';
 
 
 
 @NgModule({
   declarations: [
     SluzbenikHomepageComponent,
-    LogoutComponent
+    LogoutComponent,
+    InventoryFormComponent
   ],
   imports: [
     CommonModule,

@@ -35,13 +35,23 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class SaglasnostService {
+public class SaglasnostService  extends AbstractService{
+
+    protected String collectionId;
+
+    protected String fusekiCollectionId;
 
     @Autowired
     private SaglasnostRepository saglasnostRepository;
 
     @Autowired
     private DBManager dbManager;
+
+    @Autowired
+    public SaglasnostService(SaglasnostRepository saglasnostRepository) {
+
+        super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/saglasnost/" );
+    }
 
     public ArrayList<SaglasnostDTO> pretragaTermina(String imePrezime, Date datumTermina) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException, ParseException, DatatypeConfigurationException {
         List<String> ids = new ArrayList<>();

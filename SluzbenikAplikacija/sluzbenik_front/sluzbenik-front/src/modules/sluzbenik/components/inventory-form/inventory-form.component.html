@@ -1,0 +1,89 @@
+<mat-card class="card-position">
+  <mat-card-title> Евиденција залиха вакцина </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="addInventoryForm" *ngIf="addInventoryForm">
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Pfizer-BioNTech</mat-label>
+            <input
+              matInput
+              type="number"
+              name="pfizer"
+              formControlName="pfizer"
+              [min]="this.pfizerInv"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Sputnik</mat-label>
+            <input
+              matInput
+              type="number"
+              name="sputnik"
+              formControlName="sputnik"
+              [min]="this.sputnikInv"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Sinopharm</mat-label>
+            <input
+              matInput
+              type="number"
+              name="sinopharm"
+              formControlName="sinopharm"
+              [min]="this.sinopharmInv"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>AstraZeneca</mat-label>
+            <input
+              matInput
+              type="number"
+              name="astra"
+              formControlName="astra"
+              [min]="this.astraZenecaInv"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Moderna</mat-label>
+            <input
+              matInput
+              type="number"
+              name="moderna"
+              formControlName="moderna"
+              [min]="this.modernaInv"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <button
+        mat-raised-button
+        color="primary"
+        aria-label="Сачувај"
+        [disabled]="addInventoryForm.invalid"
+        (click)="send()"
+        id="sendBtn"
+      >
+        Сачувај
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

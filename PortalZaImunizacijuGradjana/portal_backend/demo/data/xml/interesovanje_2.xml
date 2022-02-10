@@ -5,7 +5,7 @@
     xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje ../schema/interesovanje.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/1234567890999_2021-09-24">
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/1234567890999/2021-09-24">
     <Licne_informacije>
         <Drzavljanstvo >Drzavljanin_republike_srbije</Drzavljanstvo>
         <Jmbg property="pred:jmbg">1234567890999</Jmbg>
@@ -16,9 +16,12 @@
             <Broj_mobilnog >0612345678</Broj_mobilnog>
             <Broj_fiksnog >1234567</Broj_fiksnog>
         </Kontakt>
-        <Davalac_krvi/>
+        <Davalac_krvi Davalac="true"/>
     </Licne_informacije>
     <Lokacija_primanja_vakcine property="pred:lokacija_primanja_vakcine">Beograd</Lokacija_primanja_vakcine>
-    <Proizvodjac >Pfizer-BioNTech</Proizvodjac>
+    <Proizvodjaci>
+        <Proizvodjac >Pfizer-BioNTech</Proizvodjac>
+        <Proizvodjac >Moderna</Proizvodjac>
+    </Proizvodjaci>
     <Datum_podnosenja_interesovanja property="pred:datum_podnosenja_interesovanja">2021-09-24</Datum_podnosenja_interesovanja>
 </Interesovanje>

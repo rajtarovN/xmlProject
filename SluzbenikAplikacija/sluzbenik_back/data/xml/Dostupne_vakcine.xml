@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zalihe xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/dostupne_vakcine"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/odostupne_vakcine file:dostupne_vakcine.xsd">
+    <Vakcina>
+        <Naziv>Pfizer-BioNTech</Naziv>
+        <Dostupno>50</Dostupno>
+        <Rezervisano>10</Rezervisano>
+    </Vakcina>
+    <Vakcina>
+        <Naziv>Moderna</Naziv>
+        <Dostupno>10</Dostupno>
+        <Rezervisano>0</Rezervisano>
+    </Vakcina>
+    <Vakcina>
+        <Naziv>AstraZeneca</Naziv>
+        <Dostupno>10</Dostupno>
+        <Rezervisano>9</Rezervisano>
+    </Vakcina>
+    <Vakcina>
+        <Naziv>Sinopharm</Naziv>
+        <Dostupno>0</Dostupno>
+        <Rezervisano>0</Rezervisano>
+    </Vakcina>
+    <Vakcina>
+        <Naziv>Sputnik</Naziv>
+        <Dostupno>30</Dostupno>
+        <Rezervisano>30</Rezervisano>
+    </Vakcina>
+</Zalihe>
