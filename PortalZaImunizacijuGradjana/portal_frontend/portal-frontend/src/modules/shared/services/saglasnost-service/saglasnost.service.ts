@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EvidencijaVakcinacije } from 'src/modules/zradnik/models/evidencija-vakcinacije';
+import { EvidentiraneVakcine } from 'src/modules/zradnik/models/evidentirane-vakcine';
 import { SaglasnostGradjanaElement } from 'src/modules/zradnik/models/saglasnost-gradjana-element';
 
 @Injectable({
@@ -41,6 +42,18 @@ export class SaglasnostService {
     return this.http.post(
       `${environment.baseUrl}/${environment.saveEvidenciju}/${brojSaglasnosti}`,
       evidencija,
+      { headers: headers,
+        responseType: "text", }
+    );
+  }
+
+  saveEvidentiraneVakcine(vakcina: EvidentiraneVakcine, brojSaglasnosti: string): Observable<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/xml',
+    });
+    return this.http.post(
+      `${environment.baseUrl}/${environment.saveEvidentiraneVakcine}/${brojSaglasnosti}`,
+      vakcina,
       { headers: headers,
         responseType: "text", }
     );

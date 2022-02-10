@@ -10,7 +10,8 @@ export const environment = {
   logout: 'korisnik/logout',
   searchTermine: 'saglasnost/pretragaTermina',
   getEvidentiraneVakcine: 'saglasnost/pronadjiPoEmailu',
-  saveEvidenciju: 'saglasnost/sacuvajEvidenciju'
+  saveEvidenciju: 'saglasnost/sacuvajEvidenciju',
+  saveEvidentiraneVakcine: 'saglasnost/sacuvajEvidentiraneVakcine'
 };
 
 /*

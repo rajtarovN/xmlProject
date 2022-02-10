@@ -1,6 +1,7 @@
 package com.example.demo.util;
 
 import com.example.demo.exceptions.ForbiddenException;
+import com.example.demo.model.korisnik.ListaKorisnika;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -28,14 +29,21 @@ import java.util.List;
 
 public class InitXmlAndRdfDb {
 
-    public static void inicijalizujBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
+    public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
         try {
+            //saglasnosti
             List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321");
             for(String documentId : docIds){
                 String collectionId = "/db/portal/lista_saglasnosti";
                 OutputStream os = parsiraj(documentId, "obrazac_saglasnosti_za_imunizaciju");
                 runXML(documentId, collectionId, os.toString());
             }
+            //korisnici
+            String documentId = "korisnik";
+            String collectionId = "/db/portal";
+            OutputStream os = parsiraj("korisnik", "korisnik");
+            runXML(documentId, collectionId, os.toString());
+
         }catch (Exception e){
             e.printStackTrace();
             throw new ForbiddenException("Error pri inicijalizaciji baze.");
@@ -53,9 +61,16 @@ public class InitXmlAndRdfDb {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-            Saglasnost saglasnost = (Saglasnost) unmarshaller
-                    .unmarshal(new File("data/xml/" + documentId + ".xml"));
-            marshaller.marshal(saglasnost, os);
+            if(type.equals("obrazac_saglasnosti_za_imunizaciju")) {
+                Saglasnost saglasnost = (Saglasnost) unmarshaller
+                        .unmarshal(new File("data/xml/" + documentId + ".xml"));
+                marshaller.marshal(saglasnost, os);
+            }
+            else if(type.equals("korisnik")){
+                ListaKorisnika listaKorisnika = (ListaKorisnika) unmarshaller
+                        .unmarshal(new File("data/xml/" + documentId + ".xml"));
+                marshaller.marshal(listaKorisnika, os);
+            }
             return os;
         }catch (Exception e){
             throw new ForbiddenException("Error pri parsiranju saglasnosti.");
@@ -167,7 +182,7 @@ public class InitXmlAndRdfDb {
         }
     }
 
-    public static void runRDF() throws IOException, SAXException, TransformerException {
+    public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
         List<String> docIds = Arrays.asList("saglasnost_12345.xml", "saglasnost_54321.xml");
         for(String documentId : docIds) {

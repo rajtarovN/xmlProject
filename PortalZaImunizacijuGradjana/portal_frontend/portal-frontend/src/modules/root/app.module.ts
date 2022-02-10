@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorInterceptor } from '../shared/interceptors/interceptor.interceptor';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { InterceptorInterceptor } from '../shared/interceptors/interceptor.inter
       useClass: InterceptorInterceptor,
       multi: true,
     },
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

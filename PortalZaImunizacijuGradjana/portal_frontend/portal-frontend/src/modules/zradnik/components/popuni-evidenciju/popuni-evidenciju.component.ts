@@ -13,8 +13,10 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import * as txml from 'txml';
+import * as JsonToXML from 'js2xmlparser';
 import { SaglasnostService } from 'src/modules/shared/services/saglasnost-service/saglasnost.service';
 import { EvidentiraneVakcine } from '../../models/evidentirane-vakcine';
+import { EvidencijaVakcinacije } from '../../models/evidencija-vakcinacije';
 
 @Component({
   selector: 'app-popuni-evidenciju',
@@ -22,8 +24,8 @@ import { EvidentiraneVakcine } from '../../models/evidentirane-vakcine';
   styleUrls: ['./popuni-evidenciju.component.scss'],
 })
 export class PopuniEvidencijuComponent implements OnInit {
-  @Input() email = "";
-  @Input() brojSaglasnosti = "";
+  @Input() email = '';
+  @Input() brojSaglasnosti = '';
   vakcForm: FormGroup;
   @Output() onEvidencijaClose = new EventEmitter();
   tabelaPopunjena: boolean;
@@ -32,6 +34,9 @@ export class PopuniEvidencijuComponent implements OnInit {
   showVakcinaPodatke: boolean;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  odlukaKomisije: string;
+  datumUtvrdjivanja: string;
+  dijagnoza: string;
   displayedColumns: string[] = [
     'Naziv vakcine',
     'Datum davanja vakcine',
@@ -58,31 +63,50 @@ export class PopuniEvidencijuComponent implements OnInit {
       telefon: [null, Validators.required],
     });
     this.showVakcinaPodatke = false;
+    this.odlukaKomisije = '';
+    this.datumUtvrdjivanja = '';
+    this.dijagnoza = '';
   }
 
   ngOnInit(): void {
     this.getTableElements();
   }
 
-  getTableElements(){
-    this.saglasnostService.getEvidentiranevakcine(this.email).subscribe((response) => {
-      let obj: any = txml.parse(response);
-      let list: Array<EvidentiraneVakcine> = [];
-      obj[0].children.forEach((element:any )=> {
-        const temp : EvidentiraneVakcine = {
-          nazivVakcine: String(element.children[0].children[0]),
-          datumDavanja: String(element.children[1].children[0]),
-          nacinDavanja: String(element.children[2].children[0]),
-          ekstremitet: String(element.children[3].children[0]),
-          serijaVakcine: String(element.children[4].children[0]),
-          proizvodjac: String(element.children[5].children[0]),
-          nezeljenaReakcija: String(element.children[6].children[0]),
-        };
-        list.push(temp);
-      });
-      this.data = list;
-      this.setData(list);
-    });
+  getTableElements() {
+    this.saglasnostService.getEvidentiranevakcine(this.email).subscribe(
+      (response) => {
+        if (response != 'Nema prethodno evidentiranih vakcina.') {
+          let obj: any = txml.parse(response);
+          let list: Array<EvidentiraneVakcine> = [];
+          if (obj[0].children != []) {
+            obj[0].children.forEach((element: any) => {
+              const temp: EvidentiraneVakcine = {
+                nazivVakcine: String(element.children[0].children[0]),
+                datumDavanja: String(element.children[1].children[0]),
+                nacinDavanja: String(element.children[2].children[0]),
+                ekstremitet: String(element.children[3].children[0]),
+                serijaVakcine: String(element.children[4].children[0]),
+                proizvodjac: String(element.children[5].children[0]),
+                nezeljenaReakcija:
+                  String(element.children[6].children[0]) ===
+                  ('undefined' || '' || null)
+                    ? '/'
+                    : String(element.children[6].children[0]),
+              };
+              list.push(temp);
+              console.log(String(element.children[6].children[0]));
+            });
+            this.data = list;
+            this.setData(list);
+          }
+        } else {
+          this.toastr.info(response);
+        }
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
   }
 
   setData(data: any[]) {
@@ -99,7 +123,7 @@ export class PopuniEvidencijuComponent implements OnInit {
     }
   }
 
-  cancel(){
+  cancel() {
     this.onEvidencijaClose.emit(true);
   }
 
@@ -107,26 +131,82 @@ export class PopuniEvidencijuComponent implements OnInit {
     if (
       this.vakcForm.value.zustanova === null ||
       this.vakcForm.value.vpunkt === null ||
-      this.vakcForm.value.details === null ||
+      this.vakcForm.value.ime === null ||
+      this.vakcForm.value.prezime === null ||
+      this.vakcForm.value.telefon === null ||
       this.tabelaPopunjena == false
     ) {
       this.toastr.error('Sva polja moraju biti popunjena!');
     } else {
-      //TODO olja
+      this.data.sort((n1, n2) => n1.datumDavanja - n2.datumDavanja);
+      const options = {
+        declaration: {
+          include: false,
+        },
+      };
+      const temp: EvidencijaVakcinacije = {
+        zdravstvenaUstanova: this.vakcForm.value.zustanova,
+        vakcinacijskiPunkkt: this.vakcForm.value.vpunkt,
+        imeLekara: this.vakcForm.value.ime,
+        prezimeLekara: this.vakcForm.value.prezime,
+        telefonLekara: this.vakcForm.value.telefon,
+        odlukaKomisije: this.odlukaKomisije,
+        datumUtvrdjivanja: this.datumUtvrdjivanja,
+        dijagnoza: this.dijagnoza,
+      };
+
+      let data: any = JsonToXML.parse(
+        'evidencijaVakcinacijeDTO',
+        temp,
+        options
+      );
+      this.saglasnostService
+        .saveEvidenciju(data, this.brojSaglasnosti)
+        .subscribe(
+          (response) => {
+            this.toastr.success('Uspesno sacuvana evidencija o vakcinaciji!');
+            this.data.forEach((value) => {
+              let vakcina: any = JsonToXML.parse(
+                'evidentiraneVakcineDTO',
+                value,
+                options
+              );
+              this.saglasnostService
+                .saveEvidentiraneVakcine(vakcina, this.brojSaglasnosti)
+                .subscribe(
+                  (response) => {
+                    this.toastr.success('Uspesno sacuvana evidentirana vakcina!');
+                  },
+                  (error) => {
+                    this.toastr.error(error.error);
+                  }
+                );
+            });
+            this.onEvidencijaClose.emit(true);
+          },
+          (error) => {
+            this.toastr.error(error.error);
+          }
+        );      
     }
   }
 
-  onTabelaVakcina(){
+  onTabelaVakcina() {
     this.showVakcinaPodatke = true;
   }
 
-  onPodaciOVakciniCloseClicked(item: boolean){
+  onPodaciOVakciniCloseClicked(item: boolean) {
     this.showVakcinaPodatke = false;
   }
 
-  onSacuvajVakcinaPodatkeClicked(item: EvidentiraneVakcine){
+  onPodaciOVakciniSacuvajClicked(item: EvidentiraneVakcine) {
+    this.odlukaKomisije = String(item.odlukaKomisije);
+    this.datumUtvrdjivanja = String(item.datumUtvrdjivanja);
+    this.dijagnoza = String(item.dijagnoza);
+    this.tabelaPopunjena = true;
     this.showVakcinaPodatke = false;
     this.data.push(item);
+    this.data.sort((n1, n2) => n1.datumDavanja - n2.datumDavanja);
     this.setData(this.data);
   }
 }

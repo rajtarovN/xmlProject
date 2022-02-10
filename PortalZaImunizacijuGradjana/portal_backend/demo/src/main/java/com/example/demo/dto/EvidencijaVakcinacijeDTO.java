@@ -10,7 +10,6 @@ public class EvidencijaVakcinacijeDTO {
     public String imeLekara;
     public String prezimeLekara;
     public String telefonLekara;
-    public List<EvidentiraneVakcineDTO> vakcineDTOS;
     public String odlukaKomisije;
     public String datumUtvrdjivanja;
     public String dijagnoza;
@@ -56,14 +55,6 @@ public class EvidencijaVakcinacijeDTO {
 
     public void setVakcinacijskiPunkkt(String vakcinacijskiPunkkt) {
         this.vakcinacijskiPunkkt = vakcinacijskiPunkkt;
-    }
-
-    public List<EvidentiraneVakcineDTO> getVakcineDTOS() {
-        return vakcineDTOS;
-    }
-
-    public void setVakcineDTOS(List<EvidentiraneVakcineDTO> vakcineDTOS) {
-        this.vakcineDTOS = vakcineDTOS;
     }
 
     public String getImeLekara() {

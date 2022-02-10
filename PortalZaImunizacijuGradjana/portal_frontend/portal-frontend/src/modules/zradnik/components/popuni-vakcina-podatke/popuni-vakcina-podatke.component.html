@@ -27,8 +27,8 @@
           <div class="m_l_r_20">
             <mat-label style="margin-right: 15px;">Ekstremitet</mat-label>
             <mat-radio-group aria-label="Ekstremitet">
-                <mat-radio-button style="margin-right: 15px;" value="1">DR</mat-radio-button>
-                <mat-radio-button style="margin-right: 15px;" value="2">LR</mat-radio-button>
+                <mat-radio-button style="margin-right: 15px;" value="DR" (change)="radioChange($event)">DR</mat-radio-button>
+                <mat-radio-button style="margin-right: 15px;" value="LR" (change)="radioChange($event)">LR</mat-radio-button>
             </mat-radio-group>
           </div>
           <mat-form-field class="example-full-width">
@@ -100,7 +100,7 @@
           </mat-form-field>
           
           <div class="m_l_r_20">
-            <mat-label>Odluka komisije za trajne kontraindikacije (ako postoji oznaciti Da)</mat-label>
+            <mat-label>Odluka komisije za trajne kontraindikacije (ako postoji: Da)</mat-label>
             <mat-checkbox class="example-margin" [ngModelOptions]="{standalone: true}" [(ngModel)]="trajneKontraindikacije">Da</mat-checkbox>
           </div>
           

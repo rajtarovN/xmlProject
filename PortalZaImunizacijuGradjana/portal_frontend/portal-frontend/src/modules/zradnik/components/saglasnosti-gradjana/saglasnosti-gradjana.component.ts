@@ -59,20 +59,26 @@ export class SaglasnostiGradjanaComponent implements OnInit {
 
   getData(){
     this.saglasnostService.searchTermine(new Date(), 'all').subscribe((response) => {
-      let obj: any = txml.parse(response);
-      let list: Array<SaglasnostGradjanaElement> = [];
-      obj[0].children.forEach((element:any )=> {
-        const temp : SaglasnostGradjanaElement = {
-          brojSaglasnosti: String(element.children[0].children[0]),
-          ime: String(element.children[1].children[0]),
-          prezime: String(element.children[2].children[0]),
-          datum_termina: String(element.children[3].children[0]),
-          email: String(element.children[4].children[0]),
-          vakcinisan: false
-        };
-        list.push(temp);
-      });
-      this.setData(list);
+      if(response != "Nema termina po trazenim parametrima"){
+        let obj: any = txml.parse(response);
+        let list: Array<SaglasnostGradjanaElement> = [];
+        obj[0].children.forEach((element:any )=> {
+          const temp : SaglasnostGradjanaElement = {
+            brojSaglasnosti: String(element.children[0].children[0]),
+            ime: String(element.children[1].children[0]),
+            prezime: String(element.children[2].children[0]),
+            datum_termina: String(element.children[3].children[0]),
+            email: String(element.children[4].children[0]),
+            vakcinisan: false
+          };
+          list.push(temp);
+        });
+        this.setData(list);
+      }else{
+        this.toastr.info("Nema termina za danas.");
+      }
+    }, error => {
+      this.toastr.error(error.error);
     });
   }
 
@@ -80,21 +86,28 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     this.searchString =
       this.searchForm.value.search != null ? this.searchForm.value.search : 'all';
     this.saglasnostService.searchTermine(this.searchDate, this.searchString).subscribe((response) => {
-      let obj: any = txml.parse(response);
-      let list: Array<SaglasnostGradjanaElement> = [];
-      obj[0].children.forEach((element:any )=> {
-        const temp : SaglasnostGradjanaElement = {
-          brojSaglasnosti: String(element.children[0].children[0]),
-          ime: String(element.children[1].children[0]),
-          prezime: String(element.children[2].children[0]),
-          datum_termina: String(element.children[3].children[0]),
-          email: String(element.children[4].children[0]),
-          vakcinisan: false
-        };
-        list.push(temp);
-      });
-      this.setData(list);
+      if(response != "Nema termina po trazenim parametrima."){
+        let obj: any = txml.parse(response);
+        let list: Array<SaglasnostGradjanaElement> = [];
+        obj[0].children.forEach((element:any )=> {
+          const temp : SaglasnostGradjanaElement = {
+            brojSaglasnosti: String(element.children[0].children[0]),
+            ime: String(element.children[1].children[0]),
+            prezime: String(element.children[2].children[0]),
+            datum_termina: String(element.children[3].children[0]),
+            email: String(element.children[4].children[0]),
+            vakcinisan: false
+          };
+          list.push(temp);
+        });
+        this.setData(list);
+      }else{
+        this.toastr.info(response);
+      }
+    }, error => {
+      this.toastr.error(error.error);
     });
+    
   }
 
   setData(data: any[]) {

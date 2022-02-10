@@ -130,7 +130,7 @@
                 Datum davanja vakcine (V1 i V2)
               </th>
               <td mat-cell *matCellDef="let element" name="datumDavanja">
-                {{ element.datumDavanja }}
+                {{ element.datumDavanja  | date: 'yyyy-MM-dd'}}
               </td>
             </ng-container>
 
@@ -200,7 +200,7 @@
                 Nezeljena reakcija
               </th>
               <td mat-cell *matCellDef="let element" name="nezeljenaReakcija">
-                {{ element.nezeljenaReakcija === undefined ? '' :  element.nezeljenaReakcija}}
+                {{ element.nezeljenaReakcija }}
               </td>
             </ng-container>
 
@@ -244,4 +244,5 @@
   *ngIf="this.showVakcinaPodatke"
   [brojSaglasnosti]="this.brojSaglasnosti"
   (onPodaciOVakciniClose)="onPodaciOVakciniCloseClicked($event)"
+  (onPodaciOVakciniSacuvaj)="onPodaciOVakciniSacuvajClicked($event)"
 ></app-popuni-vakcina-podatke>

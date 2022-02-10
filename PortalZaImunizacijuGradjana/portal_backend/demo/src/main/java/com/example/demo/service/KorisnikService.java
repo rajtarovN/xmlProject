@@ -64,35 +64,4 @@ public class KorisnikService  {
             return null;
     }
 
-    public OutputStream parsiraj(String documentId, String type) throws JAXBException {
-        OutputStream os = new ByteArrayOutputStream();
-        try {
-            JAXBContext context = JAXBContext
-                    .newInstance("com.example.demo.model." + type);
-
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-            ListaKorisnika listaKorisnika = (ListaKorisnika) unmarshaller
-                    .unmarshal(new File("data/xml/" + documentId + ".xml"));
-            marshaller.marshal(listaKorisnika, os);
-            return os;
-        }catch (Exception e){
-            throw new ForbiddenException("Error pri parsiranju korisnika.");
-        }
-    }
-
-    public void inicijalizujBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
-        try {
-            String documentId = "korisnik";
-            String collectionId = "/db/portal";
-            OutputStream os = parsiraj(documentId, "korisnik");
-            dbManager.saveFileToDB(documentId, collectionId, os.toString());
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new ForbiddenException("Error pri inicijalizaciji baze.");
-        }
-    }
 }

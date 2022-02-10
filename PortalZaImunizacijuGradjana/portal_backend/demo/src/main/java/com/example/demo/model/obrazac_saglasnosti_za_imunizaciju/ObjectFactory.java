@@ -32,7 +32,6 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _SaglasnostEvidencijaOVakcinacijiVakcinePrivremeneKontraindikacijeDatumUtvrdjivanja_QNAME = new QName("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju", "Datum_utvrdjivanja");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: main.java.xml_i_veb_servisi.obrazac_saglasnosti_za_imunizaciju
@@ -209,13 +208,5 @@ public class ObjectFactory {
         return new Saglasnost.Pacijent.DrzavljaninSrbije.Jmbg();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju", name = "Datum_utvrdjivanja", scope = Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije.class)
-    public JAXBElement<XMLGregorianCalendar> createSaglasnostEvidencijaOVakcinacijiVakcinePrivremeneKontraindikacijeDatumUtvrdjivanja(XMLGregorianCalendar value) {
-        return new JAXBElement<XMLGregorianCalendar>(_SaglasnostEvidencijaOVakcinacijiVakcinePrivremeneKontraindikacijeDatumUtvrdjivanja_QNAME, XMLGregorianCalendar.class, Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije.class, value);
-    }
 
 }

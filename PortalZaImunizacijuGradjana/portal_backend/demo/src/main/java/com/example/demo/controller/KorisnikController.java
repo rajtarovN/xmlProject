@@ -68,7 +68,6 @@ public class KorisnikController {
     @PostMapping(path = "/prijava", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> prijava(@RequestBody KorisnikPrijavaDTO authRequest) throws Exception{
         try {
-            //korisnikService.inicijalizujBazu();
             final Authentication authentication;
             try {
                 authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

@@ -4,6 +4,7 @@ import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @XmlRootElement
 public class SaglasnostDTO {
@@ -21,7 +22,8 @@ public class SaglasnostDTO {
         this.ime = saglasnost.getPacijent().getLicniPodaci().getIme().getValue();
         this.prezime = saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        this.datum_termina = saglasnost.getPacijent().getDatum().getValue().toString();
+        Date date = saglasnost.getPacijent().getDatum().getValue().toGregorianCalendar().getTime();
+        this.datum_termina = ft.format(date);
         this.email = saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().getValue();
     }
 

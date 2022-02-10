@@ -6,4 +6,7 @@ export interface EvidentiraneVakcine{
     serijaVakcine: string;
     proizvodjac: string;
     nezeljenaReakcija: string;
+    odlukaKomisije?: string;
+    datumUtvrdjivanja?: string;
+    dijagnoza?: string;
 }

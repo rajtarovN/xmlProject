@@ -1242,8 +1242,9 @@ public class Saglasnost {
             })
             public static class PrivremeneKontraindikacije {
 
-                @XmlElementRef(name = "Datum_utvrdjivanja", namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju", type = JAXBElement.class, required = false)
-                protected JAXBElement<XMLGregorianCalendar> datumUtvrdjivanja;
+                @XmlElement(name = "Datum_utvrdjivanja")
+                @XmlSchemaType(name = "date")
+                protected XMLGregorianCalendar datumUtvrdjivanja;
                 @XmlElement(name = "Dijagnoza", required = true)
                 protected String dijagnoza;
 
@@ -1252,10 +1253,10 @@ public class Saglasnost {
                  * 
                  * @return
                  *     possible object is
-                 *     {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
+                 *     {@link XMLGregorianCalendar }
                  *     
                  */
-                public JAXBElement<XMLGregorianCalendar> getDatumUtvrdjivanja() {
+                public XMLGregorianCalendar getDatumUtvrdjivanja() {
                     return datumUtvrdjivanja;
                 }
 
@@ -1264,10 +1265,10 @@ public class Saglasnost {
                  * 
                  * @param value
                  *     allowed object is
-                 *     {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
+                 *     {@link XMLGregorianCalendar }
                  *     
                  */
-                public void setDatumUtvrdjivanja(JAXBElement<XMLGregorianCalendar> value) {
+                public void setDatumUtvrdjivanja(XMLGregorianCalendar value) {
                     this.datumUtvrdjivanja = value;
                 }
 
