@@ -54,7 +54,10 @@ public class TokenUtils {
                 .setAudience(generateAudience())
                 .setIssuedAt(new Date())
                 .setExpiration(generateExpirationDate())
-                .claim("ime_i_prezime", u.getImeIPrezime()) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
+                .claim("ime", u.getIme()) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
+                .claim("prezime", u.getPrezime())
+                .claim("pol", u.getPol())
+                .claim("rodjendan", u.getRodjendan())
                 .claim("email", u.getEmail())
                 .claim("uloga", u.getUloga())
                 .signWith(SIGNATURE_ALGORITHM, SECRET).compact();
