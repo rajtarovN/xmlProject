@@ -136,7 +136,19 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     this.showEvidenciju = true;
   }
 
-  onEvidencijaCloseClicked(item: boolean){    
+  onEvidencijaCloseClicked(item: boolean){  
+    this.showEvidenciju = false;
+    this.evidencijaBrojSaglasnosti = "";
+    this.evidencijaEmail = "";
+  }
+
+  onEvidencijaSavedClicked(brSaglasnosti: string){ 
+    this.data.forEach((val, index) =>{
+      if(val.brojSaglasnosti == brSaglasnosti){
+        this.data.splice(index, 1);
+      }
+    });
+    this.setData(this.data);
     this.showEvidenciju = false;
     this.evidencijaBrojSaglasnosti = "";
     this.evidencijaEmail = "";
