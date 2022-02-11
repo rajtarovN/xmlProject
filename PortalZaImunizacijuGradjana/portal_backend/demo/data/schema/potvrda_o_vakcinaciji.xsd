@@ -39,16 +39,28 @@
                                     </xs:restriction>
                                 </xs:simpleType>
                             </xs:element>
-                            <xs:element name="jmbg">
-                                <xs:complexType>
-                                    <xs:simpleContent>
-                                        <xs:extension base="ftn:TJmbg">
-                                            <xs:attribute fixed="pred:jmbg" name="property"
-                                                type="xs:string"/>
-                                        </xs:extension>
-                                    </xs:simpleContent>
-                                </xs:complexType>
-                            </xs:element>
+                            <xs:choice>
+                                <xs:element name="jmbg">
+                                    <xs:complexType>
+                                        <xs:simpleContent>
+                                            <xs:extension base="ftn:TJmbg">
+                                                <xs:attribute fixed="pred:jmbg" name="property"
+                                                    type="xs:string"/>
+                                            </xs:extension>
+                                        </xs:simpleContent>
+                                    </xs:complexType>
+                                </xs:element>
+                                <xs:element name="ebs">
+                                    <xs:complexType>
+                                        <xs:simpleContent>
+                                            <xs:extension base="xs:string">
+                                                <xs:attribute fixed="pred:ebs" name="property"
+                                                              type="xs:string"/>
+                                            </xs:extension>
+                                        </xs:simpleContent>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:choice>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -67,7 +79,14 @@
                                                     </xs:simpleType>
                                                   </xs:element>
                                                   <xs:element name="datum_davanja" type="xs:date"/>
-                                                  <xs:element name="broj_serije" type="xs:int"/>
+                                                  <xs:element name="broj_serije" type="xs:string"/>
+                                                    <xs:element name="naziv_vakcine">
+                                                        <xs:simpleType>
+                                                            <xs:restriction base="xs:string">
+                                                                <xs:minLength value="2"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
                                                 </xs:sequence>
                                             </xs:complexType>
                                         </xs:element>
@@ -75,13 +94,6 @@
                                 </xs:complexType>
                             </xs:element>
                             <xs:element name="zdravstvena_ustanova">
-                                <xs:simpleType>
-                                    <xs:restriction base="xs:string">
-                                        <xs:minLength value="2"/>
-                                    </xs:restriction>
-                                </xs:simpleType>
-                            </xs:element>
-                            <xs:element name="naziv_vakcine">
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:minLength value="2"/>
@@ -102,6 +114,7 @@
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
+            <xs:attribute name="about" type="xs:anyURI"/>
             <xs:attribute name="sifra_potvrde_vakcine">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">

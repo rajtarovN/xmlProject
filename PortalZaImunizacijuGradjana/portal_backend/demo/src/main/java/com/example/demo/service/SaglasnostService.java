@@ -4,27 +4,23 @@ import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
-import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ForbiddenException;
-import com.example.demo.model.korisnik.ListaKorisnika;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -46,11 +42,13 @@ public class SaglasnostService  extends AbstractService{
     private SaglasnostRepository saglasnostRepository;
 
     @Autowired
+    private PotvrdaVakcinacijeService potvrdaVakcinacijeService;
+
+    @Autowired
     private DBManager dbManager;
 
     @Autowired
     public SaglasnostService(SaglasnostRepository saglasnostRepository) {
-
         super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/lista_saglasnosti" );
     }
 
@@ -71,19 +69,38 @@ public class SaglasnostService  extends AbstractService{
         for(String i : ids) {
             Saglasnost z = this.pronadjiPoId(Long.parseLong(i));
             if(z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
-                lista.add(new SaglasnostDTO(z));
+                SaglasnostDTO dto = new SaglasnostDTO(z);
+                dto.setPrimioDozu(false);
+                dto.setDobioPotvrdu(false);
+                lista.add(dto);
             }
             else{
                 boolean vaxxed = false;
+                SaglasnostDTO dto = new SaglasnostDTO(z);
+                dto.setPrimioDozu(false);
+                dto.setDobioPotvrdu(false);
                 for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina: z.getEvidencijaOVakcinaciji().getVakcine().getVakcina() ) {
                     if(vakcina.getDatumDavanja().toString().equals(z.getPacijent().getDatum().getValue().toString())){
                         vaxxed = true;
                         break;
                     }
                 }
-                if(!vaxxed){
-                    lista.add(new SaglasnostDTO(z));
+                if(vaxxed){
+                    dto.setPrimioDozu(true);
+                    List<String> potvrdeIds = new ArrayList<>();
+                    if(z.getPacijent().getDrzavljaninSrbije() != null){
+                        potvrdeIds = potvrdaVakcinacijeService.pronadjiPoJmbgIDatumu(z.getPacijent().getDrzavljaninSrbije().getJmbg().getValue(), datumTermina);
+                    }
+                    else if(z.getPacijent().getStraniDrzavljanin() != null){
+                        potvrdeIds = potvrdaVakcinacijeService.pronadjiPoEbsIDatumu(z.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue(), datumTermina);
+                    }
+                    if(!potvrdeIds.isEmpty()){
+                        dto.setDobioPotvrdu(true);
+                    }
+                    //TODO provera postojanja potvrde
                 }
+
+                lista.add(dto);
             }
         }
         return lista;

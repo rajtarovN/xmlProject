@@ -47,18 +47,6 @@ export class SaglasnostService {
     );
   }
 
-  /*saveEvidentiraneVakcine(vakcina: EvidentiraneVakcine, brojSaglasnosti: string): Observable<string> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/xml',
-    });
-    return this.http.post(
-      `${environment.baseUrl}/${environment.saveEvidentiraneVakcine}/${brojSaglasnosti}`,
-      vakcina,
-      { headers: headers,
-        responseType: "text", }
-    );
-  }*/
-
   saveEvidentiraneVakcine(vakcine: any, brojSaglasnosti: string): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/xml',

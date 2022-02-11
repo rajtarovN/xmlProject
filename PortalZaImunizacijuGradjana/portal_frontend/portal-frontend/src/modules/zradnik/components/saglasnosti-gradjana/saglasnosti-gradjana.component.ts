@@ -14,7 +14,7 @@ import { SaglasnostGradjanaElement } from 'src/modules/zradnik/models/saglasnost
 @Component({
   selector: 'app-saglasnosti-gradjana',
   templateUrl: './saglasnosti-gradjana.component.html',
-  styleUrls: ['./saglasnosti-gradjana.component.scss']
+  styleUrls: ['./saglasnosti-gradjana.component.scss'],
 })
 export class SaglasnostiGradjanaComponent implements OnInit {
   minDate: Date;
@@ -27,10 +27,20 @@ export class SaglasnostiGradjanaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   parser = new DOMParser();
   showEvidenciju: boolean;
-  evidencijaEmail: string;
-  evidencijaBrojSaglasnosti: string;
+  showPotvrdu: boolean;
+  selectedEmail: string;
+  selectedBrojSaglasnosti: string;
 
-  displayedColumns: string[] = ['Email', 'Ime', 'Prezime', 'Datum', "Popuni evidenciju", "Izdaj potvrdu"];
+  displayedColumns: string[] = [
+    'Email',
+    'Ime',
+    'Prezime',
+    'Datum',
+    'Popuni evidenciju',
+    'Izdaj potvrdu',
+    'Vakcinisan',
+    'Izdata potvrda',
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -46,68 +56,80 @@ export class SaglasnostiGradjanaComponent implements OnInit {
       date: [null, Validators.required],
     });
     this.searchForm.value.date = this.minDate;
-    this.searchString = "";
+    this.searchString = '';
     this.searchDate = new Date();
     this.showEvidenciju = false;
-    this.evidencijaEmail = "";
-    this.evidencijaBrojSaglasnosti = "";
-   }
+    this.showPotvrdu = false;
+    this.selectedEmail = '';
+    this.selectedBrojSaglasnosti = '';
+  }
 
   ngOnInit(): void {
     this.getData();
   }
 
-  getData(){
-    this.saglasnostService.searchTermine(new Date(), 'all').subscribe((response) => {
-      if(response != "Nema termina po trazenim parametrima"){
-        let obj: any = txml.parse(response);
-        let list: Array<SaglasnostGradjanaElement> = [];
-        obj[0].children.forEach((element:any )=> {
-          const temp : SaglasnostGradjanaElement = {
-            brojSaglasnosti: String(element.children[0].children[0]),
-            ime: String(element.children[1].children[0]),
-            prezime: String(element.children[2].children[0]),
-            datum_termina: String(element.children[3].children[0]),
-            email: String(element.children[4].children[0]),
-            vakcinisan: false
-          };
-          list.push(temp);
-        });
-        this.setData(list);
-      }else{
-        this.toastr.info("Nema termina za danas.");
+  getData() {
+    this.saglasnostService.searchTermine(new Date(), 'all').subscribe(
+      (response) => {
+        if (response != 'Nema termina po trazenim parametrima') {
+          let obj: any = txml.parse(response);
+          let list: Array<SaglasnostGradjanaElement> = [];
+          obj[0].children.forEach((element: any) => {
+            const temp: SaglasnostGradjanaElement = {
+              brojSaglasnosti: String(element.children[0].children[0]),
+              ime: String(element.children[1].children[0]),
+              prezime: String(element.children[2].children[0]),
+              datum_termina: String(element.children[3].children[0]),
+              email: String(element.children[4].children[0]),
+              primioDozu: String(element.children[5].children[0]) == "true" ? true:false,
+              dobioPotvrdu: String(element.children[6].children[0]) == "true" ? true:false,
+            };
+            list.push(temp);
+          });
+          this.setData(list);
+        } else {
+          this.toastr.info('Nema termina za danas.');
+        }
+      },
+      (error) => {
+        this.toastr.error(error.error);
       }
-    }, error => {
-      this.toastr.error(error.error);
-    });
+    );
   }
 
-  search(){
+  search() {
     this.searchString =
-      this.searchForm.value.search != null ? this.searchForm.value.search : 'all';
-    this.saglasnostService.searchTermine(this.searchDate, this.searchString).subscribe((response) => {
-      if(response != "Nema termina po trazenim parametrima."){
-        let obj: any = txml.parse(response);
-        let list: Array<SaglasnostGradjanaElement> = [];
-        obj[0].children.forEach((element:any )=> {
-          const temp : SaglasnostGradjanaElement = {
-            brojSaglasnosti: String(element.children[0].children[0]),
-            ime: String(element.children[1].children[0]),
-            prezime: String(element.children[2].children[0]),
-            datum_termina: String(element.children[3].children[0]),
-            email: String(element.children[4].children[0]),
-            vakcinisan: false
-          };
-          list.push(temp);
-        });
-        this.setData(list);
-      }else{
-        this.toastr.info(response);
-      }
-    }, error => {
-      this.toastr.error(error.error);
-    });
-    
+      this.searchForm.value.search != null
+        ? this.searchForm.value.search
+        : 'all';
+    this.saglasnostService
+      .searchTermine(this.searchDate, this.searchString)
+      .subscribe(
+        (response) => {
+          if (response != 'Nema termina po trazenim parametrima.') {
+            let obj: any = txml.parse(response);
+            let list: Array<SaglasnostGradjanaElement> = [];
+            obj[0].children.forEach((element: any) => {
+              const temp: SaglasnostGradjanaElement = {
+                brojSaglasnosti: String(element.children[0].children[0]),
+                ime: String(element.children[1].children[0]),
+                prezime: String(element.children[2].children[0]),
+                datum_termina: String(element.children[3].children[0]),
+                email: String(element.children[4].children[0]),
+                primioDozu: Boolean(element.children[5].children[0]),
+                dobioPotvrdu: Boolean(element.children[6].children[0]),
+              };
+              list.push(temp);
+            });
+            this.setData(list);
+          } else {
+            this.toastr.info(response);
+          }
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
   }
 
   setData(data: any[]) {
@@ -124,34 +146,55 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     }
   }
 
-  onDateChange( event: MatDatepickerInputEvent<Date>) {
-    this.searchDate = (event.value != null ? event.value : new Date());
+  onDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.searchDate = event.value != null ? event.value : new Date();
   }
 
-  givePotvrdu(brojSaglasnosti: string){}
+  openPotvrdu(brojSaglasnosti: string, email: string) {
+    this.selectedBrojSaglasnosti = brojSaglasnosti;
+    this.selectedEmail = email;
+    this.showPotvrdu = true;
+  }
 
-  openEvidencija(brojSaglasnosti: string, email: string){
-    this.evidencijaBrojSaglasnosti = brojSaglasnosti;
-    this.evidencijaEmail = email;
+  onPotvrdaCloseClicked(item: boolean) {
+    this.showPotvrdu = false;
+    this.selectedBrojSaglasnosti = '';
+    this.selectedEmail = '';
+  }
+
+  onPotvrdaSavedClicked(brSaglasnosti: string) {
+    this.data.forEach((val, index) => {
+      if (val.brojSaglasnosti == brSaglasnosti) {
+        this.data[index].dobioPotvrdu = true;
+      }
+    });
+    this.setData(this.data);
+    this.showPotvrdu = false;
+    this.selectedBrojSaglasnosti = '';
+    this.selectedEmail = '';
+  }
+
+  openEvidencija(brojSaglasnosti: string, email: string) {
+    this.selectedBrojSaglasnosti = brojSaglasnosti;
+    this.selectedEmail = email;
     this.showEvidenciju = true;
   }
 
-  onEvidencijaCloseClicked(item: boolean){  
+  onEvidencijaCloseClicked(item: boolean) {
     this.showEvidenciju = false;
-    this.evidencijaBrojSaglasnosti = "";
-    this.evidencijaEmail = "";
+    this.selectedBrojSaglasnosti = '';
+    this.selectedEmail = '';
   }
 
-  onEvidencijaSavedClicked(brSaglasnosti: string){ 
-    this.data.forEach((val, index) =>{
-      if(val.brojSaglasnosti == brSaglasnosti){
-        this.data.splice(index, 1);
+  onEvidencijaSavedClicked(brSaglasnosti: string) {
+    this.data.forEach((val, index) => {
+      if (val.brojSaglasnosti == brSaglasnosti) {
+        this.data[index].primioDozu = true;
       }
     });
     this.setData(this.data);
     this.showEvidenciju = false;
-    this.evidencijaBrojSaglasnosti = "";
-    this.evidencijaEmail = "";
+    this.selectedBrojSaglasnosti = '';
+    this.selectedEmail = '';
   }
-
 }

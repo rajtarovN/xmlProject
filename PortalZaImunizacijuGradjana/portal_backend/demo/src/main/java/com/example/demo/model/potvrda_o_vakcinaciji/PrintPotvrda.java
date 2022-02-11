@@ -21,7 +21,7 @@ public class PrintPotvrda {
 		}
 		
 		System.out.println("Zdravstvena ustanova: "+potvrda.getVakcinacija().getZdravstvenaUstanova());
-		System.out.println("Naziv vakcine: "+potvrda.getVakcinacija().getNazivVakcine());
+		//System.out.println("Naziv vakcine: "+potvrda.getVakcinacija().getNazivVakcine());
 		
 		System.out.println("Datum izdavanja potvrde: " + potvrda.getDatumIzdavanja());
 		System.out.println("Sifra potvrde vakcine:  " + potvrda.getSifraPotvrdeVakcine());

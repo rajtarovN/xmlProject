@@ -1,11 +1,5 @@
 package com.example.demo.util;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -14,10 +8,15 @@ import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.util.FileUtil;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 @Component
@@ -42,8 +41,6 @@ public class FusekiManager {
         System.out.println("[INFO] Rendering model as RDF/XML...");
         model.write(System.out, SparqlUtil.RDF_XML);
 
-        String s = new String(out.toByteArray());
-
         /*
          * Create UpdateProcessor, an instance of execution of an UpdateRequest.
          * UpdateProcessor sends update request to a remote SPARQL update service.
@@ -55,7 +52,7 @@ public class FusekiManager {
 
         // Creating the first named graph and updating it with RDF data
         System.out.println("[INFO] Writing the triples to a named graph \"" + NAMED_GRAPH + "\".");
-        String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + NAMED_GRAPH, new String(out.toByteArray()));
+        String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + NAMED_GRAPH, out.toString());
         System.out.println(sparqlUpdate);
 
         // UpdateRequest represents a unit of execution
@@ -87,7 +84,7 @@ public class FusekiManager {
         // citanje rdfa u promenljivu tipa string
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         ResultSetFormatter.outputAsXML(stream, results);
-        String rdfString = new String(stream.toByteArray());
+        String rdfString = stream.toString();
 
         query.close();
         System.out.println("[INFO] End.");
@@ -112,7 +109,7 @@ public class FusekiManager {
         // citanje rdfa u promenljivu tipa string
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         ResultSetFormatter.outputAsJSON(stream, results);
-        String rdfString = new String(stream.toByteArray());
+        String rdfString = stream.toString();
 
         query.close();
         System.out.println("[INFO] End.");
