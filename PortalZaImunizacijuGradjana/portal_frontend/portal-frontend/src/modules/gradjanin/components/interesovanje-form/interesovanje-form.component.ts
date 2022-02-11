@@ -1,16 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Select } from 'src/modules/shared/models/select';
 import { InteresovanjeService } from 'src/modules/shared/services/interesovanje-service/interesovanje.service';
+import { UUID } from 'angular2-uuid';
+import { ChildActivationStart } from '@angular/router';
 
 @Component({
   selector: 'app-interesovanje-form',
@@ -19,6 +13,8 @@ import { InteresovanjeService } from 'src/modules/shared/services/interesovanje-
 })
 export class InteresovanjeFormComponent implements OnInit {
   addInteresovanjeForm: FormGroup;
+  parser = new DOMParser();
+  id: string = '-1';
 
   drzavljanstva: Select[] = [
     {
@@ -74,9 +70,12 @@ export class InteresovanjeFormComponent implements OnInit {
           Validators.pattern('[0-9]{13}'),
         ],
       ],
-      ime: [null, Validators.required],
-      prezime: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
+      ime: [localStorage.getItem('ime'), Validators.required],
+      prezime: [localStorage.getItem('prezime'), Validators.required],
+      email: [
+        localStorage.getItem('email'),
+        [Validators.required, Validators.email],
+      ],
       mobilni: [
         null,
         [Validators.required, Validators.pattern('[0][6][0-9]{8}')],
@@ -89,12 +88,84 @@ export class InteresovanjeFormComponent implements OnInit {
       izabraneVakcine: [null, Validators.required],
       davalacKrvi: [null, Validators.required],
     });
+
+    this.initialize();
   }
 
   ngOnInit(): void {}
 
+  initialize() {
+    const email = localStorage.getItem('email');
+    if (email == null) return;
+    this.service.getInteresovanje(email).subscribe({
+      next: (success) => {
+        let xmlDoc = this.parser.parseFromString(success, 'text/xml');
+        let drzavljanstvo = xmlDoc.getElementsByTagName('Drzavljanstvo');
+        let Jmbg = xmlDoc.getElementsByTagName('Jmbg');
+        let Ime = xmlDoc.getElementsByTagName('Vakcina');
+        let Prezime = xmlDoc.getElementsByTagName('Prezime');
+        let Email = xmlDoc.getElementsByTagName('Email');
+        let Broj_mobilnog = xmlDoc.getElementsByTagName('Broj_mobilnog');
+        let Broj_fixsnog = xmlDoc.getElementsByTagName('Broj_mobilnog');
+        let Davalac_krvi = xmlDoc.getElementsByTagName('Davalac_krvi');
+        let Lokacija_primanja_vakcine =
+          xmlDoc.getElementsByTagName('Broj_mobilnog');
+        let Proizvodjaci = xmlDoc.getElementsByTagName('Proizvodjaci');
+        let Datum_podnosenja_interesovanja = xmlDoc.getElementsByTagName(
+          'Datum_podnosenja_interesovanja'
+        );
+        console.log(Lokacija_primanja_vakcine);
+        this.addInteresovanjeForm = this.fb.group({
+          drzavljanstvo: [{ value: '', disabled: true }, Validators.required],
+          JMBG: [
+            { value: '', disabled: true },
+            [
+              Validators.required,
+              Validators.minLength(13),
+              Validators.maxLength(13),
+              Validators.pattern('[0-9]{13}'),
+            ],
+          ],
+          ime: [{ value: '', disabled: true }, Validators.required],
+          prezime: [{ value: '', disabled: true }, Validators.required],
+          email: [
+            { value: '', disabled: true },
+            [Validators.required, Validators.email],
+          ],
+          mobilni: [
+            { value: '', disabled: true },
+            [Validators.required, Validators.pattern('[0][6][0-9]{8}')],
+          ],
+          fiksni: [
+            { value: '', disabled: true },
+            [Validators.required, Validators.pattern('[0][1][1][0-9]{7}')],
+          ],
+          opstina: [{ value: '', disabled: true }, Validators.required],
+          izabraneVakcine: [{ value: '', disabled: true }, Validators.required],
+          davalacKrvi: [{ value: '', disabled: true }, Validators.required],
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
   cancel(): void {
     this.addInteresovanjeForm.reset();
+  }
+
+  delete(): void {
+    this.service
+      .deleteInteresovanje(this.addInteresovanjeForm.value.Jmbg)
+      .subscribe({
+        next: () => {
+          this.openSnackBar('interesovanje je uspesno kreirano.');
+        },
+        error: () => {
+          this.openSnackBar('interesovanje nije uspesno kreirano.');
+        },
+      });
   }
 
   send(): void {
@@ -112,6 +183,7 @@ export class InteresovanjeFormComponent implements OnInit {
     }
 
     console.log(this.addInteresovanjeForm.value.izabraneVakcine);
+    this.id = UUID.UUID();
     let interesovanje = `<?xml version="1.0" encoding="UTF-8"?>
                         <Interesovanje
                           xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje"
@@ -119,10 +191,10 @@ export class InteresovanjeFormComponent implements OnInit {
                           xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
                           xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/"
                           xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje ../schema/interesovanje.xsd"
-                          about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/${this.addInteresovanjeForm.value.JMBG}/${date}">
+                          about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/${this.id}">
                           <Licne_informacije>
-                            <Drzavljanstvo>${this.addInteresovanjeForm.value.drzavljanstva}</Drzavljanstvo>
-                            <Jmbg property="pred:jmbg">${this.addInteresovanjeForm.value.Jmbg}</Jmbg>
+                            <Drzavljanstvo>${this.addInteresovanjeForm.value.drzavljanstvo}</Drzavljanstvo>
+                            <Jmbg property="pred:jmbg">${this.addInteresovanjeForm.value.JMBG}</Jmbg>
                             <Ime property="pred:ime">${this.addInteresovanjeForm.value.ime}</Ime>
                             <Prezime property="pred:prezime">${this.addInteresovanjeForm.value.prezime}</Prezime>
                             <Kontakt>
@@ -141,20 +213,14 @@ export class InteresovanjeFormComponent implements OnInit {
 
     console.log(interesovanje);
 
-    this.service
-      .addInteresovanje(
-        interesovanje,
-        this.addInteresovanjeForm.value.JMBG,
-        date
-      )
-      .subscribe(
-        (response) => {
-          this.openSnackBar('interesovanje je uspesno kreirano.');
-        },
-        (error) => {
-          this.openSnackBar('interesovanje je nije uspesno kreirano.');
-        }
-      );
+    this.service.addInteresovanje(interesovanje, this.id).subscribe({
+      next: () => {
+        this.openSnackBar('interesovanje je uspesno kreirano.');
+      },
+      error: () => {
+        this.openSnackBar('interesovanje nije uspesno kreirano.');
+      },
+    });
   }
 
   openSnackBar(message: string): void {

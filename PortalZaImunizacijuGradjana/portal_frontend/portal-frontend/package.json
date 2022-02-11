@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "angular2-uuid": "^1.1.1",
     "js2xmlparser": "^4.0.2",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~7.4.0",
