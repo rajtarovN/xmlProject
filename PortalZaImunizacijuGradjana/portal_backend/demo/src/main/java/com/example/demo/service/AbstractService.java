@@ -11,70 +11,74 @@ import org.xmldb.api.modules.XMLResource;
 
 import com.example.demo.repository.RepositoryInterface;
 
-
 public abstract class AbstractService {
-  
-  protected RepositoryInterface repository;
 
-  protected String collectionId;
+	protected RepositoryInterface repository;
 
-  protected String fusekiCollectionId;
+	protected String collectionId;
 
-  public AbstractService(RepositoryInterface repository, String collectionId, String fusekiCollectionId){
-    this.repository = repository;
-    this.collectionId = collectionId;
-    this.fusekiCollectionId = fusekiCollectionId;
-  }
-   
-  public void saveRDF(String content, String uri) throws Exception {
-      repository.saveRDF(content, fusekiCollectionId + uri);
-  }
+	protected String fusekiCollectionId;
 
-  public void saveXML(String documentId, String content) throws Exception {
-      
-      repository.saveXML(documentId, collectionId, content );
+	public AbstractService(RepositoryInterface repository, String collectionId, String fusekiCollectionId) {
+		this.repository = repository;
+		this.collectionId = collectionId;
+		this.fusekiCollectionId = fusekiCollectionId;
+	}
 
-  }
+	public void saveRDF(String content, String uri) throws Exception {
+		repository.saveRDF(content, fusekiCollectionId);
+	}
 
+	public void saveXML(String documentId, String content) throws Exception {
 
-  public XMLResource readXML(String documentId) {
+		repository.saveXML(documentId, collectionId, content);
 
-      XMLResource document = null;
-      
-      try {
-          document = repository.readXML(documentId, collectionId);
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-      
-      return document;
-  }
+	}
 
-  public String readFileAsXML(String uri) throws Exception {
-      uri = fusekiCollectionId + uri;
-      return repository.readFileAsXML(uri);
-  }
+	public void deleteXML(String documentId) throws Exception {
 
-  public String readFileAsJSON(String uri) throws Exception {
-      uri = fusekiCollectionId + uri;
-      return repository.readFileAsJSON(uri);
-  }
+		repository.deleteXML(documentId, collectionId);
 
-  public <T> List<T> findAllFromCollection( Class<T> classType) throws Exception{
-    System.out.println(classType);
-    List<T> temp = new ArrayList<>();
-    List<XMLResource> retval =  this.repository.findAllFromCollection(collectionId);
+	}
 
-    JAXBContext context = JAXBContext.newInstance(classType);
-    Unmarshaller unmarshaller = context.createUnmarshaller();
+	public XMLResource readXML(String documentId) {
 
-    for (XMLResource dokument : retval) {
-        String s = dokument.getContent().toString();
-        StringReader reader = new StringReader(s);
-        T dokumentObject = (T) unmarshaller.unmarshal(reader);
-        temp.add(dokumentObject);
-    }
-    return temp;
-    
-  }
+		XMLResource document = null;
+
+		try {
+			document = repository.readXML(documentId, collectionId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return document;
+	}
+
+	public String readFileAsXML(String uri) throws Exception {
+		uri = fusekiCollectionId + uri;
+		return repository.readFileAsXML(uri);
+	}
+
+	public String readFileAsJSON(String uri) throws Exception {
+		uri = fusekiCollectionId + uri;
+		return repository.readFileAsJSON(uri);
+	}
+
+	public <T> List<T> findAllFromCollection(Class<T> classType) throws Exception {
+		System.out.println(classType);
+		List<T> temp = new ArrayList<>();
+		List<XMLResource> retval = this.repository.findAllFromCollection(collectionId);
+
+		JAXBContext context = JAXBContext.newInstance(classType);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+
+		for (XMLResource dokument : retval) {
+			String s = dokument.getContent().toString();
+			StringReader reader = new StringReader(s);
+			T dokumentObject = (T) unmarshaller.unmarshal(reader);
+			temp.add(dokumentObject);
+		}
+		return temp;
+
+	}
 }

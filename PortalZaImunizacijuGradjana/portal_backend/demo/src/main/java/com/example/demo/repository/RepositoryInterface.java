@@ -16,45 +16,55 @@ import com.example.demo.util.MetadataExtractor;
 @Repository
 public abstract class RepositoryInterface {
 
-    @Autowired
-    private DBManager dbManager;
-  
-    @Autowired
-    private FusekiManager fusekiManager;
-    
-    public XMLResource readXML(String documentId, String collectionId) throws Exception {
-        return dbManager.readFileFromDB(documentId, collectionId);
-    }
+	@Autowired
+	protected DBManager dbManager;
 
-    public void saveXML(String documentId, String collectionId, String content) throws Exception {
-        dbManager.saveFileToDB(documentId, collectionId, content);
-    }
+	@Autowired
+	protected FusekiManager fusekiManager;
 
-    public String readFileAsXML(String uri) throws Exception {
-       return fusekiManager.readFileAsXML(uri);
-    }
-    public String readFileAsJSON(String uri) throws Exception {
-        return fusekiManager.readFileAsJSON(uri);
-    }
-    /**
-     * 
-     * @param content ovo je sam xml koji dobijemo sa fronta u xml formatu
-     * @param rdfName
-     * @param uri
-     * @throws Exception
-     */
-    public void saveRDF(String content, String uri)  throws Exception {
-        InputStream in = new ByteArrayInputStream(content.getBytes());
+	public XMLResource readXML(String documentId, String collectionId) throws Exception {
+		return dbManager.readFileFromDB(documentId, collectionId);
+	}
+
+	public void saveXML(String documentId, String collectionId, String content) throws Exception {
+		dbManager.saveFileToDB(documentId, collectionId, content);
+	}
+
+	public void deleteXML(String documentId, String collectionId) throws Exception {
+		dbManager.deleteFileFromDB(documentId, collectionId);
+	}
+
+	public String readFileAsXML(String uri) throws Exception {
+		return fusekiManager.readFileAsXML(uri);
+	}
+
+	public String readFileAsJSON(String uri) throws Exception {
+		return fusekiManager.readFileAsJSON(uri);
+	}
+
+	/**
+	 * 
+	 * @param content ovo je sam xml koji dobijemo sa fronta u xml formatu
+	 * @param rdfName
+	 * @param uri
+	 * @throws Exception
+	 */
+	public void saveRDF(String content, String uri) throws Exception {
+		InputStream in = new ByteArrayInputStream(content.getBytes());
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		MetadataExtractor extractor = new MetadataExtractor();
-        extractor.extractMetadata(in, out);
+		extractor.extractMetadata(in, out);
 
-        String rdfAsString = new String(out.toByteArray());
-        InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
-        fusekiManager.writeFuseki(rdfInputStream, uri);
-    }
+		String rdfAsString = new String(out.toByteArray());
+		InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
+		fusekiManager.writeFuseki(rdfInputStream, uri);
+	}
 
-    public List<XMLResource> findAllFromCollection(String collectionId) throws Exception{
-        return dbManager.findAllFromCollection(collectionId);
-    }
+	public List<XMLResource> findAllFromCollection(String collectionId) throws Exception {
+		return dbManager.findAllFromCollection(collectionId);
+	}
+	
+	public List<String> query(String graphUri, String sparqlFilePath, List<String> queryParams) throws Exception{
+		return fusekiManager.query(graphUri, sparqlFilePath, queryParams);
+	}
 }
