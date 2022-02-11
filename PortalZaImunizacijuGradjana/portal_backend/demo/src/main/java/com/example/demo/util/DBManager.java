@@ -13,237 +13,262 @@ import org.springframework.stereotype.Component;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Database;
+import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 
-
 @Component
 public class DBManager {
 
-    @Autowired
-    private AuthenticationManagerExist authManager;
+	@Autowired
+	private AuthenticationManagerExist authManager;
 
-    public XMLResource readFileFromDB(String documentId, String collectionId) throws XMLDBException,
-            ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, JAXBException {
+	public XMLResource readFileFromDB(String documentId, String collectionId) throws XMLDBException,
+			ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, JAXBException {
 
+		System.out.println("[INFO] " + "READ FILE FROM DB");
 
-        System.out.println("[INFO] " + "READ FILE FROM DB");
+		System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
+		Class<?> cl = Class.forName(authManager.getDriver());
 
-        System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
-        Class<?> cl = Class.forName(authManager.getDriver());
+		Database database = (Database) cl.newInstance();
+		database.setProperty("create-database", "true");
 
-        Database database = (Database) cl.newInstance();
-        database.setProperty("create-database", "true");
+		DatabaseManager.registerDatabase(database);
 
-        DatabaseManager.registerDatabase(database);
+		Collection col = null;
+		XMLResource res = null;
 
-        Collection col = null;
-        XMLResource res = null;
+		try {
+			// get the collection
+			System.out.println("[INFO] Retrieving the collection: " + collectionId);
+			col = DatabaseManager.getCollection(authManager.getUri() + collectionId);
+			col.setProperty(OutputKeys.INDENT, "yes");
 
-        try {
-            // get the collection
-            System.out.println("[INFO] Retrieving the collection: " + collectionId);
-            col = DatabaseManager.getCollection(authManager.getUri() + collectionId);
-            col.setProperty(OutputKeys.INDENT, "yes");
+			System.out.println("[INFO] Retrieving the document: " + documentId);
+			res = (XMLResource) col.getResource(documentId);
 
-            System.out.println("[INFO] Retrieving the document: " + documentId);
-            res = (XMLResource) col.getResource(documentId);
+			if (res == null) {
+				System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
+			} else {
+				System.out.println("[INFO] Showing the document as XML resource: ");
+				// System.out.println(res.getContent());
 
-            if (res == null) {
-                System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
-            } else {
-                System.out.println("[INFO] Showing the document as XML resource: ");
-                // System.out.println(res.getContent());
+			}
+		} finally {
+			// don't forget to clean up!
 
-            }
-        } finally {
-            // don't forget to clean up!
+			if (res != null) {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
 
-            if (res != null) {
-                try {
-                    ((EXistResource) res).freeResources();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
 
-            if (col != null) {
-                try {
-                    col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
+		}
 
-        }
+		return res;
+	}
 
-        return res;
-    }
+	public XMLResource saveFileToDB(String documentId, String collectionId, String os)
+			throws XMLDBException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 
-    public XMLResource saveFileToDB(String documentId, String collectionId, String os)
-            throws XMLDBException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+		// initialize database driver
+		System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
+		Class<?> cl = Class.forName(authManager.getDriver());
 
-        // initialize database driver
-        System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
-        Class<?> cl = Class.forName(authManager.getDriver());
+		// encapsulation of the database driver functionality
+		Database database = (Database) cl.newInstance();
+		database.setProperty("create-database", "true");
 
-        // encapsulation of the database driver functionality
-        Database database = (Database) cl.newInstance();
-        database.setProperty("create-database", "true");
+		// entry point for the API which enables you to get the Collection reference
+		DatabaseManager.registerDatabase(database);
 
-        // entry point for the API which enables you to get the Collection reference
-        DatabaseManager.registerDatabase(database);
+		// a collection of Resources stored within an XML database
+		Collection col = null;
+		XMLResource res = null;
 
-        // a collection of Resources stored within an XML database
-        Collection col = null;
-        XMLResource res = null;
+		try {
 
-        try {
+			System.out.println("[INFO] Retrieving the collection: " + collectionId);
+			col = getOrCreateCollection(collectionId);
 
-            System.out.println("[INFO] Retrieving the collection: " + collectionId);
-            col = getOrCreateCollection(collectionId);
+			/*
+			 * create new XMLResource with a given id an id is assigned to the new resource
+			 * if left empty (null)
+			 */
+			System.out.println("[INFO] Inserting the document: " + documentId);
+			res = (XMLResource) col.createResource(documentId + ".xml", XMLResource.RESOURCE_TYPE);
 
-            /*
-             * create new XMLResource with a given id an id is assigned to the new resource
-             * if left empty (null)
-             */
-            System.out.println("[INFO] Inserting the document: " + documentId);
-            res = (XMLResource) col.createResource(documentId  + ".xml", XMLResource.RESOURCE_TYPE);
+			res.setContent(os);
+			System.out.println("[INFO] Storing the document: " + res.getId());
 
-            res.setContent(os);
-            System.out.println("[INFO] Storing the document: " + res.getId());
+			col.storeResource(res);
+			System.out.println("[INFO] Done. File is save to DB.");
 
-            col.storeResource(res);
-            System.out.println("[INFO] Done. File is save to DB.");
+		} finally {
+			// don't forget to cleanup
+			if (res != null) {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		return res;
+	}
 
-        } finally {
-            // don't forget to cleanup
-            if (res != null) {
-                try {
-                    ((EXistResource) res).freeResources();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
-            if (col != null) {
-                try {
-                    col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
-        }
-        return res;
-    }
+	public void deleteFileFromDB(String documentId, String collectionId)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, XMLDBException {
+		System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
+		Class<?> cl = Class.forName(authManager.getDriver());
 
+		// encapsulation of the database driver functionality
+		Database database = (Database) cl.newInstance();
+		database.setProperty("create-database", "true");
 
-    public List<XMLResource> findAllFromCollection(String collectionId) throws Exception {
-        List<XMLResource> lista = new ArrayList<>();
+		// entry point for the API which enables you to get the Collection reference
+		DatabaseManager.registerDatabase(database);
 
+		Collection col = null;
+		try {
+			System.out.println("db manager deleteDocument = " + (authManager.getUri() + collectionId));
+			col = DatabaseManager.getCollection(authManager.getUri() + collectionId, authManager.getUser(),
+					authManager.getPassword());
+			Resource foundFile = col.getResource(documentId);
+			col.removeResource(foundFile);
+		} finally {
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+	}
 
-        System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
-        Class<?> cl = Class.forName(authManager.getDriver());
+	public List<XMLResource> findAllFromCollection(String collectionId) throws Exception {
+		List<XMLResource> lista = new ArrayList<>();
 
-        Database database = (Database) cl.newInstance();
-        database.setProperty("create-database", "true");
+		System.out.println("[INFO] Loading driver class: " + authManager.getDriver());
+		Class<?> cl = Class.forName(authManager.getDriver());
 
-        DatabaseManager.registerDatabase(database);
+		Database database = (Database) cl.newInstance();
+		database.setProperty("create-database", "true");
 
-        Collection col = null;
-        XMLResource res = null;
+		DatabaseManager.registerDatabase(database);
 
-        try {
-            // get the collection
-            System.out.println("[INFO] Retrieving the collection: " + collectionId);
-            col = DatabaseManager.getCollection(authManager.getUri() + collectionId);
-            col.setProperty(OutputKeys.INDENT, "yes");
+		Collection col = null;
+		XMLResource res = null;
 
-            //get all ids from a collection. Put them in array.
-            String[] ids = col.listResources();
-            for (String documentId : ids) {
-                lista.add(readFileFromDB(documentId, collectionId));
-            }
+		try {
+			// get the collection
+			System.out.println("[INFO] Retrieving the collection: " + collectionId);
+			col = DatabaseManager.getCollection(authManager.getUri() + collectionId);
+			col.setProperty(OutputKeys.INDENT, "yes");
 
+			// get all ids from a collection. Put them in array.
+			String[] ids = col.listResources();
+			for (String documentId : ids) {
+				lista.add(readFileFromDB(documentId, collectionId));
+			}
 
-        } finally {
-            // don't forget to clean up!
+		} finally {
+			// don't forget to clean up!
 
-            if (res != null) {
-                try {
-                    ((EXistResource) res).freeResources();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
+			if (res != null) {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
 
-            if (col != null) {
-                try {
-                    col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
 
-        }
+		}
 
-        return lista;
-    }
+		return lista;
+	}
 
+	public Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
+		return getOrCreateCollection(collectionUri, 0);
+	}
 
-    public Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
-        return getOrCreateCollection(collectionUri, 0);
-    }
+	public Collection getOrCreateCollection(String collectionUri, int pathSegmentOffset) throws XMLDBException {
 
-    public Collection getOrCreateCollection(String collectionUri, int pathSegmentOffset) throws XMLDBException {
+		Collection col = DatabaseManager.getCollection(authManager.getUri() + collectionUri, authManager.getUser(),
+				authManager.getPassword());
 
-        Collection col = DatabaseManager.getCollection(authManager.getUri() + collectionUri, authManager.getUser(), authManager.getPassword());
+		// create the collection if it does not exist
+		if (col == null) {
 
-        // create the collection if it does not exist
-        if (col == null) {
+			if (collectionUri.startsWith("/")) {
+				collectionUri = collectionUri.substring(1);
+			}
 
-            if (collectionUri.startsWith("/")) {
-                collectionUri = collectionUri.substring(1);
-            }
+			String pathSegments[] = collectionUri.split("/");
 
-            String pathSegments[] = collectionUri.split("/");
+			if (pathSegments.length > 0) {
+				StringBuilder path = new StringBuilder();
 
-            if (pathSegments.length > 0) {
-                StringBuilder path = new StringBuilder();
+				for (int i = 0; i <= pathSegmentOffset; i++) {
+					path.append("/" + pathSegments[i]);
+				}
 
-                for (int i = 0; i <= pathSegmentOffset; i++) {
-                    path.append("/" + pathSegments[i]);
-                }
+				Collection startCol = DatabaseManager.getCollection(authManager.getUri() + path, authManager.getUser(),
+						authManager.getPassword());
 
-                Collection startCol = DatabaseManager.getCollection(authManager.getUri() + path, authManager.getUser(), authManager.getPassword());
+				if (startCol == null) {
 
-                if (startCol == null) {
+					// child collection does not exist
 
-                    // child collection does not exist
+					String parentPath = path.substring(0, path.lastIndexOf("/"));
+					Collection parentCol = DatabaseManager.getCollection(authManager.getUri() + parentPath,
+							authManager.getUser(), authManager.getPassword());
 
-                    String parentPath = path.substring(0, path.lastIndexOf("/"));
-                    Collection parentCol = DatabaseManager.getCollection(authManager.getUri() + parentPath, authManager.getUser(),
-                            authManager.getPassword());
+					CollectionManagementService mgt = (CollectionManagementService) parentCol
+							.getService("CollectionManagementService", "1.0");
 
-                    CollectionManagementService mgt = (CollectionManagementService) parentCol
-                            .getService("CollectionManagementService", "1.0");
+					System.out.println("[INFO] Creating the collection: " + pathSegments[pathSegmentOffset]);
+					col = mgt.createCollection(pathSegments[pathSegmentOffset]);
 
-                    System.out.println("[INFO] Creating the collection: " + pathSegments[pathSegmentOffset]);
-                    col = mgt.createCollection(pathSegments[pathSegmentOffset]);
+					col.close();
+					parentCol.close();
 
-                    col.close();
-                    parentCol.close();
-
-                } else {
-                    startCol.close();
-                }
-            }
-            return getOrCreateCollection(collectionUri, ++pathSegmentOffset);
-        } else {
-            return col;
-        }
-    }
+				} else {
+					startCol.close();
+				}
+			}
+			return getOrCreateCollection(collectionUri, ++pathSegmentOffset);
+		} else {
+			return col;
+		}
+	}
 
 }
-
-
