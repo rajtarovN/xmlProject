@@ -1,17 +1,39 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
-@XmlRootElement
-public class EvidentiraneVakcineDTO {
+@XmlRootElement(name = "evidentirana_vakcina")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class EvidentiraneVakcineDTO implements Serializable {
+    private final static long serialVersionUID = 1L;
+
+    @XmlElement(name= "nazivVakcine", required = true)
     public String nazivVakcine;
+
+    @XmlElement(name= "datumDavanja", required = true)
     public String datumDavanja;
+
+    @XmlElement(name= "nacinDavanja", required = true)
     public String nacinDavanja;
+
+    @XmlElement(name= "ekstremitet", required = true)
     public String ekstremitet;
+
+    @XmlElement(name= "serijaVakcine", required = true)
     public String serijaVakcine;
+
+    @XmlElement(name= "proizvodjac", required = true)
     public String proizvodjac;
+
+    @XmlElement(name= "nezeljenaReakcija")
     public String nezeljenaReakcija;
 
     public EvidentiraneVakcineDTO() {

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
+import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ForbiddenException;
@@ -69,7 +70,21 @@ public class SaglasnostService  extends AbstractService{
         ArrayList<SaglasnostDTO> lista = new ArrayList<>();
         for(String i : ids) {
             Saglasnost z = this.pronadjiPoId(Long.parseLong(i));
-            lista.add(new SaglasnostDTO(z));
+            if(z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
+                lista.add(new SaglasnostDTO(z));
+            }
+            else{
+                boolean vaxxed = false;
+                for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina: z.getEvidencijaOVakcinaciji().getVakcine().getVakcina() ) {
+                    if(vakcina.getDatumDavanja().toString().equals(z.getPacijent().getDatum().getValue().toString())){
+                        vaxxed = true;
+                        break;
+                    }
+                }
+                if(!vaxxed){
+                    lista.add(new SaglasnostDTO(z));
+                }
+            }
         }
         return lista;
     }
@@ -133,16 +148,24 @@ public class SaglasnostService  extends AbstractService{
             evidencija.setLekar(lekar);
 
             Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine = new Saglasnost.EvidencijaOVakcinaciji.Vakcine();
-            vakcine.setOdlukaKomisijeZaTrajneKontraindikacije(evidencijaDTO.getOdlukaKomisije());
+            if(evidencijaDTO.getOdlukaKomisije() == null){
+                vakcine.setOdlukaKomisijeZaTrajneKontraindikacije("");
+            }else   vakcine.setOdlukaKomisijeZaTrajneKontraindikacije(evidencijaDTO.getOdlukaKomisije());
             Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije privremeneKontraindikacije =
                     new Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije();
-            privremeneKontraindikacije.setDijagnoza(evidencijaDTO.getDijagnoza());
-            String FORMATER = "yyyy-MM-dd";
-            DateFormat format = new SimpleDateFormat(FORMATER);
-            Date date = format.parse( evidencijaDTO.getDatumUtvrdjivanja());
-            XMLGregorianCalendar gDateFormatted =
-                    DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
-            privremeneKontraindikacije.setDatumUtvrdjivanja(gDateFormatted);
+
+            if(evidencijaDTO.getDatumUtvrdjivanja() != null ) {
+                String FORMATER = "yyyy-MM-dd";
+                DateFormat format = new SimpleDateFormat(FORMATER);
+                Date date = format.parse(evidencijaDTO.getDatumUtvrdjivanja());
+                XMLGregorianCalendar gDateFormatted =
+                        DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
+                privremeneKontraindikacije.setDatumUtvrdjivanja(gDateFormatted);
+                privremeneKontraindikacije.setDijagnoza(evidencijaDTO.getDijagnoza());
+            }else{
+                privremeneKontraindikacije.setDijagnoza("");
+                privremeneKontraindikacije.setDatumUtvrdjivanja(null);
+            }
             vakcine.setPrivremeneKontraindikacije(privremeneKontraindikacije);
 
             evidencija.setVakcine(vakcine);
@@ -167,38 +190,41 @@ public class SaglasnostService  extends AbstractService{
         }
     }
 
-    public String dodajEvidentiraneVakcine(EvidentiraneVakcineDTO evidentiraneVakcineDTO, String brojSaglasnosti){
+    public String dodajEvidentiraneVakcine(ListaEvidentiranihVakcina evidentiraneVakcineDTO, String brojSaglasnosti){
         try {
             Saglasnost saglasnost = pronadjiPoId(Long.parseLong(brojSaglasnosti));
             Saglasnost.EvidencijaOVakcinaciji evidencija = saglasnost.getEvidencijaOVakcinaciji();
             Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine = saglasnost.getEvidencijaOVakcinaciji().getVakcine();
-
             List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> listaVakcina = new ArrayList<>();
-            if(!saglasnost.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
-                listaVakcina.addAll(saglasnost.getEvidencijaOVakcinaciji().getVakcine().getVakcina());
+            int i = 0;
+
+            for (EvidentiraneVakcineDTO vakcinaDto: evidentiraneVakcineDTO.getEvidentiraneVakcineDTO()) {
+                i += 1;
+                Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina =
+                        new Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina();
+                vakcina.setNaziv(vakcinaDto.getNazivVakcine());
+                XMLGregorianCalendar result1 = DatatypeFactory.newInstance()
+                        .newXMLGregorianCalendar(vakcinaDto.getDatumDavanja());
+                vakcina.setDatumDavanja(result1);
+
+                vakcina.setNacinDavanja("IM");
+                if (vakcinaDto.getEkstremitet().equals("LR") ||
+                        vakcinaDto.getEkstremitet().equals("DR"))
+                    vakcina.setEkstremiter(vakcinaDto.getEkstremitet().equals("LR") ? "leva ruka" : "desna ruka");
+                else
+                    vakcina.setEkstremiter(vakcinaDto.getEkstremitet());
+                vakcina.setSerija(vakcinaDto.getSerijaVakcine());
+                vakcina.setProizvodjac(vakcinaDto.getProizvodjac());
+                vakcina.setNezeljenaReakcija(vakcinaDto.getNezeljenaReakcija());
+                vakcina.setDoza(BigInteger.valueOf(i));
+                listaVakcina.add(vakcina);
+
             }
-            int i = listaVakcina.size();
-            i += 1;
-            Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina =
-                    new Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina();
-            vakcina.setNaziv(evidentiraneVakcineDTO.getNazivVakcine());
-            XMLGregorianCalendar result1 = DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendar(evidentiraneVakcineDTO.getDatumDavanja());
-            vakcina.setDatumDavanja(result1);
-
-            vakcina.setNacinDavanja("IM");
-            vakcina.setEkstremiter(evidentiraneVakcineDTO.getEkstremitet());
-            vakcina.setSerija(evidentiraneVakcineDTO.getSerijaVakcine());
-            vakcina.setProizvodjac(evidentiraneVakcineDTO.getProizvodjac());
-            vakcina.setNezeljenaReakcija(evidentiraneVakcineDTO.getNezeljenaReakcija());
-            vakcina.setDoza(BigInteger.valueOf(i));
-            listaVakcina.add(vakcina);
-
             vakcine.setVakcina(listaVakcina);
             evidencija.setVakcine(vakcine);
             saglasnost.setEvidencijaOVakcinaciji(evidencija);
 
-            String documentId = "saglasnost_"+brojSaglasnosti;
+            String documentId = "saglasnost_" + brojSaglasnosti;
             String collectionId = "/db/portal/lista_saglasnosti";
 
             JAXBContext context = JAXBContext
@@ -211,7 +237,7 @@ public class SaglasnostService  extends AbstractService{
             marshaller.marshal(saglasnost, os);
             dbManager.saveFileToDB(documentId, collectionId, os.toString());
 
-            return "Uspesno sacuvana evidentirana vakcina.";
+            return "Uspesno sacuvane evidentirane vakcine.";
         } catch (Exception e) {
             e.printStackTrace();
             throw new ForbiddenException("Error se desio pri cuvanju evidentirane vakcine.");

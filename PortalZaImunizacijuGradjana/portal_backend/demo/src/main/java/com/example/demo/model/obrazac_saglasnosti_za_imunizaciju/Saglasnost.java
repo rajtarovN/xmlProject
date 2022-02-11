@@ -1242,7 +1242,7 @@ public class Saglasnost {
             })
             public static class PrivremeneKontraindikacije {
 
-                @XmlElement(name = "Datum_utvrdjivanja")
+                @XmlElement(name = "Datum_utvrdjivanja", nillable = true, required = false)
                 @XmlSchemaType(name = "date")
                 protected XMLGregorianCalendar datumUtvrdjivanja;
                 @XmlElement(name = "Dijagnoza", required = true)

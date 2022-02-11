@@ -156,10 +156,13 @@ img {
 }
 
 mat-card {
-  height: 75%;
-  width: 100%;
+  height: 150px;
+  width: 700px;
+  margin-left: 40px;
   background-color: transparent;
   box-shadow: none !important;
+  overflow: auto;
+  padding-bottom: 1.34375em;
 }
 
 table {
@@ -207,4 +210,12 @@ table {
   display: flex;
   width: 700px;
   margin-left: 50px;
+}
+
+.custom-scroll-bar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scroll-bar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.26);
 }
