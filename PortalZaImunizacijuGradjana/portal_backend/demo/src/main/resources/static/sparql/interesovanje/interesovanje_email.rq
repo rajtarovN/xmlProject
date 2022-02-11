@@ -1,0 +1,8 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?interesovanje FROM <%s>
+WHERE{
+    ?interesovanje <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/email> ?email .
+    BIND(xs:string(%s) as ?email2) .
+    BIND(xs:string(?email) as ?email1) .
+    FILTER ( ?email1 = ?email2)
+}
