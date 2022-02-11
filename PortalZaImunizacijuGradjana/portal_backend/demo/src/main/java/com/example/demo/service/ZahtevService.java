@@ -24,7 +24,6 @@ public class ZahtevService extends AbstractService{
 
     @Override
     public void saveXML(String documentId, String content) throws Exception {
-
         InputStream inputStream = new ReaderInputStream(new StringReader(content));
 
         JAXBContext context = JAXBContext.newInstance(ZahtevZaZeleniSertifikat.class);

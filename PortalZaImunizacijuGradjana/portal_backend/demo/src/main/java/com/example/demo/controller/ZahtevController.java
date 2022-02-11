@@ -31,14 +31,13 @@ public class ZahtevController {
     public ResponseEntity<?> saveXML(@PathVariable String jmbg, @PathVariable String datum,
                                      @RequestBody String content) {
         String documentId = jmbg + '_' + datum;
-        System.out.println("stiglooo");
+
         try {
             zahtevService.saveXML(documentId, content);
-            //interesovanjeService.saveRDF(content, documentId);
-            System.out.println("nemoguca misija za izija");
+            zahtevService.saveRDF(content, documentId);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
-            e.printStackTrace();System.out.println("greska sa greskom");
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
