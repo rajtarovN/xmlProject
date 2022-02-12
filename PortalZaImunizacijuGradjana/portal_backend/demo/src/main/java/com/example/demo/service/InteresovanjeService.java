@@ -162,7 +162,7 @@ public class InteresovanjeService extends AbstractService {
 			marshallerSaglasnost.marshal(saglasnost, os);
 			saglasnostService.saveXML("saglasnost_" + id, os.toString());
 			System.out.println(os.toString());
-			//saglasnostService.saveRDF(os.toString(), "/saglasnost");
+			saglasnostService.saveRDF(os.toString(), "/saglasnost");
 			// TODO Save zalihe
 		}
 
