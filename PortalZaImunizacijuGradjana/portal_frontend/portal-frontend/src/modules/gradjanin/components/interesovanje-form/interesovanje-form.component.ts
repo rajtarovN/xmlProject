@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Select } from 'src/modules/shared/models/select';
 import { InteresovanjeService } from 'src/modules/shared/services/interesovanje-service/interesovanje.service';
 import { UUID } from 'angular2-uuid';
-import { ChildActivationStart } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-interesovanje-form',
@@ -14,7 +14,8 @@ import { ChildActivationStart } from '@angular/router';
 export class InteresovanjeFormComponent implements OnInit {
   addInteresovanjeForm!: FormGroup;
   parser = new DOMParser();
-  id: string = '-1';
+  id: any = '-1';
+  datumPodnosenja!: string | null;
 
   drzavljanstva: Select[] = [
     {
@@ -57,7 +58,8 @@ export class InteresovanjeFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private service: InteresovanjeService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private datepipe: DatePipe
   ) {
     this.initialize();
   }
@@ -70,29 +72,39 @@ export class InteresovanjeFormComponent implements OnInit {
     this.service.getInteresovanje(email).subscribe({
       next: (success) => {
         let xmlDoc = this.parser.parseFromString(success, 'text/xml');
-        let Drzavljanstvo = xmlDoc.getElementsByTagName('drzavljanstvo');
-        let Jmbg = xmlDoc.getElementsByTagName('jmbg');
-        let Ime = xmlDoc.getElementsByTagName('ime');
-        let Prezime = xmlDoc.getElementsByTagName('prezime');
-        let Email = xmlDoc.getElementsByTagName('email');
-        let Broj_mobilnog = xmlDoc.getElementsByTagName('brojMobilnog');
-        let Broj_fixsnog = xmlDoc.getElementsByTagName('brojFikcnog');
-        let Davalac_krvi = xmlDoc.getElementsByTagName('davalac');
+        this.id = xmlDoc
+          .getElementsByTagName('Interesovanje')[0]
+          .getAttribute('about')
+          ?.split('/')[5];
+        console.log(this.id);
+        let Drzavljanstvo =
+          xmlDoc.getElementsByTagName('Drzavljanstvo')[0].textContent;
+        let Jmbg = xmlDoc.getElementsByTagName('Jmbg')[0].textContent;
+        let Ime = xmlDoc.getElementsByTagName('Ime')[0].textContent;
+        let Prezime = xmlDoc.getElementsByTagName('Prezime')[0].textContent;
+        let Email = xmlDoc.getElementsByTagName('Email')[0].textContent;
+        let Broj_mobilnog =
+          xmlDoc.getElementsByTagName('Broj_mobilnog')[0].textContent;
+        let Broj_fixsnog =
+          xmlDoc.getElementsByTagName('Broj_fiksnog')[0].textContent;
+        let Davalac_krvi = xmlDoc
+          .getElementsByTagName('Davalac_krvi')[0]
+          .getAttribute('Davalac');
         let Lokacija_primanja_vakcine = xmlDoc.getElementsByTagName(
-          'lokacijaPrimanjaVakcine'
+          'Lokacija_primanja_vakcine'
+        )[0].textContent;
+        let Proizvodjaci = xmlDoc.getElementsByTagName('Proizvodjac');
+        this.datumPodnosenja = xmlDoc.getElementsByTagName(
+          'Datum_podnosenja_interesovanja'
+        )[0].textContent;
+
+        console.log(
+          xmlDoc.getElementsByTagName('Datum_podnosenja_interesovanja')[0]
+            .textContent
         );
-        let Proizvodjaci = xmlDoc.getElementsByTagName('proizvodjac');
-        let Datum_podnosenja_interesovanja = xmlDoc.getElementsByTagName(
-          'datumPodnosenjaInteresovanja'
-        );
-        console.log(Proizvodjaci[0].children[0].textContent);
-        console.log(Proizvodjaci[2].children[0].textContent);
         var lista = [];
-        for (let index = 0; index < Proizvodjaci.length - 1; index++) {
-          let element = Proizvodjaci[index].children[0].textContent;
-          console.log(element);
-          console.log(index);
-          lista.push(element);
+        for (let index = 0; index < Proizvodjaci.length; index++) {
+          lista.push(Proizvodjaci[index].textContent);
         }
 
         this.addInteresovanjeForm = this.fb.group({
@@ -124,7 +136,7 @@ export class InteresovanjeFormComponent implements OnInit {
             Validators.required,
           ],
           davalacKrvi: [
-            { value: Boolean(Davalac_krvi), disabled: true },
+            { value: Davalac_krvi, disabled: true },
             Validators.required,
           ],
         });
@@ -168,21 +180,20 @@ export class InteresovanjeFormComponent implements OnInit {
   }
 
   delete(): void {
-    this.service
-      .deleteInteresovanje(this.addInteresovanjeForm.value.Jmbg)
-      .subscribe({
-        next: () => {
-          this.openSnackBar('interesovanje je uspesno kreirano.');
-        },
-        error: () => {
-          this.openSnackBar('interesovanje nije uspesno kreirano.');
-        },
-      });
+    if (this.id === undefined) return;
+    this.service.deleteInteresovanje(this.id).subscribe({
+      next: () => {
+        this.openSnackBar('interesovanje je uspesno izbrisano.');
+      },
+      error: () => {
+        this.openSnackBar('interesovanje nije uspesno izbrisano.');
+      },
+    });
   }
 
   send(): void {
     var d = new Date();
-    var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    var date = this.datepipe.transform(d, 'yyyy-MM-dd');
     var prozivodjaci = '';
     if (this.addInteresovanjeForm.value.izabraneVakcine.length == 5) {
       prozivodjaci = '<Proizvodjac>Bilo koja</Proizvodjac>';
@@ -196,6 +207,7 @@ export class InteresovanjeFormComponent implements OnInit {
 
     console.log(this.addInteresovanjeForm.value.izabraneVakcine);
     this.id = UUID.UUID();
+
     let interesovanje = `<?xml version="1.0" encoding="UTF-8"?>
                         <Interesovanje
                           xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje"
