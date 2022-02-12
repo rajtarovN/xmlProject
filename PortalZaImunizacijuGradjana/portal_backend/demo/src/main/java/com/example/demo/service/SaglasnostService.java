@@ -188,10 +188,8 @@ public class SaglasnostService extends AbstractService {
 
 			Saglasnost.EvidencijaOVakcinaciji evidencija = new Saglasnost.EvidencijaOVakcinaciji();
 			evidencija.setVakcinacijskiPunkt(evidencijaDTO.getVakcinacijskiPunkkt());
-			Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova zdravstvenaUstanova = new Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova();
-			zdravstvenaUstanova.setValue(evidencijaDTO.getZdravstvenaUstanova());
-			evidencija.setZdravstvenaUstanova(zdravstvenaUstanova);
-
+			evidencija.setZdravstvenaUstanova(evidencijaDTO.getZdravstvenaUstanova());
+			
 			Saglasnost.EvidencijaOVakcinaciji.Lekar lekar = new Saglasnost.EvidencijaOVakcinaciji.Lekar();
 			lekar.setIme(evidencijaDTO.getImeLekara());
 			lekar.setPrezime(evidencijaDTO.getPrezimeLekara());

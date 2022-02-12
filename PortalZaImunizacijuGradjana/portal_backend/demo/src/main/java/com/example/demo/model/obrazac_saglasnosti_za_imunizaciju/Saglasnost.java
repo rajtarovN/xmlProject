@@ -715,8 +715,7 @@ public class Saglasnost {
         public void setVakcine(Saglasnost.EvidencijaOVakcinaciji.Vakcine value) {
             this.vakcine = value;
         }
-
-
+        
         /**
          * <p>Java class for anonymous complex type.
          * 
@@ -957,6 +956,10 @@ public class Saglasnost {
                 return this.vakcina;
             }
 
+            public void setVakcina(List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> lista) {
+                this.vakcina = lista;
+            }
+
             /**
              * Gets the value of the privremeneKontraindikacije property.
              * 
@@ -1033,8 +1036,9 @@ public class Saglasnost {
             })
             public static class PrivremeneKontraindikacije {
 
-                @XmlElementRef(name = "Datum_utvrdjivanja", namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju", type = JAXBElement.class, required = false)
-                protected JAXBElement<XMLGregorianCalendar> datumUtvrdjivanja;
+            	@XmlElement(name = "Datum_utvrdjivanja", nillable = true, required = false)
+                @XmlSchemaType(name = "date")
+                protected XMLGregorianCalendar datumUtvrdjivanja;
                 @XmlElement(name = "Dijagnoza", required = true)
                 protected String dijagnoza;
 
@@ -1046,20 +1050,20 @@ public class Saglasnost {
                  *     {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
                  *     
                  */
-                public JAXBElement<XMLGregorianCalendar> getDatumUtvrdjivanja() {
+                public XMLGregorianCalendar getDatumUtvrdjivanja() {
                     return datumUtvrdjivanja;
                 }
 
                 /**
                  * Sets the value of the datumUtvrdjivanja property.
                  * 
-                 * @param value
+                 * @param gDateFormatted
                  *     allowed object is
                  *     {@link JAXBElement }{@code <}{@link XMLGregorianCalendar }{@code >}
                  *     
                  */
-                public void setDatumUtvrdjivanja(JAXBElement<XMLGregorianCalendar> value) {
-                    this.datumUtvrdjivanja = value;
+                public void setDatumUtvrdjivanja(XMLGregorianCalendar gDateFormatted) {
+                    this.datumUtvrdjivanja = gDateFormatted;
                 }
 
                 /**
