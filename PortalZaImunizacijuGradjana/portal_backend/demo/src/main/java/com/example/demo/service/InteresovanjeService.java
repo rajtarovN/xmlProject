@@ -30,6 +30,8 @@ import com.example.demo.model.interesovanje.PrintInteresovanje;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.Datum;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Ime;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Prezime;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email;
 import com.example.demo.repository.InteresovanjeRepository;
@@ -123,18 +125,35 @@ public class InteresovanjeService extends AbstractService {
 					.newXMLGregorianCalendar(timeFormatter.format(time));
 
 			saglasnost.setVremeTermina(timeFormatted);
+			
 			saglasnost.getPacijent().setDatum(new Datum());
+			saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
 			saglasnost.getPacijent().getDatum().setValue(dateFormatted);
+			
 			saglasnost.getPacijent().setLicniPodaci(new LicniPodaci());
 			saglasnost.getPacijent().getLicniPodaci().setKontaktInformacije(new KontaktInformacije());
 			
+			// Email
 			String email = interesovanje.getLicneInformacije().getKontakt().getEmail().getValue();
 			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().setEmail(new Email());
 			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail()
 					.setValue(email);
+			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setProperty("pred:email");
+			
+			// Ime
+			saglasnost.getPacijent().getLicniPodaci().setIme(new Ime());
+			saglasnost.getPacijent().getLicniPodaci().getIme().setProperty("pred:ime");
+			saglasnost.getPacijent().getLicniPodaci().getIme().setValue(interesovanje.getLicneInformacije().getIme().getValue());
+			
+			// Prezime
+			saglasnost.getPacijent().getLicniPodaci().setPrezime(new Prezime());
+			saglasnost.getPacijent().getLicniPodaci().getPrezime().setProperty("pred:prezime");
+			saglasnost.getPacijent().getLicniPodaci().getPrezime().setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
 
+			saglasnost.getPacijent().getLicniPodaci().setZanimanjeZaposlenog(" ");
+			
 			JAXBContext contextSaglasnost = JAXBContext
-					.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
+					.newInstance(Saglasnost.class);
 			OutputStream os = new ByteArrayOutputStream();
 
 			Marshaller marshallerSaglasnost = contextSaglasnost.createMarshaller();
@@ -142,7 +161,8 @@ public class InteresovanjeService extends AbstractService {
 
 			marshallerSaglasnost.marshal(saglasnost, os);
 			saglasnostService.saveXML("saglasnost_" + id, os.toString());
-
+			System.out.println(os.toString());
+			//saglasnostService.saveRDF(os.toString(), "/saglasnost");
 			// TODO Save zalihe
 		}
 
@@ -164,6 +184,7 @@ public class InteresovanjeService extends AbstractService {
 			Interesovanje i = (Interesovanje) unmarshaller.unmarshal((res).getContentAsDOM());
 			String email = i.getLicneInformacije().getKontakt().getEmail().getValue();
 
+			System.out.println("EMAIL " + email);
 			// Find saglasnost by email
 			Saglasnost s = saglasnostService.pronadjiSaglasnostPoEmailu(email);
 
@@ -177,26 +198,13 @@ public class InteresovanjeService extends AbstractService {
 
 	}
 
-	public Interesovanje pronadjiPoId(String documentId) throws Exception {
+	public XMLResource pronadjiPoId(String documentId) throws Exception {
 		XMLResource res = repository.readXML("interesovanje_" + documentId + ".xml", collectionId);
-		try {
-			if (res != null) {
+		return res;
 
-				JAXBContext context = JAXBContext.newInstance(Interesovanje.class);
-
-				Unmarshaller unmarshaller = context.createUnmarshaller();
-
-				return (Interesovanje) unmarshaller.unmarshal((res).getContentAsDOM());
-
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			return null;
-		}
 	}
 
-	public Interesovanje pronadjiInteresovanjePoEmailu(String email) throws Exception {
+	public XMLResource pronadjiInteresovanjePoEmailu(String email) throws Exception {
 		String id = ((InteresovanjeRepository) repository).pronadjiPoEmailu(email);
 		try {
 			if (id != null) {
