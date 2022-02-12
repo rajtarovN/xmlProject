@@ -53,7 +53,7 @@ public class InteresovanjeController {
 		try {
 			System.out.println(content);
 			interesovanjeService.saveXML(documentId, content);
-			//interesovanjeService.saveRDF(content, "/interesovanje");
+			interesovanjeService.saveRDF(content, "/interesovanje");
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
