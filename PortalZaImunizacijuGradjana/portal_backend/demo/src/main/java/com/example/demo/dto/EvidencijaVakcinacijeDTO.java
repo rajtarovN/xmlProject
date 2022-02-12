@@ -1,18 +1,39 @@
 package com.example.demo.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-@XmlRootElement
+@XmlRootElement(name = "evidencijaVakcinacijeDTO")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EvidencijaVakcinacijeDTO {
+
+    @XmlElement(name = "zdravstvenaUstanova")
     public String zdravstvenaUstanova;
+
+    @XmlElement(name = "vakcinacijskiPunkkt")
     public String vakcinacijskiPunkkt;
+
+    @XmlElement(name = "imeLekara")
     public String imeLekara;
+
+    @XmlElement(name = "prezimeLekara")
     public String prezimeLekara;
+
+    @XmlElement(name = "telefonLekara")
     public String telefonLekara;
+
+    @XmlElement(name = "odlukaKomisije")
     public String odlukaKomisije;
+
+    @XmlElement(name = "datumUtvrdjivanja")
     public String datumUtvrdjivanja;
+
+    @XmlElement(name = "dijagnoza")
     public String dijagnoza;
+
 
     public String getOdlukaKomisije() {
         return odlukaKomisije;

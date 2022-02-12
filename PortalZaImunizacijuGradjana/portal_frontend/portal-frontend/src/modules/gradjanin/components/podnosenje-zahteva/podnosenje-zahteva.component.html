@@ -1,0 +1,44 @@
+<mat-card class="card-position">
+    <mat-card-title>
+        Podnosenje zahteva za zeleni sertifikat
+    </mat-card-title>
+
+    <mat-card-content>
+        <div [formGroup]="addZahtevForm">
+            <label>Ime: {{this.ime}}</label><br/>
+            <label>Prezime: {{this.prezime}}</label><br/>
+            <label>Pol: {{this.pol}}</label><br/>
+            <label>Datum rodjenja: {{this.datumRodjenja}}</label><br/>
+            <label>Datum podnosenja zahteva: {{this.datumPodnosenjaZhteva}}</label><br/>
+            <label>Unesite jmbg: </label> 
+            <input matInput
+                name="JMBG"
+                formControlName="JMBG"
+                [maxLength]="13"
+                [minLength]="13"/><br/>
+            <label>Unesite broj pasosa: </label> 
+            <input 
+                matInput
+                name="brPasosa"
+                formControlName="brPasosa"
+                [maxLength]="9"
+                [minLength]="9"/><br/>
+            <label>Unesite mesto podnosenja zahteva: </label> 
+            <input matInput
+                name="mesto"
+                formControlName="mesto"/><br/>
+            <label>Unesite razlog podnosenja zahteva: </label><br/>
+        </div>
+        <div id="editor"></div>
+        <button mat-raised-button color="primary" aria-label="Posalji zahtev" (click)="send()" id="sendBtn" [disabled]="addZahtevForm.invalid"
+            class="btn-spacing">
+            Posalji
+        </button>
+        <button mat-raised-button color="primary" aria-label="Posalji zahtev" (click)="cancel()" id="cancelBtn"
+            class="btn-spacing">
+            Obustavi
+        </button>
+
+    </mat-card-content>
+
+</mat-card> 

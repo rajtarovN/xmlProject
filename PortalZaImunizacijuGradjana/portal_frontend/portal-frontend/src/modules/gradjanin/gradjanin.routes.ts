@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { RoleGuard } from "../auth/guards/role/role.guard";
+import { PodnosenjeZahtevaComponent } from "./components/podnosenje-zahteva/podnosenje-zahteva.component";
 import { GradjaninHomepageComponent } from "./pages/gradjanin-homepage/gradjanin-homepage.component";
 
 export const GradjaninRoutes: Routes = [
@@ -9,5 +10,10 @@ export const GradjaninRoutes: Routes = [
     component: GradjaninHomepageComponent,
     canActivate: [RoleGuard],
     data: { expectedRoles: 'G' }
+  },
+  {
+    path: "podnosenje-zahteva",
+    pathMatch: "full",
+    component: PodnosenjeZahtevaComponent,
   },
 ];

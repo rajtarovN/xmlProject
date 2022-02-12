@@ -49,6 +49,7 @@
                 formControlName="ime"
                 required
                 name="ime"
+                minlength="2"
             />
             <mat-hint
                 *ngIf="vakcForm.controls['ime'].dirty && vakcForm.controls['ime'].errors?.['required'] "
@@ -65,6 +66,7 @@
                     formControlName="prezime"
                     required
                     name="prezime"
+                    minlength="2"
                 />
                 <mat-hint
                     *ngIf="vakcForm.controls['prezime'].dirty && vakcForm.controls['prezime'].errors?.['required'] "
@@ -81,6 +83,7 @@
                     formControlName="telefon"
                     required
                     name="telefon"
+                    minlength="9"
                 />
                 <mat-hint
                     *ngIf="vakcForm.controls['telefon'].dirty && vakcForm.controls['telefon'].errors?.['required'] "
@@ -97,7 +100,7 @@
           svaku datu vakcinu i sve tražene podatke u ovaj obrazac i podatke
           uneti u lični karton o izvršenim imunizacijama i zdravstveni karton.
         </div>
-        <mat-card>
+        <mat-card class="custom-scroll-bar">
           <table
             mat-table
             [dataSource]="dataSource"

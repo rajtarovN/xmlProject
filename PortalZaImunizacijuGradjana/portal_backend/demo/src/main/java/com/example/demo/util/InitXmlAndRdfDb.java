@@ -184,10 +184,10 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList("saglasnost_12345.xml", "saglasnost_54321.xml");
+        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321");
         for(String documentId : docIds) {
-            String xmlFilePath = "data/xml/" + documentId;
-            String rdfFilePath = "gen/saglasnost.rdf";
+            String xmlFilePath = "data/xml/" + documentId + ".xml";
+            String rdfFilePath = "gen/" + documentId + ".rdf";
 
             MetadataExtractor metadataExtractor = new MetadataExtractor();
 

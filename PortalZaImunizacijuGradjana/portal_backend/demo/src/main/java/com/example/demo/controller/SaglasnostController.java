@@ -2,19 +2,21 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
-import com.example.demo.dto.KorisnikRegistracijaDTO;
+import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
-import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.service.SaglasnostService;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -81,9 +83,15 @@ public class SaglasnostController {
     @PreAuthorize("hasRole('Z')")
     @PostMapping(path = "/sacuvajEvidentiraneVakcine/{brojSaglasnosti}", consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> sacuvajEvidentiraneVakcine(@PathVariable("brojSaglasnosti") String brojSaglasnosti,
-                                               @RequestBody EvidentiraneVakcineDTO evidentiraneVakcineDTO) {
+                                               @RequestBody String evidentiraneVakcineDTO) {
         try {
-            return new ResponseEntity<>(this.saglasnostService.dodajEvidentiraneVakcine(evidentiraneVakcineDTO, brojSaglasnosti),
+            JAXBContext context = JAXBContext.newInstance(ListaEvidentiranihVakcina.class);
+            InputStream inputStream = new ReaderInputStream(new StringReader(evidentiraneVakcineDTO));
+
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+
+            ListaEvidentiranihVakcina evidentiraneVakcine = (ListaEvidentiranihVakcina) unmarshaller.unmarshal(inputStream);
+            return new ResponseEntity<>(this.saglasnostService.dodajEvidentiraneVakcine(evidentiraneVakcine, brojSaglasnosti),
                     HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

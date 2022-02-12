@@ -1,5 +1,29 @@
 package com.example.demo.service;
 
+
+import com.example.demo.dto.EvidencijaVakcinacijeDTO;
+import com.example.demo.dto.EvidentiraneVakcineDTO;
+import com.example.demo.dto.ListaEvidentiranihVakcina;
+import com.example.demo.dto.SaglasnostDTO;
+import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.exceptions.ForbiddenException;
+import com.example.demo.model.korisnik.ListaKorisnika;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.repository.SaglasnostRepository;
+import com.example.demo.util.DBManager;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
+
+import javax.xml.bind.*;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

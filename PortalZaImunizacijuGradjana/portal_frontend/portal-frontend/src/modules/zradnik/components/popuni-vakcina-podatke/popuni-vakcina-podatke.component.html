@@ -10,19 +10,12 @@
       <form class="example-form" [formGroup]="vakcPodaciForm">
         <mat-card-content>
           <mat-form-field class="example-full-width">
-            <input
-              matInput
-              class="form-control"
-              type="text"
-              placeholder="Naziv vakcine"
-              formControlName="nazivVakcine"
-              name="nazivVakcine"
-              required
-            />
-            <mat-hint
-              *ngIf="vakcPodaciForm.controls['nazivVakcine'].dirty && vakcPodaciForm.controls['nazivVakcine'].errors?.['required']"
-              >Unesite naziv vakcine</mat-hint
-            >
+            <mat-label style="color: #b3b3b3">Naziv vakcine</mat-label>
+            <mat-select  #nazivvakcine id="mat-select-priority" >
+              <mat-option *ngFor="let p of naziviVakcina" [value]="p.name">
+                {{ p.name }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
           <div class="m_l_r_20">
             <mat-label style="margin-right: 15px;">Ekstremitet</mat-label>
