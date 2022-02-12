@@ -113,6 +113,14 @@
 			<artifactId>xalan</artifactId>
 			<version>2.7.2</version>
 		</dependency>
+<<<<<<< HEAD
+		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/fop -->
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>2.1</version>
+		</dependency>
+=======
 		
 		<dependency>
 			<groupId>commons-httpclient</groupId>
@@ -132,6 +140,7 @@
 			<scope>test</scope>
 		</dependency>
 		
+>>>>>>> develop
 	</dependencies>
 	<profiles>
 		<profile>

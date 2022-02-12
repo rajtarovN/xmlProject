@@ -31,6 +31,16 @@ public class PathConstants {
 	 public static final String POTVRDA_O_VAKCINACIJI_RDF = "gen/Potvrda_o_vakcinaciji_primer.rdf";
 	 public static final String SAGLASNOST_RDF = "gen/saglasnost.rdf";
 	 public static final String ZAHTEV_ZA_SERTIFIKAT_RDF = "gen/Zahtev_za_sertifikat.rdf";
-	 
-	 
+
+	public static final String FOP_XCONF = "src/main/resources/fop.xconf";
+	public static final String SAVE_HTML = "data/html_documents/";
+	public static final String SAVE_PDF = "data/pdf_documents/";
+
+	public static final String DIGITALNISERTIFIKAT_XSL_FO =  BASE + "/xsl_doc/digitalni_sertifikat.xsl";
+	public static final String INTERESOVANJE_XSL_FO =  BASE + "/xsl_doc/Interesovanje.xsl";
+	public static final String IZVESTAJ_XSL_FO =  BASE + "/xsl_doc/Izvestaj.xsl";
+	public static final String POTVRDA_O_VAKCINACIJI_XSL_FO =  BASE + "/xsl_doc/Potvrda_o_vakcinaciji.xsl";
+	public static final String SAGLASNOST_XSL_FO =  BASE + "/xsl_doc/saglasnost.xsl";
+	public static final String ZAHTEV_XSL_FO =  BASE + "/xsl_doc/zahtev.xsl";
+
 }
