@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.xmldb.api.modules.XMLResource;
 
 import com.example.demo.model.interesovanje.Interesovanje;
+import com.example.demo.model.interesovanje.PrintInteresovanje;
 import com.example.demo.service.InteresovanjeService;
 
 @Controller
@@ -38,6 +39,7 @@ public class InteresovanjeController {
 	public ResponseEntity<?> getXMLByEmail(@PathVariable String email) {
 		try {
 			Interesovanje interesovanje = interesovanjeService.pronadjiInteresovanjePoEmailu(email);
+			//PrintInteresovanje.printInteresovanje(interesovanje);
 			//TODO send string
 			return new ResponseEntity<>(interesovanje, HttpStatus.CREATED);
 		} catch (Exception e) {

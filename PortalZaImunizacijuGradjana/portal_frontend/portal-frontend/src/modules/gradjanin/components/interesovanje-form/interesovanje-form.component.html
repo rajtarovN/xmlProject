@@ -4,7 +4,7 @@
   </mat-card-title>
 
   <mat-card-content>
-    <table [formGroup]="addInteresovanjeForm">
+    <form [formGroup]="addInteresovanjeForm" *ngIf="addInteresovanjeForm">
       <tr>
         <td colspan="2">
           <mat-form-field class="typeInput">
@@ -137,27 +137,26 @@
           </mat-radio-group>
         </td>
       </tr>
-    </table>
-
-    <button
-      (click)="cancel()"
-      mat-raised-button
-      color="primary"
-      aria-label="Obustavi"
-      id="cancelBtn"
-      class="btn-spacing"
-    >
-      Обустави
-    </button>
-    <button
-      mat-raised-button
-      color="primary"
-      aria-label="Posalji resenje"
-      [disabled]="addInteresovanjeForm.invalid"
-      (click)="send()"
-      id="sendBtn"
-    >
-      Пошаљи
-    </button>
+      <button
+        (click)="cancel()"
+        mat-raised-button
+        color="primary"
+        aria-label="Obustavi"
+        id="cancelBtn"
+        class="btn-spacing"
+      >
+        Обустави
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        aria-label="Posalji resenje"
+        [disabled]="addInteresovanjeForm.invalid"
+        (click)="send()"
+        id="sendBtn"
+      >
+        Пошаљи
+      </button>
+    </form>
   </mat-card-content>
 </mat-card>

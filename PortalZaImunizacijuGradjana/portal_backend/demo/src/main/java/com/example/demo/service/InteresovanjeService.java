@@ -61,10 +61,6 @@ public class InteresovanjeService extends AbstractService {
 
 		Interesovanje interesovanje = (Interesovanje) unmarshaller.unmarshal(inputStream);
 		
-		interesovanje.setAbout("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/" + documentId);
-		repository.saveRDF(content, fusekiCollectionId);
-		PrintInteresovanje.printInteresovanje(interesovanje);
-		
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
@@ -151,7 +147,6 @@ public class InteresovanjeService extends AbstractService {
 		}
 
 		repository.saveXML("interesovanje_" + documentId, collectionId, content);
-		//repository.saveRDF(content, fusekiCollectionId);
 	}
 
 	@Override

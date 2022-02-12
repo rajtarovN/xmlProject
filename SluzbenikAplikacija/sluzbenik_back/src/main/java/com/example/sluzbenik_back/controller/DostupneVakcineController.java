@@ -43,7 +43,7 @@ public class DostupneVakcineController {
 	}
 
 	@PostMapping(consumes = "application/xml")
-	@PreAuthorize("hasAnyRole('S')")
+	//@PreAuthorize("hasAnyRole('S')")
 	public ResponseEntity<?> saveXML(@RequestBody String content) {
 		String documentId = "zalihe";
 

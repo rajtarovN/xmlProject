@@ -12,7 +12,7 @@ import { ChildActivationStart } from '@angular/router';
   styleUrls: ['./interesovanje-form.component.scss'],
 })
 export class InteresovanjeFormComponent implements OnInit {
-  addInteresovanjeForm: FormGroup;
+  addInteresovanjeForm!: FormGroup;
   parser = new DOMParser();
   id: string = '-1';
 
@@ -59,36 +59,6 @@ export class InteresovanjeFormComponent implements OnInit {
     private service: InteresovanjeService,
     private snackBar: MatSnackBar
   ) {
-    this.addInteresovanjeForm = this.fb.group({
-      drzavljanstvo: [null, Validators.required],
-      JMBG: [
-        null,
-        [
-          Validators.required,
-          Validators.minLength(13),
-          Validators.maxLength(13),
-          Validators.pattern('[0-9]{13}'),
-        ],
-      ],
-      ime: [localStorage.getItem('ime'), Validators.required],
-      prezime: [localStorage.getItem('prezime'), Validators.required],
-      email: [
-        localStorage.getItem('email'),
-        [Validators.required, Validators.email],
-      ],
-      mobilni: [
-        null,
-        [Validators.required, Validators.pattern('[0][6][0-9]{8}')],
-      ],
-      fiksni: [
-        null,
-        [Validators.required, Validators.pattern('[0][1][1][0-9]{7}')],
-      ],
-      opstina: [null, Validators.required],
-      izabraneVakcine: [null, Validators.required],
-      davalacKrvi: [null, Validators.required],
-    });
-
     this.initialize();
   }
 
@@ -100,25 +70,70 @@ export class InteresovanjeFormComponent implements OnInit {
     this.service.getInteresovanje(email).subscribe({
       next: (success) => {
         let xmlDoc = this.parser.parseFromString(success, 'text/xml');
-        let drzavljanstvo = xmlDoc.getElementsByTagName('Drzavljanstvo');
-        let Jmbg = xmlDoc.getElementsByTagName('Jmbg');
-        let Ime = xmlDoc.getElementsByTagName('Vakcina');
-        let Prezime = xmlDoc.getElementsByTagName('Prezime');
-        let Email = xmlDoc.getElementsByTagName('Email');
-        let Broj_mobilnog = xmlDoc.getElementsByTagName('Broj_mobilnog');
-        let Broj_fixsnog = xmlDoc.getElementsByTagName('Broj_mobilnog');
-        let Davalac_krvi = xmlDoc.getElementsByTagName('Davalac_krvi');
-        let Lokacija_primanja_vakcine =
-          xmlDoc.getElementsByTagName('Broj_mobilnog');
-        let Proizvodjaci = xmlDoc.getElementsByTagName('Proizvodjaci');
-        let Datum_podnosenja_interesovanja = xmlDoc.getElementsByTagName(
-          'Datum_podnosenja_interesovanja'
+        let Drzavljanstvo = xmlDoc.getElementsByTagName('drzavljanstvo');
+        let Jmbg = xmlDoc.getElementsByTagName('jmbg');
+        let Ime = xmlDoc.getElementsByTagName('ime');
+        let Prezime = xmlDoc.getElementsByTagName('prezime');
+        let Email = xmlDoc.getElementsByTagName('email');
+        let Broj_mobilnog = xmlDoc.getElementsByTagName('brojMobilnog');
+        let Broj_fixsnog = xmlDoc.getElementsByTagName('brojFikcnog');
+        let Davalac_krvi = xmlDoc.getElementsByTagName('davalac');
+        let Lokacija_primanja_vakcine = xmlDoc.getElementsByTagName(
+          'lokacijaPrimanjaVakcine'
         );
-        console.log(Lokacija_primanja_vakcine);
+        let Proizvodjaci = xmlDoc.getElementsByTagName('proizvodjac');
+        let Datum_podnosenja_interesovanja = xmlDoc.getElementsByTagName(
+          'datumPodnosenjaInteresovanja'
+        );
+        console.log(Proizvodjaci[0].children[0].textContent);
+        console.log(Proizvodjaci[2].children[0].textContent);
+        var lista = [];
+        for (let index = 0; index < Proizvodjaci.length - 1; index++) {
+          let element = Proizvodjaci[index].children[0].textContent;
+          console.log(element);
+          console.log(index);
+          lista.push(element);
+        }
+
         this.addInteresovanjeForm = this.fb.group({
-          drzavljanstvo: [{ value: '', disabled: true }, Validators.required],
+          drzavljanstvo: [
+            { value: Drzavljanstvo, disabled: true },
+            Validators.required,
+          ],
+          JMBG: [{ value: Jmbg, disabled: true }, [Validators.required]],
+          ime: [{ value: Ime, disabled: true }, Validators.required],
+          prezime: [{ value: Prezime, disabled: true }, Validators.required],
+          email: [
+            { value: Email, disabled: true },
+            [Validators.required, Validators.email],
+          ],
+          mobilni: [
+            { value: Broj_mobilnog, disabled: true },
+            [Validators.required, Validators.pattern('[0][6][0-9]{8}')],
+          ],
+          fiksni: [
+            { value: Broj_fixsnog, disabled: true },
+            [Validators.required, Validators.pattern('[0][1][1][0-9]{7}')],
+          ],
+          opstina: [
+            { value: Lokacija_primanja_vakcine, disabled: true },
+            Validators.required,
+          ],
+          izabraneVakcine: [
+            { value: lista, disabled: true },
+            Validators.required,
+          ],
+          davalacKrvi: [
+            { value: Boolean(Davalac_krvi), disabled: true },
+            Validators.required,
+          ],
+        });
+      },
+      error: (error) => {
+        this.addInteresovanjeForm = this.fb.group({
+          drzavljanstvo: [null, Validators.required],
           JMBG: [
-            { value: '', disabled: true },
+            null,
             [
               Validators.required,
               Validators.minLength(13),
@@ -126,27 +141,24 @@ export class InteresovanjeFormComponent implements OnInit {
               Validators.pattern('[0-9]{13}'),
             ],
           ],
-          ime: [{ value: '', disabled: true }, Validators.required],
-          prezime: [{ value: '', disabled: true }, Validators.required],
+          ime: [localStorage.getItem('ime'), Validators.required],
+          prezime: [localStorage.getItem('prezime'), Validators.required],
           email: [
-            { value: '', disabled: true },
+            localStorage.getItem('email'),
             [Validators.required, Validators.email],
           ],
           mobilni: [
-            { value: '', disabled: true },
+            null,
             [Validators.required, Validators.pattern('[0][6][0-9]{8}')],
           ],
           fiksni: [
-            { value: '', disabled: true },
+            null,
             [Validators.required, Validators.pattern('[0][1][1][0-9]{7}')],
           ],
-          opstina: [{ value: '', disabled: true }, Validators.required],
-          izabraneVakcine: [{ value: '', disabled: true }, Validators.required],
-          davalacKrvi: [{ value: '', disabled: true }, Validators.required],
+          opstina: [null, Validators.required],
+          izabraneVakcine: [null, Validators.required],
+          davalacKrvi: [null, Validators.required],
         });
-      },
-      error: (error) => {
-        console.log(error);
       },
     });
   }
