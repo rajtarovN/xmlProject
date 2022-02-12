@@ -203,36 +203,37 @@ export class PrikazPotvrdeComponent implements OnInit {
         datumRodjenja: this.vakcForm.value.datumRodjenja, 
         pol: this.vakcForm.value.pol, 
         zUstanova: this.vakcForm.value.zustanova, 
-        datumIzdavanja: this.vakcForm.value.datumIzdavanja, 
-        drz: this.vakcForm.value.drz
+        datumIzdavanja: String(new Date()), 
+        drz: this.srb ? "srb" : "str",
       };
       if(temp.drz === "srb") temp.jmbg = this.vakcForm.value.jmbg;
       else temp.ebs = this.vakcForm.value.ebs;
 
       let data: any = JsonToXML.parse(
-        'evidencijaVakcinacijeDTO',
+        'potvrdaVakcinacijeDTO',
         temp,
         options
       );
 
-      //send evidenciju then vakcine
+      //send potvrdu then vakcine
       this.potvrdaService
         .savePotvrdu(data)
         .subscribe(
           (response) => {
-
-            this.saglasnostService
-              .saveEvidentiraneVakcine(tryal03, response)
+            var t = String(response);
+            this.potvrdaService
+              .saveDoze(tryal03, t)
               .subscribe(
-                (response) => {
+                (result) => {
                   this.toastr.success('Uspesno izdata potvrda o vakcinaciji!');
                   //TODO mail && saglasnost create
+                  this.onPotvrdaSaved.emit(this.brojSaglasnosti);
                 },
                 (error) => {
                   this.toastr.error(error.error);
                 }
               );
-            this.onPotvrdaSaved.emit(this.brojSaglasnosti);
+            
           },
           (error) => {
             this.toastr.error(error.error);

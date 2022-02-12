@@ -39,7 +39,6 @@ public abstract class RepositoryInterface {
     /**
      * 
      * @param content ovo je sam xml koji dobijemo sa fronta u xml formatu
-     * @param rdfName
      * @param uri
      * @throws Exception
      */
@@ -49,7 +48,7 @@ public abstract class RepositoryInterface {
 		MetadataExtractor extractor = new MetadataExtractor();
         extractor.extractMetadata(in, out);
 
-        String rdfAsString = new String(out.toByteArray());
+        String rdfAsString = out.toString();
         InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
         fusekiManager.writeFuseki(rdfInputStream, uri);
     }

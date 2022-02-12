@@ -160,6 +160,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlType(name = "", propOrder = {
     "licniPodaci",
     "vakcinacija",
+    "zdravstvenaUstanova",
     "datumIzdavanja"
 })
 @XmlRootElement(name = "potvrda_o_vakcinaciji")
@@ -167,8 +168,10 @@ public class PotvrdaOVakcinaciji {
 
     @XmlElement(name = "licni_podaci", required = true)
     protected PotvrdaOVakcinaciji.LicniPodaci licniPodaci;
-    @XmlElement(required = true)
+    @XmlElement(nillable = true, required = false)
     protected PotvrdaOVakcinaciji.Vakcinacija vakcinacija;
+    @XmlElement(name = "zdravstvena_ustanova", required = true)
+    protected String zdravstvenaUstanova;
     @XmlElement(name = "datum_izdavanja", required = true)
     protected PotvrdaOVakcinaciji.DatumIzdavanja datumIzdavanja;
     @XmlAttribute(name = "about")
@@ -225,6 +228,30 @@ public class PotvrdaOVakcinaciji {
      */
     public void setVakcinacija(PotvrdaOVakcinaciji.Vakcinacija value) {
         this.vakcinacija = value;
+    }
+
+    /**
+     * Gets the value of the zdravstvenaUstanova property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getZdravstvenaUstanova() {
+        return zdravstvenaUstanova;
+    }
+
+    /**
+     * Sets the value of the zdravstvenaUstanova property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setZdravstvenaUstanova(String value) {
+        this.zdravstvenaUstanova = value;
     }
 
     /**
@@ -1022,14 +1049,11 @@ public class PotvrdaOVakcinaciji {
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
         "doze",
-        "zdravstvenaUstanova",
     })
     public static class Vakcinacija {
 
         @XmlElement(required = true)
         protected PotvrdaOVakcinaciji.Vakcinacija.Doze doze;
-        @XmlElement(name = "zdravstvena_ustanova", required = true)
-        protected String zdravstvenaUstanova;
 
         /**
          * Gets the value of the doze property.
@@ -1053,30 +1077,6 @@ public class PotvrdaOVakcinaciji {
          */
         public void setDoze(PotvrdaOVakcinaciji.Vakcinacija.Doze value) {
             this.doze = value;
-        }
-
-        /**
-         * Gets the value of the zdravstvenaUstanova property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getZdravstvenaUstanova() {
-            return zdravstvenaUstanova;
-        }
-
-        /**
-         * Sets the value of the zdravstvenaUstanova property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setZdravstvenaUstanova(String value) {
-            this.zdravstvenaUstanova = value;
         }
 
 
@@ -1189,7 +1189,7 @@ public class PotvrdaOVakcinaciji {
                 "broj",
                 "datumDavanja",
                 "brojSerije",
-                "naziv"
+                "nazivVakcine"
             })
             public static class Doza {
 

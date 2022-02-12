@@ -240,18 +240,15 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="Evidencija_o_vakcinaciji">
+                <xs:element name="Evidencija_o_vakcinaciji" nillable="true" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="Zdravstvena_ustanova">
-                                <xs:complexType>
-                                    <xs:simpleContent>
-                                        <xs:extension base="xs:string">
-                                            <xs:attribute fixed="pred:naziv_zdravstvene_ustanove"
-                                                          name="property" type="xs:string"/>
-                                        </xs:extension>
-                                    </xs:simpleContent>
-                                </xs:complexType>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="1"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
                             </xs:element>
                             <xs:element name="Vakcinacijski_punkt">
                                 <xs:simpleType>

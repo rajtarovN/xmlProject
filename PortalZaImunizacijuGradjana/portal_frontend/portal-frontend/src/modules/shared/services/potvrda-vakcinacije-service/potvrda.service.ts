@@ -24,7 +24,7 @@ export class PotvrdaService {
 
   savePotvrdu(potvrda: PotvrdaVakcinacije): Observable<string> {
     const headers = new HttpHeaders({
-      Accept: 'application/xml',
+      'Content-Type': 'application/xml',
     });
     return this.http.post(
       `${environment.baseUrl}/${environment.savePotvrdu}`,
@@ -34,7 +34,7 @@ export class PotvrdaService {
     );
   }
 
-  saveDoze(potvrdaId: string, vakcine: any): Observable<string> {
+  saveDoze(vakcine: any, potvrdaId: string): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/xml',
     });

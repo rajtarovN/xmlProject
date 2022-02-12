@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
-    vc:minVersion="1.0" vc:maxVersion="1.1"
-    targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
-    xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji">
+            xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+            vc:minVersion="1.0" vc:maxVersion="1.1"
+            targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
+            xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji">
     <xs:element name="potvrda_o_vakcinaciji">
         <xs:complexType>
             <xs:sequence>
@@ -64,7 +64,7 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="vakcinacija">
+                <xs:element name="vakcinacija" nillable="true" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="doze">
@@ -93,15 +93,15 @@
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="zdravstvena_ustanova">
-                                <xs:simpleType>
-                                    <xs:restriction base="xs:string">
-                                        <xs:minLength value="2"/>
-                                    </xs:restriction>
-                                </xs:simpleType>
-                            </xs:element>
                         </xs:sequence>
                     </xs:complexType>
+                </xs:element>
+                <xs:element name="zdravstvena_ustanova">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="2"/>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:element>
                 <xs:element name="datum_izdavanja">
                     <xs:complexType>
@@ -115,14 +115,7 @@
                 </xs:element>
             </xs:sequence>
             <xs:attribute name="about" type="xs:anyURI"/>
-            <xs:attribute name="sifra_potvrde_vakcine">
-                <xs:simpleType>
-                    <xs:restriction base="xs:string">
-                        <xs:length value="10"/>
-                        <xs:pattern value="\d{10}"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:attribute>
+            <xs:attribute name="sifra_potvrde_vakcine"  type="xs:string"/>
             <xs:attribute name="Qr_kod" type="xs:string"/>
         </xs:complexType>
     </xs:element>

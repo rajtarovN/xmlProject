@@ -68,7 +68,9 @@ public class SaglasnostService  extends AbstractService{
         ArrayList<SaglasnostDTO> lista = new ArrayList<>();
         for(String i : ids) {
             Saglasnost z = this.pronadjiPoId(Long.parseLong(i));
-            if(z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
+            if(z.getEvidencijaOVakcinaciji() != null &&
+                    z.getEvidencijaOVakcinaciji().getVakcine() != null &&
+                    z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
                 SaglasnostDTO dto = new SaglasnostDTO(z);
                 dto.setPrimioDozu(false);
                 dto.setDobioPotvrdu(false);
@@ -79,25 +81,26 @@ public class SaglasnostService  extends AbstractService{
                 SaglasnostDTO dto = new SaglasnostDTO(z);
                 dto.setPrimioDozu(false);
                 dto.setDobioPotvrdu(false);
-                for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina: z.getEvidencijaOVakcinaciji().getVakcine().getVakcina() ) {
-                    if(vakcina.getDatumDavanja().toString().equals(z.getPacijent().getDatum().getValue().toString())){
-                        vaxxed = true;
-                        break;
+                if(z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
+                    for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
+                        if (vakcina.getDatumDavanja().toString().equals(z.getPacijent().getDatum().getValue().toString())) {
+                            vaxxed = true;
+                            break;
+                        }
                     }
-                }
-                if(vaxxed){
-                    dto.setPrimioDozu(true);
-                    List<String> potvrdeIds = new ArrayList<>();
-                    if(z.getPacijent().getDrzavljaninSrbije() != null){
-                        potvrdeIds = potvrdaVakcinacijeService.pronadjiPoJmbgIDatumu(z.getPacijent().getDrzavljaninSrbije().getJmbg().getValue(), datumTermina);
+                    if (vaxxed) {
+                        dto.setPrimioDozu(true);
+                        List<String> potvrdeIds = new ArrayList<>();
+                        if (z.getPacijent().getDrzavljaninSrbije() != null) {
+                            potvrdeIds = potvrdaVakcinacijeService.pronadjiPoJmbgIDatumu(z.getPacijent().getDrzavljaninSrbije().getJmbg().getValue(), datumTermina);
+                        } else if (z.getPacijent().getStraniDrzavljanin() != null) {
+                            potvrdeIds = potvrdaVakcinacijeService.pronadjiPoEbsIDatumu(z.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue(), datumTermina);
+                        }
+                        if (!potvrdeIds.isEmpty()) {
+                            dto.setDobioPotvrdu(true);
+                        }
+                        //TODO provera postojanja potvrde
                     }
-                    else if(z.getPacijent().getStraniDrzavljanin() != null){
-                        potvrdeIds = potvrdaVakcinacijeService.pronadjiPoEbsIDatumu(z.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue(), datumTermina);
-                    }
-                    if(!potvrdeIds.isEmpty()){
-                        dto.setDobioPotvrdu(true);
-                    }
-                    //TODO provera postojanja potvrde
                 }
 
                 lista.add(dto);
@@ -114,13 +117,30 @@ public class SaglasnostService  extends AbstractService{
             e.printStackTrace();
         }
         ArrayList<EvidentiraneVakcineDTO> lista = new ArrayList<>();
+        XMLGregorianCalendar date1 = null;
         for(String i : ids) {
             Saglasnost z = this.pronadjiPoId(Long.parseLong(i));
-            if(!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
-                for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
-                    lista.add(new EvidentiraneVakcineDTO(vakcina));
+            XMLGregorianCalendar date2 = z.getPacijent().getDatum().getValue();
+            if(z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
+                if (date1 == null) {
+                    date1 = date2;
+                    lista = new ArrayList<>();
+                    if (!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+                        for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
+                            lista.add(new EvidentiraneVakcineDTO(vakcina));
+                        }
+                    }
+                } else if (date2.toGregorianCalendar().compareTo(date1.toGregorianCalendar()) > 0) {
+                    lista = new ArrayList<>();
+                    date1 = date2;
+                    if (!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+                        for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
+                            lista.add(new EvidentiraneVakcineDTO(vakcina));
+                        }
+                    }
                 }
             }
+
         }
         return lista;
 
@@ -153,10 +173,7 @@ public class SaglasnostService  extends AbstractService{
 
             Saglasnost.EvidencijaOVakcinaciji evidencija = new Saglasnost.EvidencijaOVakcinaciji();
             evidencija.setVakcinacijskiPunkt(evidencijaDTO.getVakcinacijskiPunkkt());
-            Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova zdravstvenaUstanova =
-                    new Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova();
-            zdravstvenaUstanova.setValue(evidencijaDTO.getZdravstvenaUstanova());
-            evidencija.setZdravstvenaUstanova(zdravstvenaUstanova);
+            evidencija.setZdravstvenaUstanova(evidencijaDTO.getZdravstvenaUstanova());
 
             Saglasnost.EvidencijaOVakcinaciji.Lekar lekar = new Saglasnost.EvidencijaOVakcinaciji.Lekar();
             lekar.setIme(evidencijaDTO.getImeLekara());

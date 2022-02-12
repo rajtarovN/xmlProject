@@ -85,6 +85,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
               dobioPotvrdu: String(element.children[6].children[0]) == "true" ? true:false,
             };
             list.push(temp);
+            
           });
           this.setData(list);
         } else {
@@ -120,6 +121,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
                 dobioPotvrdu: Boolean(element.children[6].children[0]),
               };
               list.push(temp);
+              this.data.push(temp);
             });
             this.setData(list);
           } else {
@@ -133,6 +135,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
   }
 
   setData(data: any[]) {
+    this.data = data;
     this.dataSource = new MatTableDataSource<any>(data);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -163,13 +166,13 @@ export class SaglasnostiGradjanaComponent implements OnInit {
   }
 
   onPotvrdaSavedClicked(brSaglasnosti: string) {
+    this.showPotvrdu = false;
     this.data.forEach((val, index) => {
       if (val.brojSaglasnosti == brSaglasnosti) {
         this.data[index].dobioPotvrdu = true;
       }
     });
-    this.setData(this.data);
-    this.showPotvrdu = false;
+    this.setData(this.data);    
     this.selectedBrojSaglasnosti = '';
     this.selectedEmail = '';
   }

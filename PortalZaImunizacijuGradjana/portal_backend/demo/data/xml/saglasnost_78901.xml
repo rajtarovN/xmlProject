@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345"
-    vocab="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
-    Broj_saglasnosti="12345">
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/78901"
+    Broj_saglasnosti="78901"
+    vocab="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/">
     <Pacijent>
         <Drzavljanin_srbije>
-            <Jmbg property="pred:jmbg">1234567891234</Jmbg>
+            <Jmbg property="pred:jmbg">3216549877418</Jmbg>
         </Drzavljanin_srbije>
         <Licni_podaci>
-            <Prezime property="pred:prezime">Pera</Prezime>
-            <Ime property="pred:ime">Peric</Ime>
-            <Ime_roditelja>Veselin</Ime_roditelja>
+            <Prezime property="pred:prezime">Mikic</Prezime>
+            <Ime property="pred:ime">Mika</Ime>
+            <Ime_roditelja>Milenko</Ime_roditelja>
             <Pol>Muski</Pol>
-            <Datum_rodjenja>1999-01-01</Datum_rodjenja>
+            <Datum_rodjenja>1998-01-01</Datum_rodjenja>
             <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
             <Adresa>
                 <Ulica>Jevrejska</Ulica>
-                <Broj>5</Broj>
+                <Broj>55</Broj>
                 <Mesto>Novi Sad</Mesto>
                 <Grad>Novi Sad</Grad>
             </Adresa>
             <Kontakt_informacije>
-                <Fiksni_telefon>021 123 456</Fiksni_telefon>
-                <Mobilni_telefon>065 123 45 67</Mobilni_telefon>
-                <Email>email@gmail.com</Email>
+                <Fiksni_telefon>021 120 456</Fiksni_telefon>
+                <Mobilni_telefon>065 120 45 67</Mobilni_telefon>
+                <Email property="pred:email">mika@gmail.com</Email>
             </Kontakt_informacije>
             <Radni_status>Zaposlen</Radni_status>
             <Zanimanje_zaposlenog>prosveta</Zanimanje_zaposlenog>
@@ -37,7 +39,7 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_izdavanja">2021-11-11</Datum>
+        <Datum property="pred:datum_termina">2021-09-08</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
         <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
@@ -48,9 +50,9 @@
             <Telefon>065 765 43 21</Telefon>
         </Lekar>
         <Vakcine>
-            <Vakcina>
+            <Vakcina  Doza="1">
                 <Naziv>Pfizer-BioNTech</Naziv>
-                <Datum_davanja>2021-11-11</Datum_davanja>
+                <Datum_davanja>2021-09-08</Datum_davanja>
                 <Nacin_davanja>IM</Nacin_davanja>
                 <Ekstremiter>desna ruka</Ekstremiter>
                 <Serija>1</Serija>
@@ -58,7 +60,7 @@
                 <Nezeljena_reakcija></Nezeljena_reakcija>
             </Vakcina>
             <Privremene_kontraindikacije>
-                <Datum_utvrdjivanja>2021-11-11</Datum_utvrdjivanja>
+                <Datum_utvrdjivanja>2021-09-08</Datum_utvrdjivanja>
                 <Dijagnoza>Povisena temperatura</Dijagnoza>
             </Privremene_kontraindikacije>
             <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>

@@ -5,5 +5,13 @@
 // Generated on: 2022.01.10 at 08:13:14 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/")
+        })
 package com.example.demo.model.potvrda_o_vakcinaciji;
+
+import javax.xml.bind.annotation.XmlNs;

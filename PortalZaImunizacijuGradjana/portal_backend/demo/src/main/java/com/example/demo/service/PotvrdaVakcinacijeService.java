@@ -106,7 +106,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
         String datumIzdavanja = ft.format(new Date());
         Date dateRodj = saglasnost.getPacijent().getLicniPodaci().getDatumRodjenja().toGregorianCalendar().getTime();
-        String zUstanova = saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova().getValue();
+        String zUstanova = saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova();
 
 
         PotvrdaVakcinacijeDTO dto = new PotvrdaVakcinacijeDTO(
@@ -128,28 +128,28 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         PotvrdaOVakcinaciji p = new PotvrdaOVakcinaciji();
         p.setSifraPotvrdeVakcine(documentId);
         p.setAbout(TARGET_NAMESPACE + "/" + documentId);
-
-        PotvrdaOVakcinaciji.Vakcinacija v = new PotvrdaOVakcinaciji.Vakcinacija();
-        v.setZdravstvenaUstanova(content.getzUstanova());
-        p.setVakcinacija(v);
+        p.setZdravstvenaUstanova(content.getzUstanova());
 
         PotvrdaOVakcinaciji.DatumIzdavanja datumIzdavanja = new PotvrdaOVakcinaciji.DatumIzdavanja();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = format.parse(content.getDatumIzdavanja());
-        XMLGregorianCalendar datumXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar datumXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(new Date()));
         datumIzdavanja.setValue(datumXML);
+        datumIzdavanja.setProperty("pred:datum_izdavanja");
         p.setDatumIzdavanja(datumIzdavanja);
 
         PotvrdaOVakcinaciji.LicniPodaci lp = new PotvrdaOVakcinaciji.LicniPodaci();
         PotvrdaOVakcinaciji.LicniPodaci.Ime ime = new PotvrdaOVakcinaciji.LicniPodaci.Ime();
         ime.setValue(content.getIme());
+        ime.setProperty("pred:ime");
         lp.setIme(ime);
 
         PotvrdaOVakcinaciji.LicniPodaci.Prezime prezime = new PotvrdaOVakcinaciji.LicniPodaci.Prezime();
         prezime.setValue(content.getPrezime());
+        prezime.setProperty("pred:prezime");
         lp.setPrezime(prezime);
 
-        date = format.parse(content.getDatumRodjenja());
+        Date date = format.parse(content.getDatumRodjenja());
         datumXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
         lp.setDatumRodjenja(datumXML);
 
@@ -157,17 +157,19 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         if(content.getDrz().equals("srb")){
             PotvrdaOVakcinaciji.LicniPodaci.Jmbg jmbg = new PotvrdaOVakcinaciji.LicniPodaci.Jmbg();
             jmbg.setValue(content.getJmbg());
+            jmbg.setProperty("pred:jmbg");
             lp.setJmbg(jmbg);
         }
         else{
             PotvrdaOVakcinaciji.LicniPodaci.Ebs ebs = new PotvrdaOVakcinaciji.LicniPodaci.Ebs();
             ebs.setValue(content.getEbs());
+            ebs.setProperty("pred:ebs");
             lp.setEbs(ebs);
         }
 
         p.setLicniPodaci(lp);
 
-        saveXMl(p, documentId);
+        saveXMl(p, "potvrda_" + documentId);
     }
 
     public String saveDoze(String documentId, ListaEvidentiranihVakcina evidentiraneVakcineDTO) throws Exception {
@@ -192,12 +194,14 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         vakcinacija.setDoze(doze);
         potvrdaOVakcinaciji.setVakcinacija(vakcinacija);
 
-        saveXMl(potvrdaOVakcinaciji, documentId);
+        String finalString = saveXMl(potvrdaOVakcinaciji, "potvrda_" + documentId);
+        repository.saveRDF(finalString, fusekiCollectionId);
         return "Uspesno izdata potvrda o vakcinaciji.";
     }
 
-    public void saveXMl(PotvrdaOVakcinaciji potvrdaOVakcinaciji, String documentId) throws Exception {
+    public String saveXMl(PotvrdaOVakcinaciji potvrdaOVakcinaciji, String documentId) throws Exception {
         JAXBContext context = JAXBContext.newInstance("com.example.demo.model.potvrda_o_vakcinaciji");
+
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -206,9 +210,8 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         String finalString = stream.toString();
         System.out.println(finalString);
 
-        String graphUri = "/lista_saglasnosti";
         repository.saveXML(documentId, collectionId, finalString);
-        repository.saveRDF(finalString, graphUri);
+        return finalString;
     }
 
 }

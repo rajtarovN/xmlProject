@@ -39,10 +39,10 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_termina">2022-02-11</Datum>
+        <Datum property="pred:datum_termina">2021-12-10</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
-        <Zdravstvena_ustanova property="pred:naziv_zdravstvene_ustanove">Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
+        <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
         <Vakcinacijski_punkt>5</Vakcinacijski_punkt>
         <Lekar>
             <Ime>Boban</Ime>

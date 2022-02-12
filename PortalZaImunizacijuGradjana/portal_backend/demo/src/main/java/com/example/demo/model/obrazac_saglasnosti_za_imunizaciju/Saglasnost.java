@@ -468,7 +468,7 @@ public class Saglasnost {
 
     @XmlElement(name = "Pacijent", required = true)
     protected Saglasnost.Pacijent pacijent;
-    @XmlElement(name = "Evidencija_o_vakcinaciji", required = true)
+    @XmlElement(name = "Evidencija_o_vakcinaciji", nillable = true )
     protected Saglasnost.EvidencijaOVakcinaciji evidencijaOVakcinaciji;
     @XmlAttribute(name = "about")
     @XmlSchemaType(name = "anyURI")
@@ -772,7 +772,7 @@ public class Saglasnost {
     public static class EvidencijaOVakcinaciji {
 
         @XmlElement(name = "Zdravstvena_ustanova", required = true)
-        protected Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova zdravstvenaUstanova;
+        protected String zdravstvenaUstanova;
         @XmlElement(name = "Vakcinacijski_punkt", required = true)
         protected String vakcinacijskiPunkt;
         @XmlElement(name = "Lekar", required = true)
@@ -785,10 +785,10 @@ public class Saglasnost {
          * 
          * @return
          *     possible object is
-         *     {@link Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova }
+         *     {@link String}
          *     
          */
-        public Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova getZdravstvenaUstanova() {
+        public String getZdravstvenaUstanova() {
             return zdravstvenaUstanova;
         }
 
@@ -797,10 +797,10 @@ public class Saglasnost {
          * 
          * @param value
          *     allowed object is
-         *     {@link Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova }
+         *     {@link String }
          *     
          */
-        public void setZdravstvenaUstanova(Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova value) {
+        public void setZdravstvenaUstanova(String value) {
             this.zdravstvenaUstanova = value;
         }
 
@@ -1615,70 +1615,70 @@ public class Saglasnost {
          * 
          * 
          */
-        @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
-            "value"
-        })
-        public static class ZdravstvenaUstanova {
-
-            @XmlValue
-            protected String value;
-            @XmlAttribute(name = "property")
-            protected String property;
-
-            /**
-             * Gets the value of the value property.
-             * 
-             * @return
-             *     possible object is
-             *     {@link String }
-             *     
-             */
-            public String getValue() {
-                return value;
-            }
-
-            /**
-             * Sets the value of the value property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link String }
-             *     
-             */
-            public void setValue(String value) {
-                this.value = value;
-            }
-
-            /**
-             * Gets the value of the property property.
-             * 
-             * @return
-             *     possible object is
-             *     {@link String }
-             *     
-             */
-            public String getProperty() {
-                if (property == null) {
-                    return "pred:naziv_zdravstvene_ustanove";
-                } else {
-                    return property;
-                }
-            }
-
-            /**
-             * Sets the value of the property property.
-             * 
-             * @param value
-             *     allowed object is
-             *     {@link String }
-             *     
-             */
-            public void setProperty(String value) {
-                this.property = value;
-            }
-
-        }
+//        @XmlAccessorType(XmlAccessType.FIELD)
+//        @XmlType(name = "", propOrder = {
+//            "value"
+//        })
+//        public static class ZdravstvenaUstanova {
+//
+//            @XmlValue
+//            protected String value;
+//            @XmlAttribute(name = "property")
+//            protected String property;
+//
+//            /**
+//             * Gets the value of the value property.
+//             *
+//             * @return
+//             *     possible object is
+//             *     {@link String }
+//             *
+//             */
+//            public String getValue() {
+//                return value;
+//            }
+//
+//            /**
+//             * Sets the value of the value property.
+//             *
+//             * @param value
+//             *     allowed object is
+//             *     {@link String }
+//             *
+//             */
+//            public void setValue(String value) {
+//                this.value = value;
+//            }
+//
+//            /**
+//             * Gets the value of the property property.
+//             *
+//             * @return
+//             *     possible object is
+//             *     {@link String }
+//             *
+//             */
+//            public String getProperty() {
+//                if (property == null) {
+//                    return "pred:naziv_zdravstvene_ustanove";
+//                } else {
+//                    return property;
+//                }
+//            }
+//
+//            /**
+//             * Sets the value of the property property.
+//             *
+//             * @param value
+//             *     allowed object is
+//             *     {@link String }
+//             *
+//             */
+//            public void setProperty(String value) {
+//                this.property = value;
+//            }
+//
+//        }
 
     }
 

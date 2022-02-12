@@ -7,5 +7,5 @@ WHERE {
     BIND(xs:string(?jmbg) as ?presentJmbg) .
     BIND(xs:string(%s) as ?currentDate) .
     BIND(xs:string(?date) as ?presentDate) .
-    FILTER ( ?currentDate = ?presentDate && ?searchedJmbg = ?presentJmbg)
+    FILTER( ?searchedJmbg = ?presentJmbg && ?currentDate = ?presentDate)
 }

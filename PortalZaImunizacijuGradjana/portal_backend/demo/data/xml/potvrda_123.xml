@@ -1,0 +1,14 @@
+<potvrda_o_vakcinaciji
+        xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
+        about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1234567891234_2022-02-12"
+        sifra_potvrde_vakcine="1234567891234_2022-02-12">
+    <licni_podaci>
+        <ime property="pred:ime">Pera</ime>
+        <prezime property="pred:prezime">Peric</prezime>
+        <datum_rodjenja>1999-01-01</datum_rodjenja>
+        <pol>Muski</pol>
+        <jmbg property="pred:jmbg">1234567891234</jmbg>
+    </licni_podaci>
+    <zdravstvena_ustanova>Dom Zdravlja, Novi Sad</zdravstvena_ustanova>
+    <datum_izdavanja property="pred:datum_izdavanja">2022-02-12</datum_izdavanja>
+</potvrda_o_vakcinaciji>

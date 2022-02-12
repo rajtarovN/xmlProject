@@ -104,13 +104,13 @@ public class ObjectFactory {
         return new Saglasnost.Pacijent.DrzavljaninSrbije();
     }
 
-    /**
-     * Create an instance of {@link Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova }
-     * 
-     */
-    public Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova createSaglasnostEvidencijaOVakcinacijiZdravstvenaUstanova() {
-        return new Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova();
-    }
+//    /**
+//     * Create an instance of {@link Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova }
+//     *
+//     */
+//    public Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova createSaglasnostEvidencijaOVakcinacijiZdravstvenaUstanova() {
+//        return new Saglasnost.EvidencijaOVakcinaciji.ZdravstvenaUstanova();
+//    }
 
     /**
      * Create an instance of {@link Saglasnost.EvidencijaOVakcinaciji.Lekar }

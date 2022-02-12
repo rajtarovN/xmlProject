@@ -17,6 +17,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/potvrda")
@@ -43,13 +45,14 @@ public class PotvrdaVakcinacijeController {
     }
 
     @PreAuthorize("hasRole('Z')")
-    @PostMapping(path = "/savePotvrdu", consumes = "application/xml")
+    @PostMapping(path = "/savePotvrdu", consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> savePotvrdu(@RequestBody PotvrdaVakcinacijeDTO content) {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
         String documentId = "";//TODO
         if(content.getDrz().equals("srb")){
-            documentId = content.getJmbg() +"_"+ content.getDatumIzdavanja();
+            documentId = content.getJmbg() +"_"+ ft.format(new Date());
         }else{
-            documentId = content.getEbs() +"_"+ content.getDatumIzdavanja();
+            documentId = content.getEbs() +"_"+ ft.format(new Date());
         }
 
         try {
