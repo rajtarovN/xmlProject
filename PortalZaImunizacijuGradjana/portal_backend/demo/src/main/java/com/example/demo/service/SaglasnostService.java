@@ -20,6 +20,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,6 +28,10 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +55,66 @@ public class SaglasnostService  extends AbstractService{
     @Autowired
     public SaglasnostService(SaglasnostRepository saglasnostRepository) {
         super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/lista_saglasnosti" );
+    }
+
+    // Funkcija pronalazi prvi slobodan termin za vakcinaciju pocevsi od sutra u 8h
+    // do 20h, na svakih 5 minuta
+    public LocalDateTime pronadjiSlobodanTermin() throws NumberFormatException, IllegalAccessException,
+            InstantiationException, ClassNotFoundException, JAXBException, XMLDBException, IOException {
+        LocalDate date = LocalDate.now().plusDays(1);
+        List<String> ids = new ArrayList<>();
+
+        DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+        while (true) {
+            try {
+                ids = this.saglasnostRepository.pretragaPoTerminu(ft.format(date));
+
+                LocalTime time = LocalTime.of(8, 0);
+                Boolean flagTimeTaken = false;
+                while (true) {
+                    for (String i : ids) {
+                        Saglasnost saglasnost = this.pronadjiPoId(Long.parseLong(i));
+                        LocalTime foundTime = LocalTime.parse(saglasnost.getVremeTermina().toString());
+
+                        if (foundTime.equals(time)) {
+                            flagTimeTaken = true;
+                            break;
+                        }
+                    }
+                    if (flagTimeTaken) {
+                        flagTimeTaken = false;
+                        if (time.isAfter(LocalTime.of(19, 55))) {
+                            time = LocalTime.of(8, 0);
+                            date = date.plusDays(1);
+                        } else {
+                            time = time.plusMinutes(5);
+                        }
+
+                    } else {
+                        System.out.println(LocalDateTime.of(date, time).toString());
+                        return LocalDateTime.of(date, time);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Saglasnost pronadjiSaglasnostPoEmailu(String email) throws Exception {
+        String id = this.saglasnostRepository.pronadjiPoEmailu(email).get(0);
+        try {
+            if (id != null) {
+
+                return this.pronadjiPoId(Long.parseLong(id));
+
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public ArrayList<SaglasnostDTO> pretragaTermina(String imePrezime, Date datumTermina) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException, ParseException, DatatypeConfigurationException {
@@ -99,7 +164,6 @@ public class SaglasnostService  extends AbstractService{
                         if (!potvrdeIds.isEmpty()) {
                             dto.setDobioPotvrdu(true);
                         }
-                        //TODO provera postojanja potvrde
                     }
                 }
 
@@ -208,8 +272,7 @@ public class SaglasnostService  extends AbstractService{
             String documentId = "saglasnost_"+brojSaglasnosti;
             String collectionId = "/db/portal/lista_saglasnosti";
 
-            JAXBContext context = JAXBContext
-                    .newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
+            JAXBContext context = JAXBContext.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
             OutputStream os = new ByteArrayOutputStream();
 
             Marshaller marshaller = context.createMarshaller();
@@ -223,6 +286,7 @@ public class SaglasnostService  extends AbstractService{
             throw new ForbiddenException("Error se desio pri cuvanju evidencije o vakcinaciji.");
         }
     }
+
 
     public String dodajEvidentiraneVakcine(ListaEvidentiranihVakcina evidentiraneVakcineDTO, String brojSaglasnosti){
         try {
@@ -277,5 +341,4 @@ public class SaglasnostService  extends AbstractService{
             throw new ForbiddenException("Error se desio pri cuvanju evidentirane vakcine.");
         }
     }
-
 }

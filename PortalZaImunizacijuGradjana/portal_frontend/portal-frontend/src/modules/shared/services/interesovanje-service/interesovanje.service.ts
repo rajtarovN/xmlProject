@@ -17,15 +17,25 @@ export class InteresovanjeService {
     }),
   };
 
-  addInteresovanje(
-    interesovanjeXML: string,
-    jmbg: string,
-    datum: string
-  ): Observable<any> {
+  addInteresovanje(interesovanjeXML: string, id: string): Observable<any> {
     return this.http.post<string>(
-      `${environment.baseUrl}` + '/api/interesovanje/' + jmbg + '/' + datum,
+      `${environment.baseUrl}` + '/interesovanje/' + id,
       interesovanjeXML,
       this.httpOptions
     );
+  }
+
+  deleteInteresovanje(id: string): Observable<any> {
+    return this.http.delete(
+      `${environment.baseUrl}` + '/interesovanje/' + id,
+      this.httpOptions
+    );
+  }
+
+  getInteresovanje(email: string): Observable<any> {
+    return this.http.get(`${environment.baseUrl}` + '/interesovanje/' + email, {
+      headers: this.httpOptions.headers,
+      responseType: 'text',
+    });
   }
 }
