@@ -90,4 +90,8 @@ export class PodnosenjeZahtevaService {
       },
     }
   }
+
+  getPdf(id: string): Observable<any> {
+    return this.http.get(`${environment.baseUrl}` + '/saglasnost/generatePDF/' + id, {responseType: 'arraybuffer'});
+  }
 }
