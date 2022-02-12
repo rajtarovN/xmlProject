@@ -38,10 +38,10 @@ public class InteresovanjeController {
 	@GetMapping(value = "/{email}", consumes = "application/xml")
 	public ResponseEntity<?> getXMLByEmail(@PathVariable String email) {
 		try {
-			Interesovanje interesovanje = interesovanjeService.pronadjiInteresovanjePoEmailu(email);
+			XMLResource interesovanje = interesovanjeService.pronadjiInteresovanjePoEmailu(email);
 			//PrintInteresovanje.printInteresovanje(interesovanje);
 			//TODO send string
-			return new ResponseEntity<>(interesovanje, HttpStatus.CREATED);
+			return new ResponseEntity<>(interesovanje.getContent(), HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -51,8 +51,9 @@ public class InteresovanjeController {
 	@PostMapping(value = "/{documentId}", consumes = "application/xml")
 	public ResponseEntity<?> saveXML(@RequestBody String content, @PathVariable String documentId) {
 		try {
+			System.out.println(content);
 			interesovanjeService.saveXML(documentId, content);
-			interesovanjeService.saveRDF(content, "/interesovanje");
+			//interesovanjeService.saveRDF(content, "/interesovanje");
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,7 +63,7 @@ public class InteresovanjeController {
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<String> deleteNotice(@PathVariable("id") String id) throws Exception {
-		interesovanjeService.deleteXML(id);
+		interesovanjeService.deleteXML("interesovanje_" + id + ".xml");
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 }
