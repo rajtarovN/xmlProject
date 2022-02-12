@@ -66,7 +66,10 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
       const danasnjiDan = new Date();
       this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();
       this.vreme = "-"+danasnjiDan.getHours() + "-" + danasnjiDan.getMinutes() + "-" + danasnjiDan.getSeconds();
-   }
+   
+      this.getPdf("saglasnost_12345.xml");
+   
+    }
 
   ngOnInit(): void {
   }
@@ -131,6 +134,23 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
               <Dan_podnosenja_zahteva property="pred:dan_podnosenja_zahteva">${this.datumPodnosenjaZhteva+this.vreme}</Dan_podnosenja_zahteva>
           </Zaglavlje>
       </Zahtev_za_zeleni_sertifikat>`;
+  }
+  getPdf(id: string) {
+    this.zahtevService.getPdf(id).subscribe(
+      data => {
+        let file = new Blob([data], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `obavestenje_${id}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();
+      }
+    );
   }
 
 }
