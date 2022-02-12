@@ -2,14 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class InventoryService {
   constructor(private http: HttpClient) {}
-
-  url = 'http://localhost:8082/api/zalihe';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -18,13 +17,17 @@ export class InventoryService {
   };
 
   getInventory(): Observable<string> {
-    return this.http.get(this.url, {
+    return this.http.get(`${environment.baseUrl}` + `/zalihe`, {
       headers: this.httpOptions.headers,
       responseType: 'text',
     });
   }
 
   updateInventory(zaliheXML: string): Observable<any> {
-    return this.http.post<string>(this.url, zaliheXML, this.httpOptions);
+    return this.http.post<string>(
+      `${environment.baseUrl}` + `/zalihe`,
+      zaliheXML,
+      this.httpOptions
+    );
   }
 }

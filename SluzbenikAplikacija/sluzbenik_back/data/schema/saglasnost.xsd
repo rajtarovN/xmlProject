@@ -382,6 +382,7 @@
             </xs:sequence>
             <xs:attribute name="about" type="xs:string"/>
             <xs:attribute name="Broj_saglasnosti" type="xs:string"/>
+            <xs:attribute name="Termin" type="xs:time"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="TJmbg">

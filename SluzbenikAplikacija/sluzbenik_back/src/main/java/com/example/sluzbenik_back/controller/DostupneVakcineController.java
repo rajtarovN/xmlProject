@@ -1,5 +1,7 @@
 package com.example.sluzbenik_back.controller;
 
+import javax.ws.rs.GET;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,7 @@ import org.xmldb.api.modules.XMLResource;
 import com.example.sluzbenik_back.service.DostupneVakcineService;
 
 @Controller
-@RequestMapping(value = "/api/zalihe")
+@RequestMapping(value = "/zalihe")
 public class DostupneVakcineController {
 
 	private DostupneVakcineService dostupneVakcineService;
@@ -28,10 +30,9 @@ public class DostupneVakcineController {
 		this.dostupneVakcineService = dostupneVakcineService;
 	}
 
+	@GET
 	@GetMapping
-	@PreAuthorize("hasAnyRole('S')")
 	public ResponseEntity<String> getXML() {
-		LOG.info("cao");
 		try {
 			XMLResource zalihe = dostupneVakcineService.readXML("zalihe.xml");
 			return new ResponseEntity<>(zalihe.getContent().toString(), HttpStatus.OK);
@@ -42,7 +43,7 @@ public class DostupneVakcineController {
 	}
 
 	@PostMapping(consumes = "application/xml")
-	@PreAuthorize("hasAnyRole('S')")
+	//@PreAuthorize("hasAnyRole('S')")
 	public ResponseEntity<?> saveXML(@RequestBody String content) {
 		String documentId = "zalihe";
 

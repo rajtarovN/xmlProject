@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:8081',
+  baseUrl: 'http://localhost:8081/api',
   login: 'korisnik/prijava',
   register: 'korisnik/registracija',
   logout: 'korisnik/logout',
   searchTermine: 'saglasnost/pretragaTermina',
   getEvidentiraneVakcine: 'saglasnost/pronadjiPoEmailu',
   saveEvidenciju: 'saglasnost/sacuvajEvidenciju',
-  saveEvidentiraneVakcine: 'saglasnost/sacuvajEvidentiraneVakcine'
+  saveEvidentiraneVakcine: 'saglasnost/sacuvajEvidentiraneVakcine',
 };
 
 /*

@@ -5,5 +5,12 @@
 // Generated on: 2022.01.10 at 07:26:34 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/")
+        })
 package com.example.demo.model.obrazac_saglasnosti_za_imunizaciju;
+
+import javax.xml.bind.annotation.XmlNs;
