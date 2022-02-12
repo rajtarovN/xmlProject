@@ -1,4 +1,4 @@
-package tim1.sluzbenik.utils;
+package com.example.demo.util;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;

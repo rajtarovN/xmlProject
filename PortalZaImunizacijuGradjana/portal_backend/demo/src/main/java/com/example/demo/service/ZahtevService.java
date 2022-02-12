@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.ZahtevRepository;
+import com.example.demo.util.XSLFORTransformer;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,6 @@ import java.io.StringReader;
 
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
-import tim1.sluzbenik.utils.XSLFORTransformer;
 
 import static com.example.demo.util.PathConstants.SAVE_PDF;
 import static com.example.demo.util.PathConstants.ZAHTEV_XSL_FO;

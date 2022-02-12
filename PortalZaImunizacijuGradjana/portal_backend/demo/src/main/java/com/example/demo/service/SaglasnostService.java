@@ -8,6 +8,7 @@ import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
+import com.example.demo.util.XSLFORTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
@@ -35,6 +36,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.demo.util.PathConstants.*;
 
 @Service
 public class SaglasnostService  extends AbstractService{
@@ -339,6 +342,40 @@ public class SaglasnostService  extends AbstractService{
         } catch (Exception e) {
             e.printStackTrace();
             throw new ForbiddenException("Error se desio pri cuvanju evidentirane vakcine.");
+        }
+    }
+
+    public String generatePDF(String id) {
+        XSLFORTransformer transformer = null;
+
+        try {
+            transformer = new XSLFORTransformer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        XMLResource xmlRes = this.readXML(id);
+        String doc_str = "";
+        try {
+            doc_str = xmlRes.getContent().toString();
+            System.out.println(doc_str);
+        } catch (XMLDBException e1) {
+            e1.printStackTrace();
+        }
+
+        boolean ok = false;
+        String pdf_path = SAVE_PDF + "saglasnost_" + id.split(".xml")[0] + ".pdf";
+
+        try {
+            ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
+            if (ok)
+                return pdf_path;
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
