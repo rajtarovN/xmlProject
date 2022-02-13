@@ -16,7 +16,7 @@ public class PathConstants {
 	 public static final String IZVESTAJ_XSL =  BASE + "/xsl/Izvestaj.xsl";
 	 public static final String POTVRDA_O_VAKCINACIJI_XSL =  BASE + "/xsl/Potvrda_o_vakcinaciji.xsl";
 	 public static final String SAGLASNOST_XSL =  BASE + "/xsl/saglasnost.xsl";
-	 public static final String ZAHTEV_ZA_SERTIFIKAT_XSL =  BASE + "/xsl/Zahtev_za_sertifikat.xsl";
+	 public static final String ZAHTEV_ZA_SERTIFIKAT_XSL =  BASE + "/xsl/zahtev.xsl";
 	 
 	 public static final String DIGITALNISERTIFIKAT_XSD =  BASE + "/schema/digitalni_sertifikat.xsd";
 	 public static final String INTERESOVANJE_XSD =  BASE + "/schema/interesovanje.xsd";

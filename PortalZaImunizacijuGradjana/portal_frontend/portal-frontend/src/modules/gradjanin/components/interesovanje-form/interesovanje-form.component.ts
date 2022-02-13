@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Select } from 'src/modules/shared/models/select';
 import { InteresovanjeService } from 'src/modules/shared/services/interesovanje-service/interesovanje.service';
-import { UUID } from 'angular2-uuid';
+//import { UUID } from 'angular2-uuid';
 import { DatePipe } from '@angular/common';
 
 @Component({

@@ -67,7 +67,7 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
       this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();
       this.vreme = "-"+danasnjiDan.getHours() + "-" + danasnjiDan.getMinutes() + "-" + danasnjiDan.getSeconds();
    
-      this.getPdf("saglasnost_12345.xml");
+      this.getHtml("1234567890123_2022-2-12-10-32-47.xml");
    
     }
 
@@ -146,6 +146,24 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
         a.setAttribute('style', 'display: none');
         a.href = fileURL;
         a.download = `obavestenje_${id}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();
+      }
+    );
+  }
+
+  getHtml(id: string) {
+    this.zahtevService.getHtml(id).subscribe(
+      data => {
+        let file = new Blob([data], { type: 'text/html' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `obavestenje_${id}.html`;
         a.click();
         window.URL.revokeObjectURL(fileURL);
         a.remove();
