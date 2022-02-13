@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" vc:minVersion="1.0" vc:maxVersion="1.1" targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju" xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+		   elementFormDefault="qualified"
+		   vc:minVersion="1.0"
+		   vc:maxVersion="1.1"
+		   targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
+		   xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju">
 	<xs:element name="Saglasnost">
 		<xs:complexType>
 			<xs:sequence>

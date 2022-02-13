@@ -8,6 +8,7 @@ export const environment = {
   login: 'korisnik/prijava',
   logout: 'korisnik/logout',
   getKorisnike: 'korisnik/listaKorisnika',
+  getZahteve: 'zahtev/listaZahteva',
 };
 
 /*

@@ -45,7 +45,4 @@ export class SluzbenikHomepageComponent implements OnInit {
     this.showModalLogout = false;
   }
 
-  onIzvestajOImunizacijiClicked() {}
-
-  onArhivaClicked() {}
 }

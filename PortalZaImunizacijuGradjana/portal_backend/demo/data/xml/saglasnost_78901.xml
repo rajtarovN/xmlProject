@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost.xsd"
     about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/78901"
     Broj_saglasnosti="78901"
-    vocab="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/">
+    Vreme_termina="12:00:00">
     <Pacijent>
         <Drzavljanin_srbije>
             <Jmbg property="pred:jmbg">3216549877418</Jmbg>

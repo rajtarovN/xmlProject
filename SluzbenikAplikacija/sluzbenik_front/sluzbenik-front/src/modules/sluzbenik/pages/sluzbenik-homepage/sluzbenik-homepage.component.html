@@ -32,27 +32,23 @@
 
     <mat-divider></mat-divider>
 
-    <button
-      mat-button
-      class="menu-button"
-      (click)="this.activeView = '1'"
-    >
+    <button mat-button class="menu-button" (click)="this.activeView = '1'">
       <span>Registar Gradjana</span>
     </button>
 
-    <button
-      mat-button
-      class="menu-button"
-      (click)="onIzvestajOImunizacijiClicked()"
-    >
-      <span>Izvestaj o Imunizaciji</span>
+    <button mat-button class="menu-button" (click)="this.activeView = '2'">
+      <span>Zahtevi za Digitalni Sertifikat</span>
     </button>
 
     <button mat-button class="menu-button" (click)="this.activeView = '3'">
+      <span>Izvestaj o Imunizaciji</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="this.activeView = '4'">
       <span>Dostupne Vakcine</span>
     </button>
 
-    <button mat-button class="menu-button" (click)="onArhivaClicked()">
+    <button mat-button class="menu-button" (click)="this.activeView = '5'">
       <span>Arhiva gradjanskih dokumenata</span>
     </button>
   </mat-sidenav>
@@ -62,9 +58,13 @@
         class="registar"
         *ngIf="this.activeView === '1'"
       ></app-registar-gradjana>
+      <app-zahtevi
+        class="registar"
+        *ngIf="this.activeView === '2'"
+      ></app-zahtevi>
       <app-inventory-form
         class="items"
-        *ngIf="this.activeView === '3'"
+        *ngIf="this.activeView === '4'"
       ></app-inventory-form>
     </div>
   </mat-sidenav-content>

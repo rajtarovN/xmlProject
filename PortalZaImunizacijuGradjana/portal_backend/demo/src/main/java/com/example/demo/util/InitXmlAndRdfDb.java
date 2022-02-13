@@ -3,6 +3,7 @@ package com.example.demo.util;
 import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.model.korisnik.ListaKorisnika;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.update.UpdateExecutionFactory;
@@ -31,11 +32,18 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
         try {
-            //saglasnosti
-            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901");
+            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_0101000000110_2020-01-01-04-04-00");
             for(String documentId : docIds){
-                String collectionId = "/db/portal/lista_saglasnosti";
-                OutputStream os = parsiraj(documentId, "obrazac_saglasnosti_za_imunizaciju");
+                String collectionId = "";
+                OutputStream os = new ByteArrayOutputStream();
+                if(documentId.contains("sag")){
+                    collectionId = "/db/portal/lista_saglasnosti";
+                    os = parsiraj(documentId, "obrazac_saglasnosti_za_imunizaciju");
+                }
+                else if(documentId.contains("zah")){
+                    collectionId = "/db/portal/lista_zahteva";
+                    os = parsiraj(documentId, "zahtev_za_sertifikatom");
+                }
                 runXML(documentId, collectionId, os.toString());
             }
             //korisnici
@@ -71,6 +79,11 @@ public class InitXmlAndRdfDb {
                         .unmarshal(new File("data/xml/" + documentId + ".xml"));
                 marshaller.marshal(listaKorisnika, os);
             }
+            else if(type.equals("zahtev_za_sertifikatom")){
+                ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = (ZahtevZaZeleniSertifikat) unmarshaller
+                        .unmarshal(new File("data/xml/" + documentId + ".xml"));
+                marshaller.marshal(zahtevZaZeleniSertifikat, os);
+            }
             return os;
         }catch (Exception e){
             throw new ForbiddenException("Error pri parsiranju saglasnosti.");
@@ -103,7 +116,9 @@ public class InitXmlAndRdfDb {
              * if left empty (null)
              */
             System.out.println("[INFO] Inserting the document: " + documentId);
+
             res = (XMLResource) col.createResource(documentId  + ".xml", XMLResource.RESOURCE_TYPE);
+
 
             res.setContent(os);
             System.out.println("[INFO] Storing the document: " + res.getId());
@@ -184,11 +199,13 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901");
+        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_1");
         for(String documentId : docIds) {
             String graphUri = "";
             if(documentId.contains("sag")){
                 graphUri = "/lista_saglasnosti";
+            }else{
+                graphUri = "/lista_zahteva";
             }
             String xmlFilePath = "data/xml/" + documentId + ".xml";
             String rdfFilePath = "gen/" + documentId + ".rdf";

@@ -119,11 +119,11 @@ public class KorisnikController {
     public ResponseEntity<String> getXML() {
         try {
             XMLResource korisnici = korisnikService.readXML();
-            return new ResponseEntity<>(korisnici.getContent().toString(), HttpStatus.OK);
+            String ret = korisnici.getContent().toString();
+            return new ResponseEntity<>(ret, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
 }
