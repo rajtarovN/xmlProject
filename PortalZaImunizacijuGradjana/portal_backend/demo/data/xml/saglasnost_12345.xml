@@ -30,8 +30,8 @@
                 <Email property="pred:email">email@gmail.com</Email>
             </Kontakt_informacije>
             <Radni_status>Zaposlen</Radni_status>
-            <Zanimanje_zaposlenog>prosveta</Zanimanje_zaposlenog>
-            <Socijalna_zastita>
+            <Zanimanje_zaposlenog xsi:nil="true"></Zanimanje_zaposlenog>
+            <Socijalna_zastita Korisnik="true">
                 <Naziv_sedista>Novi Sad</Naziv_sedista>
                 <Opstina_sedista>Novi Sad</Opstina_sedista>
             </Socijalna_zastita>
