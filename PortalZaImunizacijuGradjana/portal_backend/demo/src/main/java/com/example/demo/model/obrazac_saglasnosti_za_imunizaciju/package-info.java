@@ -9,7 +9,7 @@
         namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju",
         elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
         xmlns = {
-                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/")
+                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/")
         })
 package com.example.demo.model.obrazac_saglasnosti_za_imunizaciju;
 

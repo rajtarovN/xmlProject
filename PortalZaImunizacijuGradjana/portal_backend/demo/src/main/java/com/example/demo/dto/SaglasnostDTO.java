@@ -13,6 +13,8 @@ public class SaglasnostDTO {
     public String prezime;
     public String datum_termina;
     public String email;
+    public boolean primioDozu;
+    public boolean dobioPotvrdu;
 
     public SaglasnostDTO() {
     }
@@ -33,6 +35,22 @@ public class SaglasnostDTO {
         this.prezime = prezime;
         this.datum_termina = datum_termina;
         this.email = email;
+    }
+
+    public boolean isPrimioDozu() {
+        return primioDozu;
+    }
+
+    public void setPrimioDozu(boolean primioDozu) {
+        this.primioDozu = primioDozu;
+    }
+
+    public boolean isDobioPotvrdu() {
+        return dobioPotvrdu;
+    }
+
+    public void setDobioPotvrdu(boolean dobioPotvrdu) {
+        this.dobioPotvrdu = dobioPotvrdu;
     }
 
     public String getId() {

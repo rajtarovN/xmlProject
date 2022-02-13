@@ -625,6 +625,7 @@ public class Saglasnost {
          * 
          * @return
          *     possible object is
+
          *     {@link String }
          *     
          */

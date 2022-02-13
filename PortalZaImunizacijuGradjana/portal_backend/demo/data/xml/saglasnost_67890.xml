@@ -4,9 +4,9 @@
 	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/54321"
-    Broj_saglasnosti="54321"
-    Vreme_termina="12:05:00">
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/67890"
+    Broj_saglasnosti="67890"
+    vocab="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/">
     <Pacijent>
         <Drzavljanin_srbije>
             <Jmbg property="pred:jmbg">3216549877418</Jmbg>
@@ -16,7 +16,7 @@
             <Ime property="pred:ime">Mika</Ime>
             <Ime_roditelja>Milenko</Ime_roditelja>
             <Pol>Muski</Pol>
-            <Datum_rodjenja>1998-01-01</Datum_rodjenja>
+            <Datum_rodjenja>1999-01-01</Datum_rodjenja>
             <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
             <Adresa>
                 <Ulica>Jevrejska</Ulica>
@@ -39,40 +39,8 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_termina">2021-12-10</Datum>
+        <Datum property="pred:datum_termina">2022-02-12</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
-        <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
-        <Vakcinacijski_punkt>5</Vakcinacijski_punkt>
-        <Lekar>
-            <Ime>Boban</Ime>
-            <Prezime>Mikic</Prezime>
-            <Telefon>065 765 43 21</Telefon>
-        </Lekar>
-        <Vakcine>
-            <Vakcina  Doza="1">
-                <Naziv>Pfizer-BioNTech</Naziv>
-                <Datum_davanja>2021-09-08</Datum_davanja>
-                <Nacin_davanja>IM</Nacin_davanja>
-                <Ekstremiter>desna ruka</Ekstremiter>
-                <Serija>1</Serija>
-                <Proizvodjac>Pfizer</Proizvodjac>
-                <Nezeljena_reakcija></Nezeljena_reakcija>
-            </Vakcina>
-            <Vakcina Doza="2">
-                <Naziv>Pfizer-BioNTech</Naziv>
-                <Datum_davanja>2021-12-10</Datum_davanja>
-                <Nacin_davanja>IM</Nacin_davanja>
-                <Ekstremiter>desna ruka</Ekstremiter>
-                <Serija>1</Serija>
-                <Proizvodjac>cgfbv</Proizvodjac>
-                <Nezeljena_reakcija>hf</Nezeljena_reakcija>
-            </Vakcina>
-            <Privremene_kontraindikacije>
-                <Datum_utvrdjivanja>2021-12-10</Datum_utvrdjivanja>
-                <Dijagnoza>Povisena temperatura</Dijagnoza>
-            </Privremene_kontraindikacije>
-            <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>
-        </Vakcine>
     </Evidencija_o_vakcinaciji>
 </Saglasnost>

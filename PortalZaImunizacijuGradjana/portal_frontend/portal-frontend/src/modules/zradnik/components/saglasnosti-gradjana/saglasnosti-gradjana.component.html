@@ -4,7 +4,7 @@
       <span matPrefix> </span>
       <input
         matInput
-        class="form-control"
+        class="form-control "
         type="text"
         placeholder="Pretraga po imenu/prezimenu..."
         formControlName="search"
@@ -96,12 +96,13 @@
         </td>
       </ng-container>
   
-      <!-- Edit employee -->
+      <!--  -->
       <ng-container matColumnDef="Popuni evidenciju">
         <td></td>
         <th mat-header-cell *matHeaderCellDef>Popuni evidenciju</th>
         <td mat-cell *matCellDef="let element; let i = index">
           <button
+            *ngIf="!element.primioDozu"
             mat-button
             color="accent"
             type="submit"
@@ -113,19 +114,54 @@
         </td>
       </ng-container>
   
-      <!-- Delete employee -->
+      <!--  -->
       <ng-container matColumnDef="Izdaj potvrdu">
         <td></td>
         <th mat-header-cell *matHeaderCellDef>Izdaj potvrdu</th>
         <td mat-cell *matCellDef="let element; let i = index">
           <button
+            *ngIf="element.primioDozu && !element.dobioPotvrdu"
             mat-button
             color="accent"
             type="submit"
             class="submit-button"
-            (click)="givePotvrdu(element.brojSaglasnosti)"
+            (click)="openPotvrdu(element.brojSaglasnosti, element.email)"
           >
             <mat-icon>insert_drive_file </mat-icon> <!--insert_drive_file upload_file-->
+          </button>
+        </td>
+      </ng-container>
+
+      <!--  -->
+      <ng-container matColumnDef="Vakcinisan">
+        <td></td>
+        <th mat-header-cell *matHeaderCellDef>Vakcinisan</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            *ngIf="element.primioDozu"
+            mat-button
+            color="accent"
+            type="submit"
+            class="submit-button"
+          >
+            <mat-icon>check_circle_outline </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!--  -->
+      <ng-container matColumnDef="Izdata potvrda">
+        <td></td>
+        <th mat-header-cell *matHeaderCellDef>Izdata potvrda</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <button
+            *ngIf="element.dobioPotvrdu"
+            mat-button
+            color="accent"
+            type="submit"
+            class="submit-button"
+          >
+            <mat-icon>check_circle_outline </mat-icon>
           </button>
         </td>
       </ng-container>
@@ -136,9 +172,15 @@
   </mat-card>
   <app-popuni-evidenciju
   *ngIf="this.showEvidenciju"
-  [email]="this.evidencijaEmail"
-  [brojSaglasnosti]="this.evidencijaBrojSaglasnosti"
+  [email]="this.selectedEmail"
+  [brojSaglasnosti]="this.selectedBrojSaglasnosti"
   (onEvidencijaClose)="onEvidencijaCloseClicked($event)"
   (onEvidencijaSaved)="onEvidencijaSavedClicked($event)"
   ></app-popuni-evidenciju>  
-  
+  <app-prikaz-potvrde
+  *ngIf="this.showPotvrdu"
+  [email]="this.selectedEmail"
+  [brojSaglasnosti]="this.selectedBrojSaglasnosti"
+  (onPotvrdaClose)="onPotvrdaCloseClicked($event)"
+  (onPotvrdaSaved)="onPotvrdaSavedClicked($event)"
+  ></app-prikaz-potvrde>  

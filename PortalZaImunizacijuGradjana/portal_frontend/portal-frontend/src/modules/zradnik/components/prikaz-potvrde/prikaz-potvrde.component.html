@@ -1,0 +1,223 @@
+<div id="container-div">
+  <div id="img-div">
+    <img
+      src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+      alt="”animated”"
+    />
+  </div>
+  <div id="form-holder-div">
+    <h2>Potvrda o izvršenoj vakcinaciji protiv COVID-19</h2>
+    <form class="example-form" [formGroup]="vakcForm">
+      <mat-card-content>
+        <div class="imePrezTelefonLekara">
+          <mat-form-field>
+            <input
+              matInput
+              class="form-control"
+              placeholder="Ime"
+              type="text"
+              formControlName="ime"
+              required
+              name="ime"
+              minlength="2"
+            />
+            <mat-hint
+              *ngIf="vakcForm.controls['ime'].dirty && vakcForm.controls['ime'].errors?.['required'] "
+              >Unesite ime pacijenta</mat-hint
+            >
+          </mat-form-field>
+
+          <mat-form-field>
+            <input
+              matInput
+              class="form-control"
+              placeholder="Prezime"
+              type="text"
+              formControlName="prezime"
+              required
+              name="prezime"
+              minlength="2"
+            />
+            <mat-hint
+              *ngIf="vakcForm.controls['prezime'].dirty && vakcForm.controls['prezime'].errors?.['required'] "
+              >Unesite prezime pacijenta</mat-hint
+            >
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Datum rodjenja</mat-label>
+          <input
+            matInput
+            [max]="minDate"
+            [matDatepicker]="picker"
+            formControlName="datumRodjenja"
+          />
+          <mat-datepicker-toggle
+            style="color: gray"
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="this.srb">
+          <input
+            matInput
+            class="form-control"
+            placeholder="Jmbg"
+            type="text"
+            formControlName="jmbg"
+            required
+            name="jmbg"
+            minlength="13"
+          />
+          <mat-hint
+            *ngIf="vakcForm.controls['jmbg'].dirty && vakcForm.controls['jmbg'].errors?.['required'] "
+            >Unesite jmbg pacijenta</mat-hint
+          >
+        </mat-form-field>
+
+        <mat-form-field *ngIf="!this.srb">
+            <input
+              matInput
+              class="form-control"
+              placeholder="Ebs"
+              type="text"
+              formControlName="ebs"
+              required
+              name="ebs"
+              minlength="13"
+            />
+            <mat-hint
+              *ngIf="vakcForm.controls['ebs'].dirty && vakcForm.controls['ebs'].errors?.['required'] "
+              >Unesite ebs pacijenta</mat-hint
+            >
+          </mat-form-field>
+
+        <div class="m_l_r_20">
+          <mat-label style="margin-right: 15px">Pol</mat-label>
+          <mat-radio-group aria-label="Pol" formControlName="pol">
+            <mat-radio-button
+              style="margin-right: 15px"
+              value="Muski"
+              >Muski</mat-radio-button
+            >
+            <mat-radio-button
+              style="margin-right: 15px"
+              value="Zenski"
+              >Zenski</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Zdravstvena ustanova koja vakcinise"
+            formControlName="zustanova"
+            name="zustanova"
+            required
+          />
+          <mat-hint
+            *ngIf="vakcForm.controls['zustanova'].dirty && vakcForm.controls['zustanova'].errors?.['required']"
+            >Unesite naziv zdravstvene ustanove</mat-hint
+          >
+        </mat-form-field>
+
+        <mat-card class="custom-scroll-bar">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            matSort
+            (matSortChange)="announceSortChange($event)"
+            class="mat-elevation-z8"
+            id="userTable"
+          >
+            <ng-container matColumnDef="Doza vakcine">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="doza"
+                sortActionDescription="Sort by doza"
+              >
+                Doza
+              </th>
+              <td mat-cell name="doza" *matCellDef="let element">
+                {{ element.doza }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Naziv vakcine">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="naziv"
+                sortActionDescription="Sort by naziv"
+              >
+                Naziv
+              </th>
+              <td mat-cell name="naziv" *matCellDef="let element">
+                {{ element.nazivVakcine }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Datum davanja vakcine">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="datumDavanja"
+                sortActionDescription="Sort by datumDavanja"
+              >
+                Datum davanja
+              </th>
+              <td mat-cell *matCellDef="let element" name="datumDavanja">
+                {{ element.datumDavanja | date: "yyyy-MM-dd" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Serija vakcine">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header="serijaVakcine"
+                sortActionDescription="Sort by serijaVakcine"
+              >
+                Serija
+              </th>
+              <td mat-cell *matCellDef="let element" name="serijaVakcine">
+                {{ element.serijaVakcine }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </mat-card>
+      </mat-card-content>
+      <div class="modal-footer">
+        <button
+          mat-flat-button
+          type="button"
+          color="accent"
+          class="btn btn-danger"
+          (click)="cancel()"
+        >
+          Odustani
+        </button>
+        <button
+          mat-flat-button
+          type="submit"
+          color="primary"
+          class="btn btn-primary"
+          (click)="confirm()"
+          [disabled]="vakcForm.invalid"
+        >
+          Potvrdi
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="jw-modal-background"></div>

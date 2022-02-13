@@ -55,10 +55,10 @@ public abstract class RepositoryInterface {
 		MetadataExtractor extractor = new MetadataExtractor();
 		extractor.extractMetadata(in, out);
 
-		String rdfAsString = new String(out.toByteArray());
-		InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
-		fusekiManager.writeFuseki(rdfInputStream, uri);
-	}
+        String rdfAsString = out.toString();
+        InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
+        fusekiManager.writeFuseki(rdfInputStream, uri);
+    }
 
 	public List<XMLResource> findAllFromCollection(String collectionId) throws Exception {
 		return dbManager.findAllFromCollection(collectionId);

@@ -12,9 +12,6 @@
     <pred:email xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">email@gmail.com</pred:email>
   </rdf:Description>
   <rdf:Description rdf:about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345">
-    <pred:datum_termina xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">2022-02-10</pred:datum_termina>
-  </rdf:Description>
-  <rdf:Description rdf:about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345">
-    <pred:naziv_zdravstvene_ustanove xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">Dom Zdravlja, Novi Sad</pred:naziv_zdravstvene_ustanove>
+    <pred:datum_termina xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/" rdf:datatype="http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">2022-02-12</pred:datum_termina>
   </rdf:Description>
 </rdf:RDF>

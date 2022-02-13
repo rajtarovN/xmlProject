@@ -5,5 +5,12 @@
 // Generated on: 2022.01.08 at 12:01:32 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/")
+        })
 package com.example.demo.model.interesovanje;
+
+import javax.xml.bind.annotation.XmlNs;

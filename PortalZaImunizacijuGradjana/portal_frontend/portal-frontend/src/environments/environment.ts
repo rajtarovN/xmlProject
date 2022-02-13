@@ -12,6 +12,9 @@ export const environment = {
   getEvidentiraneVakcine: 'saglasnost/pronadjiPoEmailu',
   saveEvidenciju: 'saglasnost/sacuvajEvidenciju',
   saveEvidentiraneVakcine: 'saglasnost/sacuvajEvidentiraneVakcine',
+  createPotvrdu: 'potvrda/kreirajPotvrdu',
+  savePotvrdu: 'potvrda/savePotvrdu',
+  saveDoze: 'potvrda/saveDoze',
 };
 
 /*

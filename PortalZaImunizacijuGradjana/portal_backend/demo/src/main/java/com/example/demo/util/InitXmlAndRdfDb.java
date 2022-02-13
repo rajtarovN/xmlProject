@@ -32,7 +32,7 @@ public class InitXmlAndRdfDb {
     public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
         try {
             //saglasnosti
-            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321");
+            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901");
             for(String documentId : docIds){
                 String collectionId = "/db/portal/lista_saglasnosti";
                 OutputStream os = parsiraj(documentId, "obrazac_saglasnosti_za_imunizaciju");
@@ -184,8 +184,12 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321");
+        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901");
         for(String documentId : docIds) {
+            String graphUri = "";
+            if(documentId.contains("sag")){
+                graphUri = "/lista_saglasnosti";
+            }
             String xmlFilePath = "data/xml/" + documentId + ".xml";
             String rdfFilePath = "gen/" + documentId + ".rdf";
 
@@ -206,7 +210,6 @@ public class InitXmlAndRdfDb {
             System.out.println("[INFO] Extracted metadata as RDF/XML...");
             //model.write(System.out, SparqlUtil.RDF_XML);
 
-            String graphUri = "/lista_saglasnosti";
             System.out.println("[INFO] Populating named graph \"" + graphUri + "\" with extracted metadata.");
             String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + graphUri, out.toString());
             System.out.println(sparqlUpdate);

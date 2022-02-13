@@ -5,5 +5,12 @@
 // Generated on: 2022.02.09 at 12:17:23 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/dostupne_vakcine", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/dostupne_vakcine",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/dostupne_vakcine/predicate/")
+        })
 package com.example.demo.model.dostupne_vakcine;
+
+import javax.xml.bind.annotation.XmlNs;
