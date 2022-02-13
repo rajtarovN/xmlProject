@@ -13,6 +13,7 @@ public class EmailServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmailServiceApplication.class, args);
+		System.out.println( "Hello World!" );
 	}
 
 	@Bean

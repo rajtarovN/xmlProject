@@ -23,7 +23,7 @@ public class SluzbenikBackApplication {
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, JAXBException, XMLDBException, IOException, SAXException, TransformerException {
 
 		SpringApplication.run(SluzbenikBackApplication.class, args);
-		InitXmlAndRdfDb.inicijalizujXMLBazu();
+		//InitXmlAndRdfDb.inicijalizujXMLBazu();
 		//InitXmlAndRdfDb.inicijalizujRDFBazu();
 		System.out.println( "Hello World!" );
 
