@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,18 +31,10 @@ public class KorisnikController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @ResponseBody
-    @GetMapping(path = "/test")
-    @PreAuthorize("hasRole('G')")
-    public ResponseEntity<?> test() throws Exception{
-        return  new ResponseEntity<>("Uspesno testiranje", HttpStatus.OK);
-    }
-
 
     @PostMapping(path = "/prijava", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> prijava(@RequestBody KorisnikPrijavaDTO authRequest) throws Exception{
         try {
-            //korisnikService.inicijalizujBazu();
             final Authentication authentication;
             try {
                 authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -58,7 +49,7 @@ public class KorisnikController {
             String jwt = tokenUtils.generateToken(user.getEmail());
             int expiresIn = tokenUtils.getExpiredIn();
 
-            UserTokenStateDTO dto = new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getImeIPrezime());
+            UserTokenStateDTO dto = new UserTokenStateDTO(jwt, expiresIn, email, user.getUloga(), user.getIme(), user.getPrezime(), user.getPol(), user.getRodjendan());
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,5 +72,17 @@ public class KorisnikController {
 
     }
 
+    @GetMapping(value = "/listaKorisnika/{searchTerm}", produces = MediaType.APPLICATION_XML_VALUE )
+    public ResponseEntity<?> getListaKorisnika(@PathVariable("searchTerm") String searchTerm) {
+        if(searchTerm.equals("all")){
+            searchTerm = null;
+        }
+        try{
+            return new ResponseEntity<>(korisnikService.getKorisnike(searchTerm), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error pri dobavljanju gradjana.", HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

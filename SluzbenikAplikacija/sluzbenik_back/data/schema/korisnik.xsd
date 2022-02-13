@@ -13,14 +13,20 @@
     <xs:element name="korisnik">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="korisnik:ime_i_prezime"/>
+                <xs:element ref="korisnik:ime"/>
+				<xs:element ref="korisnik:prezime"/>
+				<xs:element ref="korisnik:pol"/>
+				<xs:element ref="korisnik:rodjendan"/>
                 <xs:element ref="korisnik:email"/>
                 <xs:element ref="korisnik:lozinka"/>
                 <xs:element ref="korisnik:uloga"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="ime_i_prezime" type="xs:string"/>
+    <xs:element name="ime" type="xs:string"/>
+	<xs:element name="prezime" type="xs:string"/>
+	<xs:element name="pol" type="xs:string"/>
+	<xs:element name="rodjendan" type="xs:string"/>
     <xs:element name="email" type="xs:string"/>
     <xs:element name="lozinka" type="xs:string"/>
     <xs:element name="uloga" type="xs:string"/>

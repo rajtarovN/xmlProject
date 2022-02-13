@@ -55,7 +55,8 @@ export class LoginFormComponent implements OnInit {
       
       this.authService.login(data).subscribe(response => {
         let xmlDoc = this.parser.parseFromString(response,"text/xml");
-        let imeIprezime = xmlDoc.getElementsByTagName("imeIprezime")[0].childNodes[0].nodeValue;
+        let ime = xmlDoc.getElementsByTagName('ime')[0].childNodes[0].nodeValue;
+        let prezime = xmlDoc.getElementsByTagName('prezime')[0].childNodes[0].nodeValue;
         let token = xmlDoc.getElementsByTagName("authenticationToken")[0].childNodes[0].nodeValue;
         let uloga = xmlDoc.getElementsByTagName("uloga")[0].childNodes[0].nodeValue;
         let email = xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue;
@@ -64,7 +65,8 @@ export class LoginFormComponent implements OnInit {
         localStorage.setItem('email', String(email));
         localStorage.setItem('accessToken', String(token));
         localStorage.setItem('uloga', String(uloga));
-        localStorage.setItem('imeIprezime', String(imeIprezime));
+        localStorage.setItem('ime', String(ime));
+        localStorage.setItem('prezime', String(prezime));
         let ul = String(uloga);
 
         this.loginForm.reset();

@@ -1,12 +1,14 @@
 package com.example.demo.repository;
 
 import com.example.demo.dto.KorisnikPrijavaDTO;
+import com.example.demo.util.DBManager;
 import com.example.demo.util.ExistManager;
 import org.exist.xupdate.XUpdateProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.Resource;
+import org.xmldb.api.modules.XMLResource;
 
 @Repository
 public class KorisnikRepository{
@@ -26,6 +28,13 @@ public class KorisnikRepository{
 
     @Autowired
     private ExistManager existManager;
+
+    @Autowired
+    private DBManager dbManager;
+
+    public XMLResource readXML() throws Exception {
+        return dbManager.readFileFromDB(documentId, collectionId);
+    }
 
     public boolean prijava(KorisnikPrijavaDTO korisnik) {
         String xPath = "/lista_korisnika/korisnik[email='" + korisnik.getEmail() + "' and lozinka='"+korisnik.getLozinka()+"']";

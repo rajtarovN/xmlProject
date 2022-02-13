@@ -35,9 +35,8 @@
     <button
       mat-button
       class="menu-button"
-      (click)="onRegistarGradjanaClicked()"
+      (click)="this.activeView = '1'"
     >
-      <!---- <mat-icon>supervised_user_circle</mat-icon>-->
       <span>Registar Gradjana</span>
     </button>
 
@@ -59,6 +58,10 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
+      <app-registar-gradjana
+        class="registar"
+        *ngIf="this.activeView === '1'"
+      ></app-registar-gradjana>
       <app-inventory-form
         class="items"
         *ngIf="this.activeView === '3'"

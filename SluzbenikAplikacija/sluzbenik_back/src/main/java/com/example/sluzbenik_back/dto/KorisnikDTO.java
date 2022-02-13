@@ -7,29 +7,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "korisnik")
 @JsonRootName(value = "korisnik")
 public class KorisnikDTO {
-    private String ime_i_prezime;
     private String email;
-    private String lozinka;
-    private String uloga;
+    private String ime;
+    private String prezime;
 
     public KorisnikDTO() {
         super();
     }
 
-    public KorisnikDTO(String ime_i_prezime, String email, String lozinka, String uloga) {
+    public KorisnikDTO(String email, String ime, String prezime) {
         super();
-        this.ime_i_prezime = ime_i_prezime;
         this.email = email;
-        this.lozinka = lozinka;
-        this.uloga = uloga;
+        this.ime = ime;
+        this.prezime = prezime;
     }
 
-    public String getIme_i_prezime() {
-        return ime_i_prezime;
+    public String getIme() {
+        return ime;
     }
 
-    public void setIme_i_prezime(String ime_i_prezime) {
-        this.ime_i_prezime = ime_i_prezime;
+    public void setIme(String ime) {
+        this.ime = ime;
     }
 
     public String getEmail() {
@@ -40,20 +38,12 @@ public class KorisnikDTO {
         this.email = email;
     }
 
-    public String getLozinka() {
-        return lozinka;
+    public String getPrezime() {
+        return prezime;
     }
 
-    public void setLozinka(String lozinka) {
-        this.lozinka = lozinka;
-    }
-
-    public String getUloga() {
-        return uloga;
-    }
-
-    public void setUloga(String uloga) {
-        this.uloga = uloga;
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
     }
 
 }
