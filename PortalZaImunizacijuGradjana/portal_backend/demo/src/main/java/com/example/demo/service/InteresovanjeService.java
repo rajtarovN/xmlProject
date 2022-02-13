@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.xmldb.api.modules.XMLResource;
 
 import com.example.demo.client.DostupneVakcineClient;
+import com.example.demo.client.EmailClient;
 import com.example.demo.model.dostupne_vakcine.Zalihe;
 import com.example.demo.model.dostupne_vakcine.Zalihe.Vakcina;
 import com.example.demo.model.interesovanje.Interesovanje;
@@ -43,14 +44,17 @@ public class InteresovanjeService extends AbstractService {
 
 	private SaglasnostService saglasnostService;
 
+	private EmailClient emailClient;
+
 	@Autowired
 	public InteresovanjeService(InteresovanjeRepository interesovanjeRepository,
-			DostupneVakcineClient dostupneVakcineClient, SaglasnostService saglasnostService) {
+			DostupneVakcineClient dostupneVakcineClient, SaglasnostService saglasnostService, EmailClient emailClient) {
 
 		super(interesovanjeRepository, "/db/portal/lista_interesovanja", "/lista_interesovanja");
 
 		this.dostupneVakcineClient = dostupneVakcineClient;
 		this.saglasnostService = saglasnostService;
+		this.emailClient = emailClient;
 	}
 
 	@Override
@@ -62,7 +66,7 @@ public class InteresovanjeService extends AbstractService {
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 
 		Interesovanje interesovanje = (Interesovanje) unmarshaller.unmarshal(inputStream);
-		
+
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
@@ -102,6 +106,12 @@ public class InteresovanjeService extends AbstractService {
 					+ ".\n Molimo vas da popunite obrazac saglasnosti za vakcinaciju pre pocetka vaseg termina. Obrazac za saglasnost se nalazi na poralu. Poy";
 
 			// TODO send mail
+
+			com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
+			emailModel.setTo("rajtea6@gmail.com"); // TODO
+			emailModel.setContent(message);
+			emailModel.setSubject("Pozdrav");
+			emailClient.sendMail(emailModel);
 			System.out.println(message);
 
 			// Napravi saglasnost
@@ -125,35 +135,35 @@ public class InteresovanjeService extends AbstractService {
 					.newXMLGregorianCalendar(timeFormatter.format(time));
 
 			saglasnost.setVremeTermina(timeFormatted);
-			
+
 			saglasnost.getPacijent().setDatum(new Datum());
 			saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
 			saglasnost.getPacijent().getDatum().setValue(dateFormatted);
-			
+
 			saglasnost.getPacijent().setLicniPodaci(new LicniPodaci());
 			saglasnost.getPacijent().getLicniPodaci().setKontaktInformacije(new KontaktInformacije());
-			
+
 			// Email
 			String email = interesovanje.getLicneInformacije().getKontakt().getEmail().getValue();
 			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().setEmail(new Email());
-			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail()
-					.setValue(email);
+			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setValue(email);
 			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setProperty("pred:email");
-			
+
 			// Ime
 			saglasnost.getPacijent().getLicniPodaci().setIme(new Ime());
 			saglasnost.getPacijent().getLicniPodaci().getIme().setProperty("pred:ime");
-			saglasnost.getPacijent().getLicniPodaci().getIme().setValue(interesovanje.getLicneInformacije().getIme().getValue());
-			
+			saglasnost.getPacijent().getLicniPodaci().getIme()
+					.setValue(interesovanje.getLicneInformacije().getIme().getValue());
+
 			// Prezime
 			saglasnost.getPacijent().getLicniPodaci().setPrezime(new Prezime());
 			saglasnost.getPacijent().getLicniPodaci().getPrezime().setProperty("pred:prezime");
-			saglasnost.getPacijent().getLicniPodaci().getPrezime().setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
+			saglasnost.getPacijent().getLicniPodaci().getPrezime()
+					.setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
 
 			saglasnost.getPacijent().getLicniPodaci().setZanimanjeZaposlenog(" ");
-			
-			JAXBContext contextSaglasnost = JAXBContext
-					.newInstance(Saglasnost.class);
+
+			JAXBContext contextSaglasnost = JAXBContext.newInstance(Saglasnost.class);
 			OutputStream os = new ByteArrayOutputStream();
 
 			Marshaller marshallerSaglasnost = contextSaglasnost.createMarshaller();
