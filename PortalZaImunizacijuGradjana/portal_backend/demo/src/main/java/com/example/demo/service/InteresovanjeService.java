@@ -27,7 +27,6 @@ import com.example.demo.client.EmailClient;
 import com.example.demo.model.dostupne_vakcine.Zalihe;
 import com.example.demo.model.dostupne_vakcine.Zalihe.Vakcina;
 import com.example.demo.model.interesovanje.Interesovanje;
-import com.example.demo.model.interesovanje.PrintInteresovanje;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.Datum;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci;
@@ -85,16 +84,17 @@ public class InteresovanjeService extends AbstractService {
 
 		String message = "";
 		Boolean dostupno = false;
+		String odabir = "";
 		for (Vakcina zaliha : zalihe.getVakcina()) {
 
 			if ((proizvodjaci.contains(zaliha.getNaziv()) || proizvodjaci.contains("Bilo koja"))
 					&& zaliha.getDostupno() - zaliha.getRezervisano() > 0) {
 				dostupno = true;
 				message += zaliha.getNaziv() + '\n';
-				// TODO zaliha.setRezervisano(zaliha.getRezervisano() + 1);
+				odabir += zaliha.getNaziv() + ',';
+				zaliha.setRezervisano(zaliha.getRezervisano() + 1);
 			}
 		}
-
 		if (!dostupno) {
 			message = "Postovani, \n trenutno nema odabanih vakcina na stanju, u najkracem mogucem roku cemo vas obavestiti o terminu.";
 		} else {
@@ -136,6 +136,9 @@ public class InteresovanjeService extends AbstractService {
 
 			saglasnost.setVremeTermina(timeFormatted);
 
+			odabir = odabir.substring(0, odabir.length() - 1);
+			saglasnost.setOdabraneVakcine(odabir);
+			
 			saglasnost.getPacijent().setDatum(new Datum());
 			saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
 			saglasnost.getPacijent().getDatum().setValue(dateFormatted);
@@ -173,7 +176,9 @@ public class InteresovanjeService extends AbstractService {
 			saglasnostService.saveXML("saglasnost_" + id, os.toString());
 			System.out.println(os.toString());
 			saglasnostService.saveRDF(os.toString(), "/saglasnost");
-			// TODO Save zalihe
+			
+			// Azuriraj zalihe
+			this.dostupneVakcineClient.updateVakcine(zalihe);
 		}
 
 		repository.saveXML("interesovanje_" + documentId, collectionId, content);

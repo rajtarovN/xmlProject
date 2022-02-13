@@ -100,7 +100,7 @@ public class SaglasnostRepository extends RepositoryInterface {
 		return ids;
 	}
 
-	public XMLResource pronadjiPoId(long id) throws IllegalAccessException, JAXBException, InstantiationException,
+	public XMLResource pronadjiPoId(String id) throws IllegalAccessException, JAXBException, InstantiationException,
 			IOException, XMLDBException, ClassNotFoundException {
 		return dbManager.readFileFromDB("saglasnost_" + id + ".xml", collectionId);
 	}

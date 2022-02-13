@@ -35,7 +35,7 @@ public class PotvrdaVakcinacijeController {
     public ResponseEntity<?> kreirajPotvrdu(@PathVariable("brojSaglasnosti") String brojSaglasnosti) {
 
         try {
-            Saglasnost saglasnost = this.saglasnostService.pronadjiPoId(Long.parseLong(brojSaglasnosti));
+            Saglasnost saglasnost = this.saglasnostService.pronadjiPoId(brojSaglasnosti);
             PotvrdaVakcinacijeDTO potvrdaOVakcinaciji = potvrdaVakcinacijeService.kreirajPotvrdu(saglasnost);
             return new ResponseEntity<>(potvrdaOVakcinaciji, HttpStatus.OK);
         } catch (Exception e) {

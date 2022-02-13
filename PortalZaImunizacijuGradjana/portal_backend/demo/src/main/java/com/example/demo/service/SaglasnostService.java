@@ -1,14 +1,26 @@
 package com.example.demo.service;
 
+import com.example.demo.client.DostupneVakcineClient;
 import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
 import com.example.demo.exceptions.ForbiddenException;
+import com.example.demo.model.dostupne_vakcine.Zalihe;
+import com.example.demo.model.dostupne_vakcine.Zalihe.Vakcina;
+import com.example.demo.model.interesovanje.Interesovanje;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.Datum;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Ime;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Prezime;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email;
 import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.XSLFORTransformer;
+
+import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
@@ -24,7 +36,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -35,347 +49,452 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.demo.util.PathConstants.*;
 
 @Service
-public class SaglasnostService  extends AbstractService{
+public class SaglasnostService extends AbstractService {
 
-    protected String collectionId;
+	protected String collectionId;
 
-    protected String fusekiCollectionId;
+	protected String fusekiCollectionId;
 
-    @Autowired
-    private SaglasnostRepository saglasnostRepository;
+	@Autowired
+	private SaglasnostRepository saglasnostRepository;
 
-    @Autowired
-    private PotvrdaVakcinacijeService potvrdaVakcinacijeService;
+	@Autowired
+	private PotvrdaVakcinacijeService potvrdaVakcinacijeService;
 
-    @Autowired
-    private DBManager dbManager;
+	@Autowired
+	private DostupneVakcineClient dostupneVakcineClient;
 
-    @Autowired
-    public SaglasnostService(SaglasnostRepository saglasnostRepository) {
-        super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/lista_saglasnosti" );
-    }
+	@Autowired
+	private DBManager dbManager;
 
-    // Funkcija pronalazi prvi slobodan termin za vakcinaciju pocevsi od sutra u 8h
-    // do 20h, na svakih 5 minuta
-    public LocalDateTime pronadjiSlobodanTermin() throws NumberFormatException, IllegalAccessException,
-            InstantiationException, ClassNotFoundException, JAXBException, XMLDBException, IOException {
-        LocalDate date = LocalDate.now().plusDays(1);
-        List<String> ids = new ArrayList<>();
+	@Autowired
+	public SaglasnostService(SaglasnostRepository saglasnostRepository) {
+		super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/lista_saglasnosti");
+	}
 
-        DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-        while (true) {
-            try {
-                ids = this.saglasnostRepository.pretragaPoTerminu(ft.format(date));
+	// Funkcija pronalazi prvi slobodan termin za vakcinaciju pocevsi od sutra u 8h
+	// do 20h, na svakih 5 minuta
+	public LocalDateTime pronadjiSlobodanTermin() throws NumberFormatException, IllegalAccessException,
+			InstantiationException, ClassNotFoundException, JAXBException, XMLDBException, IOException {
+		LocalDate date = LocalDate.now().plusDays(1);
+		List<String> ids = new ArrayList<>();
 
-                LocalTime time = LocalTime.of(8, 0);
-                Boolean flagTimeTaken = false;
-                while (true) {
-                    for (String i : ids) {
-                        Saglasnost saglasnost = this.pronadjiPoId(Long.parseLong(i));
-                        LocalTime foundTime = LocalTime.parse(saglasnost.getVremeTermina().toString());
+		DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+		while (true) {
+			try {
+				ids = this.saglasnostRepository.pretragaPoTerminu(ft.format(date));
 
-                        if (foundTime.equals(time)) {
-                            flagTimeTaken = true;
-                            break;
-                        }
-                    }
-                    if (flagTimeTaken) {
-                        flagTimeTaken = false;
-                        if (time.isAfter(LocalTime.of(19, 55))) {
-                            time = LocalTime.of(8, 0);
-                            date = date.plusDays(1);
-                        } else {
-                            time = time.plusMinutes(5);
-                        }
+				LocalTime time = LocalTime.of(8, 0);
+				Boolean flagTimeTaken = false;
+				while (true) {
+					for (String i : ids) {
+						Saglasnost saglasnost = this.pronadjiPoId(i);
+						LocalTime foundTime = LocalTime.parse(saglasnost.getVremeTermina().toString());
 
-                    } else {
-                        System.out.println(LocalDateTime.of(date, time).toString());
-                        return LocalDateTime.of(date, time);
-                    }
-                }
+						if (foundTime.equals(time)) {
+							flagTimeTaken = true;
+							break;
+						}
+					}
+					if (flagTimeTaken) {
+						flagTimeTaken = false;
+						if (time.isAfter(LocalTime.of(19, 55))) {
+							time = LocalTime.of(8, 0);
+							date = date.plusDays(1);
+						} else {
+							time = time.plusMinutes(5);
+						}
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+					} else {
+						System.out.println(LocalDateTime.of(date, time).toString());
+						return LocalDateTime.of(date, time);
+					}
+				}
 
-    public Saglasnost pronadjiSaglasnostPoEmailu(String email) throws Exception {
-        String id = this.saglasnostRepository.pronadjiPoEmailu(email).get(0);
-        try {
-            if (id != null) {
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-                return this.pronadjiPoId(Long.parseLong(id));
+	public Saglasnost pronadjiSaglasnostPoEmailu(String email) throws Exception {
+		String id = this.saglasnostRepository.pronadjiPoEmailu(email).get(0);
+		try {
+			if (id != null) {
 
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
+				return this.pronadjiPoId(id);
 
-    public ArrayList<SaglasnostDTO> pretragaTermina(String imePrezime, Date datumTermina) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException, ParseException, DatatypeConfigurationException {
-        List<String> ids = new ArrayList<>();
-        if(datumTermina == null){
-            datumTermina = new Date();
-        }
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-        try {
-            ids = this.saglasnostRepository.pretragaTermina(imePrezime, ft.format(datumTermina));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public String pronadjiZadnjuSaglasnost(String email) throws Exception {
+		List<String> ids = this.saglasnostRepository.pronadjiPoEmailu(email);
+		System.out.println(ids);
+		try {
+			if (ids != null && ids.size() >= 1) {
+				if (ids.size() > 1) {
+					XMLGregorianCalendar maxDate = null;
+					Saglasnost saglasnost = null;
+					for (String id : ids) {
+						Saglasnost tempSaglasnost = pronadjiPoId(id);
+						XMLGregorianCalendar currentDate = saglasnost.getPacijent().getDatum().getValue();
+						if (maxDate == null || currentDate.compare(maxDate) > 1) {
+							maxDate = currentDate;
+							saglasnost = tempSaglasnost;
+						}
+					}
+					if (maxDate.toGregorianCalendar().compareTo(new GregorianCalendar()) < 1) {
+						return null; // Date has passed
+					}
+					return marshal(saglasnost);
+				} else {
+					return marshal(pronadjiPoId(ids.get(0)));
 
-        ArrayList<SaglasnostDTO> lista = new ArrayList<>();
-        for(String i : ids) {
-            Saglasnost z = this.pronadjiPoId(Long.parseLong(i));
-            if(z.getEvidencijaOVakcinaciji() != null &&
-                    z.getEvidencijaOVakcinaciji().getVakcine() != null &&
-                    z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()){
-                SaglasnostDTO dto = new SaglasnostDTO(z);
-                dto.setPrimioDozu(false);
-                dto.setDobioPotvrdu(false);
-                lista.add(dto);
-            }
-            else{
-                boolean vaxxed = false;
-                SaglasnostDTO dto = new SaglasnostDTO(z);
-                dto.setPrimioDozu(false);
-                dto.setDobioPotvrdu(false);
-                if(z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
-                    for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
-                        if (vakcina.getDatumDavanja().toString().equals(z.getPacijent().getDatum().getValue().toString())) {
-                            vaxxed = true;
-                            break;
-                        }
-                    }
-                    if (vaxxed) {
-                        dto.setPrimioDozu(true);
-                        List<String> potvrdeIds = new ArrayList<>();
-                        if (z.getPacijent().getDrzavljaninSrbije() != null) {
-                            potvrdeIds = potvrdaVakcinacijeService.pronadjiPoJmbgIDatumu(z.getPacijent().getDrzavljaninSrbije().getJmbg().getValue(), datumTermina);
-                        } else if (z.getPacijent().getStraniDrzavljanin() != null) {
-                            potvrdeIds = potvrdaVakcinacijeService.pronadjiPoEbsIDatumu(z.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue(), datumTermina);
-                        }
-                        if (!potvrdeIds.isEmpty()) {
-                            dto.setDobioPotvrdu(true);
-                        }
-                    }
-                }
+				}
 
-                lista.add(dto);
-            }
-        }
-        return lista;
-    }
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-    public ArrayList<EvidentiraneVakcineDTO> pronadjiPoEmailu(String email) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException {
-        List<String> ids = new ArrayList<>();
-        try {
-            ids = this.saglasnostRepository.pronadjiPoEmailu(email);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ArrayList<EvidentiraneVakcineDTO> lista = new ArrayList<>();
-        XMLGregorianCalendar date1 = null;
-        for(String i : ids) {
-            Saglasnost z = this.pronadjiPoId(Long.parseLong(i));
-            XMLGregorianCalendar date2 = z.getPacijent().getDatum().getValue();
-            if(z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
-                if (date1 == null) {
-                    date1 = date2;
-                    lista = new ArrayList<>();
-                    if (!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
-                        for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
-                            lista.add(new EvidentiraneVakcineDTO(vakcina));
-                        }
-                    }
-                } else if (date2.toGregorianCalendar().compareTo(date1.toGregorianCalendar()) > 0) {
-                    lista = new ArrayList<>();
-                    date1 = date2;
-                    if (!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
-                        for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji().getVakcine().getVakcina()) {
-                            lista.add(new EvidentiraneVakcineDTO(vakcina));
-                        }
-                    }
-                }
-            }
+	public ArrayList<SaglasnostDTO> pretragaTermina(String imePrezime, Date datumTermina)
+			throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException,
+			ClassNotFoundException, ParseException, DatatypeConfigurationException {
+		List<String> ids = new ArrayList<>();
+		if (datumTermina == null) {
+			datumTermina = new Date();
+		}
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
-        }
-        return lista;
+		try {
+			ids = this.saglasnostRepository.pretragaTermina(imePrezime, ft.format(datumTermina));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    }
+		ArrayList<SaglasnostDTO> lista = new ArrayList<>();
+		for (String i : ids) {
+			Saglasnost z = this.pronadjiPoId(i);
+			if (z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null
+					&& z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+				SaglasnostDTO dto = new SaglasnostDTO(z);
+				dto.setPrimioDozu(false);
+				dto.setDobioPotvrdu(false);
+				lista.add(dto);
+			} else {
+				boolean vaxxed = false;
+				SaglasnostDTO dto = new SaglasnostDTO(z);
+				dto.setPrimioDozu(false);
+				dto.setDobioPotvrdu(false);
+				if (z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
+					for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji()
+							.getVakcine().getVakcina()) {
+						if (vakcina.getDatumDavanja().toString()
+								.equals(z.getPacijent().getDatum().getValue().toString())) {
+							vaxxed = true;
+							break;
+						}
+					}
+					if (vaxxed) {
+						dto.setPrimioDozu(true);
+						List<String> potvrdeIds = new ArrayList<>();
+						if (z.getPacijent().getDrzavljaninSrbije() != null) {
+							potvrdeIds = potvrdaVakcinacijeService.pronadjiPoJmbgIDatumu(
+									z.getPacijent().getDrzavljaninSrbije().getJmbg().getValue(), datumTermina);
+						} else if (z.getPacijent().getStraniDrzavljanin() != null) {
+							potvrdeIds = potvrdaVakcinacijeService.pronadjiPoEbsIDatumu(
+									z.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue(),
+									datumTermina);
+						}
+						if (!potvrdeIds.isEmpty()) {
+							dto.setDobioPotvrdu(true);
+						}
+					}
+				}
 
-    public Saglasnost pronadjiPoId(long id) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
-        XMLResource res = this.saglasnostRepository.pronadjiPoId(id);
-        try {
-            if (res != null) {
+				lista.add(dto);
+			}
+		}
+		return lista;
+	}
 
-                JAXBContext context = JAXBContext.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
+	public ArrayList<EvidentiraneVakcineDTO> pronadjiPoEmailu(String email) throws IllegalAccessException,
+			InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException {
+		List<String> ids = new ArrayList<>();
+		try {
+			ids = this.saglasnostRepository.pronadjiPoEmailu(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ArrayList<EvidentiraneVakcineDTO> lista = new ArrayList<>();
+		XMLGregorianCalendar date1 = null;
+		for (String i : ids) {
+			Saglasnost z = this.pronadjiPoId(i);
+			XMLGregorianCalendar date2 = z.getPacijent().getDatum().getValue();
+			if (z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
+				if (date1 == null) {
+					date1 = date2;
+					lista = new ArrayList<>();
+					if (!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+						for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji()
+								.getVakcine().getVakcina()) {
+							lista.add(new EvidentiraneVakcineDTO(vakcina));
+						}
+					}
+				} else if (date2.toGregorianCalendar().compareTo(date1.toGregorianCalendar()) > 0) {
+					lista = new ArrayList<>();
+					date1 = date2;
+					if (!z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+						for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji()
+								.getVakcine().getVakcina()) {
+							lista.add(new EvidentiraneVakcineDTO(vakcina));
+						}
+					}
+				}
+			}
 
-                Unmarshaller unmarshaller = context.createUnmarshaller();
+		}
+		return lista;
 
-                Saglasnost s = (Saglasnost) unmarshaller
-                        .unmarshal((res).getContentAsDOM());
+	}
 
-                return s;
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	public Saglasnost pronadjiPoId(String id) throws IllegalAccessException, InstantiationException, JAXBException,
+			ClassNotFoundException, XMLDBException, IOException {
+		XMLResource res = this.saglasnostRepository.pronadjiPoId(id);
+		try {
+			if (res != null) {
 
-    public String dodajEvidenciju(EvidencijaVakcinacijeDTO evidencijaDTO, String brojSaglasnosti) {
-        try {
-            Saglasnost saglasnost  = pronadjiPoId(Long.parseLong(brojSaglasnosti));
+				JAXBContext context = JAXBContext
+						.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
 
-            Saglasnost.EvidencijaOVakcinaciji evidencija = new Saglasnost.EvidencijaOVakcinaciji();
-            evidencija.setVakcinacijskiPunkt(evidencijaDTO.getVakcinacijskiPunkkt());
-            evidencija.setZdravstvenaUstanova(evidencijaDTO.getZdravstvenaUstanova());
+				Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            Saglasnost.EvidencijaOVakcinaciji.Lekar lekar = new Saglasnost.EvidencijaOVakcinaciji.Lekar();
-            lekar.setIme(evidencijaDTO.getImeLekara());
-            lekar.setPrezime(evidencijaDTO.getPrezimeLekara());
-            lekar.setTelefon(evidencijaDTO.getTelefonLekara());
-            evidencija.setLekar(lekar);
+				Saglasnost s = (Saglasnost) unmarshaller.unmarshal((res).getContentAsDOM());
 
-            Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine = new Saglasnost.EvidencijaOVakcinaciji.Vakcine();
-            if(evidencijaDTO.getOdlukaKomisije() == null){
-                vakcine.setOdlukaKomisijeZaTrajneKontraindikacije("");
-            }else   vakcine.setOdlukaKomisijeZaTrajneKontraindikacije(evidencijaDTO.getOdlukaKomisije());
-            Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije privremeneKontraindikacije =
-                    new Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije();
+				return s;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-            if(evidencijaDTO.getDatumUtvrdjivanja() != null ) {
-                String FORMATER = "yyyy-MM-dd";
-                DateFormat format = new SimpleDateFormat(FORMATER);
-                Date date = format.parse(evidencijaDTO.getDatumUtvrdjivanja());
-                XMLGregorianCalendar gDateFormatted =
-                        DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
-                privremeneKontraindikacije.setDatumUtvrdjivanja(gDateFormatted);
-                privremeneKontraindikacije.setDijagnoza(evidencijaDTO.getDijagnoza());
-            }else{
-                privremeneKontraindikacije.setDijagnoza("");
-                privremeneKontraindikacije.setDatumUtvrdjivanja(null);
-            }
-            vakcine.setPrivremeneKontraindikacije(privremeneKontraindikacije);
+	public String dodajEvidenciju(EvidencijaVakcinacijeDTO evidencijaDTO, String brojSaglasnosti) {
+		try {
+			Saglasnost saglasnost = pronadjiPoId(brojSaglasnosti);
 
-            evidencija.setVakcine(vakcine);
-            saglasnost.setEvidencijaOVakcinaciji(evidencija);
+			Saglasnost.EvidencijaOVakcinaciji evidencija = new Saglasnost.EvidencijaOVakcinaciji();
+			evidencija.setVakcinacijskiPunkt(evidencijaDTO.getVakcinacijskiPunkkt());
+			evidencija.setZdravstvenaUstanova(evidencijaDTO.getZdravstvenaUstanova());
 
-            String documentId = "saglasnost_"+brojSaglasnosti;
-            String collectionId = "/db/portal/lista_saglasnosti";
+			Saglasnost.EvidencijaOVakcinaciji.Lekar lekar = new Saglasnost.EvidencijaOVakcinaciji.Lekar();
+			lekar.setIme(evidencijaDTO.getImeLekara());
+			lekar.setPrezime(evidencijaDTO.getPrezimeLekara());
+			lekar.setTelefon(evidencijaDTO.getTelefonLekara());
+			evidencija.setLekar(lekar);
 
-            JAXBContext context = JAXBContext.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
-            OutputStream os = new ByteArrayOutputStream();
+			Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine = new Saglasnost.EvidencijaOVakcinaciji.Vakcine();
+			if (evidencijaDTO.getOdlukaKomisije() == null) {
+				vakcine.setOdlukaKomisijeZaTrajneKontraindikacije("");
+			} else
+				vakcine.setOdlukaKomisijeZaTrajneKontraindikacije(evidencijaDTO.getOdlukaKomisije());
+			Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije privremeneKontraindikacije = new Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije();
 
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			if (evidencijaDTO.getDatumUtvrdjivanja() != null) {
+				String FORMATER = "yyyy-MM-dd";
+				DateFormat format = new SimpleDateFormat(FORMATER);
+				Date date = format.parse(evidencijaDTO.getDatumUtvrdjivanja());
+				XMLGregorianCalendar gDateFormatted = DatatypeFactory.newInstance()
+						.newXMLGregorianCalendar(format.format(date));
+				privremeneKontraindikacije.setDatumUtvrdjivanja(gDateFormatted);
+				privremeneKontraindikacije.setDijagnoza(evidencijaDTO.getDijagnoza());
+			} else {
+				privremeneKontraindikacije.setDijagnoza("");
+				privremeneKontraindikacije.setDatumUtvrdjivanja(null);
+			}
+			vakcine.setPrivremeneKontraindikacije(privremeneKontraindikacije);
 
-            marshaller.marshal(saglasnost, os);
-            dbManager.saveFileToDB(documentId, collectionId, os.toString());
-            return "Uspesno sacuvana evidencija o vakcinaciji.";
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ForbiddenException("Error se desio pri cuvanju evidencije o vakcinaciji.");
-        }
-    }
+			evidencija.setVakcine(vakcine);
+			saglasnost.setEvidencijaOVakcinaciji(evidencija);
 
+			String documentId = "saglasnost_" + brojSaglasnosti;
+			String collectionId = "/db/portal/lista_saglasnosti";
 
-    public String dodajEvidentiraneVakcine(ListaEvidentiranihVakcina evidentiraneVakcineDTO, String brojSaglasnosti){
-        try {
-            Saglasnost saglasnost = pronadjiPoId(Long.parseLong(brojSaglasnosti));
-            Saglasnost.EvidencijaOVakcinaciji evidencija = saglasnost.getEvidencijaOVakcinaciji();
-            Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine = saglasnost.getEvidencijaOVakcinaciji().getVakcine();
-            List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> listaVakcina = new ArrayList<>();
-            int i = 0;
+			JAXBContext context = JAXBContext.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
+			OutputStream os = new ByteArrayOutputStream();
 
-            for (EvidentiraneVakcineDTO vakcinaDto: evidentiraneVakcineDTO.getEvidentiraneVakcineDTO()) {
-                i += 1;
-                Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina =
-                        new Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina();
-                vakcina.setNaziv(vakcinaDto.getNazivVakcine());
-                XMLGregorianCalendar result1 = DatatypeFactory.newInstance()
-                        .newXMLGregorianCalendar(vakcinaDto.getDatumDavanja());
-                vakcina.setDatumDavanja(result1);
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-                vakcina.setNacinDavanja("IM");
-                if (vakcinaDto.getEkstremitet().equals("LR") ||
-                        vakcinaDto.getEkstremitet().equals("DR"))
-                    vakcina.setEkstremiter(vakcinaDto.getEkstremitet().equals("LR") ? "leva ruka" : "desna ruka");
-                else
-                    vakcina.setEkstremiter(vakcinaDto.getEkstremitet());
-                vakcina.setSerija(vakcinaDto.getSerijaVakcine());
-                vakcina.setProizvodjac(vakcinaDto.getProizvodjac());
-                vakcina.setNezeljenaReakcija(vakcinaDto.getNezeljenaReakcija());
-                vakcina.setDoza(BigInteger.valueOf(i));
-                listaVakcina.add(vakcina);
+			marshaller.marshal(saglasnost, os);
+			dbManager.saveFileToDB(documentId, collectionId, os.toString());
+			return "Uspesno sacuvana evidencija o vakcinaciji.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ForbiddenException("Error se desio pri cuvanju evidencije o vakcinaciji.");
+		}
+	}
 
-            }
-            vakcine.setVakcina(listaVakcina);
-            evidencija.setVakcine(vakcine);
-            saglasnost.setEvidencijaOVakcinaciji(evidencija);
+	public String dodajEvidentiraneVakcine(ListaEvidentiranihVakcina evidentiraneVakcineDTO, String brojSaglasnosti) {
+		try {
+			Saglasnost saglasnost = pronadjiPoId(brojSaglasnosti);
+			Saglasnost.EvidencijaOVakcinaciji evidencija = saglasnost.getEvidencijaOVakcinaciji();
+			Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine = saglasnost.getEvidencijaOVakcinaciji().getVakcine();
+			List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> listaVakcina = new ArrayList<>();
+			int i = 0;
 
-            String documentId = "saglasnost_" + brojSaglasnosti;
-            String collectionId = "/db/portal/lista_saglasnosti";
+			for (EvidentiraneVakcineDTO vakcinaDto : evidentiraneVakcineDTO.getEvidentiraneVakcineDTO()) {
+				i += 1;
+				Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina = new Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina();
+				vakcina.setNaziv(vakcinaDto.getNazivVakcine());
+				XMLGregorianCalendar result1 = DatatypeFactory.newInstance()
+						.newXMLGregorianCalendar(vakcinaDto.getDatumDavanja());
+				vakcina.setDatumDavanja(result1);
 
-            JAXBContext context = JAXBContext
-                    .newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
-            OutputStream os = new ByteArrayOutputStream();
+				vakcina.setNacinDavanja("IM");
+				if (vakcinaDto.getEkstremitet().equals("LR") || vakcinaDto.getEkstremitet().equals("DR"))
+					vakcina.setEkstremiter(vakcinaDto.getEkstremitet().equals("LR") ? "leva ruka" : "desna ruka");
+				else
+					vakcina.setEkstremiter(vakcinaDto.getEkstremitet());
+				vakcina.setSerija(vakcinaDto.getSerijaVakcine());
+				vakcina.setProizvodjac(vakcinaDto.getProizvodjac());
+				vakcina.setNezeljenaReakcija(vakcinaDto.getNezeljenaReakcija());
+				vakcina.setDoza(BigInteger.valueOf(i));
+				listaVakcina.add(vakcina);
 
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			}
+			vakcine.setVakcina(listaVakcina);
+			evidencija.setVakcine(vakcine);
+			saglasnost.setEvidencijaOVakcinaciji(evidencija);
 
-            marshaller.marshal(saglasnost, os);
-            dbManager.saveFileToDB(documentId, collectionId, os.toString());
+			String documentId = "saglasnost_" + brojSaglasnosti;
+			String collectionId = "/db/portal/lista_saglasnosti";
 
-            return "Uspesno sacuvane evidentirane vakcine.";
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ForbiddenException("Error se desio pri cuvanju evidentirane vakcine.");
-        }
-    }
+			JAXBContext context = JAXBContext.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
+			OutputStream os = new ByteArrayOutputStream();
 
-    public String generatePDF(String id) {
-        XSLFORTransformer transformer = null;
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-        try {
-            transformer = new XSLFORTransformer();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+			marshaller.marshal(saglasnost, os);
+			dbManager.saveFileToDB(documentId, collectionId, os.toString());
 
-        XMLResource xmlRes = this.readXML(id);
-        String doc_str = "";
-        try {
-            doc_str = xmlRes.getContent().toString();
-            System.out.println(doc_str);
-        } catch (XMLDBException e1) {
-            e1.printStackTrace();
-        }
+			return "Uspesno sacuvane evidentirane vakcine.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ForbiddenException("Error se desio pri cuvanju evidentirane vakcine.");
+		}
+	}
 
-        boolean ok = false;
-        String pdf_path = SAVE_PDF + "saglasnost_" + id.split(".xml")[0] + ".pdf";
+	public String generatePDF(String id) {
+		XSLFORTransformer transformer = null;
 
-        try {
-            ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
-            if (ok)
-                return pdf_path;
-            else
-                return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+		try {
+			transformer = new XSLFORTransformer();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		XMLResource xmlRes = this.readXML(id);
+		String doc_str = "";
+		try {
+			doc_str = xmlRes.getContent().toString();
+			System.out.println(doc_str);
+		} catch (XMLDBException e1) {
+			e1.printStackTrace();
+		}
+
+		boolean ok = false;
+		String pdf_path = SAVE_PDF + "saglasnost_" + id.split(".xml")[0] + ".pdf";
+
+		try {
+			ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
+			if (ok)
+				return pdf_path;
+			else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private String marshal(Saglasnost saglasnost) throws JAXBException {
+		JAXBContext context = JAXBContext.newInstance(Saglasnost.class);
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+		marshaller.marshal(saglasnost, stream);
+
+		String finalString = new String(stream.toByteArray());
+		System.out.println(finalString);
+
+		return finalString;
+	}
+
+	public void saveXML(String documentId, String content, String vakcine) throws Exception {
+
+		InputStream inputStream = new ReaderInputStream(new StringReader(content));
+
+		JAXBContext context = JAXBContext.newInstance(Saglasnost.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+
+		Saglasnost saglasnost = (Saglasnost) unmarshaller.unmarshal(inputStream);
+
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+		marshaller.marshal(saglasnost, stream);
+
+		String finalString = new String(stream.toByteArray());
+		System.out.println(finalString);
+
+		content = finalString;
+
+		Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
+
+		String[] temp = vakcine.split(",");
+		List<String> proizvodjaci = new ArrayList<String>();
+		for (String t : temp) {
+			proizvodjaci.add(t);
+		}
+		String odabrana = saglasnost.getOdabraneVakcine();
+
+		Boolean azuriraj = false;
+		// Azuriraj zalihe - umanji reervacije
+		for (Vakcina zaliha : zalihe.getVakcina()) {
+
+			if (proizvodjaci.contains(zaliha.getNaziv()) && zaliha.getNaziv().compareTo(odabrana) != 0) {
+				zaliha.setRezervisano(zaliha.getRezervisano() - 1);
+				azuriraj = true;
+			}
+		}
+		if(azuriraj) this.dostupneVakcineClient.updateVakcine(zalihe);
+
+		this.saveXML("saglasnost_" + documentId, content);
+		System.out.println(content);
+		this.saveRDF(content, "/saglasnost");
+
+	}
 }
