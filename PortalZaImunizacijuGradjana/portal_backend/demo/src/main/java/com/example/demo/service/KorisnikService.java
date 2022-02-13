@@ -49,5 +49,17 @@ public class KorisnikService  {
             return null;
     }
 
+    public XMLResource readXML() {
+
+        XMLResource document = null;
+
+        try {
+            document = korisnikRepository.readXML();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return document;
+    }
 
 }

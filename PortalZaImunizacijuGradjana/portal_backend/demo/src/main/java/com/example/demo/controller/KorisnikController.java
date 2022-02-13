@@ -25,6 +25,9 @@ import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.security.TokenUtils;
 import com.example.demo.service.KorisnikService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.xmldb.api.modules.XMLResource;
+
+import javax.ws.rs.GET;
 
 @RestController
 @RequestMapping(value = "/korisnik")
@@ -107,6 +110,18 @@ public class KorisnikController {
             return new ResponseEntity<>("Uspesan logout!", HttpStatus.OK);
         } else {
             throw new BadRequestException("Korisnik nije autentifikovan!");
+        }
+
+    }
+
+    @GET
+    @GetMapping
+    public ResponseEntity<String> getXML() {
+        try {
+            XMLResource korisnici = korisnikService.readXML();
+            return new ResponseEntity<>(korisnici.getContent().toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }

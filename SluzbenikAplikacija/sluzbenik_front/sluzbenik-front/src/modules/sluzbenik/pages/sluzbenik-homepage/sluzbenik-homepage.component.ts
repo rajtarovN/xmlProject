@@ -13,7 +13,7 @@ export class SluzbenikHomepageComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
   showModalLogout: boolean;
-  activeView = '3';
+  activeView = '1';
 
   constructor(
     private observer: BreakpointObserver,
@@ -45,11 +45,7 @@ export class SluzbenikHomepageComponent implements OnInit {
     this.showModalLogout = false;
   }
 
-  onRegistarGradjanaClicked() {}
-
   onIzvestajOImunizacijiClicked() {}
-
-  onDostupnevakcineClicked() {}
 
   onArhivaClicked() {}
 }

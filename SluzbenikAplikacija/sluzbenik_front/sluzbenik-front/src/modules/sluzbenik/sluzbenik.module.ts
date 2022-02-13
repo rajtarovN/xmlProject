@@ -9,6 +9,7 @@ import { SluzbenikRoutes } from './sluzbenik.routes';
 import { LogoutComponent } from './components/logout/logout.component';
 import { CommonModule } from '@angular/common';
 import { InventoryFormComponent } from './components/inventory-form/inventory-form.component';
+import { RegistarGradjanaComponent } from './components/registar-gradjana/registar-gradjana.component';
 
 
 
@@ -16,7 +17,8 @@ import { InventoryFormComponent } from './components/inventory-form/inventory-fo
   declarations: [
     SluzbenikHomepageComponent,
     LogoutComponent,
-    InventoryFormComponent
+    InventoryFormComponent,
+    RegistarGradjanaComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,7 @@
 package com.example.sluzbenik_back.service;
 
+import com.example.sluzbenik_back.client.KorisnikClient;
+import com.example.sluzbenik_back.dto.KorisnikDTO;
 import com.example.sluzbenik_back.dto.KorisnikPrijavaDTO;
 import com.example.sluzbenik_back.exceptions.ForbiddenException;
 import com.example.sluzbenik_back.model.korisnik.Korisnik;
@@ -20,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class KorisnikService  {
@@ -29,6 +33,9 @@ public class KorisnikService  {
 
     @Autowired
     private DBManager dbManager;
+
+    @Autowired
+    private KorisnikClient korisnikClient;
 
 
     public boolean prijava(KorisnikPrijavaDTO korisnik) {
@@ -53,35 +60,23 @@ public class KorisnikService  {
             return null;
     }
 
-    public OutputStream parsiraj(String documentId, String type) throws JAXBException {
-        OutputStream os = new ByteArrayOutputStream();
-        try {
-            JAXBContext context = JAXBContext
-                    .newInstance("com.example.sluzbenik_back.model." + type);
 
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-            ListaKorisnika listaKorisnika = (ListaKorisnika) unmarshaller
-                    .unmarshal(new File("data/xml/" + documentId + ".xml"));
-            marshaller.marshal(listaKorisnika, os);
-            return os;
-        }catch (Exception e){
-            throw new ForbiddenException("Error pri parsiranju korisnika.");
+    public List<KorisnikDTO> getKorisnike(String searchTerm) throws Exception {
+        ListaKorisnika listaKorisnika = korisnikClient.getGradjane();
+        List<KorisnikDTO> list = new ArrayList<>();
+        for (Korisnik korisnik : listaKorisnika.getKorisnik() ) {
+            if(korisnik.getUloga().equals("G")){
+                if(searchTerm == null || searchTerm == "") {
+                    list.add(new KorisnikDTO(korisnik.getEmail(), korisnik.getIme(), korisnik.getPrezime()));
+                }
+                else if(korisnik.getEmail().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                        korisnik.getIme().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                        korisnik.getPrezime().toLowerCase().contains(searchTerm.toLowerCase())){
+                    list.add(new KorisnikDTO(korisnik.getEmail(), korisnik.getIme(), korisnik.getPrezime()));
+                }
+            }
         }
+        return list;
     }
 
-    public void inicijalizujBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
-        try {
-            String documentId = "korisnik";
-            String collectionId = "/db/sluzbenik";
-            OutputStream os = parsiraj(documentId, "korisnik");
-            dbManager.saveFileToDB(documentId, collectionId, os.toString());
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new ForbiddenException("Error pri inicijalizaciji baze.");
-        }
-    }
 }

@@ -7,6 +7,7 @@ export const environment = {
   baseUrl: 'http://localhost:8082/api',
   login: 'korisnik/prijava',
   logout: 'korisnik/logout',
+  getKorisnike: 'korisnik/listaKorisnika',
 };
 
 /*

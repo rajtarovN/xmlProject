@@ -113,7 +113,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.POST, "/korisnik/prijava","/korisnik/registracija", "/ws/**");
 
 
-        web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik/logout", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
+        web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js","/v2/api-docs");
     }
 }
