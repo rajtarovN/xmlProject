@@ -198,7 +198,7 @@
 														<xs:simpleType>
 															<xs:restriction base="xs:string">
 																<xs:enumeration value="Pfizer-BioNTech" />
-																<xs:enumeration value="Sputnik V" />
+																<xs:enumeration value="Sputnik" />
 																<xs:enumeration value="Sinopharm" />
 																<xs:enumeration value="AstraZeneca" />
 																<xs:enumeration value="Moderna" />
@@ -259,6 +259,7 @@
 			</xs:sequence>
 			<xs:attribute name="about" type="xs:anyURI" />
 			<xs:attribute name="Broj_saglasnosti" type="xs:string" />
+			<xs:attribute name="Odabrane_vakcine" type="xs:string" />
 			<xs:attribute name="Vreme_termina" use="required" type="xs:time" />
 		</xs:complexType>
 	</xs:element>
