@@ -1,6 +1,7 @@
 package com.example.sluzbenik_back.util;
 
 import com.example.sluzbenik_back.exceptions.ForbiddenException;
+import com.example.sluzbenik_back.model.dostupne_vakcine.Zalihe;
 import com.example.sluzbenik_back.model.korisnik.ListaKorisnika;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -28,186 +29,199 @@ import java.util.List;
 
 public class InitXmlAndRdfDb {
 
-    public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
-        try {
+	public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException,
+			InstantiationException, IOException, IllegalAccessException {
+		try {
 
-            //korisnici
-            String documentId = "korisnik";
-            String collectionId = "/db/sluzbenik";
-            OutputStream os = parsiraj("korisnik", "korisnik");
-            runXML(documentId, collectionId, os.toString());
+			// zalihe
+			String zaliheId = "zalihe";
+			String zaliheCollectionId = "/db/sluzbenik/zalihe";
+			OutputStream osZ = parsiraj(zaliheId, "dostupne_vakcine");
+			runXML(zaliheId, zaliheCollectionId, osZ.toString());
 
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new ForbiddenException("Error pri inicijalizaciji baze.");
-        }
-    }
+			// korisnici
+			String documentId = "korisnik";
+			String collectionId = "/db/sluzbenik";
+			OutputStream os = parsiraj("korisnik", "korisnik");
+			runXML(documentId, collectionId, os.toString());
 
-    public static OutputStream parsiraj(String documentId, String type) throws JAXBException {
-        OutputStream os = new ByteArrayOutputStream();
-        try {
-            JAXBContext context = JAXBContext
-                    .newInstance("com.example.sluzbenik_back.model." + type);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ForbiddenException("Error pri inicijalizaciji baze.");
+		}
+	}
 
-            Unmarshaller unmarshaller = context.createUnmarshaller();
+	public static OutputStream parsiraj(String documentId, String type) throws JAXBException {
+		OutputStream os = new ByteArrayOutputStream();
+		try {
+			JAXBContext context = JAXBContext.newInstance("com.example.sluzbenik_back.model." + type);
 
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-           if(type.equals("korisnik")){
-                ListaKorisnika listaKorisnika = (ListaKorisnika) unmarshaller
-                        .unmarshal(new File("data/xml/" + documentId + ".xml"));
-                marshaller.marshal(listaKorisnika, os);
-            }
-            return os;
-        }catch (Exception e){
-            throw new ForbiddenException("Error pri parsiranju saglasnosti.");
-        }
-    }
+			Marshaller marshaller = context.createMarshaller();
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-    public static void runXML(String documentId, String collectionId, String os) throws ClassNotFoundException, XMLDBException, IllegalAccessException, InstantiationException {
-        // initialize database driver
-        System.out.println("[INFO] Loading driver class: " + "org.exist.xmldb.DatabaseImpl");
-        Class<?> cl = Class.forName("org.exist.xmldb.DatabaseImpl");
+			if (type.equals("korisnik")) {
+				ListaKorisnika listaKorisnika = (ListaKorisnika) unmarshaller
+						.unmarshal(new File("data/xml/" + documentId + ".xml"));
+				marshaller.marshal(listaKorisnika, os);
+			} else if (type.equals("dostupne_vakcine")) {
+				Zalihe zalihe = (Zalihe) unmarshaller
+						.unmarshal(new File("data/xml/" + documentId + ".xml"));
+				marshaller.marshal(zalihe, os);
+			}
+			return os;
+		} catch (Exception e) {
+			throw new ForbiddenException("Error pri parsiranju saglasnosti.");
+		}
+	}
 
-        // encapsulation of the database driver functionality
-        Database database = (Database) cl.newInstance();
-        database.setProperty("create-database", "true");
+	public static void runXML(String documentId, String collectionId, String os)
+			throws ClassNotFoundException, XMLDBException, IllegalAccessException, InstantiationException {
+		// initialize database driver
+		System.out.println("[INFO] Loading driver class: " + "org.exist.xmldb.DatabaseImpl");
+		Class<?> cl = Class.forName("org.exist.xmldb.DatabaseImpl");
 
-        // entry point for the API which enables you to get the Collection reference
-        DatabaseManager.registerDatabase(database);
+		// encapsulation of the database driver functionality
+		Database database = (Database) cl.newInstance();
+		database.setProperty("create-database", "true");
 
-        // a collection of Resources stored within an XML database
-        Collection col = null;
-        XMLResource res = null;
+		// entry point for the API which enables you to get the Collection reference
+		DatabaseManager.registerDatabase(database);
 
-        try {
+		// a collection of Resources stored within an XML database
+		Collection col = null;
+		XMLResource res = null;
 
-            System.out.println("[INFO] Retrieving the collection: " + collectionId);
-            col = getOrCreateCollection(collectionId);
+		try {
 
-            /*
-             * create new XMLResource with a given id an id is assigned to the new resource
-             * if left empty (null)
-             */
-            System.out.println("[INFO] Inserting the document: " + documentId);
-            res = (XMLResource) col.createResource(documentId  + ".xml", XMLResource.RESOURCE_TYPE);
+			System.out.println("[INFO] Retrieving the collection: " + collectionId);
+			col = getOrCreateCollection(collectionId);
 
-            res.setContent(os);
-            System.out.println("[INFO] Storing the document: " + res.getId());
+			/*
+			 * create new XMLResource with a given id an id is assigned to the new resource
+			 * if left empty (null)
+			 */
+			System.out.println("[INFO] Inserting the document: " + documentId);
+			res = (XMLResource) col.createResource(documentId + ".xml", XMLResource.RESOURCE_TYPE);
 
-            col.storeResource(res);
-            System.out.println("[INFO] Done. File is save to DB.");
+			res.setContent(os);
+			System.out.println("[INFO] Storing the document: " + res.getId());
 
-        } finally {
-            // don't forget to cleanup
-            if (res != null) {
-                try {
-                    ((EXistResource) res).freeResources();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
-            if (col != null) {
-                try {
-                    col.close();
-                } catch (XMLDBException xe) {
-                    xe.printStackTrace();
-                }
-            }
-        }
-    }
+			col.storeResource(res);
+			System.out.println("[INFO] Done. File is save to DB.");
 
-    public static Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
-        return getOrCreateCollection(collectionUri, 0);
-    }
+		} finally {
+			// don't forget to cleanup
+			if (res != null) {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+			if (col != null) {
+				try {
+					col.close();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+	}
 
-    public static Collection getOrCreateCollection(String collectionUri, int pathSegmentOffset) throws XMLDBException {
-        Collection col = DatabaseManager.getCollection("xmldb:exist://localhost:8080/existSluzbenik/xmlrpc" + collectionUri, "admin", "");
+	public static Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
+		return getOrCreateCollection(collectionUri, 0);
+	}
 
-        // create the collection if it does not exist
-        if (col == null) {
+	public static Collection getOrCreateCollection(String collectionUri, int pathSegmentOffset) throws XMLDBException {
+		Collection col = DatabaseManager
+				.getCollection("xmldb:exist://localhost:8080/existSluzbenik/xmlrpc" + collectionUri, "admin", "");
 
-            if (collectionUri.startsWith("/")) {
-                collectionUri = collectionUri.substring(1);
-            }
+		// create the collection if it does not exist
+		if (col == null) {
 
-            String pathSegments[] = collectionUri.split("/");
+			if (collectionUri.startsWith("/")) {
+				collectionUri = collectionUri.substring(1);
+			}
 
-            if (pathSegments.length > 0) {
-                StringBuilder path = new StringBuilder();
+			String pathSegments[] = collectionUri.split("/");
 
-                for (int i = 0; i <= pathSegmentOffset; i++) {
-                    path.append("/" + pathSegments[i]);
-                }
+			if (pathSegments.length > 0) {
+				StringBuilder path = new StringBuilder();
 
-                Collection startCol = DatabaseManager.getCollection("xmldb:exist://localhost:8080/existSluzbenik/xmlrpc" + path, "admin", "");
+				for (int i = 0; i <= pathSegmentOffset; i++) {
+					path.append("/" + pathSegments[i]);
+				}
 
-                if (startCol == null) {
+				Collection startCol = DatabaseManager
+						.getCollection("xmldb:exist://localhost:8080/existSluzbenik/xmlrpc" + path, "admin", "");
 
-                    // child collection does not exist
+				if (startCol == null) {
 
-                    String parentPath = path.substring(0, path.lastIndexOf("/"));
-                    Collection parentCol = DatabaseManager.getCollection("xmldb:exist://localhost:8080/existSluzbenik/xmlrpc" + parentPath, "admin",
-                            "");
+					// child collection does not exist
 
-                    CollectionManagementService mgt = (CollectionManagementService) parentCol
-                            .getService("CollectionManagementService", "1.0");
+					String parentPath = path.substring(0, path.lastIndexOf("/"));
+					Collection parentCol = DatabaseManager.getCollection(
+							"xmldb:exist://localhost:8080/existSluzbenik/xmlrpc" + parentPath, "admin", "");
 
-                    System.out.println("[INFO] Creating the collection: " + pathSegments[pathSegmentOffset]);
-                    col = mgt.createCollection(pathSegments[pathSegmentOffset]);
+					CollectionManagementService mgt = (CollectionManagementService) parentCol
+							.getService("CollectionManagementService", "1.0");
 
-                    col.close();
-                    parentCol.close();
+					System.out.println("[INFO] Creating the collection: " + pathSegments[pathSegmentOffset]);
+					col = mgt.createCollection(pathSegments[pathSegmentOffset]);
 
-                } else {
-                    startCol.close();
-                }
-            }
-            return getOrCreateCollection(collectionUri, ++pathSegmentOffset);
-        } else {
-            return col;
-        }
-    }
+					col.close();
+					parentCol.close();
 
-    public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
-        AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList();
-        for(String documentId : docIds) {
-            String graphUri = "";
-            if(documentId.contains("sag")){
-                graphUri = "/lista_saglasnosti";
-            }
-            String xmlFilePath = "data/xml/" + documentId + ".xml";
-            String rdfFilePath = "gen/" + documentId + ".rdf";
+				} else {
+					startCol.close();
+				}
+			}
+			return getOrCreateCollection(collectionUri, ++pathSegmentOffset);
+		} else {
+			return col;
+		}
+	}
 
-            MetadataExtractor metadataExtractor = new MetadataExtractor();
+	public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
+		// TODO
+		AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
+		List<String> docIds = Arrays.asList();
+		for (String documentId : docIds) {
+			String graphUri = "";
+			if (documentId.contains("sag")) {
+				graphUri = "/lista_saglasnosti";
+			}
+			String xmlFilePath = "data/xml/" + documentId + ".xml";
+			String rdfFilePath = "gen/" + documentId + ".rdf";
 
-            System.out.println("[INFO] Extracting metadata from RDFa attributes...");
-            metadataExtractor.extractMetadata(
-                    new FileInputStream(new File(xmlFilePath)),
-                    new FileOutputStream(new File(rdfFilePath)));
+			MetadataExtractor metadataExtractor = new MetadataExtractor();
 
-            Model model = ModelFactory.createDefaultModel();
-            model.read(rdfFilePath);
+			System.out.println("[INFO] Extracting metadata from RDFa attributes...");
+			metadataExtractor.extractMetadata(new FileInputStream(new File(xmlFilePath)),
+					new FileOutputStream(new File(rdfFilePath)));
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
+			Model model = ModelFactory.createDefaultModel();
+			model.read(rdfFilePath);
 
-            model.write(out, SparqlUtil.NTRIPLES);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-            System.out.println("[INFO] Extracted metadata as RDF/XML...");
-            //model.write(System.out, SparqlUtil.RDF_XML);
+			model.write(out, SparqlUtil.NTRIPLES);
 
-            System.out.println("[INFO] Populating named graph \"" + graphUri + "\" with extracted metadata.");
-            String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + graphUri, out.toString());
-            System.out.println(sparqlUpdate);
+			System.out.println("[INFO] Extracted metadata as RDF/XML...");
+			// model.write(System.out, SparqlUtil.RDF_XML);
 
-            // UpdateRequest represents a unit of execution
-            UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+			System.out.println("[INFO] Populating named graph \"" + graphUri + "\" with extracted metadata.");
+			String sparqlUpdate = SparqlUtil.insertData(fusekiConn.dataEndpoint + graphUri, out.toString());
+			System.out.println(sparqlUpdate);
 
-            UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, fusekiConn.updateEndpoint);
-            processor.execute();
-            model.close();
-        }
-    }
+			// UpdateRequest represents a unit of execution
+			UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+
+			UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, fusekiConn.updateEndpoint);
+			processor.execute();
+			model.close();
+		}
+	}
 }

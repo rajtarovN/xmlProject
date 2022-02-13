@@ -36,10 +36,10 @@ public class EmailClient {
 		JAXBContext contextSaglasnost = JAXBContext.newInstance(Email.class);
 		OutputStream os = new ByteArrayOutputStream();
 
-		Marshaller marshallerSaglasnost = contextSaglasnost.createMarshaller();
-		marshallerSaglasnost.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		Marshaller marshallerEmail = contextSaglasnost.createMarshaller();
+		marshallerEmail.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		marshallerSaglasnost.marshal(email, os);
+		marshallerEmail.marshal(email, os);
 		System.out.println(os.toString());
 		RequestEntity entity = new StringRequestEntity(os.toString(), "application/xml", URL_ENCODING);
 		post.setRequestEntity(entity);
