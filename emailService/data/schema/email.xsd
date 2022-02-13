@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-           targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/emial"
-           xmlns:korisnik="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/emial"
+           targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/email"
+           xmlns:korisnik="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/email"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <xs:element name="Email">
         <xs:complexType>

@@ -5,5 +5,5 @@
 // Generated on: 2022.02.12 at 08:20:51 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/emial", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/email", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.ftn.email.emailService.model;

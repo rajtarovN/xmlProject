@@ -1,4 +1,4 @@
-package com.example.demo.client;
+package com.example.sluzbenik_back.client;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
-import com.example.demo.model.email.Email;
+import com.example.sluzbenik_back.model.email.Email;
 
 @org.springframework.stereotype.Service
 public class EmailClient {

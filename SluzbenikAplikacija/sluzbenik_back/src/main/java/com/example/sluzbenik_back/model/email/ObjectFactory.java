@@ -6,7 +6,7 @@
 //
 
 
-package com.example.demo.model.email;
+package com.example.sluzbenik_back.model.email;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
