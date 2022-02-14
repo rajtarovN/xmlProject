@@ -113,7 +113,13 @@ public class SaglasnostService extends AbstractService {
 	}
 
 	public Saglasnost pronadjiSaglasnostPoEmailu(String email) throws Exception {
-		String id = this.saglasnostRepository.pronadjiPoEmailu(email).get(0);
+		
+		List<String> ids = this.saglasnostRepository.pronadjiPoEmailu(email);
+		
+		if(ids.size() <= 0)
+			return null;
+		
+		String id = ids.get(0);
 		try {
 			if (id != null) {
 
