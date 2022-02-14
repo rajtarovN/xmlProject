@@ -26,7 +26,7 @@
                     </fo:block>
 
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Државлјанство: PITAJ ONOG KO JE OVO RADIOOOOOOOO
+                        Држављанство: PITAJ ONOG KO JE OVO RADIOOOOOOOO
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
                         Презиме: <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Prezime"></xsl:value-of>

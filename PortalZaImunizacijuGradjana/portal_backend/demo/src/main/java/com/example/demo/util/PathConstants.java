@@ -14,7 +14,7 @@ public class PathConstants {
 	 public static final String DIGITALNISERTIFIKAT_XSL =  BASE + "/xsl/digitalni_sertifikat.xsl";
 	 public static final String INTERESOVANJE_XSL =  BASE + "/xsl/Interesovanje.xsl";
 	 public static final String IZVESTAJ_XSL =  BASE + "/xsl/Izvestaj.xsl";
-	 public static final String POTVRDA_O_VAKCINACIJI_XSL =  BASE + "/xsl/Potvrda_o_vakcinaciji.xsl";
+	 public static final String POTVRDA_O_VAKCINACIJI_XSL =  BASE + "/xsl/potvrda.xsl";
 	 public static final String SAGLASNOST_XSL =  BASE + "/xsl/saglasnost.xsl";
 	 public static final String ZAHTEV_ZA_SERTIFIKAT_XSL =  BASE + "/xsl/zahtev.xsl";
 	 
@@ -39,7 +39,7 @@ public class PathConstants {
 	public static final String DIGITALNISERTIFIKAT_XSL_FO =  BASE + "/xsl_doc/digitalni_sertifikat.xsl";
 	public static final String INTERESOVANJE_XSL_FO =  BASE + "/xsl_doc/Interesovanje.xsl";
 	public static final String IZVESTAJ_XSL_FO =  BASE + "/xsl_doc/Izvestaj.xsl";
-	public static final String POTVRDA_O_VAKCINACIJI_XSL_FO =  BASE + "/xsl_doc/Potvrda_o_vakcinaciji.xsl";
+	public static final String POTVRDA_O_VAKCINACIJI_XSL_FO =  BASE + "/xsl_doc/potvrda.xsl";
 	public static final String SAGLASNOST_XSL_FO =  BASE + "/xsl_doc/saglasnost.xsl";
 	public static final String ZAHTEV_XSL_FO =  BASE + "/xsl_doc/zahtev.xsl";
 

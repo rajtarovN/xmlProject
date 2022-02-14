@@ -68,6 +68,7 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
       this.vreme = "-"+danasnjiDan.getHours() + "-" + danasnjiDan.getMinutes() + "-" + danasnjiDan.getSeconds();
    
       this.getHtml("1234567890123_2022-2-12-10-32-47.xml");
+      //this.getPdf("1234567890123_2022-2-12-10-32-47.xml");
    
     }
 
