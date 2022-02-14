@@ -5,5 +5,12 @@
 // Generated on: 2022.01.04 at 02:16:55 PM CET 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns = {
+                @XmlNs(prefix = "pred", namespaceURI = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/zahtev_za_sertifikatom/predicate/")
+        })
 package com.example.sluzbenik_back.model.zahtev_za_sertifikatom;
+
+import javax.xml.bind.annotation.XmlNs;

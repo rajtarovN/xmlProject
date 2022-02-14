@@ -4,6 +4,7 @@ import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.service.SaglasnostService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.xmldb.api.modules.XMLResource;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -27,96 +29,128 @@ import java.util.Date;
 @RequestMapping(value = "/saglasnost")
 public class SaglasnostController {
 
-    @Autowired
-    private SaglasnostService saglasnostService;
+	@Autowired
+	private SaglasnostService saglasnostService;
 
-    @PreAuthorize("hasRole('Z')")
-    @GetMapping(path = "/pretragaTermina/{imePrezime}/{datumTermina}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> pretragaTermina(@PathVariable("imePrezime") String imePrezime,
-                                                             @PathVariable("datumTermina") Date datumTermina) {
-        ArrayList<SaglasnostDTO> lista = new ArrayList<>();
-        if(imePrezime.equals("all")){
-            imePrezime = null;
-        }
+	@PreAuthorize("hasRole('Z')")
+	@GetMapping(path = "/pretragaTermina/{imePrezime}/{datumTermina}", produces = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<?> pretragaTermina(@PathVariable("imePrezime") String imePrezime,
+			@PathVariable("datumTermina") Date datumTermina) {
+		ArrayList<SaglasnostDTO> lista = new ArrayList<>();
+		if (imePrezime.equals("all")) {
+			imePrezime = null;
+		}
 
-        try {
-            lista = this.saglasnostService.pretragaTermina(imePrezime, datumTermina);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+		try {
+			lista = this.saglasnostService.pretragaTermina(imePrezime, datumTermina);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
-        if(!lista.isEmpty())
-            return new ResponseEntity<>(lista, HttpStatus.OK);
-        else
-            return new ResponseEntity<>("Nema termina po trazenim parametrima.", HttpStatus.OK);
-    }
+		if (!lista.isEmpty())
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		else
+			return new ResponseEntity<>("Nema termina po trazenim parametrima.", HttpStatus.OK);
+	}
 
-    @PreAuthorize("hasRole('Z')")
-    @GetMapping(path = "/pronadjiPoEmailu/{email}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> pronadjiPoEmailu(@PathVariable("email") String email) {
-        ArrayList<EvidentiraneVakcineDTO> lista = new ArrayList<>();
+	@PreAuthorize("hasRole('Z')")
+	@GetMapping(path = "/pronadjiPoEmailu/{email}", produces = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<?> pronadjiPoEmailu(@PathVariable("email") String email) {
+		ArrayList<EvidentiraneVakcineDTO> lista = new ArrayList<>();
 
-        try {
-            lista = this.saglasnostService.pronadjiPoEmailu(email);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+		try {
+			lista = this.saglasnostService.pronadjiPoEmailu(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
-        if(!lista.isEmpty())
-            return new ResponseEntity<>(lista, HttpStatus.OK);
-        else
-            return new ResponseEntity<>("Nema prethodno evidentiranih vakcina.", HttpStatus.OK);
-    }
+		if (!lista.isEmpty())
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		else
+			return new ResponseEntity<>("Nema prethodno evidentiranih vakcina.", HttpStatus.OK);
+	}
 
-    @PreAuthorize("hasRole('Z')")
-    @PostMapping(path = "/sacuvajEvidenciju/{brojSaglasnosti}", consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> sacuvajEvidenciju(@PathVariable("brojSaglasnosti") String brojSaglasnosti,
-                                              @RequestBody EvidencijaVakcinacijeDTO evidencijaVakcinacijeDTO) {
-        try {
-            return new ResponseEntity<>(this.saglasnostService.dodajEvidenciju(evidencijaVakcinacijeDTO, brojSaglasnosti),
-                    HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+	@PreAuthorize("hasRole('Z')")
+	@PostMapping(path = "/sacuvajEvidenciju/{brojSaglasnosti}", consumes = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<?> sacuvajEvidenciju(@PathVariable("brojSaglasnosti") String brojSaglasnosti,
+			@RequestBody EvidencijaVakcinacijeDTO evidencijaVakcinacijeDTO) {
+		try {
+			return new ResponseEntity<>(
+					this.saglasnostService.dodajEvidenciju(evidencijaVakcinacijeDTO, brojSaglasnosti), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 
-    @PreAuthorize("hasRole('Z')")
-    @PostMapping(path = "/sacuvajEvidentiraneVakcine/{brojSaglasnosti}", consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> sacuvajEvidentiraneVakcine(@PathVariable("brojSaglasnosti") String brojSaglasnosti,
-                                               @RequestBody String evidentiraneVakcineDTO) {
-        try {
-            JAXBContext context = JAXBContext.newInstance(ListaEvidentiranihVakcina.class);
-            InputStream inputStream = new ReaderInputStream(new StringReader(evidentiraneVakcineDTO));
+	@PreAuthorize("hasRole('Z')")
+	@PostMapping(path = "/sacuvajEvidentiraneVakcine/{brojSaglasnosti}", consumes = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<?> sacuvajEvidentiraneVakcine(@PathVariable("brojSaglasnosti") String brojSaglasnosti,
+			@RequestBody String evidentiraneVakcineDTO) {
+		try {
+			JAXBContext context = JAXBContext.newInstance(ListaEvidentiranihVakcina.class);
+			InputStream inputStream = new ReaderInputStream(new StringReader(evidentiraneVakcineDTO));
 
-            Unmarshaller unmarshaller = context.createUnmarshaller();
+			Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            ListaEvidentiranihVakcina evidentiraneVakcine = (ListaEvidentiranihVakcina) unmarshaller.unmarshal(inputStream);
-            return new ResponseEntity<>(this.saglasnostService.dodajEvidentiraneVakcine(evidentiraneVakcine, brojSaglasnosti),
-                    HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-    @GetMapping("/generatePDF/{id}")
-    public ResponseEntity<byte[]> generatePDF(@PathVariable("id") String id) {
+			ListaEvidentiranihVakcina evidentiraneVakcine = (ListaEvidentiranihVakcina) unmarshaller
+					.unmarshal(inputStream);
+			return new ResponseEntity<>(
+					this.saglasnostService.dodajEvidentiraneVakcine(evidentiraneVakcine, brojSaglasnosti),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 
-        String file_path = this.saglasnostService.generatePDF(id);
+	@GetMapping("/generatePDF/{id}")
+	public ResponseEntity<byte[]> generatePDF(@PathVariable("id") String id) {
 
-        try {
-            File file = new File(file_path);
-            FileInputStream fileInputStream = new FileInputStream(file);
-            return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+		String file_path = this.saglasnostService.generatePDF(id);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+		try {
+			File file = new File(file_path);
+			FileInputStream fileInputStream = new FileInputStream(file);
+			return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
 
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
+	@PreAuthorize("hasRole('G')")
+	@GetMapping(path = "/zadnjaSaglasnost/{email}", produces = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<?> getXMLByEmail(@PathVariable String email) {
+		try {
+			String saglasnost = saglasnostService.pronadjiZadnjuSaglasnost(email);
+			if(saglasnost == null)
+				return new ResponseEntity<>(saglasnost, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(saglasnost, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PostMapping(value = "/saveSaglasnost/{documentId}/{vakcine}", consumes = "application/xml")
+	public ResponseEntity<?> saveXML(@RequestBody String content, @PathVariable String documentId, @PathVariable String vakcine) {
+		try {
+			System.out.println(content);
+			saglasnostService.saveXML(documentId, content, vakcine);
+			saglasnostService.saveRDF(content, "/interesovanje");
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+
     @GetMapping("/generateHTML/{id}")
     public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
 

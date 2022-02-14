@@ -23,8 +23,8 @@ public class DemoApplication {
 	public static void main(String[] args) throws IOException, IllegalAccessException, InstantiationException, JAXBException, XMLDBException, ClassNotFoundException, TransformerException, SAXException {
 		SpringApplication.run(DemoApplication.class, args);
 		System.out.println( "Hello World!" );
-		InitXmlAndRdfDb.inicijalizujXMLBazu();
-		InitXmlAndRdfDb.inicijalizujRDFBazu();
+		//InitXmlAndRdfDb.inicijalizujXMLBazu();
+		//InitXmlAndRdfDb.inicijalizujRDFBazu();
 	}
 
 	@Bean

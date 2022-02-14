@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "podnosilacZahteva",
-    "zaglavlje"
+    "zaglavlje",
+    "status"
 })
 @XmlRootElement(name = "Zahtev_za_zeleni_sertifikat")
 public class ZahtevZaZeleniSertifikat {
@@ -43,6 +44,11 @@ public class ZahtevZaZeleniSertifikat {
     protected PodnosilacZahteva podnosilacZahteva;
     @XmlElement(name = "Zaglavlje", required = true)
     protected Zaglavlje zaglavlje;
+    @XmlElement(name = "Status", required = true)
+    protected String status;
+    @XmlAttribute(name = "about")
+    @XmlSchemaType(name = "anyURI")
+    protected String about;
 
     /**
      * Gets the value of the podnosilacZahteva property.
@@ -90,6 +96,54 @@ public class ZahtevZaZeleniSertifikat {
      */
     public void setZaglavlje(Zaglavlje value) {
         this.zaglavlje = value;
+    }
+
+    /**
+     * Gets the value of the about property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getAbout() {
+        return about;
+    }
+
+    /**
+     * Sets the value of the about property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setAbout(String value) {
+        this.about = value;
+    }
+
+    /**
+     * Gets the value of the status property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Sets the value of the status property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setStatus(String value) {
+        this.status = value;
     }
 
 }

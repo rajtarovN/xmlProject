@@ -13,9 +13,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from '../shared/shared.module';
 import { InteresovanjeFormComponent } from './components/interesovanje-form/interesovanje-form.component';
 import { PodnosenjeZahtevaComponent } from './components/podnosenje-zahteva/podnosenje-zahteva.component';
+import { SaglasnostFormComponent } from './components/saglasnost-form/saglasnost-form.component';
 
 @NgModule({
-  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent],
+  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent, SaglasnostFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

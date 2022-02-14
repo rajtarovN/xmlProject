@@ -153,6 +153,7 @@ import java.util.List;
 @XmlType(name = "", propOrder = {
     "licniPodaci",
     "vakcinacija",
+    "zdravstvenaUstanova",
     "datumIzdavanja"
 })
 @XmlRootElement(name = "potvrda_o_vakcinaciji")
@@ -160,10 +161,15 @@ public class PotvrdaOVakcinaciji {
 
     @XmlElement(name = "licni_podaci", required = true)
     protected LicniPodaci licniPodaci;
-    @XmlElement(required = true)
+    @XmlElement(nillable = true, required = false)
     protected Vakcinacija vakcinacija;
+    @XmlElement(name = "zdravstvena_ustanova", required = true)
+    protected String zdravstvenaUstanova;
     @XmlElement(name = "datum_izdavanja", required = true)
     protected DatumIzdavanja datumIzdavanja;
+    @XmlAttribute(name = "about")
+    @XmlSchemaType(name = "anyURI")
+    protected String about;
     @XmlAttribute(name = "sifra_potvrde_vakcine")
     protected String sifraPotvrdeVakcine;
     @XmlAttribute(name = "Qr_kod")
@@ -218,6 +224,30 @@ public class PotvrdaOVakcinaciji {
     }
 
     /**
+     * Gets the value of the zdravstvenaUstanova property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getZdravstvenaUstanova() {
+        return zdravstvenaUstanova;
+    }
+
+    /**
+     * Sets the value of the zdravstvenaUstanova property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setZdravstvenaUstanova(String value) {
+        this.zdravstvenaUstanova = value;
+    }
+
+    /**
      * Gets the value of the datumIzdavanja property.
      *
      * @return
@@ -239,6 +269,30 @@ public class PotvrdaOVakcinaciji {
      */
     public void setDatumIzdavanja(DatumIzdavanja value) {
         this.datumIzdavanja = value;
+    }
+
+    /**
+     * Gets the value of the about property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getAbout() {
+        return about;
+    }
+
+    /**
+     * Sets the value of the about property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setAbout(String value) {
+        this.about = value;
     }
 
     /**
@@ -434,7 +488,8 @@ public class PotvrdaOVakcinaciji {
         "prezime",
         "datumRodjenja",
         "pol",
-        "jmbg"
+        "jmbg",
+        "ebs"
     })
     public static class LicniPodaci {
 
@@ -447,8 +502,10 @@ public class PotvrdaOVakcinaciji {
         protected XMLGregorianCalendar datumRodjenja;
         @XmlElement(required = true)
         protected String pol;
-        @XmlElement(required = true)
+        @XmlElement(name = "jmbg")
         protected Jmbg jmbg;
+        @XmlElement(name = "ebs")
+        protected Ebs ebs;
 
         /**
          * Gets the value of the ime property.
@@ -568,6 +625,30 @@ public class PotvrdaOVakcinaciji {
          */
         public void setJmbg(Jmbg value) {
             this.jmbg = value;
+        }
+
+        /**
+         * Gets the value of the ebs property.
+         *
+         * @return
+         *     possible object is
+         *     {@link Ebs }
+         *
+         */
+        public Ebs getEbs() {
+            return ebs;
+        }
+
+        /**
+         * Sets the value of the ebs property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link Ebs }
+         *
+         */
+        public void setEbs(Ebs value) {
+            this.ebs = value;
         }
 
 
@@ -819,6 +900,89 @@ public class PotvrdaOVakcinaciji {
 
         }
 
+        /**
+         * <p>Java class for anonymous complex type.
+         *
+         * <p>The following schema fragment specifies the expected content contained within this class.
+         *
+         * <pre>
+         * &lt;complexType&gt;
+         *   &lt;simpleContent&gt;
+         *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+         *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:ebs" /&gt;
+         *     &lt;/extension&gt;
+         *   &lt;/simpleContent&gt;
+         * &lt;/complexType&gt;
+         * </pre>
+         *
+         *
+         */
+
+        @XmlAccessorType(XmlAccessType.FIELD)
+        @XmlType(name = "", propOrder = {
+                "value"
+        })
+        public static class Ebs {
+
+            @XmlValue
+            protected String value;
+            @XmlAttribute(name = "property")
+            protected String property;
+
+            /**
+             * Gets the value of the value property.
+             *
+             * @return
+             *     possible object is
+             *     {@link String }
+             *
+             */
+            public String getValue() {
+                return value;
+            }
+
+            /**
+             * Sets the value of the value property.
+             *
+             * @param value
+             *     allowed object is
+             *     {@link String }
+             *
+             */
+            public void setValue(String value) {
+                this.value = value;
+            }
+
+            /**
+             * Gets the value of the property property.
+             *
+             * @return
+             *     possible object is
+             *     {@link String }
+             *
+             */
+            public String getProperty() {
+                if (property == null) {
+                    return "pred:ebs";
+                } else {
+                    return property;
+                }
+            }
+
+            /**
+             * Sets the value of the property property.
+             *
+             * @param value
+             *     allowed object is
+             *     {@link String }
+             *
+             */
+            public void setProperty(String value) {
+                this.property = value;
+            }
+
+        }
+
     }
 
 
@@ -867,13 +1031,6 @@ public class PotvrdaOVakcinaciji {
      *             &lt;/restriction&gt;
      *           &lt;/simpleType&gt;
      *         &lt;/element&gt;
-     *         &lt;element name="naziv_vakcine"&gt;
-     *           &lt;simpleType&gt;
-     *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
-     *               &lt;minLength value="2"/&gt;
-     *             &lt;/restriction&gt;
-     *           &lt;/simpleType&gt;
-     *         &lt;/element&gt;
      *       &lt;/sequence&gt;
      *     &lt;/restriction&gt;
      *   &lt;/complexContent&gt;
@@ -885,17 +1042,11 @@ public class PotvrdaOVakcinaciji {
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
         "doze",
-        "zdravstvenaUstanova",
-        "nazivVakcine"
     })
     public static class Vakcinacija {
 
         @XmlElement(required = true)
         protected Doze doze;
-        @XmlElement(name = "zdravstvena_ustanova", required = true)
-        protected String zdravstvenaUstanova;
-        @XmlElement(name = "naziv_vakcine", required = true)
-        protected String nazivVakcine;
 
         /**
          * Gets the value of the doze property.
@@ -919,54 +1070,6 @@ public class PotvrdaOVakcinaciji {
          */
         public void setDoze(Doze value) {
             this.doze = value;
-        }
-
-        /**
-         * Gets the value of the zdravstvenaUstanova property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getZdravstvenaUstanova() {
-            return zdravstvenaUstanova;
-        }
-
-        /**
-         * Sets the value of the zdravstvenaUstanova property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setZdravstvenaUstanova(String value) {
-            this.zdravstvenaUstanova = value;
-        }
-
-        /**
-         * Gets the value of the nazivVakcine property.
-         *
-         * @return
-         *     possible object is
-         *     {@link String }
-         *
-         */
-        public String getNazivVakcine() {
-            return nazivVakcine;
-        }
-
-        /**
-         * Sets the value of the nazivVakcine property.
-         *
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *
-         */
-        public void setNazivVakcine(String value) {
-            this.nazivVakcine = value;
         }
 
 
@@ -1044,6 +1147,9 @@ public class PotvrdaOVakcinaciji {
                 return this.doza;
             }
 
+            public void setDoze(List<Doza> listaDoza){
+                this.doza = listaDoza;
+            }
 
             /**
              * <p>Java class for anonymous complex type.
@@ -1075,7 +1181,8 @@ public class PotvrdaOVakcinaciji {
             @XmlType(name = "", propOrder = {
                 "broj",
                 "datumDavanja",
-                "brojSerije"
+                "brojSerije",
+                "nazivVakcine"
             })
             public static class Doza {
 
@@ -1085,7 +1192,9 @@ public class PotvrdaOVakcinaciji {
                 @XmlSchemaType(name = "date")
                 protected XMLGregorianCalendar datumDavanja;
                 @XmlElement(name = "broj_serije")
-                protected int brojSerije;
+                protected String brojSerije;
+                @XmlElement(name = "naziv_vakcine", required = true)
+                protected String nazivVakcine;
 
                 /**
                  * Gets the value of the broj property.
@@ -1139,7 +1248,7 @@ public class PotvrdaOVakcinaciji {
                  * Gets the value of the brojSerije property.
                  * 
                  */
-                public int getBrojSerije() {
+                public String getBrojSerije() {
                     return brojSerije;
                 }
 
@@ -1147,8 +1256,24 @@ public class PotvrdaOVakcinaciji {
                  * Sets the value of the brojSerije property.
                  * 
                  */
-                public void setBrojSerije(int value) {
+                public void setBrojSerije(String value) {
                     this.brojSerije = value;
+                }
+
+                /**
+                 * Gets the value of the nazivVakcine property.
+                 *
+                 */
+                public String getNazivVakcine() {
+                    return nazivVakcine;
+                }
+
+                /**
+                 * Sets the value of the nazivVakcine property.
+                 *
+                 */
+                public void setNazivVakcine(String value) {
+                    this.nazivVakcine = value;
                 }
 
             }

@@ -30,7 +30,8 @@ export class LogoutComponent implements OnInit {
       localStorage.removeItem('email');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('uloga');
-      localStorage.removeItem('imeIprezime');
+      localStorage.removeItem('ime');
+      localStorage.removeItem('prezime');
       this.router.navigate(['/sluzbenik/auth/login']);
       this.toastr.success('Uspesan logout!');
       

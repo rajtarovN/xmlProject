@@ -2,9 +2,9 @@
 <Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/saglasnost/12345"
-    vocab="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
-    Broj_saglasnosti="12345">
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345"
+    Broj_saglasnosti="12345"
+	Vreme_termina="08:00:00">
     <Pacijent>
         <Drzavljanin_srbije>
             <Jmbg property="pred:jmbg">1234567891234</Jmbg>
@@ -37,7 +37,7 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_izdavanja">2021-11-11</Datum>
+        <Datum property="pred:datum_termina">2021-11-11</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
         <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>

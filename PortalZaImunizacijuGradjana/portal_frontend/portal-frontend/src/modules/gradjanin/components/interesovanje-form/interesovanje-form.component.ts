@@ -153,10 +153,16 @@ export class InteresovanjeFormComponent implements OnInit {
               Validators.pattern('[0-9]{13}'),
             ],
           ],
-          ime: [localStorage.getItem('ime'), Validators.required],
-          prezime: [localStorage.getItem('prezime'), Validators.required],
+          ime: [
+            { value: localStorage.getItem('ime'), disabled: true },
+            Validators.required,
+          ],
+          prezime: [
+            { value: localStorage.getItem('prezime'), disabled: true },
+            Validators.required,
+          ],
           email: [
-            localStorage.getItem('email'),
+            { value: localStorage.getItem('email'), disabled: true },
             [Validators.required, Validators.email],
           ],
           mobilni: [
@@ -215,20 +221,40 @@ export class InteresovanjeFormComponent implements OnInit {
                           xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
                           xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/"
                           xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje ../schema/interesovanje.xsd"
-                          about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/${this.id}">
+                          about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/${
+                            this.id
+                          }">
                           <Licne_informacije>
-                            <Drzavljanstvo>${this.addInteresovanjeForm.value.drzavljanstvo}</Drzavljanstvo>
-                            <Jmbg property="pred:jmbg">${this.addInteresovanjeForm.value.JMBG}</Jmbg>
-                            <Ime property="pred:ime">${this.addInteresovanjeForm.value.ime}</Ime>
-                            <Prezime property="pred:prezime">${this.addInteresovanjeForm.value.prezime}</Prezime>
+                            <Drzavljanstvo>${
+                              this.addInteresovanjeForm.value.drzavljanstvo
+                            }</Drzavljanstvo>
+                            <Jmbg property="pred:jmbg">${
+                              this.addInteresovanjeForm.value.JMBG
+                            }</Jmbg>
+                            <Ime property="pred:ime">${localStorage.getItem(
+                              'ime'
+                            )}</Ime>
+                            <Prezime property="pred:prezime">${localStorage.getItem(
+                              'prezime'
+                            )}</Prezime>
                             <Kontakt>
-                                <Email property="pred:email">${this.addInteresovanjeForm.value.email}</Email>
-                                <Broj_mobilnog>${this.addInteresovanjeForm.value.mobilni}</Broj_mobilnog>
-                                <Broj_fiksnog>${this.addInteresovanjeForm.value.fiksni}</Broj_fiksnog>
+                                <Email property="pred:email">${localStorage.getItem(
+                                  'email'
+                                )}</Email>
+                                <Broj_mobilnog>${
+                                  this.addInteresovanjeForm.value.mobilni
+                                }</Broj_mobilnog>
+                                <Broj_fiksnog>${
+                                  this.addInteresovanjeForm.value.fiksni
+                                }</Broj_fiksnog>
                             </Kontakt>
-                            <Davalac_krvi Davalac="${this.addInteresovanjeForm.value.davalacKrvi}"/>
+                            <Davalac_krvi Davalac="${
+                              this.addInteresovanjeForm.value.davalacKrvi
+                            }"/>
                           </Licne_informacije>
-                          <Lokacija_primanja_vakcine property="pred:lokacija_primanja_vakcine">${this.addInteresovanjeForm.value.opstina}</Lokacija_primanja_vakcine>
+                          <Lokacija_primanja_vakcine property="pred:lokacija_primanja_vakcine">${
+                            this.addInteresovanjeForm.value.opstina
+                          }</Lokacija_primanja_vakcine>
                           <Proizvodjaci>
                             ${prozivodjaci}
                           </Proizvodjaci>

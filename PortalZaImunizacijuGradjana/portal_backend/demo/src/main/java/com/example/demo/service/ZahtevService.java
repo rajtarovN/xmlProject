@@ -1,18 +1,25 @@
 package com.example.demo.service;
 
+import com.example.demo.model.interesovanje.Interesovanje;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.ZahtevRepository;
 import com.example.demo.util.XSLFORTransformer;
 import org.apache.commons.io.input.ReaderInputStream;
+import org.exist.xmldb.LocalXMLResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
@@ -21,6 +28,9 @@ import static com.example.demo.util.PathConstants.*;
 
 @Service
 public class ZahtevService extends AbstractService{
+
+    @Autowired
+    private ZahtevRepository zahtevRepository;
 
     @Autowired
     public ZahtevService(ZahtevRepository zahtevRepository) {
@@ -51,6 +61,7 @@ public class ZahtevService extends AbstractService{
 
         repository.saveXML(documentId, collectionId, content);
     }
+
     public String generatePDF(String id) {
         XSLFORTransformer transformer = null;
 
@@ -110,6 +121,55 @@ public class ZahtevService extends AbstractService{
             e.printStackTrace();
             return null;
         }
+    }
+
+    public ZahtevZaZeleniSertifikat pronadjiPoId(String id) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+        XMLResource res = zahtevRepository.pronadjiPoId(id);
+        try {
+            if (res != null) {
+
+                JAXBContext context = JAXBContext.newInstance("com.example.demo.model.zahtev_za_sertifikatom");
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                ZahtevZaZeleniSertifikat s = (ZahtevZaZeleniSertifikat) unmarshaller
+                        .unmarshal((res).getContentAsDOM());
+
+                return s;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public String getListuZahtevaPoStatusu(String status) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException {
+        List<String> ids = pronadjiPoStatusu(status);
+        ListaZahteva listaZahteva = new ListaZahteva();
+        List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
+        for (String id: ids) {
+            ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
+            zahtevi.add(z);
+        }
+        listaZahteva.setZahtevi(zahtevi);
+
+        JAXBContext context = JAXBContext.newInstance(ListaZahteva.class);
+        OutputStream os = new ByteArrayOutputStream();
+
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        marshaller.marshal(listaZahteva, os);
+        return os.toString();
+    }
+
+    public List<String> pronadjiPoStatusu(String status) {
+        List<String> ids = new ArrayList<>();
+        try {
+            ids = zahtevRepository.pronadjiPoStatusu(status);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ids;
     }
 
 }

@@ -1,12 +1,22 @@
 package com.example.demo.client;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.io.IOUtils;
 
 import com.example.demo.model.dostupne_vakcine.Zalihe;
@@ -39,6 +49,27 @@ public class DostupneVakcineClient {
 
 	}
 
+	public void updateVakcine(Zalihe zalihe) throws HttpException, IOException, JAXBException {
+
+		System.out.println("Sent HTTP POST request.");
+		PostMethod post = new PostMethod(BASE_URL + "/zalihe");
+		System.out.println(zalihe.toString());
+
+		JAXBContext contextSaglasnost = JAXBContext.newInstance(Zalihe.class);
+		OutputStream os = new ByteArrayOutputStream();
+
+		Marshaller marshallerZalihe= contextSaglasnost.createMarshaller();
+		marshallerZalihe.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		marshallerZalihe.marshal(zalihe, os);
+		System.out.println(os.toString());
+		RequestEntity entity = new StringRequestEntity(os.toString(), "application/xml", URL_ENCODING);
+		post.setRequestEntity(entity);
+		HttpClient httpclient = new HttpClient();
+		httpclient.executeMethod(post);
+
+	}
+	
 	public static String getStringFromInputStream(InputStream in) throws Exception {
 		return new String(IOUtils.toByteArray(in), URL_ENCODING);
 	}

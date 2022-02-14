@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Login } from 'src/modules/shared/models/login';
-import { Register } from 'src/modules/shared/models/register';
-import { UserTokenState } from 'src/modules/shared/models/user-token-state';
 
 @Injectable({
   providedIn: 'root',
@@ -39,4 +37,16 @@ export class AuthenticationService {
     }
     return true;
   }
+
+  getKorisnike(searchTerm: string): Observable<string>{
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.getKorisnike}/${searchTerm}`,
+      { headers: headers,
+        responseType: "text" }
+    );
+  }
+  
 }

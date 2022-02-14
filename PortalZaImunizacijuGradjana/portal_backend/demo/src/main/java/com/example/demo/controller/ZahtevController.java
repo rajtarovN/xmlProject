@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.service.InteresovanjeService;
 import com.example.demo.service.ZahtevService;
 import org.apache.commons.io.IOUtils;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.xmldb.api.modules.XMLResource;
 
+import javax.ws.rs.GET;
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -72,5 +75,15 @@ public class ZahtevController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
+    }
+    @GET
+    @GetMapping(path ="/findByStatus")
+    public ResponseEntity<String> findByStatus(){
+        try {
+            String ret = zahtevService.getListuZahtevaPoStatusu("na cekanju");
+            return new ResponseEntity<>(ret, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }
