@@ -34,6 +34,14 @@ public class ZahtevClient {
         return zahtevi;
     }
 
+    public String odbijZahtev(String idZahteva, String razlog) throws Exception{
+        URL url = new URL(BASE_URL + "/zahtev/odbijZahtev/" + idZahteva + "/" + razlog);
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+        return txt;
+    }
+
     public static String getStringFromInputStream(InputStream in) throws Exception {
         return new String(IOUtils.toByteArray(in), URL_ENCODING);
     }

@@ -25,13 +25,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class FusekiManager {
 
-    /**
-     *
-     * @param rdfInputStream string rdf pretvoren u niz bajtova
-     * @param NAMED_GRAPH    je oblika: zalbanacutanje/idDokumentaIzXmlBaze, npr:
-     *                       zalbanacutanje/c115f225-592c-4478-8ede-c77a5bce74fb
-     * @throws IOException
-     */
     public void writeFuseki(InputStream rdfInputStream, String NAMED_GRAPH) throws IOException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
         // Creates a default model
@@ -65,13 +58,6 @@ public class FusekiManager {
 
     }
 
-    /**
-     *
-     * @param uri je string i ima oblik
-     *            zalbanacutanje/c115f225-592c-4478-8ede-c77a5bce74fb
-     * @return
-     * @throws IOException
-     */
     public String readFileAsXML(String uri) throws IOException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
         // Querying the first named graph with a simple SPARQL query

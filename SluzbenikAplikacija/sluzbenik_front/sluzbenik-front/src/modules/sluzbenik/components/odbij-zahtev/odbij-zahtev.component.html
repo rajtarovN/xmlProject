@@ -1,0 +1,44 @@
+<div id="container-div">
+    <div id="img-div">
+      <img
+        src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+        alt="”animated”"
+      />
+    </div>
+    <div id="form-holder-div">
+      <h2>Razlog odbijanja zahteva</h2>
+      <form class="example-form" >
+        <mat-card-content>                 
+          <mat-card class="custom-scroll-bar">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label style="color: #b3b3b3">Unesite tekst</mat-label>
+                <textarea style="color: #b3b3b3" matInput #notes ></textarea>
+              </mat-form-field>
+          </mat-card>
+        </mat-card-content>
+        <div class="modal-footer">
+          <button
+            mat-flat-button
+            type="button"
+            color="accent"
+            class="btn btn-danger"
+            (click)="cancel()"
+          >
+            Odustani
+          </button>
+
+          <button
+            mat-flat-button
+            type="button"
+            color="primary"
+            class="btn btn-primary"
+            (click)="confirm()"
+          >
+            Potvrdi
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="jw-modal-background"></div>
+  

@@ -162,3 +162,14 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </mat-card>
+<app-razlog-zahteva
+  *ngIf="this.currentRazlog != '' "
+  [currentNotes]="this.currentRazlog"
+  (onRazlogClose)="this.currentRazlog = '' "
+></app-razlog-zahteva>
+<app-odbij-zahtev
+  *ngIf="this.currentZahtevId != '' "
+  [currentZahtevId]="this.currentZahtevId"
+  (onRazlogOdbijanjaClose)="onRazlogOdbijanjaCloseClicked($event)"
+  (onRazlogOdbijanjaConfirm)="onRazlogOdbijanjaConfirmClicked($event)"
+></app-odbij-zahtev>

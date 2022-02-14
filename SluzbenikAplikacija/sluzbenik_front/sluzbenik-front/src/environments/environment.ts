@@ -13,6 +13,7 @@ export const environment = {
   saglasnostPdf: 'saglasnost/generatePDF',
   getPotvrde: 'potvrda/getAllXmlByEmail',
   potvrdaPdf: 'potvrda/generatePDF',
+  odbijZahtev: 'zahtev/odbijZahtev',
 };
 
 /*

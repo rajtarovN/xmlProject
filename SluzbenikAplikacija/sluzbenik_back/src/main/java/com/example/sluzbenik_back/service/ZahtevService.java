@@ -27,16 +27,17 @@ public class ZahtevService {
         for (ZahtevZaZeleniSertifikat zahtev : listaZahteva.getZahtevi() ) {
             SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
             Date date = zahtev.getZaglavlje().getDanPodnosenjaZahteva().toGregorianCalendar().getTime();
+            String idZahteva = zahtev.getAbout().substring(zahtev.getAbout().lastIndexOf('/') + 1);
 
             if(searchTerm == null || searchTerm == "") {
-                list.add(new ZahtevDTO(zahtev.getAbout(), zahtev.getPodnosilacZahteva().getIme(),
+                list.add(new ZahtevDTO(idZahteva, zahtev.getPodnosilacZahteva().getIme(),
                         zahtev.getPodnosilacZahteva().getPrezime(), zahtev.getPodnosilacZahteva().getJmbg(),
                         ft.format(date), zahtev.getStatus(),
                         zahtev.getPodnosilacZahteva().getRazlogPodnosenjaZahteva()));
             }
             else if(zahtev.getPodnosilacZahteva().getIme().toLowerCase().contains(searchTerm.toLowerCase()) ||
                     zahtev.getPodnosilacZahteva().getPrezime().toLowerCase().contains(searchTerm.toLowerCase())){
-                list.add(new ZahtevDTO(zahtev.getAbout(), zahtev.getPodnosilacZahteva().getIme(),
+                list.add(new ZahtevDTO(idZahteva, zahtev.getPodnosilacZahteva().getIme(),
                         zahtev.getPodnosilacZahteva().getPrezime(), zahtev.getPodnosilacZahteva().getJmbg(),
                         ft.format(date), zahtev.getStatus(),
                         zahtev.getPodnosilacZahteva().getRazlogPodnosenjaZahteva()));
@@ -44,6 +45,10 @@ public class ZahtevService {
 
         }
         return list;
+    }
+
+    public String odbijZahtev(String idZahteva, String razlogOdbijanja) throws Exception{
+        return zahtevClient.odbijZahtev(idZahteva, razlogOdbijanja);
     }
 
 }

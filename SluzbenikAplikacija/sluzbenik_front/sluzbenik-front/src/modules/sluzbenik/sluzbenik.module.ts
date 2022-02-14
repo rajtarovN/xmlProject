@@ -12,6 +12,8 @@ import { InventoryFormComponent } from './components/inventory-form/inventory-fo
 import { RegistarGradjanaComponent } from './components/registar-gradjana/registar-gradjana.component';
 import { ZahteviComponent } from './components/zahtevi/zahtevi.component';
 import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz-dokumenata.component';
+import { RazlogZahtevaComponent } from './components/razlog-zahteva/razlog-zahteva.component';
+import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.component';
 
 
 
@@ -22,7 +24,9 @@ import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz
     InventoryFormComponent,
     RegistarGradjanaComponent,
     ZahteviComponent,
-    PrikazDokumenataComponent
+    PrikazDokumenataComponent,
+    RazlogZahtevaComponent,
+    OdbijZahtevComponent
   ],
   imports: [
     CommonModule,

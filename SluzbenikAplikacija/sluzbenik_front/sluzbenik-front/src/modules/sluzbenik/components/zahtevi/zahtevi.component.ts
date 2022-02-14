@@ -23,10 +23,8 @@ export class ZahteviComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   parser = new DOMParser();
-  showEvidenciju: boolean;
-  showPotvrdu: boolean;
-  selectedEmail: string;
-  selectedBrojSaglasnosti: string;
+  currentZahtevId: string;
+  currentRazlog: string;
 
   displayedColumns: string[] = [
     'JMBG/EBS',
@@ -51,10 +49,8 @@ export class ZahteviComponent implements OnInit {
       search: [null],
     });
     this.searchString = '';
-    this.showEvidenciju = false;
-    this.showPotvrdu = false;
-    this.selectedEmail = '';
-    this.selectedBrojSaglasnosti = '';
+    this.currentZahtevId = '';
+    this.currentRazlog = '';
   }
 
   ngOnInit(): void {
@@ -137,10 +133,28 @@ export class ZahteviComponent implements OnInit {
     }
   }
 
-  odbijZahtev(brojZahteva: string){}
+  odbijZahtev(brojZahteva: string){
+    this.currentZahtevId = brojZahteva;
+  }
 
   prihvatiZahtev(brojZahteva: string){}
 
-  openRazlog(razloh: string){}
+  openRazlog(razlog: string){
+    this.currentRazlog = razlog;
+  }
+
+  onRazlogOdbijanjaCloseClicked(item:boolean){
+    this.currentZahtevId = '';
+  }
+
+  onRazlogOdbijanjaConfirmClicked(item:boolean){
+    this.data.forEach((val, index)=>{
+      if(val.brojZahteva === this.currentZahtevId){
+        this.data.splice(index, 1);
+      }
+    })
+    this.setData(this.data);
+    this.currentZahtevId = '';
+  }
 }
 
