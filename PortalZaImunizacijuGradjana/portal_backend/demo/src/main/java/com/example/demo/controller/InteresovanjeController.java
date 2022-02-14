@@ -56,8 +56,8 @@ public class InteresovanjeController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> deleteNotice(@PathVariable("id") String id) throws Exception {
-		interesovanjeService.deleteXML("interesovanje_" + id + ".xml");
+	public ResponseEntity<String> deleteInteresovanje(@PathVariable("id") String id) throws Exception {
+		interesovanjeService.deleteXML(id);
 		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 }

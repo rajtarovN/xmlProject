@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -188,6 +189,10 @@ public class InteresovanjeService extends AbstractService {
 	public void deleteXML(String documentId) throws Exception {
 		// Delete interesovanje
 
+		repository.deleteRDF(documentId, "/lista_interesovanja", "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/");
+		
+		documentId = "interesovanje_" + documentId + ".xml";
+		/*
 		XMLResource res = repository.readXML(documentId, collectionId);
 
 		if (res != null) {
@@ -205,12 +210,12 @@ public class InteresovanjeService extends AbstractService {
 
 			// If saglasnost exists delete it
 			if (s != null)
-				saglasnostService.deleteXML(s.getBrojSaglasnosti());
+				saglasnostService.deleteXML("saglasnost_" + s.getBrojSaglasnosti() + ".xml");
 
 			// Delete interesovanje
 			repository.deleteXML(documentId, collectionId);
 		}
-
+		*/
 	}
 
 	public XMLResource pronadjiPoId(String documentId) throws Exception {

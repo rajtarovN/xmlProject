@@ -73,33 +73,33 @@ export class InteresovanjeFormComponent implements OnInit {
       next: (success) => {
         let xmlDoc = this.parser.parseFromString(success, 'text/xml');
         this.id = xmlDoc
-          .getElementsByTagName('Interesovanje')[0]
+          .getElementsByTagName('ns2:Interesovanje')[0]
           .getAttribute('about')
           ?.split('/')[5];
         console.log(this.id);
         let Drzavljanstvo =
-          xmlDoc.getElementsByTagName('Drzavljanstvo')[0].textContent;
-        let Jmbg = xmlDoc.getElementsByTagName('Jmbg')[0].textContent;
-        let Ime = xmlDoc.getElementsByTagName('Ime')[0].textContent;
-        let Prezime = xmlDoc.getElementsByTagName('Prezime')[0].textContent;
-        let Email = xmlDoc.getElementsByTagName('Email')[0].textContent;
+          xmlDoc.getElementsByTagName('ns2:Drzavljanstvo')[0].textContent;
+        let Jmbg = xmlDoc.getElementsByTagName('ns2:Jmbg')[0].textContent;
+        let Ime = xmlDoc.getElementsByTagName('ns2:Ime')[0].textContent;
+        let Prezime = xmlDoc.getElementsByTagName('ns2:Prezime')[0].textContent;
+        let Email = xmlDoc.getElementsByTagName('ns2:Email')[0].textContent;
         let Broj_mobilnog =
-          xmlDoc.getElementsByTagName('Broj_mobilnog')[0].textContent;
+          xmlDoc.getElementsByTagName('ns2:Broj_mobilnog')[0].textContent;
         let Broj_fixsnog =
-          xmlDoc.getElementsByTagName('Broj_fiksnog')[0].textContent;
+          xmlDoc.getElementsByTagName('ns2:Broj_fiksnog')[0].textContent;
         let Davalac_krvi = xmlDoc
-          .getElementsByTagName('Davalac_krvi')[0]
+          .getElementsByTagName('ns2:Davalac_krvi')[0]
           .getAttribute('Davalac');
         let Lokacija_primanja_vakcine = xmlDoc.getElementsByTagName(
-          'Lokacija_primanja_vakcine'
+          'ns2:Lokacija_primanja_vakcine'
         )[0].textContent;
-        let Proizvodjaci = xmlDoc.getElementsByTagName('Proizvodjac');
+        let Proizvodjaci = xmlDoc.getElementsByTagName('ns2:Proizvodjac');
         this.datumPodnosenja = xmlDoc.getElementsByTagName(
-          'Datum_podnosenja_interesovanja'
+          'ns2:Datum_podnosenja_interesovanja'
         )[0].textContent;
 
         console.log(
-          xmlDoc.getElementsByTagName('Datum_podnosenja_interesovanja')[0]
+          xmlDoc.getElementsByTagName('ns2:Datum_podnosenja_interesovanja')[0]
             .textContent
         );
         var lista = [];
@@ -265,7 +265,8 @@ export class InteresovanjeFormComponent implements OnInit {
 
     this.service.addInteresovanje(interesovanje, this.id).subscribe({
       next: () => {
-        this.openSnackBar('interesovanje je uspesno kreirano.');
+        this.openSnackBar('Интересованје је успешно креирано.');
+        this.initialize();
       },
       error: () => {
         this.openSnackBar('interesovanje nije uspesno kreirano.');
@@ -274,7 +275,7 @@ export class InteresovanjeFormComponent implements OnInit {
   }
 
   openSnackBar(message: string): void {
-    this.snackBar.open(message, 'Dismiss', {
+    this.snackBar.open(message, 'Ок', {
       duration: 4000,
     });
   }
