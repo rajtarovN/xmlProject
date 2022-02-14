@@ -5,6 +5,7 @@ import { Select } from 'src/modules/shared/models/select';
 import { InteresovanjeService } from 'src/modules/shared/services/interesovanje-service/interesovanje.service';
 import { UUID } from 'angular2-uuid';
 import { DatePipe } from '@angular/common';
+import { drzavljanstva, vakcine } from './interesovanje-constants';
 
 @Component({
   selector: 'app-interesovanje-form',
@@ -17,43 +18,8 @@ export class InteresovanjeFormComponent implements OnInit {
   id: any = '-1';
   datumPodnosenja!: string | null;
 
-  drzavljanstva: Select[] = [
-    {
-      value: 'Drzavljanin_republike_srbije',
-      viewValue: 'Држављанин Републике Србије',
-    },
-    {
-      value: 'Strani_drzavljanin_sa_boravkom_u_rs',
-      viewValue: 'Страни држављанин са боравком у РС',
-    },
-    {
-      value: 'Strani_drzavljanin_bez_boravka_u_rs',
-      viewValue: 'Страни држављанин без боравка у РС',
-    },
-  ];
-
-  vakcine: Select[] = [
-    {
-      value: 'Pfizer-BioNTech',
-      viewValue: 'Pfizer-BioNTech',
-    },
-    {
-      value: 'Sputnik',
-      viewValue: 'Sputnik',
-    },
-    {
-      value: 'Sinopharm',
-      viewValue: 'Sinopharm',
-    },
-    {
-      value: 'AstraZeneca',
-      viewValue: 'AstraZeneca',
-    },
-    {
-      value: 'Moderna',
-      viewValue: 'Moderna',
-    },
-  ];
+  drzavljanstva = drzavljanstva;
+  vakcine = vakcine;
 
   constructor(
     private fb: FormBuilder,
@@ -188,11 +154,12 @@ export class InteresovanjeFormComponent implements OnInit {
   delete(): void {
     if (this.id === undefined) return;
     this.service.deleteInteresovanje(this.id).subscribe({
-      next: () => {
-        this.openSnackBar('interesovanje je uspesno izbrisano.');
+      next: (success) => {
+        this.initialize();
+        this.openSnackBar('Интересованје је успешно избрисано.');
       },
-      error: () => {
-        this.openSnackBar('interesovanje nije uspesno izbrisano.');
+      error: (error) => {
+        this.openSnackBar('Интересованје није избрисано.');
       },
     });
   }
@@ -269,7 +236,7 @@ export class InteresovanjeFormComponent implements OnInit {
         this.initialize();
       },
       error: () => {
-        this.openSnackBar('interesovanje nije uspesno kreirano.');
+        this.openSnackBar('Интересованје није креирано.');
       },
     });
   }
