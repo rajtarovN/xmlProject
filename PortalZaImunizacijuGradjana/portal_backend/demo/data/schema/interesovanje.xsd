@@ -128,7 +128,6 @@
                 </xs:element>
             </xs:sequence>
             <xs:attribute name="about" type="xs:string"/>
-            <xs:attribute name="Dodeljen_termin" type="xs:boolean" default="false"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="TJmbg">
