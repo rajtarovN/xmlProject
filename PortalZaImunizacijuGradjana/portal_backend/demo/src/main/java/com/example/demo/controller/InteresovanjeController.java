@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class InteresovanjeController {
 		this.interesovanjeService = interesovanjeService;
 	}
 
-	@GetMapping(value = "/{email}", consumes = "application/xml")
+	@GetMapping(value = "/{email}", produces = "application/xml")
 	public ResponseEntity<?> getXMLByEmail(@PathVariable String email) {
 		try {
 			XMLResource interesovanje = interesovanjeService.pronadjiInteresovanjePoEmailu(email);
@@ -39,6 +38,17 @@ public class InteresovanjeController {
 			if(interesovanje == null)
 				return new ResponseEntity<>( HttpStatus.NOT_FOUND);
 			return new ResponseEntity<>(interesovanje.getContent(), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping(value = "/updatePending", produces = "application/xml")
+	public ResponseEntity<?> updatePendingInteresovanja() {
+		try {
+			interesovanjeService.updatePendingInteresovanja();
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

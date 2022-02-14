@@ -114,6 +114,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/zahtev/findByStatus",
+        		"/interesovanje/updatePending",
                 "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**",
                 "/potvrda/xml/**", "/potvrda/allXmlByEmail/**",
                 "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",

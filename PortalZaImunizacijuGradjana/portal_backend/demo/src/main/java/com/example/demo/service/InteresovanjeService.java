@@ -32,9 +32,9 @@ import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.Datum;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Ime;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Prezime;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Prezime;
 import com.example.demo.repository.InteresovanjeRepository;
 
 @Service
@@ -116,67 +116,7 @@ public class InteresovanjeService extends AbstractService {
 			System.out.println(message);
 
 			// Napravi saglasnost
-			String id = UUID.randomUUID().toString();
-
-			Saglasnost saglasnost = new Saglasnost();
-			saglasnost.setAbout("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/" + id);
-			saglasnost.setBrojSaglasnosti(id);
-			saglasnost.setEvidencijaOVakcinaciji(new Saglasnost.EvidencijaOVakcinaciji());
-			saglasnost.setPacijent(new Saglasnost.Pacijent());
-
-			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-			LocalDate date = termin.toLocalDate();
-			LocalTime time = termin.toLocalTime();
-
-			XMLGregorianCalendar dateFormatted = DatatypeFactory.newInstance()
-					.newXMLGregorianCalendar(dateFormatter.format(date));
-			XMLGregorianCalendar timeFormatted = DatatypeFactory.newInstance()
-					.newXMLGregorianCalendar(timeFormatter.format(time));
-
-			saglasnost.setVremeTermina(timeFormatted);
-
-			odabir = odabir.substring(0, odabir.length() - 1);
-			saglasnost.setOdabraneVakcine(odabir);
-
-			saglasnost.getPacijent().setDatum(new Datum());
-			saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
-			saglasnost.getPacijent().getDatum().setValue(dateFormatted);
-
-			saglasnost.getPacijent().setLicniPodaci(new LicniPodaci());
-			saglasnost.getPacijent().getLicniPodaci().setKontaktInformacije(new KontaktInformacije());
-
-			// Email
-			String email = interesovanje.getLicneInformacije().getKontakt().getEmail().getValue();
-			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().setEmail(new Email());
-			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setValue(email);
-			saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setProperty("pred:email");
-
-			// Ime
-			saglasnost.getPacijent().getLicniPodaci().setIme(new Ime());
-			saglasnost.getPacijent().getLicniPodaci().getIme().setProperty("pred:ime");
-			saglasnost.getPacijent().getLicniPodaci().getIme()
-					.setValue(interesovanje.getLicneInformacije().getIme().getValue());
-
-			// Prezime
-			saglasnost.getPacijent().getLicniPodaci().setPrezime(new Prezime());
-			saglasnost.getPacijent().getLicniPodaci().getPrezime().setProperty("pred:prezime");
-			saglasnost.getPacijent().getLicniPodaci().getPrezime()
-					.setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
-
-			saglasnost.getPacijent().getLicniPodaci().setZanimanjeZaposlenog(" ");
-
-			JAXBContext contextSaglasnost = JAXBContext.newInstance(Saglasnost.class);
-			OutputStream os = new ByteArrayOutputStream();
-
-			Marshaller marshallerSaglasnost = contextSaglasnost.createMarshaller();
-			marshallerSaglasnost.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-			marshallerSaglasnost.marshal(saglasnost, os);
-			saglasnostService.saveXML("saglasnost_" + id, os.toString());
-			System.out.println(os.toString());
-			saglasnostService.saveRDF(os.toString(), "/saglasnost");
+			generateAndSaveGradjaninSaglasnost(interesovanje, odabir, termin);
 
 			// Azuriraj zalihe
 			this.dostupneVakcineClient.updateVakcine(zalihe);
@@ -211,34 +151,33 @@ public class InteresovanjeService extends AbstractService {
 
 			// If saglasnost exists delete it
 			if (saglasnost != null) {
-				
+
 				// Azuriraj zalihe
 				Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
 
 				String[] temp = saglasnost.getOdabraneVakcine().split(",");
 				List<String> proizvodjaci = new ArrayList<>();
-				for(String t : temp) {
+				for (String t : temp) {
 					proizvodjaci.add(t);
 				}
-				
+
 				for (Vakcina zaliha : zalihe.getVakcina()) {
 
 					if (proizvodjaci.contains(zaliha.getNaziv())) {
-					
+
 						zaliha.setRezervisano(zaliha.getRezervisano() - 1);
 					}
 				}
-				
+
 				this.dostupneVakcineClient.updateVakcine(zalihe);
-				
+
 				// Delete saglasnost RDF and XML
 				this.saglasnostService.deleteRDF(saglasnost.getBrojSaglasnosti());
 				saglasnostService.deleteXML("saglasnost_" + saglasnost.getBrojSaglasnosti() + ".xml");
 			}
 			// Delete interesovanje
 			repository.deleteXML(documentId, collectionId);
-			
-			
+
 		}
 
 	}
@@ -262,5 +201,147 @@ public class InteresovanjeService extends AbstractService {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	// Kreira saglasnost i dodijeli termine za interesovanja koja cekaju za termin
+	public void updatePendingInteresovanja() throws Exception {
+		List<String> results = ((InteresovanjeRepository) repository).getInteresovanjeOrderByAsc();
+		
+		if(results.size() <= 0) return;
+		
+		JAXBContext context = JAXBContext.newInstance(Interesovanje.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+
+		Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
+		
+		results.forEach(result -> {
+			try {
+
+				XMLResource resource = pronadjiPoId(result);
+				Interesovanje interesovanje = (Interesovanje) unmarshaller.unmarshal(resource.getContentAsDOM());
+				if (!interesovanje.isDodeljenTermin() && interesovanje != null)
+				{
+					List<String> proizvodjaci = interesovanje.getProizvodjaci().getProizvodjac();
+
+					String message = "";
+					Boolean dostupno = false;
+					String odabir = "";
+					for (Vakcina zaliha : zalihe.getVakcina()) {
+
+						if ((proizvodjaci.contains(zaliha.getNaziv()) || proizvodjaci.contains("Bilo koja"))
+								&& zaliha.getDostupno() - zaliha.getRezervisano() > 0) {
+							dostupno = true;
+							message += zaliha.getNaziv() + '\n';
+							odabir += zaliha.getNaziv() + ',';
+							zaliha.setRezervisano(zaliha.getRezervisano() + 1);
+						}
+					}
+					
+					if(dostupno){
+						LocalDateTime termin = this.saglasnostService.pronadjiSlobodanTermin();
+						DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
+
+						message = "Poštovani, \n Obaveštavamo vas da je izvršena prijava za vakcinaciju. Vaš termin je: "
+								+ termin.format(ft) + "   Dostupne vakcine su: " + message
+								+ ".\n Molimo vas da popunite obrazac saglasnosti za vakcinaciju pre pocetka vaseg termina. Obrazac za saglasnost se nalazi na poralu. Poy";
+
+						// TODO send mail
+						
+						com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
+						emailModel.setTo("rajtea6@gmail.com");
+						emailModel.setContent(message);
+						emailModel.setSubject("Pozdrav");
+						//emailClient.sendMail(emailModel);
+						System.out.println(message);
+
+						// Napravi saglasnost
+						generateAndSaveGradjaninSaglasnost(interesovanje, odabir, termin);
+
+						// Azuriraj zalihe
+						this.dostupneVakcineClient.updateVakcine(zalihe);
+						interesovanje.setDodeljenTermin(true);
+						
+						Marshaller marshaller = context.createMarshaller();
+						marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+						ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+						marshaller.marshal(interesovanje, stream);
+
+						String finalString = new String(stream.toByteArray());
+						System.out.println(finalString);
+
+						
+						repository.saveXML("interesovanje_" + result, collectionId, finalString);
+					}
+				}
+			} catch (Exception e) {
+
+			}
+		});	
+	}
+	
+	private void generateAndSaveGradjaninSaglasnost(Interesovanje interesovanje, String odabir,LocalDateTime termin) throws Exception {
+		String id = UUID.randomUUID().toString();
+
+		Saglasnost saglasnost = new Saglasnost();
+		saglasnost.setAbout("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/" + id);
+		saglasnost.setBrojSaglasnosti(id);
+		saglasnost.setEvidencijaOVakcinaciji(new Saglasnost.EvidencijaOVakcinaciji());
+		saglasnost.setPacijent(new Saglasnost.Pacijent());
+
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+		LocalDate date = termin.toLocalDate();
+		LocalTime time = termin.toLocalTime();
+
+		XMLGregorianCalendar dateFormatted = DatatypeFactory.newInstance()
+				.newXMLGregorianCalendar(dateFormatter.format(date));
+		XMLGregorianCalendar timeFormatted = DatatypeFactory.newInstance()
+				.newXMLGregorianCalendar(timeFormatter.format(time));
+
+		saglasnost.setVremeTermina(timeFormatted);
+
+		odabir = odabir.substring(0, odabir.length() - 1);
+		saglasnost.setOdabraneVakcine(odabir);
+
+		saglasnost.getPacijent().setDatum(new Datum());
+		saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
+		saglasnost.getPacijent().getDatum().setValue(dateFormatted);
+
+		saglasnost.getPacijent().setLicniPodaci(new LicniPodaci());
+		saglasnost.getPacijent().getLicniPodaci().setKontaktInformacije(new KontaktInformacije());
+
+		// Email
+		String email = interesovanje.getLicneInformacije().getKontakt().getEmail().getValue();
+		saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().setEmail(new Email());
+		saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setValue(email);
+		saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setProperty("pred:email");
+
+		// Ime
+		saglasnost.getPacijent().getLicniPodaci().setIme(new Ime());
+		saglasnost.getPacijent().getLicniPodaci().getIme().setProperty("pred:ime");
+		saglasnost.getPacijent().getLicniPodaci().getIme()
+				.setValue(interesovanje.getLicneInformacije().getIme().getValue());
+
+		// Prezime
+		saglasnost.getPacijent().getLicniPodaci().setPrezime(new Prezime());
+		saglasnost.getPacijent().getLicniPodaci().getPrezime().setProperty("pred:prezime");
+		saglasnost.getPacijent().getLicniPodaci().getPrezime()
+				.setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
+
+		saglasnost.getPacijent().getLicniPodaci().setZanimanjeZaposlenog("");
+
+		JAXBContext contextSaglasnost = JAXBContext.newInstance(Saglasnost.class);
+		OutputStream os = new ByteArrayOutputStream();
+
+		Marshaller marshallerSaglasnost = contextSaglasnost.createMarshaller();
+		marshallerSaglasnost.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		marshallerSaglasnost.marshal(saglasnost, os);
+		saglasnostService.saveXML("saglasnost_" + id, os.toString());
+		System.out.println(os.toString());
+		saglasnostService.saveRDF(os.toString(), "/saglasnost");
 	}
 }

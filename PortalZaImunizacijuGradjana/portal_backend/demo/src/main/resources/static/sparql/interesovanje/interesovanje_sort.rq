@@ -1,0 +1,7 @@
+PREFIX xs: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?interesovanje FROM <%s>
+WHERE { 
+  	?interesovanje <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/datum_podnosenja_interesovanja> ?date .
+
+}
+ORDER BY ASC(?date)
