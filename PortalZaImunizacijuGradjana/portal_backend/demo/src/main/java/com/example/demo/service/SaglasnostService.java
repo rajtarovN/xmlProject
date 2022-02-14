@@ -497,4 +497,8 @@ public class SaglasnostService extends AbstractService {
 		this.saveRDF(content, "/saglasnost");
 
 	}
+	
+	public void deleteRDF(String documentId) throws IOException {
+		repository.deleteRDF(documentId, "/lista_saglasnosti", "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/");
+	}
 }

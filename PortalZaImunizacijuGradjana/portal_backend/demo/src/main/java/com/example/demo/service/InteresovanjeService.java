@@ -109,7 +109,7 @@ public class InteresovanjeService extends AbstractService {
 			// TODO send mail
 
 			com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
-			emailModel.setTo("rajtea6@gmail.com"); // TODO
+			emailModel.setTo("rajtea6@gmail.com");
 			emailModel.setContent(message);
 			emailModel.setSubject("Pozdrav");
 			emailClient.sendMail(emailModel);
@@ -139,7 +139,7 @@ public class InteresovanjeService extends AbstractService {
 
 			odabir = odabir.substring(0, odabir.length() - 1);
 			saglasnost.setOdabraneVakcine(odabir);
-			
+
 			saglasnost.getPacijent().setDatum(new Datum());
 			saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
 			saglasnost.getPacijent().getDatum().setValue(dateFormatted);
@@ -177,7 +177,7 @@ public class InteresovanjeService extends AbstractService {
 			saglasnostService.saveXML("saglasnost_" + id, os.toString());
 			System.out.println(os.toString());
 			saglasnostService.saveRDF(os.toString(), "/saglasnost");
-			
+
 			// Azuriraj zalihe
 			this.dostupneVakcineClient.updateVakcine(zalihe);
 		}
@@ -187,12 +187,14 @@ public class InteresovanjeService extends AbstractService {
 
 	@Override
 	public void deleteXML(String documentId) throws Exception {
-		// Delete interesovanje
 
-		repository.deleteRDF(documentId, "/lista_interesovanja", "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/");
-		
+		// Delete interesovanje RDF
+		repository.deleteRDF(documentId, "/lista_interesovanja",
+				"http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/");
+
+		// Delete XML
 		documentId = "interesovanje_" + documentId + ".xml";
-		/*
+
 		XMLResource res = repository.readXML(documentId, collectionId);
 
 		if (res != null) {
@@ -204,18 +206,41 @@ public class InteresovanjeService extends AbstractService {
 			Interesovanje i = (Interesovanje) unmarshaller.unmarshal((res).getContentAsDOM());
 			String email = i.getLicneInformacije().getKontakt().getEmail().getValue();
 
-			System.out.println("EMAIL " + email);
 			// Find saglasnost by email
-			Saglasnost s = saglasnostService.pronadjiSaglasnostPoEmailu(email);
+			Saglasnost saglasnost = saglasnostService.pronadjiSaglasnostPoEmailu(email);
 
 			// If saglasnost exists delete it
-			if (s != null)
-				saglasnostService.deleteXML("saglasnost_" + s.getBrojSaglasnosti() + ".xml");
+			if (saglasnost != null) {
+				
+				// Azuriraj zalihe
+				Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
 
+				String[] temp = saglasnost.getOdabraneVakcine().split(",");
+				List<String> proizvodjaci = new ArrayList<>();
+				for(String t : temp) {
+					proizvodjaci.add(t);
+				}
+				
+				for (Vakcina zaliha : zalihe.getVakcina()) {
+
+					if (proizvodjaci.contains(zaliha.getNaziv())) {
+					
+						zaliha.setRezervisano(zaliha.getRezervisano() - 1);
+					}
+				}
+				
+				this.dostupneVakcineClient.updateVakcine(zalihe);
+				
+				// Delete saglasnost RDF and XML
+				this.saglasnostService.deleteRDF(saglasnost.getBrojSaglasnosti());
+				saglasnostService.deleteXML("saglasnost_" + saglasnost.getBrojSaglasnosti() + ".xml");
+			}
 			// Delete interesovanje
 			repository.deleteXML(documentId, collectionId);
+			
+			
 		}
-		*/
+
 	}
 
 	public XMLResource pronadjiPoId(String documentId) throws Exception {

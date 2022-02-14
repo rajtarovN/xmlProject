@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,9 @@ public class InteresovanjeController {
 			XMLResource interesovanje = interesovanjeService.pronadjiInteresovanjePoEmailu(email);
 			//PrintInteresovanje.printInteresovanje(interesovanje);
 
-			return new ResponseEntity<>(interesovanje.getContent(), HttpStatus.CREATED);
+			if(interesovanje == null)
+				return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(interesovanje.getContent(), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -56,8 +59,8 @@ public class InteresovanjeController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> deleteInteresovanje(@PathVariable("id") String id) throws Exception {
+	public ResponseEntity<?> deleteInteresovanje(@PathVariable("id") String id) throws Exception {
 		interesovanjeService.deleteXML(id);
-		return new ResponseEntity<>("OK", HttpStatus.OK);
+		return new ResponseEntity<>( HttpStatus.OK);
 	}
 }
