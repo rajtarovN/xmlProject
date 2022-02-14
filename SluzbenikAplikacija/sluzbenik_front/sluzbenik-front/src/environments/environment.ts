@@ -12,6 +12,7 @@ export const environment = {
   getSaglasnosti: 'saglasnost/getAllXmlByEmail',
   saglasnostPdf: 'saglasnost/generatePDF',
   getPotvrde: 'potvrda/getAllXmlByEmail',
+  potvrdaPdf: 'potvrda/generatePDF',
 };
 
 /*

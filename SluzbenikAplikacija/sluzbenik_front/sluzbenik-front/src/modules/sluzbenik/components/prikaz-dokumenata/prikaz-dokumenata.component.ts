@@ -139,10 +139,22 @@ export class PrikazDokumenataComponent implements OnInit {
 
   showPdf(id: string){
     if(this.tipDokumenta === "Saglasnosti"){
-
-    }else if(this.tipDokumenta === "Potvrde"){
-
-    }else if(this.tipDokumenta === "Sertifikati"){
+      this.saglasnostService.getPdf(id).subscribe((response) =>{
+          //TODO natasa
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      });
+    }
+    else if(this.tipDokumenta === "Potvrde"){
+      this.potvrdeService.getPdf(id).subscribe((response) =>{
+        //TODO natasa
+    },
+    (error) => {
+      this.toastr.error(error.error);
+    });
+    }
+    else if(this.tipDokumenta === "Sertifikati"){
 
     }
   }

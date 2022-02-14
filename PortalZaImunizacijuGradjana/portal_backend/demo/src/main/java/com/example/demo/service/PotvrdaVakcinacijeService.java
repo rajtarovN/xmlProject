@@ -253,4 +253,8 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
         return stream.toString();
     }
+
+    public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+        return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
+    }
 }

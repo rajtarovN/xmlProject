@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SaglasnostService {
   constructor(private http: HttpClient, private route: Router) {}
@@ -17,6 +17,13 @@ export class SaglasnostService {
     return this.http.get(
       `${environment.baseUrl}/${environment.getSaglasnosti}/${email}`,
       { headers: headers, responseType: 'text' }
+    );
+  }
+
+  getPdf(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.saglasnostPdf}/${id}`,
+      { responseType: 'arraybuffer' }
     );
   }
 }

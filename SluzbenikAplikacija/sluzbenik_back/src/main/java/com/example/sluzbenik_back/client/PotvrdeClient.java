@@ -2,6 +2,7 @@ package com.example.sluzbenik_back.client;
 
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.ListaPotvrda;
+import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.bind.JAXBContext;
@@ -19,6 +20,19 @@ public class PotvrdeClient {
 
     public PotvrdeClient() {
 
+    }
+
+    public String getXml(String id) throws Exception {
+        URL url = new URL(BASE_URL + "/potvrda/xml/" + id);
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+        /*JAXBContext context = JAXBContext.newInstance(PotvrdaOVakcinaciji.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        StringReader reader = new StringReader(txt);
+        PotvrdaOVakcinaciji potvrdaOVakcinaciji = (PotvrdaOVakcinaciji) unmarshaller.unmarshal(reader);*/
+
+        return txt;
     }
 
     public ListaPotvrda allXmlIdsByEmail(String email) throws Exception{

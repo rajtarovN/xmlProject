@@ -44,8 +44,6 @@ public class SaglasnostService {
         try {
             doc_str = saglasnostClient.getXml(id);
             System.out.println(doc_str);
-        } catch (XMLDBException e1) {
-            e1.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

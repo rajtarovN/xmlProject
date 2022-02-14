@@ -153,7 +153,7 @@ public class SaglasnostController {
 	public ResponseEntity<String> getXML(@PathVariable("id") String id) {
 
 		try {
-			XMLResource xml = saglasnostService.readXML(id);
+			XMLResource xml = saglasnostService.getXML(id);
 			return new ResponseEntity<>(xml.getContent().toString(), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
