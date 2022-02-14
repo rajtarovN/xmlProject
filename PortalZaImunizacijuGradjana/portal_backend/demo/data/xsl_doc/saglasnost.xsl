@@ -21,65 +21,69 @@
                         САГЛАСНОСТ ЗА СПРОВОЂЕЊЕ
                         ПРЕПОРУЧЕНЕ ИМУНИЗАЦИЈЕ
                     </fo:block>
-                    <fo:block  text-align="center" font-size="16pt" font-family="Times New Roman">
+                    <fo:block  font-size="16pt" font-family="Times New Roman" text-align="left">
                         (попуњава пацијент)
                     </fo:block>
 
+                    <fo:block>&#160;</fo:block>
+
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Држављанство: PITAJ ONOG KO JE OVO RADIOOOOOOOO
+                        <fo:block font-weight="bold">Држављанство:</fo:block> <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent[0]"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Презиме: <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Prezime"></xsl:value-of>
-                        Име: <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Ime"></xsl:value-of> Име родитеља:
-                        <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Ime_roditelja"></xsl:value-of>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Презиме: </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Prezime"/>
+                        <fo:inline font-weight="bold"> | Име: </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Ime"/>
+                        <fo:inline font-weight="bold"> | Име родитеља:</fo:inline> <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Ime_roditelja"/>
 
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Пол: <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Pol"></xsl:value-of>
-                        Датум рођења:<xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Datum_rodjenja"></xsl:value-of>
-                        Место:<xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Mesto_rodjenja"></xsl:value-of>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold"> Пол:</fo:inline> <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Pol"/>
+                        <fo:inline font-weight="bold"> | Датум рођења:</fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Datum_rodjenja"/>
+                        <fo:inline font-weight="bold"> | Место:</fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Mesto_rodjenja"/>
                     </fo:block>
 
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Адреса (улица и број): <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Ulica"></xsl:value-of>
-                        <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Broj"></xsl:value-of>
-                    </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Место/Насеље <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Mesto"></xsl:value-of>
-                    </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Општина/Град <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Grad"></xsl:value-of>
-                    </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Тел. фиксни <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Kontakt_informacije/ns2:Fiksni_telefon"></xsl:value-of>
-                    </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Тел. мобилни <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Kontakt_informacije/ns2:Mobilni_telefon"></xsl:value-of>
-                    </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        имејл <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Kontakt_informacije/ns2:Email"></xsl:value-of>
-                    </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Радни статус <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Radni_status"></xsl:value-of>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Адреса (улица и број): </fo:inline>
+                        <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Ulica"/>
+                        <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Broj"/>
+                        <fo:inline font-weight="bold">| Место/Насеље </fo:inline>
+                        <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Mesto"/>
                     </fo:block>
 
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Занимање запосленог: <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Zanimanje_zaposlenog"></xsl:value-of>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Општина/Град </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Adresa/ns2:Grad"/>
+                        <fo:inline font-weight="bold">| Тел. фиксни </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Kontakt_informacije/ns2:Fiksni_telefon"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Корисник установе соц. зашт <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Radni_status"></xsl:value-of>
+
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Тел. мобилни </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Kontakt_informacije/ns2:Mobilni_telefon"/>
+                        <fo:inline font-weight="bold">| имејл </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Kontakt_informacije/ns2:Email"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Назив и општина седишта
+
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Радни статус </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Radni_status"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
+
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Занимање запосленог: </fo:inline><xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Zanimanje_zaposlenog"/>
+                    </fo:block>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        <fo:inline font-weight="bold">Корисник установе соц. зашт </fo:inline>
+<!--                        <xsl:if test="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Socijalna_zastita='true'">-->
+                            <fo:inline font-weight="bold">| Назив и општина седишта</fo:inline>
+                            <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Socijalna_zastita/ns2:Naziv_sedista"/>
+                        <xsl:value-of select="/ns2:Saglasnost/ns2:Pacijent/ns2:Licni_podaci/ns2:Socijalna_zastita/ns2:Opstina_sedista"/>
+<!--                    </xsl:if>-->
+                    </fo:block>
+
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
                         Изјављујем да: ПРОЦИТАЈЈЈЈЈЈЈЈ
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
                         Лекар ми је објаснио предности и ризике од спровођења активне/пасивне имунизације наведеним имунолошким
                         леком ПРОВЕРИ ПОТПИССССССССС и датум
                     </fo:block>
-                    <fo:block  text-align="left" font-size="8pt" font-family="Times New Roman">
+                    <fo:block  text-align="justify" font-size="8pt" font-family="Times New Roman">
                         |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
                     </fo:block>
                     <fo:block  text-align="left" font-size="18pt" font-family="Times New Roman">

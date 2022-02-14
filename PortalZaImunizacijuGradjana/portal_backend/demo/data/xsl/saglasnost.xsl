@@ -44,67 +44,68 @@
                     border: 1px solid black;
                     border-collapse: collapse;
                     }
+                    .left1{
+                    text-align: left;
+                    font-size: 18px;
+                    }
+                    .left2{
+                    text-align: left;
+                    font-size: 14px;
+                    }
                 </style>
             </head>
 
             <body>
-                <h2 class="add-space-after"> <u> САГЛАСНОСТ ЗА СПРОВОЂЕЊЕ
-                    ПРЕПОРУЧЕНЕ ИМУНИЗАЦИЈЕ  </u> </h2>
-                <div>(попуњава пацијент)</div><br/><br/>
-                <div>Држављанство: PITAJ ONOG KO JE OVO RADIOOOOOOOO
-
+                <div class="left1"> <b> САГЛАСНОСТ ЗА СПРОВОЂЕЊЕ
+                    ПРЕПОРУЧЕНЕ ИМУНИЗАЦИЈЕ  </b> </div>
+                <div class="left2">(попуњава пацијент)</div><br/><br/>
+                <div>
                     <label>
-                        Презиме: <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Prezime"></xsl:value-of>
-                         | Име: <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Ime"></xsl:value-of> | Име родитеља:
-                        <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Ime_roditelja"></xsl:value-of>
+                       <b> Држављанство:</b> PITAJ ONOG KO JE OVO RADIOOOOOOOO
+                    </label><br/>
+                    <label>
+                        <b> Презиме: </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Prezime"/>
+                        <b>| Име: </b> <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Ime"/> <b> | Име родитеља: </b>
+                        <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Ime_roditelja"/>
                     </label><br/>
 
                     <label>
-                        Пол: <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Pol"></xsl:value-of>
-                       | Датум рођења:<xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Datum_rodjenja"></xsl:value-of>
-                       | Место:<xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Mesto_rodjenja"></xsl:value-of>
+                        <b> Пол: </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Pol"/>
+                        <b> | Датум рођења: </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Datum_rodjenja"/>
+                        <b> | Место: </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Mesto_rodjenja"/>
 
                     </label><br/>
 
                     <label>
-                        Адреса (улица и број): <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Ulica"></xsl:value-of>
-                        <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Broj"></xsl:value-of>
+                        <b> Адреса (улица и број):</b> <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Ulica"/>
+                        <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Broj"/>
+                        <b> Место/Насеље </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Mesto"/>
                     </label><br/>
 
                     <label>
-                        Место/Насеље <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Mesto"></xsl:value-of>
+                        <b> Општина/Град </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Grad"/>
+                        <b> Тел. фиксни </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Kontakt_informacije/Fiksni_telefon"/>
                     </label><br/>
 
                     <label>
-                        Општина/Град <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Adresa/Grad"></xsl:value-of>
+                        <b> Тел. мобилни </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Kontakt_informacije/Mobilni_telefon"/>
+                        <b> | имејл</b> <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Kontakt_informacije/Email"/>
                     </label><br/>
 
                     <label>
-                        Тел. фиксни <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Kontakt_informacije/Fiksni_telefon"></xsl:value-of>
+                        <b> Занимање запосленог:</b> <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Zanimanje_zaposlenog"/>
                     </label><br/>
 
                     <label>
-                        Тел. мобилни <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Kontakt_informacije/Mobilni_telefon"></xsl:value-of>
+                        <b> Корисник установе соц. зашт </b><xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Radni_status"/>
                     </label><br/>
 
                     <label>
-                        имејл <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Kontakt_informacije/Email"></xsl:value-of>
+                        <b> Назив и општина седишта</b>
                     </label><br/>
 
                     <label>
-                        Занимање запосленог: <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Zanimanje_zaposlenog"></xsl:value-of>
-                    </label><br/>
-
-                    <label>
-                        Корисник установе соц. зашт <xsl:value-of select="/Saglasnost/Pacijent/Licni_podaci/Radni_status"></xsl:value-of>
-                    </label><br/>
-
-                    <label>
-                        Назив и општина седишта
-                    </label><br/>
-
-                    <label>
-                        Изјављујем да: ПРОЦИТАЈЈЈЈЈЈЈЈ
+                        <b> Изјављујем да: ПРОЦИТАЈЈЈЈЈЈЈЈ</b>
                     </label><br/>
 
                     <label>

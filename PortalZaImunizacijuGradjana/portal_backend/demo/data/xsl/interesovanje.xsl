@@ -52,60 +52,65 @@
                 <h2 class="add-space-after"> <u> Исказивање интересовања за вакцинисање против COVID-19  </u> </h2>
 
                 <div>
-                    <label>Држављанин:</label>
+                    <label>Држављанин:</label><br/>
                     <label>
-                        &#09;&#09; <xsl:value-of select="/Interesovanje/Licne_informacije/Drzavljanstvo"></xsl:value-of>
+                        <xsl:if test="/Interesovanje/Licne_informacije/Drzavljanstvo='Drzavljanin_republike_srbije'">
+                            <u>Državljanin Republike Srbije</u>
+                        </xsl:if>
+                        <xsl:if test="/Interesovanje/Licne_informacije/Drzavljanstvo='Strani_drzavljanin_sa_boravkom_u_rs'">
+                            <u>Strani državljanin sa boravkom u RS</u>
+                        </xsl:if>
+                        <xsl:if test="/Interesovanje/Licne_informacije/Drzavljanstvo='Strani_drzavljanin_bez_boravka_u_rs'">
+                            <u>Strani drzavljanin bez boravka u RS</u>
+                        </xsl:if>
                     </label><br/>
 
                     <label>
-                        ЈМБГ:&#xa; <xsl:value-of select="/Interesovanje/Licne_informacije/Jmbg"></xsl:value-of>
+                        ЈМБГ:
                     </label><br/>
-
-                    <label>Пол:</label>
-                    <label>
-                        <xsl:value-of select="/Zahtev_za_zeleni_sertifikat/Podnosilac_zahteva/Pol"></xsl:value-of>
-                    </label><br/>
+                    <label> <u><xsl:value-of select="/Interesovanje/Licne_informacije/Jmbg"/></u></label><br/>
 
                     <label>
-                        ЈМБГ:&#xa; <xsl:value-of select="/Interesovanje/Licne_informacije/Jmbg"></xsl:value-of>
+                        Име:&#xa; <xsl:value-of select="/Interesovanje/Licne_informacije/Ime"/>
                     </label><br/>
+                    <label> <u> <xsl:value-of select="/Interesovanje/Licne_informacije/Ime"/> </u></label><br/>
 
                     <label>
-                        Име:&#xa; <xsl:value-of select="/Interesovanje/Licne_informacije/Ime"></xsl:value-of>
+                        Презиме:&#xa;
                     </label><br/>
-                    <label>
-                        Презиме:&#xa; <xsl:value-of select="/Interesovanje/Licne_informacije/Prezime"></xsl:value-of>
-                    </label><br/>
+                    <label> <u> <xsl:value-of select="/Interesovanje/Licne_informacije/Prezime"/> </u></label><br/>
+
                     <label>
                         Адреса електронске поште:
-                        &#xa; <xsl:value-of select="/Interesovanje/Licne_informacije/Kontakt/Email"></xsl:value-of>
                     </label><br/>
+                    <label> <u> <xsl:value-of select="/Interesovanje/Licne_informacije/Kontakt/Email"/></u></label><br/>
 
                     <label>
-                        Број мобилног телефона (навести број у формату 06X..... без размака и цртица):&#xa;
-                        <xsl:value-of select="/Interesovanje/Licne_informacije/Kontakt/Broj_mobilnog"></xsl:value-of>
+                        Број мобилног телефона (навести број у формату 06X..... без размака и цртица):
                     </label><br/>
-                    <label>
-                        Број фиксног телефона (навести број у формату нпр. 011..... без размака и цртица):&#xa;
-                        <xsl:value-of select="/Interesovanje/Licne_informacije/Kontakt/Broj_fiksnog"></xsl:value-of>
-                    </label><br/>
+                    <label> <u> <xsl:value-of select="/Interesovanje/Licne_informacije/Kontakt/Broj_mobilnog"/></u></label><br/>
 
                     <label>
-                        Одаберите локацију где желите да примите вакцину (унесите општину):&#xa;
-                        <xsl:value-of select="/Interesovanje/Lokacija_primanja_vakcine"></xsl:value-of>
+                        Број фиксног телефона (навести број у формату нпр. 011..... без размака и цртица):
                     </label><br/>
+                    <label> <u> <xsl:value-of select="/Interesovanje/Licne_informacije/Kontakt/Broj_fiksnog"/> </u></label><br/>
+
+                    <label>
+                        Odabrana локацију где желите да примите вакцину (унесите општину):
+                    </label><br/>
+                    <label> <u> <xsl:value-of select="/Interesovanje/Lokacija_primanja_vakcine"/> </u></label><br/><br/>
 
                     <label>
                         Исказујем интересовање да примим искључиво вакцину следећих произвођача за
                         који Агенција за лекове и медицинска средства потврди безбедност, ефикасност и
-                        квалитет и изда дозволу за употребу лека: &#xa; <xsl:value-of select="/Interesovanje/Proizvodjaci"></xsl:value-of>
-                    </label><br/>
+                        квалитет и изда дозволу за употребу лека: &#xa; <xsl:value-of select="/Interesovanje/Proizvodjaci"/>
+                    </label><br/><br/>
 
                     <label>
-                        Да ли сте добровољни давалац крви? <xsl:value-of select="/Interesovanje/Licne_informacije/Davalac_krvi"></xsl:value-of>
-                    </label><br/>
+                        Да ли сте добровољни давалац крви? <xsl:value-of select="/Interesovanje/Licne_informacije/Davalac_krvi"/>
+                    </label><br/><br/>
                     <label>
-                        Дана   <xsl:value-of select="/Interesovanje/Datum_podnosenja_interesovanja"></xsl:value-of>  године
+                        Дана   <xsl:value-of select="/Interesovanje/Datum_podnosenja_interesovanja"/>  године
                     </label><br/>
 
                 </div>

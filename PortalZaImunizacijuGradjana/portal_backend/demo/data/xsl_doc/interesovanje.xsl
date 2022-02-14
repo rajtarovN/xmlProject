@@ -18,47 +18,77 @@
                 <fo:flow flow-name="xsl-region-body">
 
                     <fo:block font-family="Times New Roman" font-size="14pt" font-weight="bold" text-align="center" margin-top="48pt">
-                        Исказивање интересовања за вакцинисање против COVID-19
+                        Iskazivanje interesovanja za vakcinisanje protiv COVID-19
                     </fo:block>
-                    <fo:block  text-align="center" font-size="12pt"  font-family="Times New Roman">
-                       Држављанин:
+                    <fo:block  text-align="left" font-size="12pt"  font-family="Times New Roman">
+                        Држављанин:
                     </fo:block>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
+                         <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Drzavljanstvo='Drzavljanin_republike_srbije'">
+                        <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman"> Državljanin Republike Srbije</fo:block>
+                    </xsl:if>
+                        <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Drzavljanstvo='Strani_drzavljanin_sa_boravkom_u_rs'">
+                            <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman"> Strani državljanin sa boravkom u RS</fo:block>
+                        </xsl:if>
+                        <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Drzavljanstvo='Strani_drzavljanin_bez_boravka_u_rs'">
+                            <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman"> Strani drzavljanin bez boravka u RS</fo:block>
+                        </xsl:if>
 
+                    </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        &#160;&#160;&#160;&#160; <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Drzavljanstvo"/>
+                       ЈМБГ:
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                       ЈМБГ:&#xa; <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Jmbg"/>
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
+                        <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Jmbg"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Име:&#xa; <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Ime"/>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        Име:
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Презиме:&#xa; <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Prezime"/>
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
+                        <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Ime"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        Презиме:
+                    </fo:block>
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
+                        <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Prezime"/>
+                    </fo:block>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
                         Адреса електронске поште:
-                        &#xa; <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Email"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Број мобилног телефона (навести број у формату 06X..... без размака и цртица):&#xa;
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
+                        <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Email"/>
+                    </fo:block>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        Број мобилног телефона (навести број у формату 06X..... без размака и цртица):
+                    </fo:block>
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Broj_mobilnog"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Број фиксног телефона (навести број у формату нпр. 011..... без размака и цртица):&#xa;
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        Број фиксног телефона (навести број у формату нпр. 011..... без размака и цртица):
+                    </fo:block>
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Broj_fiksnog"/>
                     </fo:block>
-                    <fo:block  text-align="center" font-size="12pt" font-family="Times New Roman">
-                        Одаберите локацију где желите да примите вакцину (унесите општину):&#xa;
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
+                        Odabrana локацију где желите да примите вакцину (унесите општину):
+
+                    </fo:block>
+                    <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Lokacija_primanja_vakcine"/>
                     </fo:block>
-                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
+                    <fo:block>&#160;</fo:block>
+                    <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
                         Исказујем интересовање да примим искључиво вакцину следећих произвођача за
                         који Агенција за лекове и медицинска средства потврди безбедност, ефикасност и
-                        квалитет и изда дозволу за употребу лека: &#xa; <xsl:value-of select="/ns2:Interesovanje/ns2:Proizvodjaci"/>
+                        квалитет и изда дозволу за употребу лека:  <xsl:value-of select="/ns2:Interesovanje/ns2:Proizvodjaci"/>
                     </fo:block>
-                    <fo:block  text-align="center" font-size="12pt" font-family="Times New Roman">
-                        Да ли сте добровољни давалац крви? <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Davalac_krvi"/>
+                    <fo:block>&#160;</fo:block>
+                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
+                        Да ли сте добровољни давалац крви?
+                        <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Davalac_krvi='true'"><fo:block>Da</fo:block></xsl:if>
+                        <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Davalac_krvi='false'"><fo:block>Ne</fo:block></xsl:if>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
                         Дана   <xsl:value-of select="/ns2:Interesovanje/ns2:Datum_podnosenja_interesovanja"/>  године

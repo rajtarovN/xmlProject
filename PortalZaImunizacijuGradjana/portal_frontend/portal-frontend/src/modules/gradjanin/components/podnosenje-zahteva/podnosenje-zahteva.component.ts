@@ -67,8 +67,8 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
       this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();
       this.vreme = "-"+danasnjiDan.getHours() + "-" + danasnjiDan.getMinutes() + "-" + danasnjiDan.getSeconds();
    
-      this.getHtml("1234567890123_2022-2-12-10-32-47.xml");
-      //this.getPdf("1234567890123_2022-2-12-10-32-47.xml");
+      this.getHtml("saglasnost_54321.xml");
+      //this.getPdf("saglasnost_54321.xml");
    
     }
 

@@ -199,7 +199,7 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_1");
+        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901");
         for(String documentId : docIds) {
             String graphUri = "";
             if(documentId.contains("sag")){

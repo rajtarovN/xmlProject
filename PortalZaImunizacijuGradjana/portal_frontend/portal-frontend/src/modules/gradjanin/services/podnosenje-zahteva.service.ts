@@ -92,9 +92,9 @@ export class PodnosenjeZahtevaService {
   }
 
   getPdf(id: string): Observable<any> {
-    return this.http.get(`${environment.baseUrl}` + '/zahtev/generatePDF/' + id, {responseType: 'arraybuffer'});
+    return this.http.get(`${environment.baseUrl}` + '/saglasnost/generatePDF/' + id, {responseType: 'arraybuffer'});
   }
   getHtml(id: string): Observable<any> {
-    return this.http.get(`${environment.baseUrl}` + '/zahtev/generateHTML/' + id, {responseType: 'arraybuffer'});
+    return this.http.get(`${environment.baseUrl}` + '/saglasnost/generateHTML/' + id, {responseType: 'arraybuffer'});
   }
 }
