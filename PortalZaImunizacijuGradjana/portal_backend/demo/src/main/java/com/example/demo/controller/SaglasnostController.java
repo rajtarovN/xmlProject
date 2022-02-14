@@ -4,7 +4,6 @@ import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.service.SaglasnostService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
@@ -14,14 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.StringReader;
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -149,4 +148,27 @@ public class SaglasnostController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@GetMapping(path = "/xml/{id}", produces = "application/xml")
+	public ResponseEntity<String> getXML(@PathVariable("id") String id) {
+
+		try {
+			XMLResource xml = saglasnostService.getXML(id);
+			return new ResponseEntity<>(xml.getContent().toString(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/allXmlByEmail/{userEmail}")
+	public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
+		try{
+			return new ResponseEntity<>(saglasnostService.allXmlByEmail(userEmail), HttpStatus.OK);
+		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException |
+				DatatypeConfigurationException | XMLDBException | JAXBException | IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

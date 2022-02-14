@@ -61,4 +61,22 @@ public class PotvrdaVakcinacijeRepository extends RepositoryInterface {
     public XMLResource pronadjiPoId(String id) throws IllegalAccessException, JAXBException, InstantiationException, IOException, XMLDBException, ClassNotFoundException {
         return dbManager.readFileFromDB("potvrda_"+id+".xml", collectionId);
     }
+
+    public List<String> pronadjiPoJmbg(String jmbg ) throws Exception {
+        List<String> ids = new ArrayList<>();
+        ArrayList<String> params = new ArrayList<>();
+        params.add("\"" +jmbg+"\"");
+
+        ids = this.fusekiManager.query("/lista_potvrda", SPARQL_FILE + "potvrda_jmbg.rq", params);
+        return ids;
+    }
+
+    public List<String> pronadjiPoEbs(String ebs) throws Exception {
+        List<String> ids = new ArrayList<>();
+        ArrayList<String> params = new ArrayList<>();
+        params.add("\"" +ebs+"\"");
+
+        ids = this.fusekiManager.query("/lista_potvrda", SPARQL_FILE + "potvrda_ebs.rq", params);
+        return ids;
+    }
 }

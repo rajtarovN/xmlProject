@@ -9,6 +9,10 @@ export const environment = {
   logout: 'korisnik/logout',
   getKorisnike: 'korisnik/listaKorisnika',
   getZahteve: 'zahtev/listaZahteva',
+  getSaglasnosti: 'saglasnost/getAllXmlByEmail',
+  saglasnostPdf: 'saglasnost/generatePDF',
+  getPotvrde: 'potvrda/getAllXmlByEmail',
+  potvrdaPdf: 'potvrda/generatePDF',
 };
 
 /*

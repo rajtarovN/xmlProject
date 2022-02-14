@@ -7,19 +7,12 @@
 
 package com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.*;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>
@@ -357,9 +350,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Saglasnost {
 
 	@XmlElement(name = "Pacijent", required = true)
-	protected Saglasnost.Pacijent pacijent;
+	protected Pacijent pacijent;
 	@XmlElement(name = "Evidencija_o_vakcinaciji", required = true, nillable = true)
-	protected Saglasnost.EvidencijaOVakcinaciji evidencijaOVakcinaciji;
+	protected EvidencijaOVakcinaciji evidencijaOVakcinaciji;
 	@XmlAttribute(name = "about")
 	@XmlSchemaType(name = "anyURI")
 	protected String about;
@@ -373,49 +366,49 @@ public class Saglasnost {
 
 	/**
 	 * Gets the value of the pacijent property.
-	 * 
-	 * @return possible object is {@link Saglasnost.Pacijent }
-	 * 
+	 *
+	 * @return possible object is {@link Pacijent }
+	 *
 	 */
-	public Saglasnost.Pacijent getPacijent() {
+	public Pacijent getPacijent() {
 		return pacijent;
 	}
 
 	/**
 	 * Sets the value of the pacijent property.
-	 * 
-	 * @param value allowed object is {@link Saglasnost.Pacijent }
-	 * 
+	 *
+	 * @param value allowed object is {@link Pacijent }
+	 *
 	 */
-	public void setPacijent(Saglasnost.Pacijent value) {
+	public void setPacijent(Pacijent value) {
 		this.pacijent = value;
 	}
 
 	/**
 	 * Gets the value of the evidencijaOVakcinaciji property.
-	 * 
-	 * @return possible object is {@link Saglasnost.EvidencijaOVakcinaciji }
-	 * 
+	 *
+	 * @return possible object is {@link EvidencijaOVakcinaciji }
+	 *
 	 */
-	public Saglasnost.EvidencijaOVakcinaciji getEvidencijaOVakcinaciji() {
+	public EvidencijaOVakcinaciji getEvidencijaOVakcinaciji() {
 		return evidencijaOVakcinaciji;
 	}
 
 	/**
 	 * Sets the value of the evidencijaOVakcinaciji property.
-	 * 
-	 * @param value allowed object is {@link Saglasnost.EvidencijaOVakcinaciji }
-	 * 
+	 *
+	 * @param value allowed object is {@link EvidencijaOVakcinaciji }
+	 *
 	 */
-	public void setEvidencijaOVakcinaciji(Saglasnost.EvidencijaOVakcinaciji value) {
+	public void setEvidencijaOVakcinaciji(EvidencijaOVakcinaciji value) {
 		this.evidencijaOVakcinaciji = value;
 	}
 
 	/**
 	 * Gets the value of the about property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getAbout() {
 		return about;
@@ -423,9 +416,9 @@ public class Saglasnost {
 
 	/**
 	 * Sets the value of the about property.
-	 * 
+	 *
 	 * @param value allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setAbout(String value) {
 		this.about = value;
@@ -433,9 +426,9 @@ public class Saglasnost {
 
 	/**
 	 * Gets the value of the brojSaglasnosti property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getBrojSaglasnosti() {
 		return brojSaglasnosti;
@@ -443,9 +436,9 @@ public class Saglasnost {
 
 	/**
 	 * Sets the value of the brojSaglasnosti property.
-	 * 
+	 *
 	 * @param value allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setBrojSaglasnosti(String value) {
 		this.brojSaglasnosti = value;
@@ -453,9 +446,9 @@ public class Saglasnost {
 
 	/**
 	 * Gets the value of the odabraneVakcine property.
-	 * 
+	 *
 	 * @return possible object is {@link String }
-	 * 
+	 *
 	 */
 	public String getOdabraneVakcine() {
 		return odabraneVakcine;
@@ -463,20 +456,20 @@ public class Saglasnost {
 
 	/**
 	 * Sets the value of the odabraneVakcine property.
-	 * 
+	 *
 	 * @param value allowed object is {@link String }
-	 * 
+	 *
 	 */
 	public void setOdabraneVakcine(String value) {
 		this.odabraneVakcine = value;
 	}
 
-	
+
 	/**
 	 * Gets the value of the vremeTermina property.
-	 * 
+	 *
 	 * @return possible object is {@link XMLGregorianCalendar }
-	 * 
+	 *
 	 */
 	public XMLGregorianCalendar getVremeTermina() {
 		return vremeTermina;
@@ -484,9 +477,9 @@ public class Saglasnost {
 
 	/**
 	 * Sets the value of the vremeTermina property.
-	 * 
+	 *
 	 * @param value allowed object is {@link XMLGregorianCalendar }
-	 * 
+	 *
 	 */
 	public void setVremeTermina(XMLGregorianCalendar value) {
 		this.vremeTermina = value;
@@ -495,11 +488,11 @@ public class Saglasnost {
 	/**
 	 * <p>
 	 * Java class for anonymous complex type.
-	 * 
+	 *
 	 * <p>
 	 * The following schema fragment specifies the expected content contained within
 	 * this class.
-	 * 
+	 *
 	 * <pre>
 	 * &lt;complexType&gt;
 	 *   &lt;complexContent&gt;
@@ -602,8 +595,8 @@ public class Saglasnost {
 	 *   &lt;/complexContent&gt;
 	 * &lt;/complexType&gt;
 	 * </pre>
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	@XmlAccessorType(XmlAccessType.FIELD)
 	@XmlType(name = "", propOrder = { "zdravstvenaUstanova", "vakcinacijskiPunkt", "lekar", "vakcine" })
@@ -614,17 +607,17 @@ public class Saglasnost {
 		@XmlElement(name = "Vakcinacijski_punkt", required = true)
 		protected String vakcinacijskiPunkt;
 		@XmlElement(name = "Lekar", required = true)
-		protected Saglasnost.EvidencijaOVakcinaciji.Lekar lekar;
+		protected Lekar lekar;
 		@XmlElement(name = "Vakcine", required = true)
-		protected Saglasnost.EvidencijaOVakcinaciji.Vakcine vakcine;
+		protected Vakcine vakcine;
 
 		/**
 		 * Gets the value of the zdravstvenaUstanova property.
-		 * 
+		 *
 		 * @return possible object is
-		 * 
+		 *
 		 *         {@link String }
-		 * 
+		 *
 		 */
 		public String getZdravstvenaUstanova() {
 			return zdravstvenaUstanova;
@@ -632,9 +625,9 @@ public class Saglasnost {
 
 		/**
 		 * Sets the value of the zdravstvenaUstanova property.
-		 * 
+		 *
 		 * @param value allowed object is {@link String }
-		 * 
+		 *
 		 */
 		public void setZdravstvenaUstanova(String value) {
 			this.zdravstvenaUstanova = value;
@@ -642,9 +635,9 @@ public class Saglasnost {
 
 		/**
 		 * Gets the value of the vakcinacijskiPunkt property.
-		 * 
+		 *
 		 * @return possible object is {@link String }
-		 * 
+		 *
 		 */
 		public String getVakcinacijskiPunkt() {
 			return vakcinacijskiPunkt;
@@ -652,9 +645,9 @@ public class Saglasnost {
 
 		/**
 		 * Sets the value of the vakcinacijskiPunkt property.
-		 * 
+		 *
 		 * @param value allowed object is {@link String }
-		 * 
+		 *
 		 */
 		public void setVakcinacijskiPunkt(String value) {
 			this.vakcinacijskiPunkt = value;
@@ -662,54 +655,54 @@ public class Saglasnost {
 
 		/**
 		 * Gets the value of the lekar property.
-		 * 
-		 * @return possible object is {@link Saglasnost.EvidencijaOVakcinaciji.Lekar }
-		 * 
+		 *
+		 * @return possible object is {@link Lekar }
+		 *
 		 */
-		public Saglasnost.EvidencijaOVakcinaciji.Lekar getLekar() {
+		public Lekar getLekar() {
 			return lekar;
 		}
 
 		/**
 		 * Sets the value of the lekar property.
-		 * 
+		 *
 		 * @param value allowed object is
-		 *              {@link Saglasnost.EvidencijaOVakcinaciji.Lekar }
-		 * 
+		 *              {@link Lekar }
+		 *
 		 */
-		public void setLekar(Saglasnost.EvidencijaOVakcinaciji.Lekar value) {
+		public void setLekar(Lekar value) {
 			this.lekar = value;
 		}
 
 		/**
 		 * Gets the value of the vakcine property.
-		 * 
-		 * @return possible object is {@link Saglasnost.EvidencijaOVakcinaciji.Vakcine }
-		 * 
+		 *
+		 * @return possible object is {@link Vakcine }
+		 *
 		 */
-		public Saglasnost.EvidencijaOVakcinaciji.Vakcine getVakcine() {
+		public Vakcine getVakcine() {
 			return vakcine;
 		}
 
 		/**
 		 * Sets the value of the vakcine property.
-		 * 
+		 *
 		 * @param value allowed object is
-		 *              {@link Saglasnost.EvidencijaOVakcinaciji.Vakcine }
-		 * 
+		 *              {@link Vakcine }
+		 *
 		 */
-		public void setVakcine(Saglasnost.EvidencijaOVakcinaciji.Vakcine value) {
+		public void setVakcine(Vakcine value) {
 			this.vakcine = value;
 		}
 
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;complexContent&gt;
@@ -723,8 +716,8 @@ public class Saglasnost {
 		 *   &lt;/complexContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "ime", "prezime", "telefon" })
@@ -739,9 +732,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the ime property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getIme() {
 				return ime;
@@ -749,9 +742,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the ime property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setIme(String value) {
 				this.ime = value;
@@ -759,9 +752,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the prezime property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getPrezime() {
 				return prezime;
@@ -769,9 +762,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the prezime property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setPrezime(String value) {
 				this.prezime = value;
@@ -779,9 +772,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the telefon property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getTelefon() {
 				return telefon;
@@ -789,9 +782,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the telefon property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setTelefon(String value) {
 				this.telefon = value;
@@ -802,11 +795,11 @@ public class Saglasnost {
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;complexContent&gt;
@@ -884,8 +877,8 @@ public class Saglasnost {
 		 *   &lt;/complexContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "vakcina", "privremeneKontraindikacije",
@@ -893,74 +886,74 @@ public class Saglasnost {
 		public static class Vakcine {
 
 			@XmlElement(name = "Vakcina", required = true)
-			protected List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> vakcina;
+			protected List<Vakcina> vakcina;
 			@XmlElement(name = "Privremene_kontraindikacije", required = true)
-			protected Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije privremeneKontraindikacije;
+			protected PrivremeneKontraindikacije privremeneKontraindikacije;
 			@XmlElement(name = "Odluka_komisije_za_trajne_kontraindikacije", required = true)
 			protected String odlukaKomisijeZaTrajneKontraindikacije;
 
 			/**
 			 * Gets the value of the vakcina property.
-			 * 
+			 *
 			 * <p>
 			 * This accessor method returns a reference to the live list, not a snapshot.
 			 * Therefore any modification you make to the returned list will be present
 			 * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
 			 * for the vakcina property.
-			 * 
+			 *
 			 * <p>
 			 * For example, to add a new item, do as follows:
-			 * 
+			 *
 			 * <pre>
 			 * getVakcina().add(newItem);
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 * <p>
 			 * Objects of the following type(s) are allowed in the list
-			 * {@link Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina }
-			 * 
-			 * 
+			 * {@link Vakcina }
+			 *
+			 *
 			 */
-			public List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> getVakcina() {
+			public List<Vakcina> getVakcina() {
 				if (vakcina == null) {
-					vakcina = new ArrayList<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina>();
+					vakcina = new ArrayList<Vakcina>();
 				}
 				return this.vakcina;
 			}
 
-			public void setVakcina(List<Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina> lista) {
+			public void setVakcina(List<Vakcina> lista) {
 				this.vakcina = lista;
 			}
 
 			/**
 			 * Gets the value of the privremeneKontraindikacije property.
-			 * 
+			 *
 			 * @return possible object is
-			 *         {@link Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije }
-			 * 
+			 *         {@link PrivremeneKontraindikacije }
+			 *
 			 */
-			public Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije getPrivremeneKontraindikacije() {
+			public PrivremeneKontraindikacije getPrivremeneKontraindikacije() {
 				return privremeneKontraindikacije;
 			}
 
 			/**
 			 * Sets the value of the privremeneKontraindikacije property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije }
-			 * 
+			 *              {@link PrivremeneKontraindikacije }
+			 *
 			 */
 			public void setPrivremeneKontraindikacije(
-					Saglasnost.EvidencijaOVakcinaciji.Vakcine.PrivremeneKontraindikacije value) {
+					PrivremeneKontraindikacije value) {
 				this.privremeneKontraindikacije = value;
 			}
 
 			/**
 			 * Gets the value of the odlukaKomisijeZaTrajneKontraindikacije property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getOdlukaKomisijeZaTrajneKontraindikacije() {
 				return odlukaKomisijeZaTrajneKontraindikacije;
@@ -968,9 +961,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the odlukaKomisijeZaTrajneKontraindikacije property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setOdlukaKomisijeZaTrajneKontraindikacije(String value) {
 				this.odlukaKomisijeZaTrajneKontraindikacije = value;
@@ -979,11 +972,11 @@ public class Saglasnost {
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;complexContent&gt;
@@ -996,8 +989,8 @@ public class Saglasnost {
 			 *   &lt;/complexContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "datumUtvrdjivanja", "dijagnoza" })
@@ -1011,10 +1004,10 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the datumUtvrdjivanja property.
-				 * 
+				 *
 				 * @return possible object is {@link JAXBElement
 				 *         }{@code <}{@link XMLGregorianCalendar }{@code >}
-				 * 
+				 *
 				 */
 				public XMLGregorianCalendar getDatumUtvrdjivanja() {
 					return datumUtvrdjivanja;
@@ -1022,10 +1015,10 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the datumUtvrdjivanja property.
-				 * 
+				 *
 				 * @param gDateFormatted allowed object is {@link JAXBElement
 				 *                       }{@code <}{@link XMLGregorianCalendar }{@code >}
-				 * 
+				 *
 				 */
 				public void setDatumUtvrdjivanja(XMLGregorianCalendar gDateFormatted) {
 					this.datumUtvrdjivanja = gDateFormatted;
@@ -1033,9 +1026,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the dijagnoza property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getDijagnoza() {
 					return dijagnoza;
@@ -1043,9 +1036,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the dijagnoza property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setDijagnoza(String value) {
 					this.dijagnoza = value;
@@ -1056,11 +1049,11 @@ public class Saglasnost {
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;complexContent&gt;
@@ -1108,8 +1101,8 @@ public class Saglasnost {
 			 *   &lt;/complexContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "naziv", "datumDavanja", "nacinDavanja", "ekstremiter", "serija",
@@ -1136,9 +1129,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the naziv property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getNaziv() {
 					return naziv;
@@ -1146,9 +1139,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the naziv property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setNaziv(String value) {
 					this.naziv = value;
@@ -1156,9 +1149,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the datumDavanja property.
-				 * 
+				 *
 				 * @return possible object is {@link XMLGregorianCalendar }
-				 * 
+				 *
 				 */
 				public XMLGregorianCalendar getDatumDavanja() {
 					return datumDavanja;
@@ -1166,9 +1159,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the datumDavanja property.
-				 * 
+				 *
 				 * @param value allowed object is {@link XMLGregorianCalendar }
-				 * 
+				 *
 				 */
 				public void setDatumDavanja(XMLGregorianCalendar value) {
 					this.datumDavanja = value;
@@ -1176,9 +1169,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the nacinDavanja property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getNacinDavanja() {
 					return nacinDavanja;
@@ -1186,9 +1179,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the nacinDavanja property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setNacinDavanja(String value) {
 					this.nacinDavanja = value;
@@ -1196,9 +1189,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the ekstremiter property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getEkstremiter() {
 					return ekstremiter;
@@ -1206,9 +1199,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the ekstremiter property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setEkstremiter(String value) {
 					this.ekstremiter = value;
@@ -1216,9 +1209,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the serija property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getSerija() {
 					return serija;
@@ -1226,9 +1219,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the serija property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setSerija(String value) {
 					this.serija = value;
@@ -1236,9 +1229,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the proizvodjac property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getProizvodjac() {
 					return proizvodjac;
@@ -1246,9 +1239,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the proizvodjac property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setProizvodjac(String value) {
 					this.proizvodjac = value;
@@ -1256,9 +1249,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the nezeljenaReakcija property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getNezeljenaReakcija() {
 					return nezeljenaReakcija;
@@ -1266,9 +1259,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the nezeljenaReakcija property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setNezeljenaReakcija(String value) {
 					this.nezeljenaReakcija = value;
@@ -1276,9 +1269,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the doza property.
-				 * 
+				 *
 				 * @return possible object is {@link BigInteger }
-				 * 
+				 *
 				 */
 				public BigInteger getDoza() {
 					return doza;
@@ -1286,9 +1279,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the doza property.
-				 * 
+				 *
 				 * @param value allowed object is {@link BigInteger }
-				 * 
+				 *
 				 */
 				public void setDoza(BigInteger value) {
 					this.doza = value;
@@ -1303,11 +1296,11 @@ public class Saglasnost {
 	/**
 	 * <p>
 	 * Java class for anonymous complex type.
-	 * 
+	 *
 	 * <p>
 	 * The following schema fragment specifies the expected content contained within
 	 * this class.
-	 * 
+	 *
 	 * <pre>
 	 * &lt;complexType&gt;
 	 *   &lt;complexContent&gt;
@@ -1511,8 +1504,8 @@ public class Saglasnost {
 	 *   &lt;/complexContent&gt;
 	 * &lt;/complexType&gt;
 	 * </pre>
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	@XmlAccessorType(XmlAccessType.FIELD)
 	@XmlType(name = "", propOrder = { "drzavljaninSrbije", "straniDrzavljanin", "licniPodaci", "saglasnostPacijenta",
@@ -1520,125 +1513,125 @@ public class Saglasnost {
 	public static class Pacijent {
 
 		@XmlElement(name = "Drzavljanin_srbije")
-		protected Saglasnost.Pacijent.DrzavljaninSrbije drzavljaninSrbije;
+		protected DrzavljaninSrbije drzavljaninSrbije;
 		@XmlElement(name = "Strani_drzavljanin")
-		protected Saglasnost.Pacijent.StraniDrzavljanin straniDrzavljanin;
+		protected StraniDrzavljanin straniDrzavljanin;
 		@XmlElement(name = "Licni_podaci", required = true)
-		protected Saglasnost.Pacijent.LicniPodaci licniPodaci;
+		protected LicniPodaci licniPodaci;
 		@XmlElement(name = "Saglasnost_pacijenta", required = true)
-		protected Saglasnost.Pacijent.SaglasnostPacijenta saglasnostPacijenta;
+		protected SaglasnostPacijenta saglasnostPacijenta;
 		@XmlElement(name = "Datum", required = true)
-		protected Saglasnost.Pacijent.Datum datum;
+		protected Datum datum;
 
 		/**
 		 * Gets the value of the drzavljaninSrbije property.
-		 * 
-		 * @return possible object is {@link Saglasnost.Pacijent.DrzavljaninSrbije }
-		 * 
+		 *
+		 * @return possible object is {@link DrzavljaninSrbije }
+		 *
 		 */
-		public Saglasnost.Pacijent.DrzavljaninSrbije getDrzavljaninSrbije() {
+		public DrzavljaninSrbije getDrzavljaninSrbije() {
 			return drzavljaninSrbije;
 		}
 
 		/**
 		 * Sets the value of the drzavljaninSrbije property.
-		 * 
-		 * @param value allowed object is {@link Saglasnost.Pacijent.DrzavljaninSrbije }
-		 * 
+		 *
+		 * @param value allowed object is {@link DrzavljaninSrbije }
+		 *
 		 */
-		public void setDrzavljaninSrbije(Saglasnost.Pacijent.DrzavljaninSrbije value) {
+		public void setDrzavljaninSrbije(DrzavljaninSrbije value) {
 			this.drzavljaninSrbije = value;
 		}
 
 		/**
 		 * Gets the value of the straniDrzavljanin property.
-		 * 
-		 * @return possible object is {@link Saglasnost.Pacijent.StraniDrzavljanin }
-		 * 
+		 *
+		 * @return possible object is {@link StraniDrzavljanin }
+		 *
 		 */
-		public Saglasnost.Pacijent.StraniDrzavljanin getStraniDrzavljanin() {
+		public StraniDrzavljanin getStraniDrzavljanin() {
 			return straniDrzavljanin;
 		}
 
 		/**
 		 * Sets the value of the straniDrzavljanin property.
-		 * 
-		 * @param value allowed object is {@link Saglasnost.Pacijent.StraniDrzavljanin }
-		 * 
+		 *
+		 * @param value allowed object is {@link StraniDrzavljanin }
+		 *
 		 */
-		public void setStraniDrzavljanin(Saglasnost.Pacijent.StraniDrzavljanin value) {
+		public void setStraniDrzavljanin(StraniDrzavljanin value) {
 			this.straniDrzavljanin = value;
 		}
 
 		/**
 		 * Gets the value of the licniPodaci property.
-		 * 
-		 * @return possible object is {@link Saglasnost.Pacijent.LicniPodaci }
-		 * 
+		 *
+		 * @return possible object is {@link LicniPodaci }
+		 *
 		 */
-		public Saglasnost.Pacijent.LicniPodaci getLicniPodaci() {
+		public LicniPodaci getLicniPodaci() {
 			return licniPodaci;
 		}
 
 		/**
 		 * Sets the value of the licniPodaci property.
-		 * 
-		 * @param value allowed object is {@link Saglasnost.Pacijent.LicniPodaci }
-		 * 
+		 *
+		 * @param value allowed object is {@link LicniPodaci }
+		 *
 		 */
-		public void setLicniPodaci(Saglasnost.Pacijent.LicniPodaci value) {
+		public void setLicniPodaci(LicniPodaci value) {
 			this.licniPodaci = value;
 		}
 
 		/**
 		 * Gets the value of the saglasnostPacijenta property.
-		 * 
-		 * @return possible object is {@link Saglasnost.Pacijent.SaglasnostPacijenta }
-		 * 
+		 *
+		 * @return possible object is {@link SaglasnostPacijenta }
+		 *
 		 */
-		public Saglasnost.Pacijent.SaglasnostPacijenta getSaglasnostPacijenta() {
+		public SaglasnostPacijenta getSaglasnostPacijenta() {
 			return saglasnostPacijenta;
 		}
 
 		/**
 		 * Sets the value of the saglasnostPacijenta property.
-		 * 
+		 *
 		 * @param value allowed object is
-		 *              {@link Saglasnost.Pacijent.SaglasnostPacijenta }
-		 * 
+		 *              {@link SaglasnostPacijenta }
+		 *
 		 */
-		public void setSaglasnostPacijenta(Saglasnost.Pacijent.SaglasnostPacijenta value) {
+		public void setSaglasnostPacijenta(SaglasnostPacijenta value) {
 			this.saglasnostPacijenta = value;
 		}
 
 		/**
 		 * Gets the value of the datum property.
-		 * 
-		 * @return possible object is {@link Saglasnost.Pacijent.Datum }
-		 * 
+		 *
+		 * @return possible object is {@link Datum }
+		 *
 		 */
-		public Saglasnost.Pacijent.Datum getDatum() {
+		public Datum getDatum() {
 			return datum;
 		}
 
 		/**
 		 * Sets the value of the datum property.
-		 * 
-		 * @param value allowed object is {@link Saglasnost.Pacijent.Datum }
-		 * 
+		 *
+		 * @param value allowed object is {@link Datum }
+		 *
 		 */
-		public void setDatum(Saglasnost.Pacijent.Datum value) {
+		public void setDatum(Datum value) {
 			this.datum = value;
 		}
 
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;simpleContent&gt;
@@ -1648,8 +1641,8 @@ public class Saglasnost {
 		 *   &lt;/simpleContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "value" })
@@ -1663,9 +1656,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the value property.
-			 * 
+			 *
 			 * @return possible object is {@link XMLGregorianCalendar }
-			 * 
+			 *
 			 */
 			public XMLGregorianCalendar getValue() {
 				return value;
@@ -1673,9 +1666,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the value property.
-			 * 
+			 *
 			 * @param value allowed object is {@link XMLGregorianCalendar }
-			 * 
+			 *
 			 */
 			public void setValue(XMLGregorianCalendar value) {
 				this.value = value;
@@ -1683,9 +1676,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the property property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getProperty() {
 				if (property == null) {
@@ -1697,9 +1690,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the property property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setProperty(String value) {
 				this.property = value;
@@ -1710,11 +1703,11 @@ public class Saglasnost {
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;complexContent&gt;
@@ -1734,46 +1727,46 @@ public class Saglasnost {
 		 *   &lt;/complexContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "jmbg" })
 		public static class DrzavljaninSrbije {
 
 			@XmlElement(name = "Jmbg", required = true)
-			protected Saglasnost.Pacijent.DrzavljaninSrbije.Jmbg jmbg;
+			protected Jmbg jmbg;
 
 			/**
 			 * Gets the value of the jmbg property.
-			 * 
+			 *
 			 * @return possible object is
-			 *         {@link Saglasnost.Pacijent.DrzavljaninSrbije.Jmbg }
-			 * 
+			 *         {@link Jmbg }
+			 *
 			 */
-			public Saglasnost.Pacijent.DrzavljaninSrbije.Jmbg getJmbg() {
+			public Jmbg getJmbg() {
 				return jmbg;
 			}
 
 			/**
 			 * Sets the value of the jmbg property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.Pacijent.DrzavljaninSrbije.Jmbg }
-			 * 
+			 *              {@link Jmbg }
+			 *
 			 */
-			public void setJmbg(Saglasnost.Pacijent.DrzavljaninSrbije.Jmbg value) {
+			public void setJmbg(Jmbg value) {
 				this.jmbg = value;
 			}
 
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;simpleContent&gt;
@@ -1783,8 +1776,8 @@ public class Saglasnost {
 			 *   &lt;/simpleContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "value" })
@@ -1797,9 +1790,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the value property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getValue() {
 					return value;
@@ -1807,9 +1800,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the value property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setValue(String value) {
 					this.value = value;
@@ -1817,9 +1810,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the property property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getProperty() {
 					if (property == null) {
@@ -1831,9 +1824,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the property property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setProperty(String value) {
 					this.property = value;
@@ -1846,11 +1839,11 @@ public class Saglasnost {
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;complexContent&gt;
@@ -1976,8 +1969,8 @@ public class Saglasnost {
 		 *   &lt;/complexContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "prezime", "ime", "imeRoditelja", "pol", "datumRodjenja", "mestoRodjenja",
@@ -1985,9 +1978,9 @@ public class Saglasnost {
 		public static class LicniPodaci {
 
 			@XmlElement(name = "Prezime", required = true)
-			protected Saglasnost.Pacijent.LicniPodaci.Prezime prezime;
+			protected Prezime prezime;
 			@XmlElement(name = "Ime", required = true)
-			protected Saglasnost.Pacijent.LicniPodaci.Ime ime;
+			protected Ime ime;
 			@XmlElement(name = "Ime_roditelja", required = true)
 			protected String imeRoditelja;
 			@XmlElement(name = "Pol", required = true)
@@ -1998,62 +1991,62 @@ public class Saglasnost {
 			@XmlElement(name = "Mesto_rodjenja", required = true)
 			protected String mestoRodjenja;
 			@XmlElement(name = "Adresa", required = true)
-			protected Saglasnost.Pacijent.LicniPodaci.Adresa adresa;
+			protected Adresa adresa;
 			@XmlElement(name = "Kontakt_informacije", required = true)
-			protected Saglasnost.Pacijent.LicniPodaci.KontaktInformacije kontaktInformacije;
+			protected KontaktInformacije kontaktInformacije;
 			@XmlElement(name = "Radni_status", required = true)
 			protected String radniStatus;
 			@XmlElement(name = "Zanimanje_zaposlenog", required = true, nillable = true)
 			protected String zanimanjeZaposlenog;
 			@XmlElement(name = "Socijalna_zastita", required = true)
-			protected Saglasnost.Pacijent.LicniPodaci.SocijalnaZastita socijalnaZastita;
+			protected SocijalnaZastita socijalnaZastita;
 
 			/**
 			 * Gets the value of the prezime property.
-			 * 
-			 * @return possible object is {@link Saglasnost.Pacijent.LicniPodaci.Prezime }
-			 * 
+			 *
+			 * @return possible object is {@link Prezime }
+			 *
 			 */
-			public Saglasnost.Pacijent.LicniPodaci.Prezime getPrezime() {
+			public Prezime getPrezime() {
 				return prezime;
 			}
 
 			/**
 			 * Sets the value of the prezime property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.Pacijent.LicniPodaci.Prezime }
-			 * 
+			 *              {@link Prezime }
+			 *
 			 */
-			public void setPrezime(Saglasnost.Pacijent.LicniPodaci.Prezime value) {
+			public void setPrezime(Prezime value) {
 				this.prezime = value;
 			}
 
 			/**
 			 * Gets the value of the ime property.
-			 * 
-			 * @return possible object is {@link Saglasnost.Pacijent.LicniPodaci.Ime }
-			 * 
+			 *
+			 * @return possible object is {@link Ime }
+			 *
 			 */
-			public Saglasnost.Pacijent.LicniPodaci.Ime getIme() {
+			public Ime getIme() {
 				return ime;
 			}
 
 			/**
 			 * Sets the value of the ime property.
-			 * 
-			 * @param value allowed object is {@link Saglasnost.Pacijent.LicniPodaci.Ime }
-			 * 
+			 *
+			 * @param value allowed object is {@link Ime }
+			 *
 			 */
-			public void setIme(Saglasnost.Pacijent.LicniPodaci.Ime value) {
+			public void setIme(Ime value) {
 				this.ime = value;
 			}
 
 			/**
 			 * Gets the value of the imeRoditelja property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getImeRoditelja() {
 				return imeRoditelja;
@@ -2061,9 +2054,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the imeRoditelja property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setImeRoditelja(String value) {
 				this.imeRoditelja = value;
@@ -2071,9 +2064,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the pol property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getPol() {
 				return pol;
@@ -2081,9 +2074,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the pol property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setPol(String value) {
 				this.pol = value;
@@ -2091,9 +2084,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the datumRodjenja property.
-			 * 
+			 *
 			 * @return possible object is {@link XMLGregorianCalendar }
-			 * 
+			 *
 			 */
 			public XMLGregorianCalendar getDatumRodjenja() {
 				return datumRodjenja;
@@ -2101,9 +2094,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the datumRodjenja property.
-			 * 
+			 *
 			 * @param value allowed object is {@link XMLGregorianCalendar }
-			 * 
+			 *
 			 */
 			public void setDatumRodjenja(XMLGregorianCalendar value) {
 				this.datumRodjenja = value;
@@ -2111,9 +2104,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the mestoRodjenja property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getMestoRodjenja() {
 				return mestoRodjenja;
@@ -2121,9 +2114,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the mestoRodjenja property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setMestoRodjenja(String value) {
 				this.mestoRodjenja = value;
@@ -2131,52 +2124,52 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the adresa property.
-			 * 
-			 * @return possible object is {@link Saglasnost.Pacijent.LicniPodaci.Adresa }
-			 * 
+			 *
+			 * @return possible object is {@link Adresa }
+			 *
 			 */
-			public Saglasnost.Pacijent.LicniPodaci.Adresa getAdresa() {
+			public Adresa getAdresa() {
 				return adresa;
 			}
 
 			/**
 			 * Sets the value of the adresa property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.Pacijent.LicniPodaci.Adresa }
-			 * 
+			 *              {@link Adresa }
+			 *
 			 */
-			public void setAdresa(Saglasnost.Pacijent.LicniPodaci.Adresa value) {
+			public void setAdresa(Adresa value) {
 				this.adresa = value;
 			}
 
 			/**
 			 * Gets the value of the kontaktInformacije property.
-			 * 
+			 *
 			 * @return possible object is
-			 *         {@link Saglasnost.Pacijent.LicniPodaci.KontaktInformacije }
-			 * 
+			 *         {@link KontaktInformacije }
+			 *
 			 */
-			public Saglasnost.Pacijent.LicniPodaci.KontaktInformacije getKontaktInformacije() {
+			public KontaktInformacije getKontaktInformacije() {
 				return kontaktInformacije;
 			}
 
 			/**
 			 * Sets the value of the kontaktInformacije property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.Pacijent.LicniPodaci.KontaktInformacije }
-			 * 
+			 *              {@link KontaktInformacije }
+			 *
 			 */
-			public void setKontaktInformacije(Saglasnost.Pacijent.LicniPodaci.KontaktInformacije value) {
+			public void setKontaktInformacije(KontaktInformacije value) {
 				this.kontaktInformacije = value;
 			}
 
 			/**
 			 * Gets the value of the radniStatus property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getRadniStatus() {
 				return radniStatus;
@@ -2184,9 +2177,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the radniStatus property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setRadniStatus(String value) {
 				this.radniStatus = value;
@@ -2194,9 +2187,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the zanimanjeZaposlenog property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getZanimanjeZaposlenog() {
 				return zanimanjeZaposlenog;
@@ -2204,9 +2197,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the zanimanjeZaposlenog property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setZanimanjeZaposlenog(String value) {
 				this.zanimanjeZaposlenog = value;
@@ -2214,34 +2207,34 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the socijalnaZastita property.
-			 * 
+			 *
 			 * @return possible object is
-			 *         {@link Saglasnost.Pacijent.LicniPodaci.SocijalnaZastita }
-			 * 
+			 *         {@link SocijalnaZastita }
+			 *
 			 */
-			public Saglasnost.Pacijent.LicniPodaci.SocijalnaZastita getSocijalnaZastita() {
+			public SocijalnaZastita getSocijalnaZastita() {
 				return socijalnaZastita;
 			}
 
 			/**
 			 * Sets the value of the socijalnaZastita property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.Pacijent.LicniPodaci.SocijalnaZastita }
-			 * 
+			 *              {@link SocijalnaZastita }
+			 *
 			 */
-			public void setSocijalnaZastita(Saglasnost.Pacijent.LicniPodaci.SocijalnaZastita value) {
+			public void setSocijalnaZastita(SocijalnaZastita value) {
 				this.socijalnaZastita = value;
 			}
 
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;complexContent&gt;
@@ -2256,8 +2249,8 @@ public class Saglasnost {
 			 *   &lt;/complexContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "ulica", "broj", "mesto", "grad" })
@@ -2274,9 +2267,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the ulica property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getUlica() {
 					return ulica;
@@ -2284,9 +2277,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the ulica property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setUlica(String value) {
 					this.ulica = value;
@@ -2294,9 +2287,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the broj property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getBroj() {
 					return broj;
@@ -2304,9 +2297,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the broj property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setBroj(String value) {
 					this.broj = value;
@@ -2314,9 +2307,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the mesto property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getMesto() {
 					return mesto;
@@ -2324,9 +2317,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the mesto property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setMesto(String value) {
 					this.mesto = value;
@@ -2334,9 +2327,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the grad property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getGrad() {
 					return grad;
@@ -2344,9 +2337,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the grad property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setGrad(String value) {
 					this.grad = value;
@@ -2357,11 +2350,11 @@ public class Saglasnost {
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;simpleContent&gt;
@@ -2371,8 +2364,8 @@ public class Saglasnost {
 			 *   &lt;/simpleContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "value" })
@@ -2385,9 +2378,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the value property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getValue() {
 					return value;
@@ -2395,9 +2388,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the value property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setValue(String value) {
 					this.value = value;
@@ -2405,9 +2398,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the property property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getProperty() {
 					if (property == null) {
@@ -2419,9 +2412,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the property property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setProperty(String value) {
 					this.property = value;
@@ -2432,11 +2425,11 @@ public class Saglasnost {
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;complexContent&gt;
@@ -2472,8 +2465,8 @@ public class Saglasnost {
 			 *   &lt;/complexContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "fiksniTelefon", "mobilniTelefon", "email" })
@@ -2484,13 +2477,13 @@ public class Saglasnost {
 				@XmlElement(name = "Mobilni_telefon", required = true)
 				protected String mobilniTelefon;
 				@XmlElement(name = "Email", required = true)
-				protected Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email email;
+				protected Email email;
 
 				/**
 				 * Gets the value of the fiksniTelefon property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getFiksniTelefon() {
 					return fiksniTelefon;
@@ -2498,9 +2491,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the fiksniTelefon property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setFiksniTelefon(String value) {
 					this.fiksniTelefon = value;
@@ -2508,9 +2501,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the mobilniTelefon property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getMobilniTelefon() {
 					return mobilniTelefon;
@@ -2518,9 +2511,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the mobilniTelefon property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setMobilniTelefon(String value) {
 					this.mobilniTelefon = value;
@@ -2528,34 +2521,34 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the email property.
-				 * 
+				 *
 				 * @return possible object is
-				 *         {@link Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email }
-				 * 
+				 *         {@link Email }
+				 *
 				 */
-				public Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email getEmail() {
+				public Email getEmail() {
 					return email;
 				}
 
 				/**
 				 * Sets the value of the email property.
-				 * 
+				 *
 				 * @param value allowed object is
-				 *              {@link Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email }
-				 * 
+				 *              {@link Email }
+				 *
 				 */
-				public void setEmail(Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email value) {
+				public void setEmail(Email value) {
 					this.email = value;
 				}
 
 				/**
 				 * <p>
 				 * Java class for anonymous complex type.
-				 * 
+				 *
 				 * <p>
 				 * The following schema fragment specifies the expected content contained within
 				 * this class.
-				 * 
+				 *
 				 * <pre>
 				 * &lt;complexType&gt;
 				 *   &lt;simpleContent&gt;
@@ -2565,8 +2558,8 @@ public class Saglasnost {
 				 *   &lt;/simpleContent&gt;
 				 * &lt;/complexType&gt;
 				 * </pre>
-				 * 
-				 * 
+				 *
+				 *
 				 */
 				@XmlAccessorType(XmlAccessType.FIELD)
 				@XmlType(name = "", propOrder = { "value" })
@@ -2579,9 +2572,9 @@ public class Saglasnost {
 
 					/**
 					 * Gets the value of the value property.
-					 * 
+					 *
 					 * @return possible object is {@link String }
-					 * 
+					 *
 					 */
 					public String getValue() {
 						return value;
@@ -2589,9 +2582,9 @@ public class Saglasnost {
 
 					/**
 					 * Sets the value of the value property.
-					 * 
+					 *
 					 * @param value allowed object is {@link String }
-					 * 
+					 *
 					 */
 					public void setValue(String value) {
 						this.value = value;
@@ -2599,9 +2592,9 @@ public class Saglasnost {
 
 					/**
 					 * Gets the value of the property property.
-					 * 
+					 *
 					 * @return possible object is {@link String }
-					 * 
+					 *
 					 */
 					public String getProperty() {
 						if (property == null) {
@@ -2613,9 +2606,9 @@ public class Saglasnost {
 
 					/**
 					 * Sets the value of the property property.
-					 * 
+					 *
 					 * @param value allowed object is {@link String }
-					 * 
+					 *
 					 */
 					public void setProperty(String value) {
 						this.property = value;
@@ -2628,11 +2621,11 @@ public class Saglasnost {
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;simpleContent&gt;
@@ -2642,8 +2635,8 @@ public class Saglasnost {
 			 *   &lt;/simpleContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "value" })
@@ -2656,9 +2649,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the value property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getValue() {
 					return value;
@@ -2666,9 +2659,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the value property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setValue(String value) {
 					this.value = value;
@@ -2676,9 +2669,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the property property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getProperty() {
 					if (property == null) {
@@ -2690,9 +2683,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the property property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setProperty(String value) {
 					this.property = value;
@@ -2703,11 +2696,11 @@ public class Saglasnost {
 			/**
 			 * <p>
 			 * Java class for anonymous complex type.
-			 * 
+			 *
 			 * <p>
 			 * The following schema fragment specifies the expected content contained within
 			 * this class.
-			 * 
+			 *
 			 * <pre>
 			 * &lt;complexType&gt;
 			 *   &lt;complexContent&gt;
@@ -2721,8 +2714,8 @@ public class Saglasnost {
 			 *   &lt;/complexContent&gt;
 			 * &lt;/complexType&gt;
 			 * </pre>
-			 * 
-			 * 
+			 *
+			 *
 			 */
 			@XmlAccessorType(XmlAccessType.FIELD)
 			@XmlType(name = "", propOrder = { "nazivSedista", "opstinaSedista" })
@@ -2737,9 +2730,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the nazivSedista property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getNazivSedista() {
 					return nazivSedista;
@@ -2747,9 +2740,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the nazivSedista property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setNazivSedista(String value) {
 					this.nazivSedista = value;
@@ -2757,9 +2750,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the opstinaSedista property.
-				 * 
+				 *
 				 * @return possible object is {@link String }
-				 * 
+				 *
 				 */
 				public String getOpstinaSedista() {
 					return opstinaSedista;
@@ -2767,9 +2760,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the opstinaSedista property.
-				 * 
+				 *
 				 * @param value allowed object is {@link String }
-				 * 
+				 *
 				 */
 				public void setOpstinaSedista(String value) {
 					this.opstinaSedista = value;
@@ -2777,9 +2770,9 @@ public class Saglasnost {
 
 				/**
 				 * Gets the value of the korisnik property.
-				 * 
+				 *
 				 * @return possible object is {@link Boolean }
-				 * 
+				 *
 				 */
 				public boolean isKorisnik() {
 					if (korisnik == null) {
@@ -2791,9 +2784,9 @@ public class Saglasnost {
 
 				/**
 				 * Sets the value of the korisnik property.
-				 * 
+				 *
 				 * @param value allowed object is {@link Boolean }
-				 * 
+				 *
 				 */
 				public void setKorisnik(Boolean value) {
 					this.korisnik = value;
@@ -2806,11 +2799,11 @@ public class Saglasnost {
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;complexContent&gt;
@@ -2829,8 +2822,8 @@ public class Saglasnost {
 		 *   &lt;/complexContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "nazivImunoloskogLekara" })
@@ -2843,9 +2836,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the nazivImunoloskogLekara property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getNazivImunoloskogLekara() {
 				return nazivImunoloskogLekara;
@@ -2853,9 +2846,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the nazivImunoloskogLekara property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setNazivImunoloskogLekara(String value) {
 				this.nazivImunoloskogLekara = value;
@@ -2863,9 +2856,9 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the saglasan property.
-			 * 
+			 *
 			 * @return possible object is {@link Boolean }
-			 * 
+			 *
 			 */
 			public boolean isSaglasan() {
 				if (saglasan == null) {
@@ -2877,9 +2870,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the saglasan property.
-			 * 
+			 *
 			 * @param value allowed object is {@link Boolean }
-			 * 
+			 *
 			 */
 			public void setSaglasan(Boolean value) {
 				this.saglasan = value;
@@ -2890,11 +2883,11 @@ public class Saglasnost {
 		/**
 		 * <p>
 		 * Java class for anonymous complex type.
-		 * 
+		 *
 		 * <p>
 		 * The following schema fragment specifies the expected content contained within
 		 * this class.
-		 * 
+		 *
 		 * <pre>
 		 * &lt;complexType&gt;
 		 *   &lt;complexContent&gt;
@@ -2915,8 +2908,8 @@ public class Saglasnost {
 		 *   &lt;/complexContent&gt;
 		 * &lt;/complexType&gt;
 		 * </pre>
-		 * 
-		 * 
+		 *
+		 *
 		 */
 		@XmlAccessorType(XmlAccessType.FIELD)
 		@XmlType(name = "", propOrder = { "drzavljanstvo", "identifikacija" })
@@ -2925,13 +2918,13 @@ public class Saglasnost {
 			@XmlElement(name = "Drzavljanstvo", required = true)
 			protected String drzavljanstvo;
 			@XmlElement(name = "Identifikacija", required = true)
-			protected Saglasnost.Pacijent.StraniDrzavljanin.Identifikacija identifikacija;
+			protected Identifikacija identifikacija;
 
 			/**
 			 * Gets the value of the drzavljanstvo property.
-			 * 
+			 *
 			 * @return possible object is {@link String }
-			 * 
+			 *
 			 */
 			public String getDrzavljanstvo() {
 				return drzavljanstvo;
@@ -2939,9 +2932,9 @@ public class Saglasnost {
 
 			/**
 			 * Sets the value of the drzavljanstvo property.
-			 * 
+			 *
 			 * @param value allowed object is {@link String }
-			 * 
+			 *
 			 */
 			public void setDrzavljanstvo(String value) {
 				this.drzavljanstvo = value;
@@ -2949,23 +2942,23 @@ public class Saglasnost {
 
 			/**
 			 * Gets the value of the identifikacija property.
-			 * 
+			 *
 			 * @return possible object is
-			 *         {@link Saglasnost.Pacijent.StraniDrzavljanin.Identifikacija }
-			 * 
+			 *         {@link Identifikacija }
+			 *
 			 */
-			public Saglasnost.Pacijent.StraniDrzavljanin.Identifikacija getIdentifikacija() {
+			public Identifikacija getIdentifikacija() {
 				return identifikacija;
 			}
 
 			/**
 			 * Sets the value of the identifikacija property.
-			 * 
+			 *
 			 * @param value allowed object is
-			 *              {@link Saglasnost.Pacijent.StraniDrzavljanin.Identifikacija }
-			 * 
+			 *              {@link Identifikacija }
+			 *
 			 */
-			public void setIdentifikacija(Saglasnost.Pacijent.StraniDrzavljanin.Identifikacija value) {
+			public void setIdentifikacija(Identifikacija value) {
 				this.identifikacija = value;
 			}
 

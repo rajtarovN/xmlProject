@@ -3,7 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.DBManager;
@@ -39,6 +41,9 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
     @Autowired
     private PotvrdaVakcinacijeRepository potvrdaVakcinacijeRepository;
+
+    @Autowired
+    private SaglasnostService saglasnostService;
 
     @Autowired
     private DBManager dbManager;
@@ -214,4 +219,42 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         return finalString;
     }
 
+    public String allXmlByEmail(String email) throws Exception {
+        Saglasnost saglasnost = saglasnostService.pronadjiSaglasnostPoEmailu(email);
+        List<String> ids = new ArrayList<>();
+        List<PotvrdaOVakcinaciji> ret = new ArrayList<>();
+        if(saglasnost != null){
+            if(saglasnost.getPacijent().getStraniDrzavljanin() != null &&
+                    saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija() != null &&
+                    saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue() != null){
+                ids = potvrdaVakcinacijeRepository.pronadjiPoEbs(email);
+            }else{
+                ids = potvrdaVakcinacijeRepository.pronadjiPoJmbg(email);
+            }
+
+            if(!ids.isEmpty()){
+                for (String id: ids) {
+                    PotvrdaOVakcinaciji potvrdaOVakcinaciji = pronadjiPoId(id);
+                    if(potvrdaOVakcinaciji != null){
+                        ret.add(potvrdaOVakcinaciji);
+                    }
+                }
+            }
+        }
+        ListaPotvrda listaPotvrda = new ListaPotvrda();
+        listaPotvrda.setPotvrde(ret);
+        JAXBContext context = JAXBContext.newInstance(ListaPotvrda.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        marshaller.marshal(listaPotvrda, stream);
+
+        return stream.toString();
+    }
+
+    public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+        return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
+    }
 }

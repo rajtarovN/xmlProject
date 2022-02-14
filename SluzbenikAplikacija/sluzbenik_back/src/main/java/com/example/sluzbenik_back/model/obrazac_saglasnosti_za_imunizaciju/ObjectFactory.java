@@ -6,7 +6,7 @@
 //
 
 
-package com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju; 
+package com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

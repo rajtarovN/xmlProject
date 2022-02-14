@@ -8,18 +8,11 @@ import com.example.demo.dto.SaglasnostDTO;
 import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.model.dostupne_vakcine.Zalihe;
 import com.example.demo.model.dostupne_vakcine.Zalihe.Vakcina;
-import com.example.demo.model.interesovanje.Interesovanje;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.Datum;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Ime;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.Prezime;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email;
 import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.XSLFORTransformer;
-
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +26,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -51,9 +39,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 
-import static com.example.demo.util.PathConstants.*;
+import static com.example.demo.util.PathConstants.SAGLASNOST_XSL_FO;
+import static com.example.demo.util.PathConstants.SAVE_PDF;
 
 @Service
 public class SaglasnostService extends AbstractService {
@@ -500,5 +488,45 @@ public class SaglasnostService extends AbstractService {
 	
 	public void deleteRDF(String documentId) throws IOException {
 		repository.deleteRDF(documentId, "/lista_saglasnosti", "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/");
+
+  }
+  
+	public String allXmlByEmail(String email) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException, DatatypeConfigurationException {
+		List<String> ids = new ArrayList<>();
+		try {
+			ids = this.saglasnostRepository.pronadjiPoEmailu(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		List<Saglasnost> onlyValid = new ArrayList<>();
+		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+		XMLGregorianCalendar currentDate = DatatypeFactory.newInstance()
+				.newXMLGregorianCalendar(ft.format(new Date()));
+
+		if(!ids.isEmpty()) {
+			for (String i : ids) {
+				Saglasnost z = this.pronadjiPoId(i);
+				XMLGregorianCalendar date = z.getPacijent().getDatum().getValue();
+				if (!((z.getEvidencijaOVakcinaciji() == null || z.getEvidencijaOVakcinaciji().getVakcine() == null)
+						&& date.toGregorianCalendar().compareTo(currentDate.toGregorianCalendar()) < 0)) {
+					onlyValid.add(z);
+				}
+			}
+		}
+		ListaSaglasnosti saglasnosti = new ListaSaglasnosti();
+		saglasnosti.setSaglasnosti(onlyValid);
+		JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+		marshaller.marshal(saglasnosti, stream);
+
+		return stream.toString();
+	}
+
+	public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+		return this.saglasnostRepository.pronadjiPoId(documentId);
 	}
 }

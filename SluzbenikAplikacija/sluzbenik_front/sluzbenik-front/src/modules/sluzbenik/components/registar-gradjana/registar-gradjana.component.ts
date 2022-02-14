@@ -26,7 +26,8 @@ export class RegistarGradjanaComponent implements OnInit {
   showEvidenciju: boolean;
   showPotvrdu: boolean;
   selectedEmail: string;
-  selectedBrojSaglasnosti: string;
+  selectedTipDokumenta: string;
+  showPrikazDokumenata: boolean;
 
   displayedColumns: string[] = [
     'Email',
@@ -52,7 +53,8 @@ export class RegistarGradjanaComponent implements OnInit {
     this.showEvidenciju = false;
     this.showPotvrdu = false;
     this.selectedEmail = '';
-    this.selectedBrojSaglasnosti = '';
+    this.selectedTipDokumenta = '';
+    this.showPrikazDokumenata = false;
   }
 
   ngOnInit(): void {
@@ -85,7 +87,7 @@ export class RegistarGradjanaComponent implements OnInit {
 
   search() {
     this.searchString =
-      this.searchForm.value.search != null
+      this.searchForm.value.search != null && this.searchForm.value.search != ""
         ? this.searchForm.value.search
         : 'all';
     this.authService
@@ -127,9 +129,21 @@ export class RegistarGradjanaComponent implements OnInit {
     }
   }
 
-  openSaglasnosti(email: string){}
+  openSaglasnosti(email: string){
+    this.selectedEmail = email;
+    this.selectedTipDokumenta = "Saglasnosti";
+    this.showPrikazDokumenata = true;
+  }
 
-  openPotvrde(email: string){}
+  openPotvrde(email: string){
+    this.selectedEmail = email;
+    this.selectedTipDokumenta = "Potvrde";
+    this.showPrikazDokumenata = true;
+  }
 
-  openSertifikate(email: string){}
+  openSertifikate(email: string){
+    this.selectedEmail = email;
+    this.selectedTipDokumenta = "Sertifikati";
+    this.showPrikazDokumenata = true;
+  }
 }

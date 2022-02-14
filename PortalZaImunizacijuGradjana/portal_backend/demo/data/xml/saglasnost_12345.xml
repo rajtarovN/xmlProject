@@ -12,11 +12,11 @@
             <Jmbg property="pred:jmbg">1234567891234</Jmbg>
         </Drzavljanin_srbije>
         <Licni_podaci>
-            <Prezime property="pred:prezime">Peric</Prezime>
-            <Ime property="pred:ime">Pera</Ime>
+            <Prezime property="pred:prezime">Gradjanic</Prezime>
+            <Ime property="pred:ime">Gradjanin</Ime>
             <Ime_roditelja>Veselin</Ime_roditelja>
             <Pol>Muski</Pol>
-            <Datum_rodjenja>1999-01-01</Datum_rodjenja>
+            <Datum_rodjenja>2000-10-10</Datum_rodjenja>
             <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
             <Adresa>
                 <Ulica>Jevrejska</Ulica>
@@ -27,7 +27,7 @@
             <Kontakt_informacije>
                 <Fiksni_telefon>021 123 456</Fiksni_telefon>
                 <Mobilni_telefon>065 123 45 67</Mobilni_telefon>
-                <Email property="pred:email">email@gmail.com</Email>
+                <Email property="pred:email">gradjanin@maildrop.cc</Email>
             </Kontakt_informacije>
             <Radni_status>Zaposlen</Radni_status>
             <Zanimanje_zaposlenog xsi:nil="true"></Zanimanje_zaposlenog>
@@ -39,7 +39,7 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_termina">2022-02-12</Datum>
+        <Datum property="pred:datum_termina">2022-02-14</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
         <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
@@ -52,7 +52,7 @@
         <Vakcine>
             <Vakcina  Doza="1">
                 <Naziv>Pfizer-BioNTech</Naziv>
-                <Datum_davanja>2022-02-12</Datum_davanja>
+                <Datum_davanja>2022-02-14</Datum_davanja>
                 <Nacin_davanja>IM</Nacin_davanja>
                 <Ekstremiter>desna ruka</Ekstremiter>
                 <Serija>1</Serija>
@@ -60,7 +60,7 @@
                 <Nezeljena_reakcija></Nezeljena_reakcija>
             </Vakcina>
             <Privremene_kontraindikacije>
-                <Datum_utvrdjivanja>2022-02-12</Datum_utvrdjivanja>
+                <Datum_utvrdjivanja>2022-02-14</Datum_utvrdjivanja>
                 <Dijagnoza>Povisena temperatura</Dijagnoza>
             </Privremene_kontraindikacije>
             <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>

@@ -130,4 +130,9 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </mat-card>
- 
+ <app-prikaz-dokumenata
+  *ngIf="this.showPrikazDokumenata"
+  [email]="this.selectedEmail"
+  [tipDokumenta]="this.selectedTipDokumenta"
+  (onPrikazDokumenataClose)="this.showPrikazDokumenata = false"
+ ></app-prikaz-dokumenata>

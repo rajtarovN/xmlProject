@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { InventoryFormComponent } from './components/inventory-form/inventory-form.component';
 import { RegistarGradjanaComponent } from './components/registar-gradjana/registar-gradjana.component';
 import { ZahteviComponent } from './components/zahtevi/zahtevi.component';
+import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz-dokumenata.component';
 
 
 
@@ -20,7 +21,8 @@ import { ZahteviComponent } from './components/zahtevi/zahtevi.component';
     LogoutComponent,
     InventoryFormComponent,
     RegistarGradjanaComponent,
-    ZahteviComponent
+    ZahteviComponent,
+    PrikazDokumenataComponent
   ],
   imports: [
     CommonModule,
