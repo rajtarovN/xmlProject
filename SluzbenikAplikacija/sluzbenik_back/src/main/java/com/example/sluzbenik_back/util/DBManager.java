@@ -52,7 +52,7 @@ public class DBManager {
 				System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
 			} else {
 				System.out.println("[INFO] Showing the document as XML resource: ");
-				// System.out.println(res.getContent());
+				System.out.println(res.getContent());
 
 			}
 		} finally {

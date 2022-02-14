@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +18,10 @@ public class ZahtevController {
     @Autowired
     private ZahtevService zahtevService;
 
+    @PreAuthorize("hasRole('S')")
     @GetMapping(value = "/listaZahteva/{searchTerm}", produces = MediaType.APPLICATION_XML_VALUE )
     public ResponseEntity<?> getListaZahteva(@PathVariable("searchTerm") String searchTerm) {
-        if(searchTerm.equals("all")){
+        if(searchTerm.equals("all") || searchTerm.equals("")){
             searchTerm = null;
         }
         try{

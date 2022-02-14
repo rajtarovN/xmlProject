@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,7 +16,9 @@ public class InteresovanjeRepository extends RepositoryInterface{
 		ArrayList<String> params = new ArrayList<>();
 		params.add("\"" + email + "\"");
 
-		return this.fusekiManager.query("/lista_interesovanja", SPARQL_FILE + "interesovanje_email.rq", params).get(0);
+		List<String> result = this.fusekiManager.query("/lista_interesovanja", SPARQL_FILE + "interesovanje_email.rq", params);
+		if(result.size() > 0) return result.get(0);
+		return null;
 	}
 	
 }

@@ -41,6 +41,12 @@ public abstract class AbstractService {
 
 	}
 
+	public void deleteRDF(String documentId, String namedGraphUri, String predicate) throws Exception {
+
+		repository.deleteRDF(documentId, namedGraphUri, namedGraphUri);
+
+	}
+	
 	public XMLResource readXML(String documentId) {
 
 		XMLResource document = null;

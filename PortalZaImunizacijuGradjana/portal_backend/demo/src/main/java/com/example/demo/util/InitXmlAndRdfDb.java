@@ -32,7 +32,7 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
         try {
-            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_0101000000110_2020-01-01-04-04-00");
+            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_3216549877418_2022-01-01-04-04-00");
             for(String documentId : docIds){
                 String collectionId = "";
                 OutputStream os = new ByteArrayOutputStream();
@@ -199,7 +199,7 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901");
+        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_3216549877418_2022-01-01-04-04-00");
         for(String documentId : docIds) {
             String graphUri = "";
             if(documentId.contains("sag")){

@@ -74,7 +74,7 @@ public class KorisnikController {
 
     @GetMapping(value = "/listaKorisnika/{searchTerm}", produces = MediaType.APPLICATION_XML_VALUE )
     public ResponseEntity<?> getListaKorisnika(@PathVariable("searchTerm") String searchTerm) {
-        if(searchTerm.equals("all")){
+        if(searchTerm.equals("all") || searchTerm.equals("")){
             searchTerm = null;
         }
         try{

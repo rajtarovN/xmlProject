@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -66,5 +67,9 @@ public abstract class RepositoryInterface {
 	
 	public List<String> query(String graphUri, String sparqlFilePath, List<String> queryParams) throws Exception{
 		return fusekiManager.query(graphUri, sparqlFilePath, queryParams);
+	}
+	
+	public void deleteRDF(String documentId, String namedGraphUri, String predicate) throws IOException {
+		fusekiManager.deleteRDF(documentId, namedGraphUri, predicate);
 	}
 }
