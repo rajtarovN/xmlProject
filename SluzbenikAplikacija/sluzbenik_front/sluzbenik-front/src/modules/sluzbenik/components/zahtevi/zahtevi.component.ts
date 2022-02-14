@@ -91,7 +91,7 @@ export class ZahteviComponent implements OnInit {
 
   search() {
     this.searchString =
-      this.searchForm.value.search != null
+      this.searchForm.value.search != null && this.searchForm.value.search != ""
         ? this.searchForm.value.search
         : 'all';
     this.zahtevService

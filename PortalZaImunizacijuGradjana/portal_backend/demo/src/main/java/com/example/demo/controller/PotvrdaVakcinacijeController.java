@@ -12,9 +12,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.xmldb.api.base.XMLDBException;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -77,6 +81,16 @@ public class PotvrdaVakcinacijeController {
             ListaEvidentiranihVakcina evidentiraneVakcine = (ListaEvidentiranihVakcina) unmarshaller.unmarshal(inputStream);
             return new ResponseEntity<>(potvrdaVakcinacijeService.saveDoze(docId, evidentiraneVakcine),
                     HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/allXmlByEmail/{userEmail}")
+    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
+        try{
+            return new ResponseEntity<>(potvrdaVakcinacijeService.allXmlByEmail(userEmail), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

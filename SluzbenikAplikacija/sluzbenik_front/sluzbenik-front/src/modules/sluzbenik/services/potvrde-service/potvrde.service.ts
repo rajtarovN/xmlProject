@@ -7,15 +7,15 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class SaglasnostService {
+export class PotvrdeService {
   constructor(private http: HttpClient, private route: Router) {}
 
-  getXmlIdsByEmail(email: string): Observable<string> {
+  getXmlByEmail(email: string): Observable<string> {
     const headers = new HttpHeaders({
       Accept: 'application/xml',
     });
     return this.http.get(
-      `${environment.baseUrl}/${environment.getSaglasnosti}/${email}`,
+      `${environment.baseUrl}/${environment.getPotvrde}/${email}`,
       { headers: headers, responseType: 'text' }
     );
   }

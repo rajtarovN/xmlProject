@@ -100,7 +100,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
 
   search() {
     this.searchString =
-      this.searchForm.value.search != null
+      this.searchForm.value.search != null && this.searchForm.value.search != ""
         ? this.searchForm.value.search
         : 'all';
     this.saglasnostService

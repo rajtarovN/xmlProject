@@ -1,0 +1,8 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?potvrda_o_vakcinaciji FROM <%s>
+WHERE {
+    ?potvrda_o_vakcinaciji <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/jmbg> ?jmbg .
+    BIND(xs:string(%s) as ?searchedJmbg) .
+    BIND(xs:string(?jmbg) as ?presentJmbg) .
+    FILTER( ?searchedJmbg = ?presentJmbg )
+}
