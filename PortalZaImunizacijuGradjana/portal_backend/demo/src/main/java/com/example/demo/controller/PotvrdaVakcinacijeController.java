@@ -5,6 +5,7 @@ import com.example.demo.dto.PotvrdaVakcinacijeDTO;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.service.PotvrdaVakcinacijeService;
 import com.example.demo.service.SaglasnostService;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ import org.xmldb.api.modules.XMLResource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.io.FileInputStream;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,14 +91,49 @@ public class PotvrdaVakcinacijeController {
         }
     }
 
-    @GetMapping(path = "/allXmlByEmail/{userEmail}")
-    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
-        try{
-            return new ResponseEntity<>(potvrdaVakcinacijeService.allXmlByEmail(userEmail), HttpStatus.OK);
+
+    @GetMapping("/generatePDF/{id}")
+    public ResponseEntity<byte[]> generatePDF(@PathVariable("id") String id) {
+
+        String file_path = this.potvrdaVakcinacijeService.generatePDF(id);
+        System.out.println(file_path+" ovde je");
+        try {
+            File file = new File(file_path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+    }
+    @GetMapping(path = "/allXmlByEmail/{userEmail}")
+    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
+        try{
+            return new ResponseEntity<>(potvrdaVakcinacijeService.allXmlByEmail(userEmail), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+
+    }
+    @GetMapping("/generateHTML/{id}")
+    public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
+
+        try {
+            String file_path = this.potvrdaVakcinacijeService.generateHTML(id);
+            File file = new File(file_path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping(path = "/xml/{id}", produces = "application/xml")
@@ -107,5 +145,6 @@ public class PotvrdaVakcinacijeController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
     }
 }

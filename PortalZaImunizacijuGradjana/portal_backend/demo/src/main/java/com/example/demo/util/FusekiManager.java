@@ -24,6 +24,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FusekiManager {
+	
+	 /**
+     *
+     * @param rdfInputStream string rdf-a
+     * @param NAMED_GRAPH    lista_interesovanja/id, npr:
+     *                       lista_interesovanja/1234
+     */
 
     public void writeFuseki(InputStream rdfInputStream, String NAMED_GRAPH) throws IOException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
@@ -164,5 +171,37 @@ public class FusekiManager {
         System.out.println("[INFO] End.");
         return result;
     }
+    
+    public void deleteRDF(String documentId, String namedGraphUri, String predicate) throws IOException {
+    	 AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
+    	
+//		DELETE WHERE {
+//			  GRAPH <http://localhost:8080/fusekiPortal/PortalDB/data/lista_interesovanja> {
+//			    <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/11> ?p ?o 
+//			  }
+//			 }
+    	// /lista_interesovanja
+		String NAMED_GRAPH_URI = namedGraphUri;
+		
+		//  "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/123"
+		String sparqlCondition = predicate + documentId;
+		
+		Model model = ModelFactory.createDefaultModel();
+		
+		//  "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/"
+		model.setNsPrefix("pred", predicate);
+
+		
+		String sparqlUpdate = SparqlUtil.deleteNode(fusekiConn.dataEndpoint + NAMED_GRAPH_URI, sparqlCondition);
+
+		UpdateRequest update = UpdateFactory.create(sparqlUpdate);
+
+		UpdateProcessor processor = UpdateExecutionFactory.createRemote(update, fusekiConn.updateEndpoint);
+		processor.execute();
+
+		System.out.println("Deleted " + sparqlCondition);
+		model.close();
+	}
+    
 }
 

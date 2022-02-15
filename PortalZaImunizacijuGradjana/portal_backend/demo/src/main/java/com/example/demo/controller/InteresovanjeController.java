@@ -1,5 +1,13 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.UUID;
+
+import javax.websocket.server.PathParam;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +43,9 @@ public class InteresovanjeController {
 			XMLResource interesovanje = interesovanjeService.pronadjiInteresovanjePoEmailu(email);
 			//PrintInteresovanje.printInteresovanje(interesovanje);
 
-			return new ResponseEntity<>(interesovanje.getContent(), HttpStatus.CREATED);
+			if(interesovanje == null)
+				return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(interesovanje.getContent(), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -56,8 +66,40 @@ public class InteresovanjeController {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<String> deleteNotice(@PathVariable("id") String id) throws Exception {
-		interesovanjeService.deleteXML("interesovanje_" + id + ".xml");
-		return new ResponseEntity<>("OK", HttpStatus.OK);
+	public ResponseEntity<?> deleteInteresovanje(@PathVariable("id") String id) throws Exception {
+		interesovanjeService.deleteXML(id);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+
+	@GetMapping("/generatePDF/{id}")
+	public ResponseEntity<byte[]> generatePDF(@PathVariable("id") String id) {
+
+		String file_path = this.interesovanjeService.generatePDF(id);
+		System.out.println(file_path+" ovde je");
+		try {
+			File file = new File(file_path);
+			FileInputStream fileInputStream = new FileInputStream(file);
+			return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	@GetMapping("/generateHTML/{id}")
+	public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
+
+		try {
+			String file_path = this.interesovanjeService.generateHTML(id);
+			File file = new File(file_path);
+			FileInputStream fileInputStream = new FileInputStream(file);
+			return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 	}
 }

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,9 +18,11 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.example.demo.util.XSLFORTransformer;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import com.example.demo.client.DostupneVakcineClient;
@@ -35,6 +38,9 @@ import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Paci
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email;
 import com.example.demo.repository.InteresovanjeRepository;
+
+import static com.example.demo.util.PathConstants.*;
+import static com.example.demo.util.PathConstants.ZAHTEV_ZA_SERTIFIKAT_XSL;
 
 @Service
 public class InteresovanjeService extends AbstractService {
@@ -108,7 +114,7 @@ public class InteresovanjeService extends AbstractService {
 			// TODO send mail
 
 			com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
-			emailModel.setTo("rajtea6@gmail.com"); // TODO
+			emailModel.setTo("rajtea6@gmail.com");
 			emailModel.setContent(message);
 			emailModel.setSubject("Pozdrav");
 			emailClient.sendMail(emailModel);
@@ -138,7 +144,7 @@ public class InteresovanjeService extends AbstractService {
 
 			odabir = odabir.substring(0, odabir.length() - 1);
 			saglasnost.setOdabraneVakcine(odabir);
-			
+
 			saglasnost.getPacijent().setDatum(new Datum());
 			saglasnost.getPacijent().getDatum().setProperty("pred:datum_termina");
 			saglasnost.getPacijent().getDatum().setValue(dateFormatted);
@@ -176,7 +182,7 @@ public class InteresovanjeService extends AbstractService {
 			saglasnostService.saveXML("saglasnost_" + id, os.toString());
 			System.out.println(os.toString());
 			saglasnostService.saveRDF(os.toString(), "/saglasnost");
-			
+
 			// Azuriraj zalihe
 			this.dostupneVakcineClient.updateVakcine(zalihe);
 		}
@@ -186,7 +192,13 @@ public class InteresovanjeService extends AbstractService {
 
 	@Override
 	public void deleteXML(String documentId) throws Exception {
-		// Delete interesovanje
+
+		// Delete interesovanje RDF
+		repository.deleteRDF(documentId, "/lista_interesovanja",
+				"http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/");
+
+		// Delete XML
+		documentId = "interesovanje_" + documentId + ".xml";
 
 		XMLResource res = repository.readXML(documentId, collectionId);
 
@@ -199,16 +211,39 @@ public class InteresovanjeService extends AbstractService {
 			Interesovanje i = (Interesovanje) unmarshaller.unmarshal((res).getContentAsDOM());
 			String email = i.getLicneInformacije().getKontakt().getEmail().getValue();
 
-			System.out.println("EMAIL " + email);
 			// Find saglasnost by email
-			Saglasnost s = saglasnostService.pronadjiSaglasnostPoEmailu(email);
+			Saglasnost saglasnost = saglasnostService.pronadjiSaglasnostPoEmailu(email);
 
 			// If saglasnost exists delete it
-			if (s != null)
-				saglasnostService.deleteXML(s.getBrojSaglasnosti());
+			if (saglasnost != null) {
+				
+				// Azuriraj zalihe
+				Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
 
+				String[] temp = saglasnost.getOdabraneVakcine().split(",");
+				List<String> proizvodjaci = new ArrayList<>();
+				for(String t : temp) {
+					proizvodjaci.add(t);
+				}
+				
+				for (Vakcina zaliha : zalihe.getVakcina()) {
+
+					if (proizvodjaci.contains(zaliha.getNaziv())) {
+					
+						zaliha.setRezervisano(zaliha.getRezervisano() - 1);
+					}
+				}
+				
+				this.dostupneVakcineClient.updateVakcine(zalihe);
+				
+				// Delete saglasnost RDF and XML
+				this.saglasnostService.deleteRDF(saglasnost.getBrojSaglasnosti());
+				saglasnostService.deleteXML("saglasnost_" + saglasnost.getBrojSaglasnosti() + ".xml");
+			}
 			// Delete interesovanje
 			repository.deleteXML(documentId, collectionId);
+			
+			
 		}
 
 	}
@@ -230,6 +265,68 @@ public class InteresovanjeService extends AbstractService {
 				return null;
 			}
 		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public String generatePDF(String id) {
+		XSLFORTransformer transformer = null;
+
+		try {
+			transformer = new XSLFORTransformer();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		XMLResource xmlRes = this.readXML(id);
+		String doc_str = "";
+		try {
+			doc_str = xmlRes.getContent().toString();
+			System.out.println(doc_str);
+		} catch (XMLDBException e1) {
+			e1.printStackTrace();
+		}
+
+		boolean ok = false;
+		String pdf_path = SAVE_PDF + "interesovanje_" + id.split(".xml")[0] + ".pdf";
+
+		try {
+			ok = transformer.generatePDF(doc_str, pdf_path, INTERESOVANJE_XSL_FO);
+			if (ok)
+				return pdf_path;
+			else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String generateHTML(String id) throws XMLDBException {
+		XSLFORTransformer transformer = null;
+
+		try {
+			transformer = new XSLFORTransformer();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		XMLResource xmlRes = this.readXML(id);
+		String doc_str = xmlRes.getContent().toString();
+		boolean ok = false;
+		String html_path = SAVE_HTML + "interesovanje_" + id + ".html";
+		System.out.println(doc_str);
+
+		try {
+			ok = transformer.generateHTML(doc_str, html_path, INTERESOVANJE_XSL);
+			if (ok)
+				return html_path;
+			else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

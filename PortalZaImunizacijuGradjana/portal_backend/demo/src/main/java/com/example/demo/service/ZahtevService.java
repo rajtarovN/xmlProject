@@ -24,8 +24,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import static com.example.demo.util.PathConstants.SAVE_PDF;
 import static com.example.demo.util.PathConstants.ZAHTEV_XSL_FO;
+
+import static com.example.demo.util.PathConstants.*;
+
 
 @Service
 public class ZahtevService extends AbstractService {
@@ -95,6 +99,33 @@ public class ZahtevService extends AbstractService {
             ok = transformer.generatePDF(doc_str, pdf_path, ZAHTEV_XSL_FO);
             if (ok)
                 return pdf_path;
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String generateHTML(String id) throws XMLDBException {
+        XSLFORTransformer transformer = null;
+
+        try {
+            transformer = new XSLFORTransformer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        XMLResource xmlRes = this.readXML(id);
+        String doc_str = xmlRes.getContent().toString();
+        boolean ok = false;
+        String html_path = SAVE_HTML + "zahtev_" + id + ".html";
+        System.out.println(doc_str);
+
+        try {
+            ok = transformer.generateHTML(doc_str, html_path, ZAHTEV_ZA_SERTIFIKAT_XSL);
+            if (ok)
+                return html_path;
             else
                 return null;
         } catch (Exception e) {
