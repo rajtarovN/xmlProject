@@ -137,7 +137,22 @@ export class ZahteviComponent implements OnInit {
     this.currentZahtevId = brojZahteva;
   }
 
-  prihvatiZahtev(brojZahteva: string){}
+  prihvatiZahtev(brojZahteva: string){
+    this.zahtevService.odobriZahtev(brojZahteva,).subscribe(
+      (response) => {
+        this.toastr.success("Uspesno odobren zahtev za digitalni sertifikat!");
+        this.data.forEach((val, index)=>{
+          if(val.brojZahteva === brojZahteva){
+            this.data.splice(index, 1);
+          }
+        })
+        this.setData(this.data);
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
 
   openRazlog(razlog: string){
     this.currentRazlog = razlog;

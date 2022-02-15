@@ -32,4 +32,15 @@ export class ZahtevService {
         responseType: "text" }
     );
   }
+
+  odobriZahtev(idZahteva:string): Observable<string>{
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.odobriZahtev}/${idZahteva}`,
+      { headers: headers,
+        responseType: "text" }
+    );
+  }
 }

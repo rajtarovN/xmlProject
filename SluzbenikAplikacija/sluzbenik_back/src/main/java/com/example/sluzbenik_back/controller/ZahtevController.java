@@ -44,4 +44,15 @@ public class ZahtevController {
             return new ResponseEntity<>("Error pri odbijanju zahteva.", HttpStatus.NOT_FOUND);
         }
     }
+
+    @PreAuthorize("hasRole('S')")
+    @GetMapping(value = "/odobriZahtev/{idZahteva}", produces = MediaType.APPLICATION_XML_VALUE )
+    public ResponseEntity<?> odobriZahtev(@PathVariable("idZahteva") String idZahteva) {
+        try{
+            return new ResponseEntity<>(zahtevService.odobriZahtev(idZahteva), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error pri odobravanju zahteva.", HttpStatus.NOT_FOUND);
+        }
+    }
 }

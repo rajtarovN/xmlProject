@@ -44,6 +44,9 @@ public class ZahtevService extends AbstractService {
     private KorisnikService korisnikService;
 
     @Autowired
+    private DigitalniSertifikatService digitalniSertifikatService;
+
+    @Autowired
     public ZahtevService(ZahtevRepository zahtevRepository) {
 
         super(zahtevRepository, "/db/portal/lista_zahteva", "/lista_zahteva");
@@ -183,20 +186,11 @@ public class ZahtevService extends AbstractService {
         return ids;
     }
 
-    public String odbijZahtev(String documentId, String razlog) throws Exception {
+    public String odbijZahtev(String documentId, String razlog){
         try {
-            ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = pronadjiPoId(documentId);
-            ZahtevZaZeleniSertifikat.Status status = new ZahtevZaZeleniSertifikat.Status();
-            status.setValue("odbijen");
-            status.setProperty("pred:status");
-            zahtevZaZeleniSertifikat.setStatus(status);
-            JAXBContext context = JAXBContext.newInstance(ZahtevZaZeleniSertifikat.class);
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            marshaller.marshal(zahtevZaZeleniSertifikat, stream);
+            ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odbijen");
 
-            String finalString = stream.toString();
+            String finalString = marshal(zahtevZaZeleniSertifikat);
             System.out.println(finalString);
 
             repository.saveXML("zahtev_"+documentId, collectionId, finalString);
@@ -209,9 +203,7 @@ public class ZahtevService extends AbstractService {
             com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
             Date date = zahtevZaZeleniSertifikat.getPodnosilacZahteva().getDatumRodjenja().toGregorianCalendar().getTime();
-            String email = korisnikService.pronadjiEmail(zahtevZaZeleniSertifikat.getPodnosilacZahteva().getIme().getValue(),
-                    zahtevZaZeleniSertifikat.getPodnosilacZahteva().getPrezime().getValue(),
-                    ft.format(date));
+            String email = zahtevZaZeleniSertifikat.getEmail();
             emailModel.setTo(email);
             emailModel.setContent(message);
             emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
@@ -222,6 +214,60 @@ public class ZahtevService extends AbstractService {
             e.printStackTrace();
             throw new BadRequestException("Error pri odbijanju zahteva za digitalni sertifikat.");
         }
+    }
+
+    public String odobriZahtev(String documentId){
+        try {
+            ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odobren");
+
+            String finalString = marshal(zahtevZaZeleniSertifikat);
+            System.out.println(finalString);
+
+            repository.saveXML("zahtev_"+documentId, collectionId, finalString);
+            repository.deleteRDF(documentId, "/lista_zahteva",
+                    "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
+            zahtevRepository.saveRDF(finalString, "/lista_zahteva");
+
+            String idSertifikata = digitalniSertifikatService.saveSertifikat(zahtevZaZeleniSertifikat);
+
+            String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odobren. \n";
+
+            com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = zahtevZaZeleniSertifikat.getPodnosilacZahteva().getDatumRodjenja().toGregorianCalendar().getTime();
+            String email = zahtevZaZeleniSertifikat.getEmail();
+            emailModel.setTo(email);
+            emailModel.setContent(message);
+            emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
+            //TODO send pdf and xhtml
+            //emailModel.setPdf();
+            //emailModel.setXhtml();
+            emailClient.sendMail(emailModel);
+
+            return "Uspesno odobren zahtev za digitalni sertifikat!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestException("Error pri odobravanju zahteva za digitalni sertifikat.");
+        }
+    }
+
+    public String marshal(ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat) throws Exception{
+        JAXBContext context = JAXBContext.newInstance(ZahtevZaZeleniSertifikat.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        marshaller.marshal(zahtevZaZeleniSertifikat, stream);
+
+        return stream.toString();
+    }
+
+    public ZahtevZaZeleniSertifikat setZahtevStatus(String documentId, String statuss) throws Exception{
+        ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = pronadjiPoId(documentId);
+        ZahtevZaZeleniSertifikat.Status status = new ZahtevZaZeleniSertifikat.Status();
+        status.setValue(statuss);
+        status.setProperty("pred:status");
+        zahtevZaZeleniSertifikat.setStatus(status);
+        return zahtevZaZeleniSertifikat;
     }
 
 }

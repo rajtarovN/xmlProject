@@ -23,7 +23,17 @@ import javax.xml.bind.annotation.*;
  *       &lt;sequence&gt;
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom}Podnosilac_zahteva"/&gt;
  *         &lt;element ref="{http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom}Zaglavlje"/&gt;
+ *         &lt;element name="Status"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:status" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
  *       &lt;/sequence&gt;
+ *       &lt;attribute name="about" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
@@ -45,18 +55,20 @@ public class ZahtevZaZeleniSertifikat {
     @XmlElement(name = "Zaglavlje", required = true)
     protected Zaglavlje zaglavlje;
     @XmlElement(name = "Status", required = true)
-    protected String status;
+    protected Status status;
     @XmlAttribute(name = "about")
     @XmlSchemaType(name = "anyURI")
     protected String about;
+    @XmlAttribute(name = "email")
+    protected String email;
 
     /**
      * Gets the value of the podnosilacZahteva property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link PodnosilacZahteva }
-     *     
+     *
      */
     public PodnosilacZahteva getPodnosilacZahteva() {
         return podnosilacZahteva;
@@ -64,11 +76,11 @@ public class ZahtevZaZeleniSertifikat {
 
     /**
      * Sets the value of the podnosilacZahteva property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link PodnosilacZahteva }
-     *     
+     *
      */
     public void setPodnosilacZahteva(PodnosilacZahteva value) {
         this.podnosilacZahteva = value;
@@ -76,11 +88,11 @@ public class ZahtevZaZeleniSertifikat {
 
     /**
      * Gets the value of the zaglavlje property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Zaglavlje }
-     *     
+     *
      */
     public Zaglavlje getZaglavlje() {
         return zaglavlje;
@@ -88,38 +100,14 @@ public class ZahtevZaZeleniSertifikat {
 
     /**
      * Sets the value of the zaglavlje property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Zaglavlje }
-     *     
+     *
      */
     public void setZaglavlje(Zaglavlje value) {
         this.zaglavlje = value;
-    }
-
-    /**
-     * Gets the value of the about property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAbout() {
-        return about;
-    }
-
-    /**
-     * Sets the value of the about property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAbout(String value) {
-        this.about = value;
     }
 
     /**
@@ -127,10 +115,10 @@ public class ZahtevZaZeleniSertifikat {
      *
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Status }
      *
      */
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -139,11 +127,142 @@ public class ZahtevZaZeleniSertifikat {
      *
      * @param value
      *     allowed object is
+     *     {@link Status }
+     *
+     */
+    public void setStatus(Status value) {
+        this.status = value;
+    }
+
+    /**
+     * Gets the value of the about property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getAbout() {
+        return about;
+    }
+
+    /**
+     * Sets the value of the about property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setAbout(String value) {
+        this.about = value;
+    }
+
+    /**
+     * Gets the value of the email property.
+     *
+     * @return
+     *     possible object is
      *     {@link String }
      *
      */
-    public void setStatus(String value) {
-        this.status = value;
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the value of the email property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setEmail(String value) {
+        this.email = value;
+    }
+
+
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:status" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class Status {
+
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:status";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
     }
 
 }

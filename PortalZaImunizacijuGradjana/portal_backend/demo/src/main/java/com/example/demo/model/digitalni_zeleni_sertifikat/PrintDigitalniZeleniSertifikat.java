@@ -9,7 +9,7 @@ public class PrintDigitalniZeleniSertifikat {
         System.out.println("Digitalni zeleni sertifikat: ");
         System.out.println("Podaci o sertifikatu: ");
         System.out.println("----->Broj sertifikata: " + digitalniZeleniSertifikat.getPodaciOSertifikatu().getBrojSertifikata().getValue());
-        System.out.println("----->Datum i vreme izdavanja: " + digitalniZeleniSertifikat.getPodaciOSertifikatu().getDatumIVremeIzdavanja().getValue());
+        System.out.println("----->Datum i vreme izdavanja: " + digitalniZeleniSertifikat.getPodaciOSertifikatu().getDatumIzdavanja().getValue());
         System.out.println("Podaci o osobi: ");
         System.out.println("----->Ime: " + digitalniZeleniSertifikat.getPodaciOOsobi().getIme().getValue());
         System.out.println("----->Prezime: " + digitalniZeleniSertifikat.getPodaciOOsobi().getPrezime().getValue());
@@ -30,10 +30,10 @@ public class PrintDigitalniZeleniSertifikat {
     public static void printPodaciOVakcinaciji(List<DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija> vakcinacijaList){
         for(DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija vakcinacija : vakcinacijaList){
             System.out.println("----->Tip: " + vakcinacija.getTip());
-            System.out.println("----->Proizvodjac: " + vakcinacija.getProizvodjac().getValue());
+            System.out.println("----->Proizvodjac: " + vakcinacija.getProizvodjac());
             System.out.println("----->Serija: " + vakcinacija.getSerija());
-            System.out.println("----->Datum: " + vakcinacija.getDatum().getValue());
-            System.out.println("----->Zdravstvena_ustanova: " + vakcinacija.getZdravstvenaUstanova().getValue());
+            System.out.println("----->Datum: " + vakcinacija.getDatumDavanja());
+            System.out.println("----->Zdravstvena_ustanova: " + vakcinacija.getZdravstvenaUstanova());
             System.out.println("-----------------------------");
         }
     }

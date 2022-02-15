@@ -9,7 +9,7 @@
     about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/8516543579">
     <Podaci_o_sertifikatu>
         <Broj_sertifikata property="pred:broj_sertifikata">8516543579</Broj_sertifikata>
-        <Datum_i_vreme_izdavanja property="pred:datum_izdavaja" >2021-11-11T12:11:00</Datum_i_vreme_izdavanja>
+        <Datum_izdavanja property="pred:datum_izdavaja" >2021-11-11T12:11:00</Datum_izdavanja>
     </Podaci_o_sertifikatu>
     <Podaci_o_osobi>
         <Ime property="pred:ime">Mika</Ime>
@@ -24,7 +24,7 @@
             <Tip>AstraZeneca</Tip>
             <Proizvodjac>AstraZeneca plc</Proizvodjac>
             <Serija>2</Serija>
-            <Datum>2021-10-11</Datum>
+            <Datum_davanja>2021-10-11</Datum_davanja>
             <Zdravstvena_ustanova>Dom Zdravlja, Novi
                 Sad</Zdravstvena_ustanova>
         </Vakcinacija>
@@ -32,7 +32,7 @@
             <Tip>AstraZeneca</Tip>
             <Proizvodjac>AstraZeneca plc</Proizvodjac>
             <Serija>2</Serija>
-            <Datum>2021-11-11</Datum>
+            <Datum_davanja>2021-11-11</Datum_davanja>
             <Zdravstvena_ustanova>Dom Zdravlja, Novi
                 Sad</Zdravstvena_ustanova>
         </Vakcinacija>

@@ -42,6 +42,14 @@ public class ZahtevClient {
         return txt;
     }
 
+    public String odobriZahtev(String idZahteva) throws Exception{
+        URL url = new URL(BASE_URL + "/zahtev/odobriZahtev/" + idZahteva );
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+        return txt;
+    }
+
     public static String getStringFromInputStream(InputStream in) throws Exception {
         return new String(IOUtils.toByteArray(in), URL_ENCODING);
     }
