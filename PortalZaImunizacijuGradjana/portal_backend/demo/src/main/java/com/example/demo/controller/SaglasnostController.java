@@ -2,9 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
+import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
 import com.example.demo.service.SaglasnostService;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +129,7 @@ public class SaglasnostController {
 	public ResponseEntity<?> getXMLByEmail(@PathVariable String email) {
 		try {
 			String saglasnost = saglasnostService.pronadjiZadnjuSaglasnost(email);
-			if(saglasnost == null)
+			if (saglasnost == null)
 				return new ResponseEntity<>(saglasnost, HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(saglasnost, HttpStatus.CREATED);
 		} catch (Exception e) {
@@ -137,7 +139,8 @@ public class SaglasnostController {
 	}
 
 	@PostMapping(value = "/saveSaglasnost/{documentId}/{vakcine}", consumes = "application/xml")
-	public ResponseEntity<?> saveXML(@RequestBody String content, @PathVariable String documentId, @PathVariable String vakcine) {
+	public ResponseEntity<?> saveXML(@RequestBody String content, @PathVariable String documentId,
+			@PathVariable String vakcine) {
 		try {
 			System.out.println(content);
 			saglasnostService.saveXML(documentId, content, vakcine);
@@ -149,22 +152,22 @@ public class SaglasnostController {
 		}
 	}
 
+	@GetMapping("/generateHTML/{id}")
+	public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
 
-    @GetMapping("/generateHTML/{id}")
-    public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
+		try {
+			String file_path = this.saglasnostService.generateHTML(id);
+			File file = new File(file_path);
+			FileInputStream fileInputStream = new FileInputStream(file);
+			return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
 
-        try {
-            String file_path = this.saglasnostService.generateHTML(id);
-            File file = new File(file_path);
-            FileInputStream fileInputStream = new FileInputStream(file);
-            return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+	}
 
-    }
 	@GetMapping(path = "/xml/{id}", produces = "application/xml")
 	public ResponseEntity<String> getXML(@PathVariable("id") String id) {
 
@@ -177,14 +180,24 @@ public class SaglasnostController {
 	}
 
 	@GetMapping(path = "/allXmlByEmail/{userEmail}")
-	public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
-		try{
+	public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail) {
+		try {
 			return new ResponseEntity<>(saglasnostService.allXmlByEmail(userEmail), HttpStatus.OK);
-		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException |
-				DatatypeConfigurationException | XMLDBException | JAXBException | IOException e) {
+		} catch (IllegalAccessException | InstantiationException | ClassNotFoundException
+				| DatatypeConfigurationException | XMLDBException | JAXBException | IOException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
+	@GetMapping(value = "/getAll")
+	public ResponseEntity<?> getAllZahtevi() {
+		IdentificationDTO dto = new IdentificationDTO();
+		try {
+			dto.setSaglasnost(saglasnostService.getAllSaglasnosti());
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

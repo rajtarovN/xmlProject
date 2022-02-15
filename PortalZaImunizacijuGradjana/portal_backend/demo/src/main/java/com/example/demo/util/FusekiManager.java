@@ -209,5 +209,44 @@ public class FusekiManager {
 		model.close();
 	}
     
+    public List<String> readAllDocuments(String uri) throws IOException {
+		AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
+
+		// Querying the first named graph with a simple SPARQL query
+        System.out.println("[INFO] Selecting the triples from the named graph \"" + uri + "\".");
+        String sparqlQuery = SparqlUtil.selectDistinctData(fusekiConn.dataEndpoint + uri, "?s ?p ?o");
+
+        // Create a QueryExecution that will access a SPARQL service over HTTP
+        QueryExecution query = QueryExecutionFactory.sparqlService(fusekiConn.queryEndpoint, sparqlQuery);
+
+        // Query the SPARQL endpoint
+        ResultSet results = query.execSelect();
+
+        List<String> ids = new ArrayList<String>();
+		String varName;
+		RDFNode varValue;
+
+		while (results.hasNext()) {
+
+			// A single answer from a SELECT query
+			QuerySolution querySolution = results.next();
+			java.util.Iterator<String> variableBindings = querySolution.varNames();
+
+			// Retrieve variable bindings
+			while (variableBindings.hasNext()) {
+
+				varName = variableBindings.next();
+				varValue = querySolution.get(varName);
+
+				ids.add(varValue.toString());
+			}
+		}
+		
+		query.close();
+        System.out.println("[INFO] End.");
+
+		return ids;
+	}
+    
 }
 

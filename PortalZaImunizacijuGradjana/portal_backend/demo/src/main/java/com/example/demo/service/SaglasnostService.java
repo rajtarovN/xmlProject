@@ -45,10 +45,6 @@ import static com.example.demo.util.PathConstants.*;
 @Service
 public class SaglasnostService extends AbstractService {
 
-	protected String collectionId;
-
-	protected String fusekiCollectionId;
-
 	@Autowired
 	private SaglasnostRepository saglasnostRepository;
 
@@ -563,4 +559,9 @@ public class SaglasnostService extends AbstractService {
 			ClassNotFoundException, XMLDBException, IOException {
 		return this.saglasnostRepository.pronadjiPoId(documentId);
 	}
+	
+	public List<String> getAllSaglasnosti() throws IOException {
+		return this.saglasnostRepository.readAllDocumentIds(fusekiCollectionId);
+	}
+
 }
