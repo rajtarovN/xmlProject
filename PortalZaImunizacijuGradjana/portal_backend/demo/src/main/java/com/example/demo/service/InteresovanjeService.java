@@ -347,6 +347,8 @@ public class InteresovanjeService extends AbstractService {
 		saglasnostService.saveXML("saglasnost_" + id, os.toString());
 		System.out.println(os.toString());
 		saglasnostService.saveRDF(os.toString(), "/lista_saglasnosti");
+	}
+	
 	public String generatePDF(String id) {
 		XSLFORTransformer transformer = null;
 
