@@ -25,7 +25,7 @@ export class InventoryService {
 
   updateInventory(zaliheXML: string): Observable<any> {
     return this.http.post<string>(
-      `${environment.baseUrl}` + `/zalihe`,
+      `${environment.baseUrl}` + `/zalihe/saveWithPending`,
       zaliheXML,
       this.httpOptions
     );

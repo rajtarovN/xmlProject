@@ -12,12 +12,16 @@ import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.sluzbenik_back.client.InteresovanjeClient;
 import com.example.sluzbenik_back.model.dostupne_vakcine.Zalihe;
 import com.example.sluzbenik_back.repository.DostupneVakcineRepository;
 
 @Service
 public class DostupneVakcineService extends AbstractService {
 
+	@Autowired
+    private InteresovanjeClient interesovanjeClient;
+	
 	@Autowired
 	public DostupneVakcineService(DostupneVakcineRepository dostupneVakcineRepository) {
 
@@ -47,6 +51,14 @@ public class DostupneVakcineService extends AbstractService {
 		content = finalString;
 
 		repository.saveXML(documentId, collectionId, content);
+		
+	}
+	
+
+	public void saveWithResolvePending(String documentId, String content) throws Exception {
+
+		this.saveXML(documentId, content);
+		interesovanjeClient.sendOutPendingInteresovanja();
 	}
 
 }

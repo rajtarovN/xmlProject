@@ -6,7 +6,7 @@
 //
 
 
-package com.example.demo.model.interesovanje;
+package com.example.sluzbenik_back.model.interesovanje;
 
 import java.util.ArrayList;
 import java.util.List;
