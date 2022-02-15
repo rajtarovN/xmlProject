@@ -186,7 +186,10 @@ public class ZahtevService extends AbstractService {
     public String odbijZahtev(String documentId, String razlog) throws Exception {
         try {
             ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = pronadjiPoId(documentId);
-            zahtevZaZeleniSertifikat.setStatus("odbijen");
+            ZahtevZaZeleniSertifikat.Status status = new ZahtevZaZeleniSertifikat.Status();
+            status.setValue("odbijen");
+            status.setProperty("pred:status");
+            zahtevZaZeleniSertifikat.setStatus(status);
             JAXBContext context = JAXBContext.newInstance(ZahtevZaZeleniSertifikat.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -197,19 +200,19 @@ public class ZahtevService extends AbstractService {
             System.out.println(finalString);
 
             repository.saveXML("zahtev_"+documentId, collectionId, finalString);
-            //TODO update rdf
+            repository.deleteRDF(documentId, "/lista_zahteva",
+                    "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
             zahtevRepository.saveRDF(finalString, "/lista_zahteva");
 
-            //TODO email
             String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odbijen. Razlog odbijanja je: \n" + razlog;
 
             com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
             SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
             Date date = zahtevZaZeleniSertifikat.getPodnosilacZahteva().getDatumRodjenja().toGregorianCalendar().getTime();
-            String email = korisnikService.pronadjiEmail(zahtevZaZeleniSertifikat.getPodnosilacZahteva().getIme(),
-                    zahtevZaZeleniSertifikat.getPodnosilacZahteva().getPrezime(),
+            String email = korisnikService.pronadjiEmail(zahtevZaZeleniSertifikat.getPodnosilacZahteva().getIme().getValue(),
+                    zahtevZaZeleniSertifikat.getPodnosilacZahteva().getPrezime().getValue(),
                     ft.format(date));
-            emailModel.setTo("rajtea6@gmail.com"); // TODO
+            emailModel.setTo(email);
             emailModel.setContent(message);
             emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
             emailClient.sendMail(emailModel);
