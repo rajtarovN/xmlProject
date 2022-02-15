@@ -11,6 +11,7 @@ import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.FusekiManager;
 import com.example.demo.util.MetadataExtractor;
+import com.example.demo.util.XSLFORTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
@@ -33,6 +34,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.demo.util.PathConstants.*;
+import static com.example.demo.util.PathConstants.ZAHTEV_ZA_SERTIFIKAT_XSL;
 
 @Service
 public class PotvrdaVakcinacijeService  extends AbstractService {
@@ -217,6 +221,67 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
         repository.saveXML(documentId, collectionId, finalString);
         return finalString;
+    }
+
+    public String generatePDF(String id) {
+        XSLFORTransformer transformer = null;
+
+        try {
+            transformer = new XSLFORTransformer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        XMLResource xmlRes = this.readXML(id);
+        String doc_str = "";
+        try {
+            doc_str = xmlRes.getContent().toString();
+            System.out.println(doc_str);
+        } catch (XMLDBException e1) {
+            e1.printStackTrace();
+        }
+
+        boolean ok = false;
+        String pdf_path = SAVE_PDF + "potvrda_" + id.split(".xml")[0] + ".pdf";
+
+        try {
+            ok = transformer.generatePDF(doc_str, pdf_path, POTVRDA_O_VAKCINACIJI_XSL_FO);
+            if (ok)
+                return pdf_path;
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String generateHTML(String id) throws XMLDBException {
+        XSLFORTransformer transformer = null;
+
+        try {
+            transformer = new XSLFORTransformer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        XMLResource xmlRes = this.readXML(id);
+        String doc_str = xmlRes.getContent().toString();
+        boolean ok = false;
+        String html_path = SAVE_HTML + "potvrda_" + id + ".html";
+        System.out.println(doc_str);
+
+        try {
+            ok = transformer.generateHTML(doc_str, html_path, POTVRDA_O_VAKCINACIJI_XSL);
+            if (ok)
+                return html_path;
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String allXmlByEmail(String email) throws Exception {
