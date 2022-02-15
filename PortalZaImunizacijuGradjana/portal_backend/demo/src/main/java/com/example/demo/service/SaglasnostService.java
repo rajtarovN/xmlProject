@@ -40,8 +40,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static com.example.demo.util.PathConstants.SAGLASNOST_XSL_FO;
-import static com.example.demo.util.PathConstants.SAVE_PDF;
+import static com.example.demo.util.PathConstants.*;
 
 @Service
 public class SaglasnostService  extends AbstractService{
@@ -514,7 +513,6 @@ public class SaglasnostService  extends AbstractService{
     }
 
 
-	}
 	
 	public void deleteRDF(String documentId) throws IOException {
 		repository.deleteRDF(documentId, "/lista_saglasnosti", "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/");

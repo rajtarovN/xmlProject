@@ -91,7 +91,7 @@ public class PotvrdaVakcinacijeController {
         }
     }
 
-<<<<<<< HEAD
+
     @GetMapping("/generatePDF/{id}")
     public ResponseEntity<byte[]> generatePDF(@PathVariable("id") String id) {
 
@@ -102,17 +102,22 @@ public class PotvrdaVakcinacijeController {
             FileInputStream fileInputStream = new FileInputStream(file);
             return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
 
-=======
-    @GetMapping(path = "/allXmlByEmail/{userEmail}")
-    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
-        try{
-            return new ResponseEntity<>(potvrdaVakcinacijeService.allXmlByEmail(userEmail), HttpStatus.OK);
->>>>>>> develop
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-<<<<<<< HEAD
+
+    }
+    @GetMapping(path = "/allXmlByEmail/{userEmail}")
+    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
+        try{
+            return new ResponseEntity<>(potvrdaVakcinacijeService.allXmlByEmail(userEmail), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
 
     }
     @GetMapping("/generateHTML/{id}")
@@ -129,7 +134,6 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-=======
     }
 
     @GetMapping(path = "/xml/{id}", produces = "application/xml")
@@ -141,6 +145,6 @@ public class PotvrdaVakcinacijeController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
->>>>>>> develop
+
     }
 }
