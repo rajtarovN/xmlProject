@@ -206,9 +206,8 @@ public class InteresovanjeService extends AbstractService {
 	// Kreira saglasnost i dodijeli termine za interesovanja koja cekaju za termin
 	public void updatePendingInteresovanja() throws Exception {
 		List<String> results = ((InteresovanjeRepository) repository).getInteresovanjeOrderByAsc();
-		
-		if(results.size() <= 0) return;
-		
+
+		if(results.size() <= 0) return;		
 		JAXBContext context = JAXBContext.newInstance(Interesovanje.class);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 
@@ -219,6 +218,7 @@ public class InteresovanjeService extends AbstractService {
 
 				XMLResource resource = pronadjiPoId(result);
 				Interesovanje interesovanje = (Interesovanje) unmarshaller.unmarshal(resource.getContentAsDOM());
+				
 				if (!interesovanje.isDodeljenTermin() && interesovanje != null)
 				{
 					List<String> proizvodjaci = interesovanje.getProizvodjaci().getProizvodjac();
@@ -246,7 +246,6 @@ public class InteresovanjeService extends AbstractService {
 								+ ".\n Molimo vas da popunite obrazac saglasnosti za vakcinaciju pre pocetka vaseg termina. Obrazac za saglasnost se nalazi na poralu. Poy";
 
 						// TODO send mail
-						
 						com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
 						emailModel.setTo("rajtea6@gmail.com");
 						emailModel.setContent(message);
@@ -342,6 +341,6 @@ public class InteresovanjeService extends AbstractService {
 		marshallerSaglasnost.marshal(saglasnost, os);
 		saglasnostService.saveXML("saglasnost_" + id, os.toString());
 		System.out.println(os.toString());
-		saglasnostService.saveRDF(os.toString(), "/saglasnost");
+		saglasnostService.saveRDF(os.toString(), "/lista_saglasnosti");
 	}
 }

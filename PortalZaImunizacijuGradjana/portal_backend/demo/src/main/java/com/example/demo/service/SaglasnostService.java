@@ -488,12 +488,12 @@ public class SaglasnostService extends AbstractService {
 
 		this.saveXML("saglasnost_" + documentId, content);
 		System.out.println(content);
-		this.saveRDF(content, "/saglasnost");
+		this.saveRDF(content, fusekiCollectionId);
 
 	}
 	
 	public void deleteRDF(String documentId) throws IOException {
-		repository.deleteRDF(documentId, "/lista_saglasnosti", "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/");
+		repository.deleteRDF(documentId, fusekiCollectionId, "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/");
 
   }
   

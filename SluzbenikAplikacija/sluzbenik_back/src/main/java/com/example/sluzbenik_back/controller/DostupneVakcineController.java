@@ -56,4 +56,19 @@ public class DostupneVakcineController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@POST
+	@PostMapping(value = "/saveWithPending",consumes = "application/xml")
+	public ResponseEntity<?> saveXMLWithResolvePending(@RequestBody String content) {
+		LOG.info("Editing zalihe with pending....");
+		String documentId = "zalihe";
+
+		try {
+			dostupneVakcineService.saveWithResolvePending(documentId, content);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }
