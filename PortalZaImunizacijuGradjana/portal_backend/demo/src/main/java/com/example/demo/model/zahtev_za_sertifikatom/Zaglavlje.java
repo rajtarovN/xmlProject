@@ -10,10 +10,12 @@ package com.example.demo.model.zahtev_za_sertifikatom;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 
@@ -34,7 +36,15 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *             &lt;/restriction&gt;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
- *         &lt;element name="Dan_podnosenja_zahteva" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
+ *         &lt;element name="Dan_podnosenja_zahteva"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;dateTime"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:dan_podnosenja_zahteva" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -54,8 +64,7 @@ public class Zaglavlje {
     @XmlElement(name = "Mesto_podnosenja_zahteva", required = true)
     protected String mestoPodnosenjaZahteva;
     @XmlElement(name = "Dan_podnosenja_zahteva", required = true)
-    @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar danPodnosenjaZahteva;
+    protected Zaglavlje.DanPodnosenjaZahteva danPodnosenjaZahteva;
 
     /**
      * Gets the value of the mestoPodnosenjaZahteva property.
@@ -86,10 +95,10 @@ public class Zaglavlje {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Zaglavlje.DanPodnosenjaZahteva }
      *     
      */
-    public XMLGregorianCalendar getDanPodnosenjaZahteva() {
+    public Zaglavlje.DanPodnosenjaZahteva getDanPodnosenjaZahteva() {
         return danPodnosenjaZahteva;
     }
 
@@ -98,11 +107,95 @@ public class Zaglavlje {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link Zaglavlje.DanPodnosenjaZahteva }
      *     
      */
-    public void setDanPodnosenjaZahteva(XMLGregorianCalendar value) {
+    public void setDanPodnosenjaZahteva(Zaglavlje.DanPodnosenjaZahteva value) {
         this.danPodnosenjaZahteva = value;
+    }
+
+
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;dateTime"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:dan_podnosenja_zahteva" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class DanPodnosenjaZahteva {
+
+        @XmlValue
+        @XmlSchemaType(name = "dateTime")
+        protected XMLGregorianCalendar value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link XMLGregorianCalendar }
+         *     
+         */
+        public XMLGregorianCalendar getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link XMLGregorianCalendar }
+         *     
+         */
+        public void setValue(XMLGregorianCalendar value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:dan_podnosenja_zahteva";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
     }
 
 }
