@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.sluzbenik_back.dto;
 
 import java.util.List;
 
@@ -11,10 +11,11 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 @XmlRootElement(name = "IdentificationDTO")
 @JsonRootName(value = "IdentificationDTO")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class IdentificationDTO {
 
-	@XmlElementWrapper(name="saglasnost")
+
+    @XmlElementWrapper(name="saglasnost")
 	List<String> saglasnost;
 
 	public IdentificationDTO() {

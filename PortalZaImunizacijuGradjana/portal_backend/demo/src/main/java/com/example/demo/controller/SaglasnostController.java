@@ -5,6 +5,7 @@ import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
+import com.example.demo.dto.SaglasnostNaprednaDTO;
 import com.example.demo.service.SaglasnostService;
 
 import org.apache.commons.io.IOUtils;
@@ -25,6 +26,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/saglasnost")
@@ -190,7 +192,7 @@ public class SaglasnostController {
 		}
 	}
 
-	@GetMapping(value = "/getAll")
+	@GetMapping(value = "/getAll", produces = "application/xml")
 	public ResponseEntity<?> getAllZahtevi() {
 		IdentificationDTO dto = new IdentificationDTO();
 		try {
@@ -200,4 +202,22 @@ public class SaglasnostController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@PostMapping(value = "/naprednaPretraga", produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> naprednaPretraga(@RequestBody SaglasnostNaprednaDTO dto) throws Exception {
+		String ime = "\"" + dto.getIme() + "\"";
+		String prezime = "\"" + dto.getPrezime() + "\"";
+		String jmbg = "\"" + dto.getJmbg() + "\"";
+		String datum = "\"" + dto.getDatum() + "\"";
+		String email = "\"" + dto.getEmail() + "\"";
+
+		List<String> lista = this.saglasnostService.naprednaPretraga(ime, prezime, jmbg, datum, email, dto.isAnd());
+
+		if (!lista.isEmpty())
+
+			return new ResponseEntity<>(new IdentificationDTO(lista), HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 }

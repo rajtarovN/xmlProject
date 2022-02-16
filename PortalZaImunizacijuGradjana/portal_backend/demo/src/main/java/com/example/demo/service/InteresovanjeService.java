@@ -329,11 +329,7 @@ public class InteresovanjeService extends AbstractService {
 		saglasnost.getPacijent().getLicniPodaci().getIme()
 				.setValue(interesovanje.getLicneInformacije().getIme().getValue());
 
-		// Prezime
-		saglasnost.getPacijent().getLicniPodaci().setPrezime(new Prezime());
-		saglasnost.getPacijent().getLicniPodaci().getPrezime().setProperty("pred:prezime");
-		saglasnost.getPacijent().getLicniPodaci().getPrezime()
-				.setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
+	
 
 		saglasnost.getPacijent().getLicniPodaci().setZanimanjeZaposlenog("");
 

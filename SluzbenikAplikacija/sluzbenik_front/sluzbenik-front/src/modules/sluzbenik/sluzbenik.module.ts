@@ -12,6 +12,7 @@ import { InventoryFormComponent } from './components/inventory-form/inventory-fo
 import { RegistarGradjanaComponent } from './components/registar-gradjana/registar-gradjana.component';
 import { ZahteviComponent } from './components/zahtevi/zahtevi.component';
 import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz-dokumenata.component';
+import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva-dokumenata.component';
 
 
 
@@ -22,7 +23,8 @@ import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz
     InventoryFormComponent,
     RegistarGradjanaComponent,
     ZahteviComponent,
-    PrikazDokumenataComponent
+    PrikazDokumenataComponent,
+    ArhivaDokumenataComponent
   ],
   imports: [
     CommonModule,
