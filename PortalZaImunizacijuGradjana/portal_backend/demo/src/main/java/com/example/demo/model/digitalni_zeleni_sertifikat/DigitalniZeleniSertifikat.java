@@ -233,7 +233,7 @@ public class DigitalniZeleniSertifikat {
     protected DigitalniZeleniSertifikat.PodaciOOsobi podaciOOsobi;
     @XmlElement(name = "Podaci_o_vakcinaciji", required = true)
     protected DigitalniZeleniSertifikat.PodaciOVakcinaciji podaciOVakcinaciji;
-    @XmlElement(name = "Testovi", required = true)
+    @XmlElement(name = "Testovi", required = true, nillable = true)
     protected DigitalniZeleniSertifikat.Testovi testovi;
     @XmlElement(name = "Datum", required = true)
     @XmlSchemaType(name = "date")
@@ -241,8 +241,9 @@ public class DigitalniZeleniSertifikat {
     @XmlAttribute(name = "qr_kod")
     protected String qrKod;
     @XmlAttribute(name = "Id_sertifikata")
-    protected BigInteger idSertifikata;
+    protected String idSertifikata;
     @XmlAttribute(name = "about")
+    @XmlSchemaType(name = "anyURI")
     protected String about;
 
     /**
@@ -394,10 +395,10 @@ public class DigitalniZeleniSertifikat {
      * 
      * @return
      *     possible object is
-     *     {@link BigInteger }
+     *     {@link String }
      *     
      */
-    public BigInteger getIdSertifikata() {
+    public String getIdSertifikata() {
         return idSertifikata;
     }
 
@@ -406,10 +407,10 @@ public class DigitalniZeleniSertifikat {
      * 
      * @param value
      *     allowed object is
-     *     {@link BigInteger }
+     *     {@link String }
      *     
      */
-    public void setIdSertifikata(BigInteger value) {
+    public void setIdSertifikata(String value) {
         this.idSertifikata = value;
     }
 
@@ -1044,14 +1045,14 @@ public class DigitalniZeleniSertifikat {
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
         "brojSertifikata",
-        "datumIVremeIzdavanja"
+        "datumIzdavanja"
     })
     public static class PodaciOSertifikatu {
 
         @XmlElement(name = "Broj_sertifikata", required = true)
         protected DigitalniZeleniSertifikat.PodaciOSertifikatu.BrojSertifikata brojSertifikata;
-        @XmlElement(name = "Datum_i_vreme_izdavanja", required = true)
-        protected DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja datumIVremeIzdavanja;
+        @XmlElement(name = "Datum_izdavanja", required = true)
+        protected DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja datumIzdavanja;
 
         /**
          * Gets the value of the brojSertifikata property.
@@ -1082,11 +1083,11 @@ public class DigitalniZeleniSertifikat {
          * 
          * @return
          *     possible object is
-         *     {@link DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja }
+         *     {@link DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja }
          *     
          */
-        public DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja getDatumIVremeIzdavanja() {
-            return datumIVremeIzdavanja;
+        public DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja getDatumIzdavanja() {
+            return datumIzdavanja;
         }
 
         /**
@@ -1094,11 +1095,11 @@ public class DigitalniZeleniSertifikat {
          * 
          * @param value
          *     allowed object is
-         *     {@link DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja }
+         *     {@link DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja }
          *     
          */
-        public void setDatumIVremeIzdavanja(DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja value) {
-            this.datumIVremeIzdavanja = value;
+        public void setDatumIVremeIzdavanja(DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja value) {
+            this.datumIzdavanja = value;
         }
 
 
@@ -1120,14 +1121,11 @@ public class DigitalniZeleniSertifikat {
          * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
-            "value"
-        })
+        @XmlType(name = "", propOrder = { "value" })
         public static class BrojSertifikata {
 
             @XmlValue
-            @XmlSchemaType(name = "positiveInteger")
-            protected BigInteger value;
+            protected String value;
             @XmlAttribute(name = "property")
             protected String property;
 
@@ -1136,10 +1134,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @return
              *     possible object is
-             *     {@link BigInteger }
+             *     {@link String }
              *     
              */
-            public BigInteger getValue() {
+            public String getValue() {
                 return value;
             }
 
@@ -1148,10 +1146,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @param value
              *     allowed object is
-             *     {@link BigInteger }
+             *     {@link String }
              *     
              */
-            public void setValue(BigInteger value) {
+            public void setValue(String value) {
                 this.value = value;
             }
 
@@ -1207,10 +1205,10 @@ public class DigitalniZeleniSertifikat {
         @XmlType(name = "", propOrder = {
             "value"
         })
-        public static class DatumIVremeIzdavanja {
+        public static class DatumIzdavanja {
 
             @XmlValue
-            @XmlSchemaType(name = "dateTime")
+            @XmlSchemaType(name = "date")
             protected XMLGregorianCalendar value;
             @XmlAttribute(name = "property")
             protected String property;
@@ -1381,6 +1379,9 @@ public class DigitalniZeleniSertifikat {
             return this.vakcinacija;
         }
 
+        public void setVakcinacija(List<Vakcinacija> value){
+            this.vakcinacija = value;
+        }
 
         /**
          * <p>Java class for anonymous complex type.
@@ -1448,7 +1449,7 @@ public class DigitalniZeleniSertifikat {
             "tip",
             "proizvodjac",
             "serija",
-            "datum",
+            "datumDavanja",
             "zdravstvenaUstanova"
         })
         public static class Vakcinacija {
@@ -1456,16 +1457,16 @@ public class DigitalniZeleniSertifikat {
             @XmlElement(name = "Tip", required = true)
             protected String tip;
             @XmlElement(name = "Proizvodjac", required = true)
-            protected DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac proizvodjac;
+            protected String proizvodjac;
             @XmlElement(name = "Serija", required = true)
-            @XmlSchemaType(name = "positiveInteger")
-            protected BigInteger serija;
-            @XmlElement(name = "Datum", required = true)
-            protected DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum datum;
+            protected String serija;
+            @XmlElement(name = "Datum_davanja", required = true)
+            @XmlSchemaType(name = "date")
+            protected XMLGregorianCalendar datumDavanja;
             @XmlElement(name = "Zdravstvena_ustanova", required = true)
-            protected DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova zdravstvenaUstanova;
+            protected String zdravstvenaUstanova;
             @XmlAttribute(name = "br_doze")
-            protected Integer brDoze;
+            protected BigInteger brDoze;
 
             /**
              * Gets the value of the tip property.
@@ -1496,10 +1497,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @return
              *     possible object is
-             *     {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac }
+             *     {@link String }
              *     
              */
-            public DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac getProizvodjac() {
+            public String getProizvodjac() {
                 return proizvodjac;
             }
 
@@ -1508,10 +1509,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @param value
              *     allowed object is
-             *     {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac }
+             *     {@link String }
              *     
              */
-            public void setProizvodjac(DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac value) {
+            public void setProizvodjac(String value) {
                 this.proizvodjac = value;
             }
 
@@ -1520,10 +1521,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @return
              *     possible object is
-             *     {@link BigInteger }
+             *     {@link String }
              *     
              */
-            public BigInteger getSerija() {
+            public String getSerija() {
                 return serija;
             }
 
@@ -1532,10 +1533,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @param value
              *     allowed object is
-             *     {@link BigInteger }
+             *     {@link String }
              *     
              */
-            public void setSerija(BigInteger value) {
+            public void setSerija(String value) {
                 this.serija = value;
             }
 
@@ -1544,11 +1545,11 @@ public class DigitalniZeleniSertifikat {
              * 
              * @return
              *     possible object is
-             *     {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum }
+             *     {@link XMLGregorianCalendar }
              *     
              */
-            public DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum getDatum() {
-                return datum;
+            public XMLGregorianCalendar getDatumDavanja() {
+                return datumDavanja;
             }
 
             /**
@@ -1556,11 +1557,11 @@ public class DigitalniZeleniSertifikat {
              * 
              * @param value
              *     allowed object is
-             *     {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum }
+             *     {@link XMLGregorianCalendar }
              *     
              */
-            public void setDatum(DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum value) {
-                this.datum = value;
+            public void setDatumDavanja(XMLGregorianCalendar value) {
+                this.datumDavanja = value;
             }
 
             /**
@@ -1568,10 +1569,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @return
              *     possible object is
-             *     {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova }
+             *     {@link String }
              *     
              */
-            public DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova getZdravstvenaUstanova() {
+            public String getZdravstvenaUstanova() {
                 return zdravstvenaUstanova;
             }
 
@@ -1580,10 +1581,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @param value
              *     allowed object is
-             *     {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova }
+             *     {@link String }
              *     
              */
-            public void setZdravstvenaUstanova(DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova value) {
+            public void setZdravstvenaUstanova(String value) {
                 this.zdravstvenaUstanova = value;
             }
 
@@ -1592,10 +1593,10 @@ public class DigitalniZeleniSertifikat {
              * 
              * @return
              *     possible object is
-             *     {@link Integer }
+             *     {@link BigInteger }
              *     
              */
-            public Integer getBrDoze() {
+            public BigInteger getBrDoze() {
                 return brDoze;
             }
 
@@ -1604,168 +1605,11 @@ public class DigitalniZeleniSertifikat {
              * 
              * @param value
              *     allowed object is
-             *     {@link Integer }
+             *     {@link BigInteger }
              *     
              */
-            public void setBrDoze(Integer value) {
+            public void setBrDoze(BigInteger value) {
                 this.brDoze = value;
-            }
-
-
-            /**
-             * <p>Java class for anonymous complex type.
-             * 
-             * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
-             * <pre>
-             * &lt;complexType&gt;
-             *   &lt;simpleContent&gt;
-             *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;date"&gt;
-             *     &lt;/extension&gt;
-             *   &lt;/simpleContent&gt;
-             * &lt;/complexType&gt;
-             * </pre>
-             * 
-             * 
-             */
-            @XmlAccessorType(XmlAccessType.FIELD)
-            @XmlType(name = "", propOrder = {
-                "value"
-            })
-            public static class Datum {
-
-                @XmlValue
-                @XmlSchemaType(name = "date")
-                protected XMLGregorianCalendar value;
-
-                /**
-                 * Gets the value of the value property.
-                 * 
-                 * @return
-                 *     possible object is
-                 *     {@link XMLGregorianCalendar }
-                 *     
-                 */
-                public XMLGregorianCalendar getValue() {
-                    return value;
-                }
-
-                /**
-                 * Sets the value of the value property.
-                 * 
-                 * @param value
-                 *     allowed object is
-                 *     {@link XMLGregorianCalendar }
-                 *     
-                 */
-                public void setValue(XMLGregorianCalendar value) {
-                    this.value = value;
-                }
-
-            }
-
-
-            /**
-             * <p>Java class for anonymous complex type.
-             * 
-             * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
-             * <pre>
-             * &lt;complexType&gt;
-             *   &lt;simpleContent&gt;
-             *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
-             *     &lt;/extension&gt;
-             *   &lt;/simpleContent&gt;
-             * &lt;/complexType&gt;
-             * </pre>
-             * 
-             * 
-             */
-            @XmlAccessorType(XmlAccessType.FIELD)
-            @XmlType(name = "", propOrder = {
-                "value"
-            })
-            public static class Proizvodjac {
-
-                @XmlValue
-                protected String value;
-
-                /**
-                 * Gets the value of the value property.
-                 * 
-                 * @return
-                 *     possible object is
-                 *     {@link String }
-                 *     
-                 */
-                public String getValue() {
-                    return value;
-                }
-
-                /**
-                 * Sets the value of the value property.
-                 * 
-                 * @param value
-                 *     allowed object is
-                 *     {@link String }
-                 *     
-                 */
-                public void setValue(String value) {
-                    this.value = value;
-                }
-
-            }
-
-
-            /**
-             * <p>Java class for anonymous complex type.
-             * 
-             * <p>The following schema fragment specifies the expected content contained within this class.
-             * 
-             * <pre>
-             * &lt;complexType&gt;
-             *   &lt;simpleContent&gt;
-             *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
-             *     &lt;/extension&gt;
-             *   &lt;/simpleContent&gt;
-             * &lt;/complexType&gt;
-             * </pre>
-             * 
-             * 
-             */
-            @XmlAccessorType(XmlAccessType.FIELD)
-            @XmlType(name = "", propOrder = {
-                "value"
-            })
-            public static class ZdravstvenaUstanova {
-
-                @XmlValue
-                protected String value;
-
-                /**
-                 * Gets the value of the value property.
-                 * 
-                 * @return
-                 *     possible object is
-                 *     {@link String }
-                 *     
-                 */
-                public String getValue() {
-                    return value;
-                }
-
-                /**
-                 * Sets the value of the value property.
-                 * 
-                 * @param value
-                 *     allowed object is
-                 *     {@link String }
-                 *     
-                 */
-                public void setValue(String value) {
-                    this.value = value;
-                }
-
             }
 
         }

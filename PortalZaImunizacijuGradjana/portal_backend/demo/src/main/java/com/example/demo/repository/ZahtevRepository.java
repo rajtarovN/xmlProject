@@ -31,7 +31,7 @@ public class ZahtevRepository extends RepositoryInterface{
         MetadataExtractor extractor = new MetadataExtractor();
         extractor.extractMetadata(in, out);
 
-        String rdfAsString = new String(out.toByteArray());
+        String rdfAsString = out.toString();
         InputStream rdfInputStream = new ByteArrayInputStream(rdfAsString.getBytes());
         fusekiManager.writeFuseki(rdfInputStream, uri);
     }

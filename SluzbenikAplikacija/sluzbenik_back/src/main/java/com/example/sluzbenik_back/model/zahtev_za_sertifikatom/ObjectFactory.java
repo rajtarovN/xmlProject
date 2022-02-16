@@ -37,14 +37,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ZahtevZaZeleniSertifikat }
-     * 
-     */
-    public ZahtevZaZeleniSertifikat createZahtevZaZeleniSertifikat() {
-        return new ZahtevZaZeleniSertifikat();
-    }
-
-    /**
      * Create an instance of {@link PodnosilacZahteva }
      * 
      */
@@ -58,6 +50,62 @@ public class ObjectFactory {
      */
     public Zaglavlje createZaglavlje() {
         return new Zaglavlje();
+    }
+
+    /**
+     * Create an instance of {@link ZahtevZaZeleniSertifikat }
+     * 
+     */
+    public ZahtevZaZeleniSertifikat createZahtevZaZeleniSertifikat() {
+        return new ZahtevZaZeleniSertifikat();
+    }
+
+    /**
+     * Create an instance of {@link PodnosilacZahteva.Ime }
+     * 
+     */
+    public PodnosilacZahteva.Ime createPodnosilacZahtevaIme() {
+        return new PodnosilacZahteva.Ime();
+    }
+
+    /**
+     * Create an instance of {@link PodnosilacZahteva.Prezime }
+     * 
+     */
+    public PodnosilacZahteva.Prezime createPodnosilacZahtevaPrezime() {
+        return new PodnosilacZahteva.Prezime();
+    }
+
+    /**
+     * Create an instance of {@link PodnosilacZahteva.Jmbg }
+     * 
+     */
+    public PodnosilacZahteva.Jmbg createPodnosilacZahtevaJmbg() {
+        return new PodnosilacZahteva.Jmbg();
+    }
+
+    /**
+     * Create an instance of {@link PodnosilacZahteva.BrojPasosa }
+     * 
+     */
+    public PodnosilacZahteva.BrojPasosa createPodnosilacZahtevaBrojPasosa() {
+        return new PodnosilacZahteva.BrojPasosa();
+    }
+
+    /**
+     * Create an instance of {@link Zaglavlje.DanPodnosenjaZahteva }
+     * 
+     */
+    public Zaglavlje.DanPodnosenjaZahteva createZaglavljeDanPodnosenjaZahteva() {
+        return new Zaglavlje.DanPodnosenjaZahteva();
+    }
+
+    /**
+     * Create an instance of {@link ZahtevZaZeleniSertifikat.Status }
+     * 
+     */
+    public ZahtevZaZeleniSertifikat.Status createZahtevZaZeleniSertifikatStatus() {
+        return new ZahtevZaZeleniSertifikat.Status();
     }
 
 }

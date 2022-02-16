@@ -28,9 +28,10 @@ public class FusekiManager {
 	 /**
      *
      * @param rdfInputStream string rdf-a
-     * @param NAMED_GRAPH    interesovanje/id, npr:
-     *                       interesovanje/1234
+     * @param NAMED_GRAPH    lista_interesovanja/id, npr:
+     *                       lista_interesovanja/1234
      */
+
     public void writeFuseki(InputStream rdfInputStream, String NAMED_GRAPH) throws IOException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
         // Creates a default model
@@ -63,7 +64,6 @@ public class FusekiManager {
         processor.execute();
 
     }
-
 
     public String readFileAsXML(String uri) throws IOException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();

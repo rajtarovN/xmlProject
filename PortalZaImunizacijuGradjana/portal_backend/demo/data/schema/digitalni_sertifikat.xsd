@@ -21,10 +21,10 @@
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="Datum_i_vreme_izdavanja">
+                            <xs:element name="Datum_izdavanja">
                                 <xs:complexType>
                                     <xs:simpleContent>
-                                        <xs:extension base="xs:dateTime">
+                                        <xs:extension base="xs:date">
                                             <xs:attribute fixed="pred:datum_izdavaja"
                                                           name="property" type="xs:string"/>
                                         </xs:extension>
@@ -106,33 +106,15 @@
                                                 </xs:restriction>
                                             </xs:simpleType>
                                         </xs:element>
-                                        <xs:element name="Proizvodjac">
-                                            <xs:complexType>
-                                                <xs:simpleContent>
-                                                    <xs:extension base="xs:string"> </xs:extension>
-                                                </xs:simpleContent>
-                                            </xs:complexType>
-                                        </xs:element>
-                                        <xs:element name="Serija" type="xs:positiveInteger"/>
-                                        <xs:element name="Datum">
-                                            <xs:complexType>
-                                                <xs:simpleContent>
-                                                    <xs:extension base="xs:date"> </xs:extension>
-                                                </xs:simpleContent>
-                                            </xs:complexType>
-                                        </xs:element>
-                                        <xs:element name="Zdravstvena_ustanova">
-                                            <xs:complexType>
-                                                <xs:simpleContent>
-                                                    <xs:extension base="xs:string"> </xs:extension>
-                                                </xs:simpleContent>
-                                            </xs:complexType>
-                                        </xs:element>
+                                        <xs:element name="Proizvodjac" type="xs:string"/>
+                                        <xs:element name="Serija" type="xs:string"/>
+                                        <xs:element name="Datum_davanja" type="xs:date" />
+                                        <xs:element name="Zdravstvena_ustanova" type="xs:string"/>
                                     </xs:sequence>
                                     <xs:attribute name="br_doze">
                                         <xs:simpleType>
-                                            <xs:restriction base="xs:int">
-                                                <xs:minInclusive value="1"/>
+                                            <xs:restriction base="xs:positiveInteger">
+                                                <xs:totalDigits value="1" />
                                             </xs:restriction>
                                         </xs:simpleType>
                                     </xs:attribute>
@@ -141,7 +123,7 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="Testovi">
+                <xs:element name="Testovi" nillable="true">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="Naziv_testa" type="xs:string"/>
@@ -160,14 +142,8 @@
                     </xs:restriction>
                 </xs:simpleType>
             </xs:attribute>
-            <xs:attribute name="Id_sertifikata">
-                <xs:simpleType>
-                    <xs:restriction base="xs:nonNegativeInteger">
-                        <xs:minExclusive value="1"/>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="about" type="xs:string"/>
+            <xs:attribute name="Id_sertifikata" type="xs:string"/>
+            <xs:attribute name="about" type="xs:anyURI"/>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="TJmbg">

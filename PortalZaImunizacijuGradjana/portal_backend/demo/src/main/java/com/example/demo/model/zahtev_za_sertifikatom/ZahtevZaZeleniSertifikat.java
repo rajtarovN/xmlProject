@@ -66,6 +66,8 @@ public class ZahtevZaZeleniSertifikat {
     @XmlAttribute(name = "about")
     @XmlSchemaType(name = "anyURI")
     protected String about;
+    @XmlAttribute(name = "email")
+    protected String email;
 
     /**
      * Gets the value of the podnosilacZahteva property.
@@ -161,6 +163,30 @@ public class ZahtevZaZeleniSertifikat {
      */
     public void setAbout(String value) {
         this.about = value;
+    }
+
+    /**
+     * Gets the value of the email property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the value of the email property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setEmail(String value) {
+        this.email = value;
     }
 
 

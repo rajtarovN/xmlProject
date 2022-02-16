@@ -23,18 +23,22 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="Ime"&gt;
- *           &lt;simpleType&gt;
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *               &lt;minLength value="2"/&gt;
- *             &lt;/restriction&gt;
- *           &lt;/simpleType&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:ime" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Prezime"&gt;
- *           &lt;simpleType&gt;
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *               &lt;minLength value="2"/&gt;
- *             &lt;/restriction&gt;
- *           &lt;/simpleType&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:prezime" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Datum_rodjenja" type="{http://www.w3.org/2001/XMLSchema}date"/&gt;
  *         &lt;element name="Pol"&gt;
@@ -46,18 +50,22 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *           &lt;/simpleType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Jmbg"&gt;
- *           &lt;simpleType&gt;
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *               &lt;minLength value="13"/&gt;
- *             &lt;/restriction&gt;
- *           &lt;/simpleType&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom&gt;TJmbg"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:jmbg" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Broj_pasosa"&gt;
- *           &lt;simpleType&gt;
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *               &lt;minLength value="9"/&gt;
- *             &lt;/restriction&gt;
- *           &lt;/simpleType&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom&gt;TBroj_pasosa"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:broj_pasosa" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
  *         &lt;/element&gt;
  *         &lt;element name="Razlog_podnosenja_zahteva"&gt;
  *           &lt;simpleType&gt;
@@ -88,76 +96,76 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class PodnosilacZahteva {
 
     @XmlElement(name = "Ime", required = true)
-    protected String ime;
+    protected Ime ime;
     @XmlElement(name = "Prezime", required = true)
-    protected String prezime;
+    protected Prezime prezime;
     @XmlElement(name = "Datum_rodjenja", required = true)
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar datumRodjenja;
     @XmlElement(name = "Pol", required = true)
     protected String pol;
     @XmlElement(name = "Jmbg", required = true)
-    protected String jmbg;
+    protected Jmbg jmbg;
     @XmlElement(name = "Broj_pasosa", required = true)
-    protected String brojPasosa;
+    protected BrojPasosa brojPasosa;
     @XmlElement(name = "Razlog_podnosenja_zahteva", required = true)
     protected String razlogPodnosenjaZahteva;
 
     /**
      * Gets the value of the ime property.
-     * 
+     *
      * @return
      *     possible object is
-     *     {@link String }
-     *     
+     *     {@link Ime }
+     *
      */
-    public String getIme() {
+    public Ime getIme() {
         return ime;
     }
 
     /**
      * Sets the value of the ime property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link Ime }
+     *
      */
-    public void setIme(String value) {
+    public void setIme(Ime value) {
         this.ime = value;
     }
 
     /**
      * Gets the value of the prezime property.
-     * 
+     *
      * @return
      *     possible object is
-     *     {@link String }
-     *     
+     *     {@link Prezime }
+     *
      */
-    public String getPrezime() {
+    public Prezime getPrezime() {
         return prezime;
     }
 
     /**
      * Sets the value of the prezime property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link Prezime }
+     *
      */
-    public void setPrezime(String value) {
+    public void setPrezime(Prezime value) {
         this.prezime = value;
     }
 
     /**
      * Gets the value of the datumRodjenja property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link XMLGregorianCalendar }
-     *     
+     *
      */
     public XMLGregorianCalendar getDatumRodjenja() {
         return datumRodjenja;
@@ -165,11 +173,11 @@ public class PodnosilacZahteva {
 
     /**
      * Sets the value of the datumRodjenja property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link XMLGregorianCalendar }
-     *     
+     *
      */
     public void setDatumRodjenja(XMLGregorianCalendar value) {
         this.datumRodjenja = value;
@@ -177,11 +185,11 @@ public class PodnosilacZahteva {
 
     /**
      * Gets the value of the pol property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPol() {
         return pol;
@@ -189,11 +197,11 @@ public class PodnosilacZahteva {
 
     /**
      * Sets the value of the pol property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPol(String value) {
         this.pol = value;
@@ -201,49 +209,49 @@ public class PodnosilacZahteva {
 
     /**
      * Gets the value of the jmbg property.
-     * 
+     *
      * @return
      *     possible object is
-     *     {@link String }
-     *     
+     *     {@link Jmbg }
+     *
      */
-    public String getJmbg() {
+    public Jmbg getJmbg() {
         return jmbg;
     }
 
     /**
      * Sets the value of the jmbg property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link Jmbg }
+     *
      */
-    public void setJmbg(String value) {
+    public void setJmbg(Jmbg value) {
         this.jmbg = value;
     }
 
     /**
      * Gets the value of the brojPasosa property.
-     * 
+     *
      * @return
      *     possible object is
-     *     {@link String }
-     *     
+     *     {@link BrojPasosa }
+     *
      */
-    public String getBrojPasosa() {
+    public BrojPasosa getBrojPasosa() {
         return brojPasosa;
     }
 
     /**
      * Sets the value of the brojPasosa property.
-     * 
+     *
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     {@link BrojPasosa }
+     *
      */
-    public void setBrojPasosa(String value) {
+    public void setBrojPasosa(BrojPasosa value) {
         this.brojPasosa = value;
     }
 
@@ -269,6 +277,338 @@ public class PodnosilacZahteva {
      */
     public void setRazlogPodnosenjaZahteva(String value) {
         this.razlogPodnosenjaZahteva = value;
+    }
+
+
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom&gt;TBroj_pasosa"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:broj_pasosa" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class BrojPasosa {
+
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:broj_pasosa";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+
+
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:ime" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class Ime {
+
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:ime";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+
+
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom&gt;TJmbg"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:jmbg" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class Jmbg {
+
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:jmbg";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+
+
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;string"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:prezime" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class Prezime {
+
+        @XmlValue
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:prezime";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
     }
 
 }

@@ -59,6 +59,19 @@ public class KorisnikRepository{
         }
     }
 
+    public Resource pronadjiPoImenuPrezimenuDatumuRodjenja(String ime, String prezime, String datumRodjenja){
+        String xPath = "/lista_korisnika/korisnik[ime = '" + ime + " and prezime='" + prezime + "' and rodjendan='" + datumRodjenja +"'']";
+        try {
+            ResourceSet set = this.existManager.retrieve(collectionId, xPath, TARGET_NAMESPACE);
+            if(set.getSize() == 1)
+                return set.getResource(0);
+            else
+                return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public boolean postojiPoMejlu(String email) {
         String xPath = "/lista_korisnika/korisnik[email = '" + email + "']";
         try {

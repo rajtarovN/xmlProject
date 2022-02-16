@@ -1,41 +1,55 @@
 package com.example.demo.service;
 
-import com.example.demo.model.interesovanje.Interesovanje;
-import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.client.EmailClient;
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.ZahtevRepository;
 import com.example.demo.util.XSLFORTransformer;
 import org.apache.commons.io.input.ReaderInputStream;
-import org.exist.xmldb.LocalXMLResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.xmldb.api.base.XMLDBException;
-import org.xmldb.api.modules.XMLResource;
+
+import static com.example.demo.util.PathConstants.SAVE_PDF;
+import static com.example.demo.util.PathConstants.ZAHTEV_XSL_FO;
 
 import static com.example.demo.util.PathConstants.*;
 
+
 @Service
-public class ZahtevService extends AbstractService{
+public class ZahtevService extends AbstractService {
 
     @Autowired
     private ZahtevRepository zahtevRepository;
 
     @Autowired
+    private EmailClient emailClient;
+
+    @Autowired
+    private KorisnikService korisnikService;
+
+    @Autowired
+    private DigitalniSertifikatService digitalniSertifikatService;
+
+    @Autowired
     public ZahtevService(ZahtevRepository zahtevRepository) {
 
-        super(zahtevRepository, "/db/portal/zahtev", "/zahtev/" );
+        super(zahtevRepository, "/db/portal/lista_zahteva", "/lista_zahteva");
     }
 
     @Override
@@ -123,7 +137,7 @@ public class ZahtevService extends AbstractService{
         }
     }
 
-    public ZahtevZaZeleniSertifikat pronadjiPoId(String id) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+    public ZahtevZaZeleniSertifikat pronadjiPoId(String id) throws Exception {
         XMLResource res = zahtevRepository.pronadjiPoId(id);
         try {
             if (res != null) {
@@ -142,11 +156,11 @@ public class ZahtevService extends AbstractService{
         }
     }
 
-    public String getListuZahtevaPoStatusu(String status) throws IllegalAccessException, InstantiationException, JAXBException, IOException, XMLDBException, ClassNotFoundException {
+    public String getListuZahtevaPoStatusu(String status) throws Exception {
         List<String> ids = pronadjiPoStatusu(status);
         ListaZahteva listaZahteva = new ListaZahteva();
         List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
-        for (String id: ids) {
+        for (String id : ids) {
             ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
             zahtevi.add(z);
         }
@@ -170,6 +184,90 @@ public class ZahtevService extends AbstractService{
             e.printStackTrace();
         }
         return ids;
+    }
+
+    public String odbijZahtev(String documentId, String razlog){
+        try {
+            ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odbijen");
+
+            String finalString = marshal(zahtevZaZeleniSertifikat);
+            System.out.println(finalString);
+
+            repository.saveXML("zahtev_"+documentId, collectionId, finalString);
+            repository.deleteRDF(documentId, "/lista_zahteva",
+                    "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
+            zahtevRepository.saveRDF(finalString, "/lista_zahteva");
+
+            String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odbijen. Razlog odbijanja je: \n" + razlog;
+
+            com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = zahtevZaZeleniSertifikat.getPodnosilacZahteva().getDatumRodjenja().toGregorianCalendar().getTime();
+            String email = zahtevZaZeleniSertifikat.getEmail();
+            emailModel.setTo(email);
+            emailModel.setContent(message);
+            emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
+            emailClient.sendMail(emailModel);
+
+            return "Uspesno odbijen zahtev za digitalni sertifikat!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestException("Error pri odbijanju zahteva za digitalni sertifikat.");
+        }
+    }
+
+    public String odobriZahtev(String documentId){
+        try {
+            ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odobren");
+
+            String finalString = marshal(zahtevZaZeleniSertifikat);
+            System.out.println(finalString);
+
+            repository.saveXML("zahtev_"+documentId, collectionId, finalString);
+            repository.deleteRDF(documentId, "/lista_zahteva",
+                    "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
+            zahtevRepository.saveRDF(finalString, "/lista_zahteva");
+
+            String idSertifikata = digitalniSertifikatService.saveSertifikat(zahtevZaZeleniSertifikat);
+
+            String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odobren. \n";
+
+            com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = zahtevZaZeleniSertifikat.getPodnosilacZahteva().getDatumRodjenja().toGregorianCalendar().getTime();
+            String email = zahtevZaZeleniSertifikat.getEmail();
+            emailModel.setTo(email);
+            emailModel.setContent(message);
+            emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
+            //TODO send pdf and xhtml
+            //emailModel.setPdf();
+            //emailModel.setXhtml();
+            emailClient.sendMail(emailModel);
+
+            return "Uspesno odobren zahtev za digitalni sertifikat!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestException("Error pri odobravanju zahteva za digitalni sertifikat.");
+        }
+    }
+
+    public String marshal(ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat) throws Exception{
+        JAXBContext context = JAXBContext.newInstance(ZahtevZaZeleniSertifikat.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        marshaller.marshal(zahtevZaZeleniSertifikat, stream);
+
+        return stream.toString();
+    }
+
+    public ZahtevZaZeleniSertifikat setZahtevStatus(String documentId, String statuss) throws Exception{
+        ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = pronadjiPoId(documentId);
+        ZahtevZaZeleniSertifikat.Status status = new ZahtevZaZeleniSertifikat.Status();
+        status.setValue(statuss);
+        status.setProperty("pred:status");
+        zahtevZaZeleniSertifikat.setStatus(status);
+        return zahtevZaZeleniSertifikat;
     }
 
 }

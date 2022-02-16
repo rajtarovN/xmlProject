@@ -26,24 +26,35 @@ public class ZahtevService {
         List<ZahtevDTO> list = new ArrayList<>();
         for (ZahtevZaZeleniSertifikat zahtev : listaZahteva.getZahtevi() ) {
             SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-            Date date = zahtev.getZaglavlje().getDanPodnosenjaZahteva().toGregorianCalendar().getTime();
+            Date date = zahtev.getZaglavlje().getDanPodnosenjaZahteva().getValue().toGregorianCalendar().getTime();
+            String idZahteva = zahtev.getAbout().substring(zahtev.getAbout().lastIndexOf('/') + 1);
 
             if(searchTerm == null || searchTerm == "") {
-                list.add(new ZahtevDTO(zahtev.getAbout(), zahtev.getPodnosilacZahteva().getIme(),
-                        zahtev.getPodnosilacZahteva().getPrezime(), zahtev.getPodnosilacZahteva().getJmbg(),
-                        ft.format(date), zahtev.getStatus(),
+                list.add(new ZahtevDTO(idZahteva, zahtev.getPodnosilacZahteva().getIme().getValue(),
+                        zahtev.getPodnosilacZahteva().getPrezime().getValue(),
+                        zahtev.getPodnosilacZahteva().getJmbg().getValue(),
+                        ft.format(date), zahtev.getStatus().getValue(),
                         zahtev.getPodnosilacZahteva().getRazlogPodnosenjaZahteva()));
             }
-            else if(zahtev.getPodnosilacZahteva().getIme().toLowerCase().contains(searchTerm.toLowerCase()) ||
-                    zahtev.getPodnosilacZahteva().getPrezime().toLowerCase().contains(searchTerm.toLowerCase())){
-                list.add(new ZahtevDTO(zahtev.getAbout(), zahtev.getPodnosilacZahteva().getIme(),
-                        zahtev.getPodnosilacZahteva().getPrezime(), zahtev.getPodnosilacZahteva().getJmbg(),
-                        ft.format(date), zahtev.getStatus(),
+            else if(zahtev.getPodnosilacZahteva().getIme().getValue().toLowerCase().contains(searchTerm.toLowerCase()) ||
+                    zahtev.getPodnosilacZahteva().getPrezime().getValue().toLowerCase().contains(searchTerm.toLowerCase())){
+                list.add(new ZahtevDTO(idZahteva, zahtev.getPodnosilacZahteva().getIme().getValue(),
+                        zahtev.getPodnosilacZahteva().getPrezime().getValue(),
+                        zahtev.getPodnosilacZahteva().getJmbg().getValue(),
+                        ft.format(date), zahtev.getStatus().getValue(),
                         zahtev.getPodnosilacZahteva().getRazlogPodnosenjaZahteva()));
             }
 
         }
         return list;
+    }
+
+    public String odbijZahtev(String idZahteva, String razlogOdbijanja) throws Exception{
+        return zahtevClient.odbijZahtev(idZahteva, razlogOdbijanja);
+    }
+
+    public String odobriZahtev(String idZahteva) throws Exception{
+        return zahtevClient.odobriZahtev(idZahteva);
     }
 
 }

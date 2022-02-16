@@ -62,4 +62,21 @@ public class KorisnikService  {
         return document;
     }
 
+    public String pronadjiEmail(String ime, String prezime, String datumRodjenja){
+        Resource res = this.korisnikRepository.pronadjiPoImenuPrezimenuDatumuRodjenja(ime, prezime,datumRodjenja);
+
+        if (res != null) {
+            try {
+                JAXBContext context = JAXBContext.newInstance("com.example.demo.model.korisnik");
+
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                Korisnik korisnik = (Korisnik) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+                return korisnik.getEmail();
+
+            } catch (Exception e) {
+                return null;
+            }
+        } else
+            return null;
+    }
 }

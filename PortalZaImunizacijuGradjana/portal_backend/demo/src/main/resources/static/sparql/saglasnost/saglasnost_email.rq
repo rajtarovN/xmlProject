@@ -1,8 +1,10 @@
 PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
 SELECT ?obrazac_saglasnosti_za_imunizaciju FROM <%s>
 WHERE{
+    ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/datum_termina> ?date .
     ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/email> ?email .
     BIND(xs:string(%s) as ?email2) .
     BIND(xs:string(?email) as ?email1) .
     FILTER ( ?email1 = ?email2)
 }
+ORDER BY ASC(?date)

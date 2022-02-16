@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.modules.XMLResource;
@@ -82,6 +84,25 @@ public class ZahtevController {
         try {
             String ret = zahtevService.getListuZahtevaPoStatusu("na cekanju");
             return new ResponseEntity<>(ret, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/odbijZahtev/{idZahteva}/{content}")
+    public ResponseEntity<?> odbijZahtev(@PathVariable("idZahteva") String idZahteva,
+                                         @PathVariable("content") String content) {
+        try{
+            return new ResponseEntity<>(zahtevService.odbijZahtev(idZahteva, content), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/odobriZahtev/{idZahteva}")
+    public ResponseEntity<?> odobriZahtev(@PathVariable("idZahteva") String idZahteva) {
+        try{
+            return new ResponseEntity<>(zahtevService.odobriZahtev(idZahteva), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -13,8 +13,8 @@ import { RegistarGradjanaComponent } from './components/registar-gradjana/regist
 import { ZahteviComponent } from './components/zahtevi/zahtevi.component';
 import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz-dokumenata.component';
 import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva-dokumenata.component';
-
-
+import { RazlogZahtevaComponent } from './components/razlog-zahteva/razlog-zahteva.component';
+import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,9 @@ import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva
     RegistarGradjanaComponent,
     ZahteviComponent,
     PrikazDokumenataComponent,
-    ArhivaDokumenataComponent
+    ArhivaDokumenataComponent,
+    RazlogZahtevaComponent,
+    OdbijZahtevComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,6 @@ import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-  ]
+  ],
 })
-export class SluzbenikModule { }
+export class SluzbenikModule {}

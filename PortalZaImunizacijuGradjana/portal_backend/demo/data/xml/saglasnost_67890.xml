@@ -39,7 +39,7 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_termina">2022-02-14</Datum>
+        <Datum property="pred:datum_termina">2022-02-15</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji xsi:nil="true"/>
 </Saglasnost>

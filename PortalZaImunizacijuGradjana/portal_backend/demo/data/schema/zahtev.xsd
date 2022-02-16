@@ -23,6 +23,7 @@
                 </xs:element>
             </xs:sequence>
             <xs:attribute name="about" type="xs:anyURI"/>
+            <xs:attribute name="email" type="xs:string"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="Podnosilac_zahteva">

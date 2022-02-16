@@ -84,29 +84,6 @@ public class ObjectFactory {
         return new DigitalniZeleniSertifikat.Testovi();
     }
 
-    /**
-     * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac }
-     * 
-     */
-    public DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac createDigitalniZeleniSertifikatPodaciOVakcinacijiVakcinacijaProizvodjac() {
-        return new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Proizvodjac();
-    }
-
-    /**
-     * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum }
-     * 
-     */
-    public DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum createDigitalniZeleniSertifikatPodaciOVakcinacijiVakcinacijaDatum() {
-        return new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.Datum();
-    }
-
-    /**
-     * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova }
-     * 
-     */
-    public DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova createDigitalniZeleniSertifikatPodaciOVakcinacijiVakcinacijaZdravstvenaUstanova() {
-        return new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija.ZdravstvenaUstanova();
-    }
 
     /**
      * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOOsobi.Ime }
@@ -149,11 +126,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja }
+     * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja }
      * 
      */
-    public DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja createDigitalniZeleniSertifikatPodaciOSertifikatuDatumIVremeIzdavanja() {
-        return new DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja();
+    public DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja createDigitalniZeleniSertifikatPodaciOSertifikatuDatumIzdavanja() {
+        return new DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja();
     }
 
 }

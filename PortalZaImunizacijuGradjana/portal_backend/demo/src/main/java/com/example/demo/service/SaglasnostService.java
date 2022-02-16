@@ -63,6 +63,10 @@ public class SaglasnostService extends AbstractService {
 		super(saglasnostRepository, "/db/portal/lista_saglasnosti", "/lista_saglasnosti");
 	}
 
+	public List<String> pronadjiSveSaglasnostiPoEmailu(String email) throws Exception{
+		return this.saglasnostRepository.pronadjiPoEmailu(email);
+	}
+
 	public LocalDateTime pronadjiSlobodanTermin() throws NumberFormatException, IllegalAccessException,
 			InstantiationException, ClassNotFoundException, JAXBException, XMLDBException, IOException {
 		LocalDate date = LocalDate.now().plusDays(1);

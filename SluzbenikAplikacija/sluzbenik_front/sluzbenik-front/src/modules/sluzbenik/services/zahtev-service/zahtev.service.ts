@@ -21,4 +21,26 @@ export class ZahtevService {
         responseType: "text" }
     );
   }
+
+  odbijZahtev(idZahteva:string, razlog: string): Observable<string>{
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.odbijZahtev}/${idZahteva}/${razlog}`,
+      { headers: headers,
+        responseType: "text" }
+    );
+  }
+
+  odobriZahtev(idZahteva:string): Observable<string>{
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.odobriZahtev}/${idZahteva}`,
+      { headers: headers,
+        responseType: "text" }
+    );
+  }
 }
