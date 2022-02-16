@@ -101,7 +101,13 @@ public class SaglasnostClient {
 		try {
 
 			InputStream is = post.getResponseBodyAsStream();
-			String text = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			byte[] buffer = new byte[1024];
+			ByteArrayOutputStream builder = new ByteArrayOutputStream();
+			int end;
+			while((end = is.read(buffer)) > 0){
+				builder.write(buffer, 0, end);
+			}
+			String text = new String(builder.toByteArray(), StandardCharsets.UTF_8);
 			JAXBContext context = JAXBContext.newInstance(IdentificationDTO.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(text);

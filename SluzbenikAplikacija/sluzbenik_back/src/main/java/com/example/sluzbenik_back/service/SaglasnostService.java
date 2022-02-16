@@ -8,8 +8,6 @@ import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Lista
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.sluzbenik_back.util.XSLFORTransformer;
 
-import jdk.internal.org.jline.reader.impl.history.DefaultHistory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
