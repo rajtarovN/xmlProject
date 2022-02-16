@@ -192,6 +192,17 @@ public class SaglasnostController {
 		}
 	}
 
+
+	@PreAuthorize("hasRole('Z')")
+	@GetMapping(path = "/getAvailableVaccines", produces = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<?> getAvailableVaccines(){
+		try {
+			return new ResponseEntity<>(saglasnostService.getAvailableVaccines(), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	@GetMapping(value = "/getAll", produces = "application/xml")
 	public ResponseEntity<?> getAllZahtevi() {
 		IdentificationDTO dto = new IdentificationDTO();

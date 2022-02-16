@@ -107,7 +107,7 @@
             color="accent"
             type="submit"
             class="submit-button"
-            (click)="openEvidencija(element.brojSaglasnosti, element.email)"
+            (click)="openEvidencija(element.brojSaglasnosti, element.email, element.odabranaVakcina)"
           >
             <mat-icon>edit</mat-icon>
           </button>
@@ -173,6 +173,7 @@
   <app-popuni-evidenciju
   *ngIf="this.showEvidenciju"
   [email]="this.selectedEmail"
+  [odabranaVakcina]="this.selectedVakcina"
   [brojSaglasnosti]="this.selectedBrojSaglasnosti"
   (onEvidencijaClose)="onEvidencijaCloseClicked($event)"
   (onEvidencijaSaved)="onEvidencijaSavedClicked($event)"

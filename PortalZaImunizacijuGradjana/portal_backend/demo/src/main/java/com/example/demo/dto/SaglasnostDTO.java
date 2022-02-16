@@ -13,6 +13,7 @@ public class SaglasnostDTO {
     public String prezime;
     public String datum_termina;
     public String email;
+    public String odabranaVakcina;
     public boolean primioDozu;
     public boolean dobioPotvrdu;
 
@@ -91,6 +92,14 @@ public class SaglasnostDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getOdabranaVakcina() {
+        return odabranaVakcina;
+    }
+
+    public void setOdabranaVakcina(String odabranaVakcina) {
+        this.odabranaVakcina = odabranaVakcina;
     }
 
 }

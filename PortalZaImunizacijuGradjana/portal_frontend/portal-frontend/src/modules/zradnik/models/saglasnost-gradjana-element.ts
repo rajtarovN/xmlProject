@@ -4,6 +4,7 @@ export interface SaglasnostGradjanaElement{
     prezime: string;    
     datum_termina: string;
     email: string;
+    odabranaVakcina: string;
     primioDozu?: boolean;
     dobioPotvrdu?: boolean;
 }
