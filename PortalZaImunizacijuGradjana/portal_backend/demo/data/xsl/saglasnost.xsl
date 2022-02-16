@@ -208,51 +208,59 @@
                         <xsl:for-each select="Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Vakcina">
                             <tr border="1px solid">
                                 <td padding="10px">
-                                    <div class="cell" >
+                                    <div class="cell">
                                         <xsl:value-of select="Naziv"/>
                                     </div>
                                 </td>
                                 <td padding="10px">
-                                    <div class="cell" >
+                                    <div class="cell">
                                         <xsl:value-of select="Datum_davanja"/>
                                     </div>
                                 </td>
 
                                 <td padding="10px">
-                                    <div class="cell" >
+                                    <div class="cell">
                                         <xsl:value-of select="Nacin_davanja"/>
                                     </div>
                                 </td>
-                            <td padding="10px">
-                                <div class="cell" >
+                                <td padding="10px">
+                                    <div class="cell">
                                         <xsl:value-of select="Ekstremiter"/>
-                                </div>
-                            </td>
-                                <td padding="10px">
-                                    <div class="cell" >
-                                    <xsl:value-of select="Serija"/>
                                     </div>
                                 </td>
                                 <td padding="10px">
-                                    <div class="cell" >
-                                    <xsl:value-of select="Proizvodjac"/>
+                                    <div class="cell">
+                                        <xsl:value-of select="Serija"/>
                                     </div>
                                 </td>
                                 <td padding="10px">
-                                    <div class="cell" >
+                                    <div class="cell">
+                                        <xsl:value-of select="Proizvodjac"/>
+                                    </div>
+                                </td>
+                                <td padding="10px">
+                                    <div class="cell">
                                         <xsl:value-of select="Nezeljena_reakcija"/>
                                     </div>
                                 </td>
                             </tr>
                         </xsl:for-each>
-                        <tr><td colspan="7">
-                            Привремене контраиндикације
-                            (датум утврђивања и дијагноза):
-                            <xsl:value-of select="/Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Datum_utvrdjivanja"/> |
-                            <xsl:value-of select="/Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Dijagnoza"/>
-                        </td></tr>
-                        <tr><td colspan="7">Одлука комисије за трајне контраиндикације<xsl:value-of select="/Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Odluka_komisije_za_trajne_kontraindikacije"/>
-                        </td></tr>
+                        <tr>
+                            <td colspan="7">
+                                Привремене контраиндикације
+                                (датум утврђивања и дијагноза):
+                                <xsl:value-of
+                                        select="/Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Datum_utvrdjivanja"/>
+                                |
+                                <xsl:value-of
+                                        select="/Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Dijagnoza"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7">Одлука комисије за трајне контраиндикације<xsl:value-of
+                                    select="/Saglasnost/Evidencija_o_vakcinaciji/Vakcine/Odluka_komisije_za_trajne_kontraindikacije"/>
+                            </td>
+                        </tr>
                         <tr>
 
                         </tr>
