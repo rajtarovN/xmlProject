@@ -153,4 +153,37 @@ export class ArhivaDokumenataComponent implements OnInit {
       },
     });
   }
+
+  preuzmiPDF(url: String | null) {
+    if (url === null) return;
+    // TODO NATASA
+
+    if (this.dokument === '1') {
+      // Saglasnost
+    } else if (this.dokument === '2') {
+      // Digitalni zeleni sertifikat
+    } else {
+      // Potvrda
+    }
+  }
+
+  // URL npr: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345
+  preuzmiXML(url: String | null) {
+    if (url === null) return;
+    var lista = url.split('/');
+    var id = lista[lista.length - 1]; // ID DOKUMENTA npr: 12345
+
+    console.log(url);
+    console.log(id);
+
+    // TODO NATASA
+
+    if (this.dokument === '1') {
+      // Saglasnost
+    } else if (this.dokument === '2') {
+      // Digitalni zeleni sertifikat
+    } else {
+      // Potvrda
+    }
+  }
 }

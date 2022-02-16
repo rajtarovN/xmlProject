@@ -3,7 +3,7 @@
     <mat-label for="dokument">Одаберите опцију: </mat-label>
     <mat-select [(ngModel)]="dokument" id="dokument" name="dokument">
       <mat-option value="1">Сагласност</mat-option>
-      <mat-option value="2">Сертиф</mat-option>
+      <mat-option value="2">Сертификат</mat-option>
       <mat-option value="3">Потврда</mat-option>
     </mat-select>
   </div>
@@ -199,6 +199,32 @@
               <tr *ngIf="item.referencedBy.length == 0">
                 <td colspan="4">
                   Nema dokumenata koji referenciraju ovaj dokument.
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    aria-label="preuzmiPDF"
+                    id="preuzmiPDF"
+                    class="btn-spacing"
+                    (click)="preuzmiPDF(item.url)"
+                  >
+                    PDF
+                    <mat-icon>download</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    aria-label="preuzmiXML"
+                    id="preuzmiXML"
+                    class="btn-spacing"
+                    (click)="preuzmiXML(item.url)"
+                  >
+                    XHTML
+                    <mat-icon>download</mat-icon>
+                  </button>
                 </td>
               </tr>
             </tbody>
