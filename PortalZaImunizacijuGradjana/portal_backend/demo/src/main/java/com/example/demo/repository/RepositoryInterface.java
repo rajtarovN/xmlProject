@@ -72,4 +72,8 @@ public abstract class RepositoryInterface {
 	public void deleteRDF(String documentId, String namedGraphUri, String predicate) throws IOException {
 		fusekiManager.deleteRDF(documentId, namedGraphUri, predicate);
 	}
+	
+	public List<String> readAllDocumentIds(String uri) throws IOException {
+		return fusekiManager.readAllDocuments(uri);
+	}
 }

@@ -12,10 +12,9 @@ import { InventoryFormComponent } from './components/inventory-form/inventory-fo
 import { RegistarGradjanaComponent } from './components/registar-gradjana/registar-gradjana.component';
 import { ZahteviComponent } from './components/zahtevi/zahtevi.component';
 import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz-dokumenata.component';
+import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva-dokumenata.component';
 import { RazlogZahtevaComponent } from './components/razlog-zahteva/razlog-zahteva.component';
 import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.component';
-
-
 
 @NgModule({
   declarations: [
@@ -25,8 +24,9 @@ import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.com
     RegistarGradjanaComponent,
     ZahteviComponent,
     PrikazDokumenataComponent,
+    ArhivaDokumenataComponent,
     RazlogZahtevaComponent,
-    OdbijZahtevComponent
+    OdbijZahtevComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +39,6 @@ import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.com
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
-  ]
+  ],
 })
-export class SluzbenikModule { }
+export class SluzbenikModule {}

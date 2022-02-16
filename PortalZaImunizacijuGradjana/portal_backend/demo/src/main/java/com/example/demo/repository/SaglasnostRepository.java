@@ -79,8 +79,7 @@ public class SaglasnostRepository extends RepositoryInterface {
 
 		// Find saglasnost with last date
 		if (danas != null) {
-			
-			
+
 			ArrayList<String> params = new ArrayList<>();
 			params.add("\"" + danas + "\"");
 
@@ -116,4 +115,24 @@ public class SaglasnostRepository extends RepositoryInterface {
 		fusekiManager.writeFuseki(rdfInputStream, uri);
 	}
 
+	public List<String> naprednaPretraga(String ime, String prezime, String jmbg, String datum, String email,
+			boolean and) throws Exception {
+		List<String> ids = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<>();
+		params.add(ime);
+		params.add(prezime);
+		params.add(jmbg);
+		params.add(datum);
+		params.add(email);
+		if (and) {
+
+			ids = this.fusekiManager.queryAbout("/lista_saglasnosti", SPARQL_FILE + "saglasnost_sve_and.rq", params);
+
+		} else {
+
+			ids = this.fusekiManager.queryAbout("/lista_saglasnosti", SPARQL_FILE + "saglasnost_sve_or.rq", params);
+		}
+		System.out.println(ids);
+		return ids;
+	}
 }

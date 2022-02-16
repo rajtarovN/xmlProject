@@ -13,6 +13,7 @@ import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.XSLFORTransformer;
+
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,10 +45,6 @@ import static com.example.demo.util.PathConstants.*;
 
 @Service
 public class SaglasnostService extends AbstractService {
-
-	protected String collectionId;
-
-	protected String fusekiCollectionId;
 
 	@Autowired
 	private SaglasnostRepository saglasnostRepository;
@@ -567,4 +564,16 @@ public class SaglasnostService extends AbstractService {
 			ClassNotFoundException, XMLDBException, IOException {
 		return this.saglasnostRepository.pronadjiPoId(documentId);
 	}
+
+	public List<String> getAllSaglasnosti() throws IOException {
+		return this.saglasnostRepository.readAllDocumentIds(fusekiCollectionId);
+	}
+
+	public List<String> naprednaPretraga(String ime, String prezime, String jmbg, String datum, String email,
+			boolean and) throws Exception {
+
+		return this.saglasnostRepository.naprednaPretraga(ime, prezime, jmbg, datum, email, and);
+
+	}
+
 }
