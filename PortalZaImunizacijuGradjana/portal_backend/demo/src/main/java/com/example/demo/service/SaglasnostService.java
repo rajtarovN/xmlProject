@@ -396,7 +396,16 @@ public class SaglasnostService extends AbstractService {
 			String email = saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().getValue();
 			createNextAppointment(i, lastVaxName, email,  ime, prezime);
 
-			//TODO smanji zalihe
+			//smanji zalihe
+			Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
+			for (Vakcina zaliha : zalihe.getVakcina()) {
+				if ( zaliha.getNaziv().compareTo(lastVaxName) != 0) {
+					zaliha.setRezervisano(zaliha.getRezervisano() - 1);
+					zaliha.setDostupno(zaliha.getDostupno() - 1);
+				}
+			}
+			this.dostupneVakcineClient.updateVakcine(zalihe);
+
 			return "Uspesno sacuvane evidentirane vakcine.";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -628,7 +637,6 @@ public class SaglasnostService extends AbstractService {
 		saglasnost.setEvidencijaOVakcinaciji(new Saglasnost.EvidencijaOVakcinaciji());
 		saglasnost.setPacijent(new Saglasnost.Pacijent());
 		if(currentDoseGiven == 1){
-			//TODO smanji zalihe
 			saglasnost.setOdabraneVakcine(vaxName);
 		}else
 			saglasnost.setOdabraneVakcine("");
@@ -698,6 +706,17 @@ public class SaglasnostService extends AbstractService {
 
 		return this.saglasnostRepository.naprednaPretraga(ime, prezime, jmbg, datum, email, and);
 
+	}
+
+	public List<String> obicnaPretraga(String searchTerm) throws IOException{
+		List<String> allIds = getAllSaglasnosti();
+		List<String> filteredIds = new ArrayList<>();
+		for (String id: allIds ) {
+			if(this.saglasnostRepository.obicnaPretraga("saglasnost_"+id+".xml", searchTerm)){
+				filteredIds.add("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/"+id);
+			}
+		}
+		return filteredIds;
 	}
 
 }
