@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.client.EmailClient;
 import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.ZahtevRepository;
@@ -73,7 +74,7 @@ public class ZahtevService extends AbstractService {
 
         content = finalString;
 
-        repository.saveXML(documentId, collectionId, content);
+        repository.saveXML("zahtev_"+documentId, collectionId, content);
     }
 
     public String generatePDF(String id) {
@@ -109,6 +110,7 @@ public class ZahtevService extends AbstractService {
             return null;
         }
     }
+
     public String generateHTML(String id) throws XMLDBException {
         XSLFORTransformer transformer = null;
 
@@ -270,4 +272,48 @@ public class ZahtevService extends AbstractService {
         return zahtevZaZeleniSertifikat;
     }
 
+    public void saveRDF(String content, String uri) throws Exception {
+
+        String jmbg = uri.split("_")[0];
+        List<String> sviZahtevi = pronadjiPoStatusuIJmbg("na cekanju", jmbg);
+        for(String s: sviZahtevi){
+            String id = jmbg +"/"+s;
+        repository.deleteRDF(id, "/lista_zahteva",
+                    "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
+        }
+            zahtevRepository.saveRDF(content, "/lista_zahteva");
+    }
+
+    private List<String> pronadjiPoStatusuIJmbg(String status, String jmbg) {
+        List<String> ids = new ArrayList<>();
+        try {
+            ids = zahtevRepository.pronadjiPoStatusuIJmbg(status, jmbg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
+    public String getListuZahtevaPoStatusuJMBG(String jmbg) throws Exception {
+
+        List<String> ids = pronadjiPoStatusuIJmbg("na cekanju", jmbg);
+        ListaZahteva listaZahteva = new ListaZahteva();
+        List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
+        for (String id : ids) {
+            System.out.println(id+" ****");
+            ZahtevZaZeleniSertifikat z = pronadjiPoId(jmbg+"_"+id);
+            zahtevi.add(z);
+        }
+        listaZahteva.setZahtevi(zahtevi);
+
+        JAXBContext context = JAXBContext.newInstance(ListaZahteva.class);
+        OutputStream os = new ByteArrayOutputStream();
+
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        marshaller.marshal(listaZahteva, os);
+        return os.toString();
+
+    }
 }
