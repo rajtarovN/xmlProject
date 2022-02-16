@@ -172,6 +172,64 @@ public class FusekiManager {
         return result;
     }
     
+    public List<String> queryAbout(String graphUri, String sparqlFilePath, List<String> queryParams) throws Exception {
+        AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
+        queryParams.add(0, fusekiConn.dataEndpoint + graphUri);
+
+        // Querying the named graph with a referenced SPARQL query
+        System.out.println("[INFO] Loading SPARQL query from file \"" + sparqlFilePath + "\"");
+        System.out.println(queryParams.toArray());
+        String sparqlQuery = String.format(FileUtil.readFile(sparqlFilePath, StandardCharsets.UTF_8),
+                queryParams.toArray());
+
+
+        System.out.println(sparqlQuery);
+
+        // Create a QueryExecution that will access a SPARQL service over HTTP
+        QueryExecution query = QueryExecutionFactory.sparqlService(fusekiConn.queryEndpoint, sparqlQuery);
+
+        // Query the SPARQL endpoint, iterate over the result set...
+        System.out.println("[INFO] Showing the results for SPARQL query using the result handler.\n");
+        ResultSet results = query.execSelect();
+
+        String varName;
+        RDFNode varValue;
+
+        List<String> result = new ArrayList<String>();
+        while (results.hasNext()) {
+
+            // A single answer from a SELECT query
+            QuerySolution querySolution = results.next();
+            Iterator<String> variableBindings = querySolution.varNames();
+
+            // Retrieve variable bindings
+            while (variableBindings.hasNext()) {
+
+                varName = variableBindings.next();
+                varValue = querySolution.get(varName);
+
+                result.add(varValue.toString());
+            }
+        }
+
+        // Issuing the same query once again...
+
+        // Create a QueryExecution that will access a SPARQL service over HTTP
+        query = QueryExecutionFactory.sparqlService(fusekiConn.queryEndpoint, sparqlQuery);
+
+        // Query the collection, dump output response as XML
+        System.out.println("[INFO] Showing the results for SPARQL query in native SPARQL XML format.\n");
+        results = query.execSelect();
+
+        // ResultSetFormatter.outputAsXML(System.out, results);
+        ResultSetFormatter.out(System.out, results);
+
+        query.close();
+
+        System.out.println("[INFO] End.");
+        return result;
+    }
+    
     public void deleteRDF(String documentId, String namedGraphUri, String predicate) throws IOException {
     	 AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
     	
@@ -202,6 +260,47 @@ public class FusekiManager {
 		System.out.println("Deleted " + sparqlCondition);
 		model.close();
 	}
+    
+    public List<String> readAllDocuments(String uri) throws IOException {
+		AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
+
+		// Querying the first named graph with a simple SPARQL query
+        System.out.println("[INFO] Selecting the triples from the named graph \"" + uri + "\".");
+        String sparqlQuery = SparqlUtil.selectDistinctData(fusekiConn.dataEndpoint + uri, "?s ?p ?o");
+
+        System.out.println(sparqlQuery);
+        // Create a QueryExecution that will access a SPARQL service over HTTP
+        QueryExecution query = QueryExecutionFactory.sparqlService(fusekiConn.queryEndpoint, sparqlQuery);
+
+        // Query the SPARQL endpoint
+        ResultSet results = query.execSelect();
+
+        List<String> ids = new ArrayList<String>();
+		String varName;
+		RDFNode varValue;
+
+		while (results.hasNext()) {
+
+			// A single answer from a SELECT query
+			QuerySolution querySolution = results.next();
+			java.util.Iterator<String> variableBindings = querySolution.varNames();
+
+			// Retrieve variable bindings
+			while (variableBindings.hasNext()) {
+
+				varName = variableBindings.next();
+				varValue = querySolution.get(varName);
+
+				ids.add(varValue.toString());
+			}
+		}
+		
+		query.close();
+        System.out.println("[INFO] End.");
+
+		return ids;
+	}
+    
     
 }
 

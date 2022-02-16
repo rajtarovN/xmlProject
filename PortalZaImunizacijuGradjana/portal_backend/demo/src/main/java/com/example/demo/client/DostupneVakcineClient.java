@@ -33,7 +33,7 @@ public class DostupneVakcineClient {
 	}
 
 	public Zalihe getDostupneVakcine() throws Exception {
-		System.out.println("Sent HTTP GET request to query customer info");
+		System.out.println("Sent HTTP GET request to query zalihe");
 		URL url = new URL(BASE_URL + "/zalihe");
 
 		InputStream in = url.openStream();

@@ -26,4 +26,23 @@ export class SaglasnostService {
       { responseType: 'arraybuffer' }
     );
   }
+
+  // api/saglasnost/getAll
+  getAll(): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/saglasnost/getAll`, {
+      responseType: 'text',
+    });
+  }
+
+  naprednaPretraga(data: any): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+      'Content-Type': 'application/xml',
+    });
+    return this.http.post(
+      `${environment.baseUrl}/saglasnost/naprednaPretraga`,
+      data,
+      { headers: headers, responseType: 'text' }
+    );
+  }
 }
