@@ -186,28 +186,21 @@ public class SaglasnostService extends AbstractService {
 		ArrayList<SaglasnostDTO> lista = new ArrayList<>();
 		for (String i : ids) {
 			Saglasnost z = this.pronadjiPoId(i);
-			if (z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null
-					&& z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+			if(z.getPacijent().getLicniPodaci().getImeRoditelja() != null && !z.getPacijent().getLicniPodaci().getImeRoditelja().equals("")){
+				// saglasnost popunjena i nije istekla
 				SaglasnostDTO dto = new SaglasnostDTO(z);
-				if(!(z.getOdabraneVakcine() == null || z.getOdabraneVakcine().equals(""))){
+				dto.setPrimioDozu(false);
+				dto.setDobioPotvrdu(false);
+				if(z.getOdabraneVakcine() != null && !z.getOdabraneVakcine().equals("")){
 					dto.setOdabranaVakcina(z.getOdabraneVakcine());
 				}else{
 					dto.setOdabranaVakcina("all");
 				}
-				dto.setPrimioDozu(false);
-				dto.setDobioPotvrdu(false);
-				lista.add(dto);
-			} else {
+				
 				boolean vaxxed = false;
-				SaglasnostDTO dto = new SaglasnostDTO(z);
-				if(!(z.getOdabraneVakcine() == null || z.getOdabraneVakcine().equals(""))){
-					dto.setOdabranaVakcina(z.getOdabraneVakcine());
-				}else{
-					dto.setOdabranaVakcina("all");
-				}
-				dto.setPrimioDozu(false);
-				dto.setDobioPotvrdu(false);
-				if (z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null) {
+				if (z.getEvidencijaOVakcinaciji() != null && z.getEvidencijaOVakcinaciji().getVakcine() != null
+						&& !z.getEvidencijaOVakcinaciji().getVakcine().getVakcina().isEmpty()) {
+					// izvrsena je vakcinacija
 					for (Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina : z.getEvidencijaOVakcinaciji()
 							.getVakcine().getVakcina()) {
 						if (vakcina.getDatumDavanja().toString()
@@ -232,9 +225,9 @@ public class SaglasnostService extends AbstractService {
 						}
 					}
 				}
-
 				lista.add(dto);
 			}
+
 		}
 		return lista;
 	}
