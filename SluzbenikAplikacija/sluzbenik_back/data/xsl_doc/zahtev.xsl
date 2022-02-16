@@ -18,9 +18,6 @@
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block font-family="Times New Roman" width="60%"
                               margin-top="10pt" text-align="center" border="none"  text-decoration="underline">
-<!--                        <xsl:value-of select="/ns2:zahtev/ns2:info_organa/ns2:naziv"></xsl:value-of>-->
-<!--                        ,-->
-<!--                        <xsl:value-of select="/ns2:zahtev/ns2:info_organa/ns2:sediste"></xsl:value-of>-->
                     </fo:block>
 
 
@@ -30,42 +27,44 @@
                     <fo:block  text-align="center" font-size="12pt" font-weight="bold" font-family="Times New Roman">
                         за издавање дигиталног зеленог сертификата
                     </fo:block>
-
+                    <fo:block>&#160;</fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        У складу са одредбом Републике Србије о издавању дигиталног зеленог
+                        &#160;&#160;&#160;&#160;У складу са одредбом Републике Србије о издавању дигиталног зеленог
                         сертификата као потврде о извршеној вакцинацији против COVID-19, резултатима
                         тестирања на заразну болест SARS-CoV-2 или опоравку од болести COVID-19,
                         подносим захтев за издавање дигиталног зеленог сертификата.
-
+                    </fo:block>
+                    <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
                         Подносилац захтева:
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Име и презиме: <xsl:value-of select="count(/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/e)"/>
-                        <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Prezime"></xsl:value-of>
+                        Име и презиме:
+                        <fo:inline> <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Ime"/></fo:inline> &#160;
+                        <fo:inline> <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Prezime"/></fo:inline>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Датум рођења: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Datum_rodjenja"></xsl:value-of>
+                        Датум рођења: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Datum_rodjenja"/>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Пол: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Pol"></xsl:value-of>
+                        Пол: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Pol"/>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Јединствени матични број грађанина: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Jmbg"></xsl:value-of>
+                        Јединствени матични број грађанина: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Jmbg"/>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Број пасоша: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Broj_pasosa"></xsl:value-of>
-                    </fo:block>
+                        Број пасоша: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Broj_pasosa"/>
+                    </fo:block><br/>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Разлог за подношење захтева: <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Razlog_podnosenja_zahteva"></xsl:value-of>
+                        Разлог за подношење захтева: <fo:block>&#160;</fo:block> <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Podnosilac_zahteva/ns2:Razlog_podnosenja_zahteva"/>
                     </fo:block>
-                    <fo:block  text-align="center" font-size="8pt" font-family="Times New Roman">
+                    <fo:block  text-align="center" font-size="10pt" font-family="Times New Roman">
                         (навести што прецизнији разлога за подношење захтева за издавање дигиталног пасоша)
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        У <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Zaglavlje/ns2:Mesto_podnosenja_zahteva"></xsl:value-of>
+                        У <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Zaglavlje/ns2:Mesto_podnosenja_zahteva"/>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Дана    године
+                        Дана <xsl:value-of select="/ns2:Zahtev_za_zeleni_sertifikat/ns2:Zaglavlje/ns2:Dan_podnosenja_zahteva"/>   године
                     </fo:block>
                 </fo:flow>
             </fo:page-sequence>
