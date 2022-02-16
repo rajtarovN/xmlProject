@@ -112,8 +112,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				"/saglasnost/naprednaPretraga", "/sertifikat/naprednaPretraga", "/ws/**");
 
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/interesovanje/updatePending",
-				"/saglasnost/getAll", "/sertifikat/getAll", "/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
-				"/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/potvrda/xml/**", "/potvrda/allXmlByEmail/**",
-				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
+				"/saglasnost/getAll", "/sertifikat/getAll", "/zahtev/findByStatus", "/zahtev/odbijZahtev/**",
+				"/zahtev/odobriZahtev/**", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/potvrda/xml/**",
+				"/potvrda/allXmlByEmail/**", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css",
+				"/**/*.js", "/v2/api-docs");
 	}
 }

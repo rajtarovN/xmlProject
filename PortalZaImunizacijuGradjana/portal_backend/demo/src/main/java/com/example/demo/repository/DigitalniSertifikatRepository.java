@@ -1,21 +1,36 @@
 package com.example.demo.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import javax.xml.bind.JAXBException;
 
-import com.example.demo.util.DBManager;
-import com.example.demo.util.ExistManager;
-import com.example.demo.util.FusekiManager;
+import org.springframework.stereotype.Repository;
+import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 @Repository
 public class DigitalniSertifikatRepository extends RepositoryInterface {
-	
+
 	public static final String SPARQL_FILE = "src/main/resources/static/sparql/sertifikat/";
 
-	
+	private String collectionId = "/db/portal/lista_sertifikata";
+
+	public XMLResource pronadjiPoId(String id) throws IllegalAccessException, JAXBException, InstantiationException,
+			IOException, XMLDBException, ClassNotFoundException {
+		return dbManager.readFileFromDB("sertifikat_" + id + ".xml", collectionId);
+	}
+
+	public List<String> pronadjiPoJmbg(String jmbg) throws Exception {
+		List<String> ids = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<>();
+		params.add("\"" + jmbg + "\"");
+
+		ids = this.fusekiManager.query("/lista_sertifikata", SPARQL_FILE + "sertifikat_jmbg.rq", params);
+		return ids;
+	}
+
 	public List<String> naprednaPretraga(String brojPasosa, String brojSertifikata, String datum, String ime,
 			String jmbg, String prezime, boolean and) throws Exception {
 		List<String> ids = new ArrayList<>();
@@ -37,4 +52,5 @@ public class DigitalniSertifikatRepository extends RepositoryInterface {
 		System.out.println(ids);
 		return ids;
 	}
+
 }
