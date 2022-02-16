@@ -204,10 +204,10 @@ public class SaglasnostController {
 	}
 
 	@GetMapping(value = "/getAll", produces = "application/xml")
-	public ResponseEntity<?> getAllZahtevi() {
+	public ResponseEntity<?> getAllSaglasnosti() {
 		IdentificationDTO dto = new IdentificationDTO();
 		try {
-			dto.setSaglasnost(saglasnostService.getAllSaglasnosti());
+			dto.setIds(saglasnostService.getAllSaglasnosti());
 			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

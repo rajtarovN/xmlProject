@@ -178,7 +178,7 @@ export class SaglasnostFormComponent implements OnInit {
     } else {
       drzavljanstvoTxt = `<Strani_drzavljanin>
                             \t\t<Drzavljanstvo>${this.addSaglasnostForm.value.stranoDrzavljanstvo}</Drzavljanstvo>
-                            \t\t<Identifikacija>${this.addSaglasnostForm.value.stranoDrzavljanstvoId}</Identifikacija>
+                            \t\t<Identifikacija property="pred:identifikacija">${this.addSaglasnostForm.value.stranoDrzavljanstvoId}</Identifikacija>
                           \t</Strani_drzavljanin>`;
     }
 

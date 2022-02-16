@@ -10,9 +10,7 @@ import com.example.sluzbenik_back.util.XSLFORTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xmldb.api.base.XMLDBException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,10 +5,29 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SertifikatService {
-  constructor(private http: HttpClient, private route: Router) {}
+  constructor(private http: HttpClient) {}
+
+  // api/sertifikat/getAll
+  getAll(): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/sertifikat/getAll`, {
+      responseType: 'text',
+    });
+  }
+
+  naprednaPretraga(data: any): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+      'Content-Type': 'application/xml',
+    });
+    return this.http.post(
+      `${environment.baseUrl}/sertifikat/naprednaPretraga`,
+      data,
+      { headers: headers, responseType: 'text' }
+    );
+  }
 
   getXmlByEmail(email: string): Observable<string> {
     const headers = new HttpHeaders({
