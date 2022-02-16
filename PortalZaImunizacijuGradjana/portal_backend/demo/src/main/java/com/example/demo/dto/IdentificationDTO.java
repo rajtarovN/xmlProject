@@ -11,27 +11,28 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 @XmlRootElement(name = "IdentificationDTO")
 @JsonRootName(value = "IdentificationDTO")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class IdentificationDTO {
 
-	@XmlElementWrapper(name="saglasnost")
-	List<String> saglasnost;
+
+    @XmlElementWrapper(name="ids")
+	List<String> ids;
 
 	public IdentificationDTO() {
 		super();
 	}
 
-	public IdentificationDTO(List<String> saglasnost) {
+	public IdentificationDTO(List<String> ids) {
 		super();
-		this.saglasnost = saglasnost;
+		this.ids = ids;
 	}
 
-	public List<String> getSaglasnost() {
-		return saglasnost;
+	public List<String> getIds() {
+		return ids;
 	}
 
-	public void setSaglasnost(List<String> list) {
-		this.saglasnost = list;
+	public void setIds(List<String> list) {
+		this.ids = list;
 	}
 
 }
