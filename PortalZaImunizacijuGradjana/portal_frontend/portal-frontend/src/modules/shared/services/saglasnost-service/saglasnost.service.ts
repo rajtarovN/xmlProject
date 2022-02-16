@@ -86,4 +86,14 @@ export class SaglasnostService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getAvailableVacs(): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.getAvailableVacs}`,
+      { headers: headers, responseType: 'text' }
+    );
+  }
 }

@@ -30,6 +30,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
   showPotvrdu: boolean;
   selectedEmail: string;
   selectedBrojSaglasnosti: string;
+  selectedVakcina: string;
 
   displayedColumns: string[] = [
     'Email',
@@ -62,6 +63,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     this.showPotvrdu = false;
     this.selectedEmail = '';
     this.selectedBrojSaglasnosti = '';
+    this.selectedVakcina = '';
   }
 
   ngOnInit(): void {
@@ -81,8 +83,9 @@ export class SaglasnostiGradjanaComponent implements OnInit {
               prezime: String(element.children[2].children[0]),
               datum_termina: String(element.children[3].children[0]),
               email: String(element.children[4].children[0]),
-              primioDozu: String(element.children[5].children[0]) == "true" ? true:false,
-              dobioPotvrdu: String(element.children[6].children[0]) == "true" ? true:false,
+              odabranaVakcina: String(element.children[5].children[0]),
+              primioDozu: String(element.children[6].children[0]) == "true" ? true:false,
+              dobioPotvrdu: String(element.children[7].children[0]) == "true" ? true:false,
             };
             list.push(temp);
             
@@ -117,8 +120,9 @@ export class SaglasnostiGradjanaComponent implements OnInit {
                 prezime: String(element.children[2].children[0]),
                 datum_termina: String(element.children[3].children[0]),
                 email: String(element.children[4].children[0]),
-                primioDozu: Boolean(element.children[5].children[0]),
-                dobioPotvrdu: Boolean(element.children[6].children[0]),
+                odabranaVakcina: String(element.children[5].children[0]),
+                primioDozu: String(element.children[6].children[0]) == "true" ? true:false,
+                dobioPotvrdu: String(element.children[7].children[0]) == "true" ? true:false,
               };
               list.push(temp);
               this.data.push(temp);
@@ -177,9 +181,10 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     this.selectedEmail = '';
   }
 
-  openEvidencija(brojSaglasnosti: string, email: string) {
+  openEvidencija(brojSaglasnosti: string, email: string, odabranaVakcina: string) {
     this.selectedBrojSaglasnosti = brojSaglasnosti;
     this.selectedEmail = email;
+    this.selectedVakcina = odabranaVakcina;
     this.showEvidenciju = true;
   }
 
@@ -187,6 +192,7 @@ export class SaglasnostiGradjanaComponent implements OnInit {
     this.showEvidenciju = false;
     this.selectedBrojSaglasnosti = '';
     this.selectedEmail = '';
+    this.selectedVakcina = '';
   }
 
   onEvidencijaSavedClicked(brSaglasnosti: string) {

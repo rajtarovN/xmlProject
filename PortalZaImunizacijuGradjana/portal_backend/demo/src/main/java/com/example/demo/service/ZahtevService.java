@@ -41,9 +41,6 @@ public class ZahtevService extends AbstractService {
     private EmailClient emailClient;
 
     @Autowired
-    private KorisnikService korisnikService;
-
-    @Autowired
     private DigitalniSertifikatService digitalniSertifikatService;
 
     @Autowired
@@ -233,8 +230,6 @@ public class ZahtevService extends AbstractService {
             String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odobren. \n";
 
             com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
-            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = zahtevZaZeleniSertifikat.getPodnosilacZahteva().getDatumRodjenja().toGregorianCalendar().getTime();
             String email = zahtevZaZeleniSertifikat.getEmail();
             emailModel.setTo(email);
             emailModel.setContent(message);

@@ -15,6 +15,7 @@ export const environment = {
   createPotvrdu: 'potvrda/kreirajPotvrdu',
   savePotvrdu: 'potvrda/savePotvrdu',
   saveDoze: 'potvrda/saveDoze',
+  getAvailableVacs: 'saglasnost/getAvailableVaccines'
 };
 
 /*
