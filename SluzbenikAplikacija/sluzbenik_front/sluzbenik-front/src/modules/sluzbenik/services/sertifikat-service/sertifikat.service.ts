@@ -28,4 +28,21 @@ export class SertifikatService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getXmlByEmail(email: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.getSertifikate}/${email}`,
+      { headers: headers, responseType: 'text' }
+    );
+  }
+
+  getPdf(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.sertifikatPdf}/${id}`,
+      { responseType: 'arraybuffer' }
+    );
+  }
 }

@@ -1,5 +1,6 @@
 package com.example.sluzbenik_back.dto;
 
+import com.example.sluzbenik_back.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 
@@ -27,6 +28,13 @@ public class DokumentDTO {
         this.id = num;
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
         Date date = potvrdaOVakcinaciji.getDatumIzdavanja().getValue().toGregorianCalendar().getTime();
+        this.datumKreiranja = ft.format(date);
+    }
+
+    public DokumentDTO(DigitalniZeleniSertifikat s){
+        this.id = s.getPodaciOSertifikatu().getBrojSertifikata().getValue();
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        Date date = s.getPodaciOSertifikatu().getDatumIzdavanja().getValue().toGregorianCalendar().getTime();
         this.datumKreiranja = ft.format(date);
     }
 

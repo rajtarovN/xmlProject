@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.xmldb.api.modules.XMLResource;
 
 import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.SertifikatNaprednaDTO;
@@ -98,4 +99,28 @@ public class DigitalniSertifikatController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+       
+    
+
+    @GetMapping(path = "/allXmlByEmail/{userEmail}")
+    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
+        try{
+            return new ResponseEntity<>(digitalniSertifikatService.allXmlByEmail(userEmail), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/xml/{id}", produces = "application/xml")
+    public ResponseEntity<String> getXML(@PathVariable("id") String id) {
+
+        try {
+            XMLResource xml = digitalniSertifikatService.getXML(id);
+            return new ResponseEntity<>(xml.getContent().toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
