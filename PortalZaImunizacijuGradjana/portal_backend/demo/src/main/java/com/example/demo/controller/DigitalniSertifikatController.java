@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.xmldb.api.modules.XMLResource;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +21,7 @@ import java.io.FileInputStream;
 @RequestMapping(value = "/sertifikat")
 public class DigitalniSertifikatController {
 
+    @Autowired
     private DigitalniSertifikatService digitalniSertifikatService;
 
     private static final Logger LOG = LoggerFactory.getLogger(InteresovanjeController.class);
@@ -58,6 +60,27 @@ public class DigitalniSertifikatController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
 
+    @GetMapping(path = "/allXmlByEmail/{userEmail}")
+    public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
+        try{
+            return new ResponseEntity<>(digitalniSertifikatService.allXmlByEmail(userEmail), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/xml/{id}", produces = "application/xml")
+    public ResponseEntity<String> getXML(@PathVariable("id") String id) {
+
+        try {
+            XMLResource xml = digitalniSertifikatService.getXML(id);
+            return new ResponseEntity<>(xml.getContent().toString(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

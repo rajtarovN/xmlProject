@@ -1,9 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
+import com.example.demo.model.digitalni_zeleni_sertifikat.ListaSertifikata;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
+import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.DigitalniSertifikatRepository;
+import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.XSLFORTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +15,13 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +34,14 @@ import static com.example.demo.util.PathConstants.*;
 @Service
 public class DigitalniSertifikatService extends AbstractService {
 
+    @Autowired
+    private DigitalniSertifikatRepository digitalniSertifikatRepository;
+
+    @Autowired
     private SaglasnostService saglasnostService;
+
+    @Autowired
+    private ZahtevService zahtevService;
 
     @Autowired
     public DigitalniSertifikatService(DigitalniSertifikatRepository digitalniSertifikatRepository,
@@ -183,5 +197,65 @@ public class DigitalniSertifikatService extends AbstractService {
         repository.saveRDF(os.toString(), "/lista_sertifikata");
 
         return id;
+    }
+
+    public DigitalniZeleniSertifikat pronadjiPoId(String id) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+        XMLResource res = this.digitalniSertifikatRepository.pronadjiPoId(id);
+        try {
+            if (res != null) {
+
+                JAXBContext context = JAXBContext.newInstance("com.example.demo.model.digitalni_zeleni_sertifikat");
+
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+
+                DigitalniZeleniSertifikat s = (DigitalniZeleniSertifikat) unmarshaller
+                        .unmarshal((res).getContentAsDOM());
+
+                return s;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public String allXmlByEmail(String email) throws Exception {
+        Saglasnost saglasnost = saglasnostService.pronadjiSaglasnostPoEmailu(email);
+        List<String> ids = new ArrayList<>();
+        List<DigitalniZeleniSertifikat> ret = new ArrayList<>();
+        if(saglasnost != null){
+            if(saglasnost.getPacijent().getStraniDrzavljanin() != null &&
+                    saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija() != null &&
+                    saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue() != null){
+                ids = digitalniSertifikatRepository.pronadjiPoJmbg(saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue());
+            }else{
+                ids = digitalniSertifikatRepository.pronadjiPoJmbg(saglasnost.getPacijent().getDrzavljaninSrbije().getJmbg().getValue());
+            }
+
+            if(!ids.isEmpty()){
+                for (String id: ids) {
+                    DigitalniZeleniSertifikat sertifikat = pronadjiPoId(id);
+                    if(sertifikat != null){
+                        ret.add(sertifikat);
+                    }
+                }
+            }
+        }
+        ListaSertifikata lista = new ListaSertifikata();
+        lista.setSertifikate(ret);
+        JAXBContext context = JAXBContext.newInstance(ListaSertifikata.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        marshaller.marshal(lista, stream);
+
+        return stream.toString();
+    }
+
+    public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
+        return this.digitalniSertifikatRepository.pronadjiPoId(documentId);
     }
 }
