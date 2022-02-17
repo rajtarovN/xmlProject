@@ -108,4 +108,7 @@ public class SaglasnostService {
 		return this.saglasnostClient.getByNaprednaPretraga(dto);
 	}
 
+    public IdentificationDTO obicnaPretraga(String searchTerm) throws Exception {
+        return this.saglasnostClient.getByObicnaPretraga(searchTerm);
+    }
 }

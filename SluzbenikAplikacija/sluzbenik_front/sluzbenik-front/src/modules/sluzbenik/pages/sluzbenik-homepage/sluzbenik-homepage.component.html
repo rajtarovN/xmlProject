@@ -48,9 +48,13 @@
       <span>Dostupne Vakcine</span>
     </button>
 
-    <button mat-button class="menu-button" (click)="this.activeView = '5'">
+    <button mat-button class="menu-button" [matMenuTriggerFor]="menu">
       <span>Arhiva gradjanskih dokumenata</span>
     </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="this.activeView = '5'">Napredna pretraga</button>
+      <button mat-menu-item (click)="this.activeView = '6'">Obicna pretraga</button>
+    </mat-menu>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
@@ -70,6 +74,10 @@
         class="items"
         *ngIf="this.activeView === '5'"
       ></app-arhiva-dokumenata>
+      <app-obicna-pretraga
+        class="tables"
+        *ngIf="this.activeView === '6'"
+      ></app-obicna-pretraga>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

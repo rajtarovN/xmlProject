@@ -10,8 +10,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,8 +25,12 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
+import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -114,9 +119,12 @@ public class DigitalniSertifikatService extends AbstractService {
 
 	public String saveSertifikat(ZahtevZaZeleniSertifikat zahtev) throws Exception {
 		String id = UUID.randomUUID().toString();
-		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		LocalDateTime now = LocalDateTime.now();
 		XMLGregorianCalendar dateFormatted = DatatypeFactory.newInstance()
-				.newXMLGregorianCalendar(ft.format(new Date()));
+				.newXMLGregorianCalendar(now.format(formatter));
 
 		DigitalniZeleniSertifikat sertifikat = new DigitalniZeleniSertifikat();
 		sertifikat.setAbout("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/" + id);
@@ -125,7 +133,7 @@ public class DigitalniSertifikatService extends AbstractService {
 
 		DigitalniZeleniSertifikat.PodaciOSertifikatu ps = new DigitalniZeleniSertifikat.PodaciOSertifikatu();
 		DigitalniZeleniSertifikat.PodaciOSertifikatu.BrojSertifikata bs = new DigitalniZeleniSertifikat.PodaciOSertifikatu.BrojSertifikata();
-		DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja di = new DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja();
+		DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja di = new DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja();
 		bs.setValue(id);
 		bs.setProperty("pred:broj_sertifikata");
 		di.setValue(dateFormatted);
@@ -273,7 +281,7 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.sluzbenik_back.dto.DokumentDTO> getSertifikatiAllByEmail(String email){
+	public List<com.example.sluzbenik_back.dto.DokumentDTO> getSertifikatiAllByEmail(String email) {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
@@ -283,14 +291,41 @@ public class DigitalniSertifikatService extends AbstractService {
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
 			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
-			for (DigitalniZeleniSertifikat s: saglasnosti.getSertifikate()) {
+			for (DigitalniZeleniSertifikat s : saglasnosti.getSertifikate()) {
 				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
-			}System.out.println("OVDEEEEEE");
+			}
+			System.out.println("OVDEEEEEE");
 			return ret;
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<>();
+	}
+	public List<String> obicnaPretraga(String searchTerm) throws Exception{
+		List<String> filteredIds = new ArrayList<>();
+		ResourceSet result = ((DigitalniSertifikatRepository) this.repository).obicnaPretraga(searchTerm);
+		ResourceIterator i = result.getIterator();
+		Resource res = null;
+		JAXBContext context = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
+
+		while (i.hasMoreResources()) {
+			try {
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+				res = i.nextResource();
+				DigitalniZeleniSertifikat r = (DigitalniZeleniSertifikat) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+
+				String about = r.getAbout();
+
+				filteredIds.add(about);
+			} finally {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		return filteredIds;
 	}
 }

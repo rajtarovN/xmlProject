@@ -77,6 +77,10 @@ public class DigitalniSertifikatService {
 		}
 	}
 
+	public IdentificationDTO obicnaPretraga(String searchTerm) throws Exception {
+		return this.digitalniSertifikatClient.getByObicnaPretraga(searchTerm);
+	}
+
 	public String generateHTML(String id) throws XMLDBException {
 		XSLFORTransformer transformer = null;
 
@@ -109,6 +113,5 @@ public class DigitalniSertifikatService {
 			return null;
 		}
 	}
-
 
 }

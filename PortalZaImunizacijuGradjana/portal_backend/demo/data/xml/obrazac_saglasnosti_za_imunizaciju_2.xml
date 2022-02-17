@@ -64,4 +64,5 @@
             <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>
         </Vakcine>
     </Evidencija_o_vakcinaciji>
+    <Potvrda property="pred:seeAlso"/>
 </Saglasnost>

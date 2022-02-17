@@ -3,17 +3,23 @@ package com.example.demo.service;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
+import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import com.example.demo.repository.DigitalniSertifikatRepository;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.FusekiManager;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
+import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -320,7 +326,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
     }
 
-    public List<com.example.sluzbenik_back.dto.DokumentDTO> getPotvrdaAllByEmail(String email){
+    public List<com.example.sluzbenik_back.dto.DokumentDTO> getPotvrdaAllByEmail(String email) {
         try {
             System.out.println("OVDEEEEEE");
             String all = this.allXmlByEmail(email);
@@ -330,14 +336,45 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             StringReader reader = new StringReader(all);
             ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
             List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
-            for (PotvrdaOVakcinaciji s: potvrde.getPotvrde()) {
+            for (PotvrdaOVakcinaciji s : potvrde.getPotvrde()) {
                 ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
-            }System.out.println("OVDEEEEEE");
+            }
+            System.out.println("OVDEEEEEE");
             return ret;
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+    public List<String> getAllPotvrde() throws IOException {
+        return this.potvrdaVakcinacijeRepository.readAllDocumentIds(fusekiCollectionId);
+    }
+
+    public List<String> obicnaPretraga(String searchTerm) throws Exception{
+        List<String> filteredIds = new ArrayList<>();
+        ResourceSet result = this.potvrdaVakcinacijeRepository.obicnaPretraga(searchTerm);
+        ResourceIterator i = result.getIterator();
+        Resource res = null;
+        JAXBContext context = JAXBContext.newInstance(PotvrdaOVakcinaciji.class);
+
+        while (i.hasMoreResources()) {
+            try {
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                res = i.nextResource();
+                PotvrdaOVakcinaciji r = (PotvrdaOVakcinaciji) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+
+                String about = r.getAbout();
+
+                filteredIds.add(about);
+            } finally {
+                try {
+                    ((EXistResource) res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+        return filteredIds;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
 import com.example.demo.model.email.Email;
@@ -163,6 +164,29 @@ public class PotvrdaVakcinacijeController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Error pri dobavljanju potvrda.", HttpStatus.NOT_FOUND);
+
+        }
+    }
+    
+    @GetMapping(path = "/obicnaPretraga/{searchTerm}",  produces = "application/xml")
+    public ResponseEntity<IdentificationDTO> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+        IdentificationDTO dto = new IdentificationDTO();
+        try {
+            dto.setIds(potvrdaVakcinacijeService.obicnaPretraga(searchTerm));
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/getAll", produces = "application/xml")
+    public ResponseEntity<?> getAllPotvrde() {
+        IdentificationDTO dto = new IdentificationDTO();
+        try {
+            dto.setIds(potvrdaVakcinacijeService.getAllPotvrde());
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

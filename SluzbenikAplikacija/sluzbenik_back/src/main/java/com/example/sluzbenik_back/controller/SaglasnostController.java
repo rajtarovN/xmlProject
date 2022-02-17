@@ -75,23 +75,6 @@ public class SaglasnostController {
 
     }
 
-//	@PreAuthorize("hasRole('S')")
-//	@GetMapping(path = "/getAllXmlByEmail/{email}", produces = "application/xml")
-//	public ResponseEntity<?> getAllXmlByEmail(@PathVariable("email") String email) {
-//		try {
-//			List<DokumentDTO> retval = saglasnostService.getAllXmlIdsByEmail(email);
-//			if (retval.isEmpty()) {
-//				return new ResponseEntity<>("Nema izdatih saglasnosti za prisutnog gradjana.", HttpStatus.OK);
-//			} else
-//				return new ResponseEntity<>(retval, HttpStatus.OK);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ResponseEntity<>("Error pri dobavljanju saglasnosti.", HttpStatus.NOT_FOUND);
-//		}
-//	}
-
-
-
 	@GetMapping(value = "/getAll", produces="text/xml")
 	public ResponseEntity<?> getAllSaglasnosti() {
 
@@ -112,4 +95,16 @@ public class SaglasnostController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@PreAuthorize("hasRole('S')")
+	@GetMapping(value = "/obicnaPretraga/{searchTerm}", produces = "application/xml")
+	public ResponseEntity<?> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+		try {
+			return new ResponseEntity<>(this.saglasnostService.obicnaPretraga(searchTerm), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+
 }

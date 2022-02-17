@@ -5,7 +5,7 @@
     xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/"
     xsi:schemaLocation="http://www.ftn.uns.ac.rs/potvrda_o_vakcinaciji ../schema/potvrda_o_vakcinaciji.xsd"
-    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/0492837583">
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/0492837583"
     Qr_kod="345" sifra_potvrde_vakcine="0492837583">
     <licni_podaci>
         <ime property="pred:ime">Pera</ime>
@@ -35,7 +35,7 @@
                 <naziv_vakcine>Pfeizer</naziv_vakcine>
             </doza>
         </doze>
-        <zdravstvena_ustanova>Bolnica</zdravstvena_ustanova>
     </vakcinacija>
+    <zdravstvena_ustanova>Bolnica</zdravstvena_ustanova>
     <datum_izdavanja>2022-01-05</datum_izdavanja>
 </potvrda_o_vakcinaciji>

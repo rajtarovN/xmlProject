@@ -34,7 +34,7 @@ public class DokumentDTO {
     public DokumentDTO(DigitalniZeleniSertifikat s){
         this.id = s.getPodaciOSertifikatu().getBrojSertifikata().getValue();
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        Date date = s.getPodaciOSertifikatu().getDatumIzdavanja().getValue().toGregorianCalendar().getTime();
+        Date date = s.getPodaciOSertifikatu().getDatumIVremeIzdavanja().getValue().toGregorianCalendar().getTime();
         this.datumKreiranja = ft.format(date);
     }
 

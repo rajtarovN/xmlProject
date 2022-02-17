@@ -56,6 +56,17 @@ public class PotvrdaVakcinacijeController {
         }
 
     }
+
+    @PreAuthorize("hasRole('S')")
+    @GetMapping(value = "/obicnaPretraga/{searchTerm}", produces = "application/xml")
+    public ResponseEntity<?> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+        try {
+            return new ResponseEntity<>(this.potvrdaVakcinacijeService.obicnaPretraga(searchTerm), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/generateHTML/{id}")
     public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
 
@@ -69,6 +80,16 @@ public class PotvrdaVakcinacijeController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
 
+    @GetMapping(value = "/getAll", produces="text/xml")
+    public ResponseEntity<?> getAllPotvrde() {
+
+        try {
+            System.out.println(potvrdaVakcinacijeService.getAllPotvrde());
+            return new ResponseEntity<>(potvrdaVakcinacijeService.getAllPotvrde(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

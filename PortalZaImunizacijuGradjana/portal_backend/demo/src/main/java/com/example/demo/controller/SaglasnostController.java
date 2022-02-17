@@ -250,4 +250,14 @@ public class SaglasnostController {
 		}
 	}
 
+	@GetMapping(path = "/obicnaPretraga/{searchTerm}",  produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+		IdentificationDTO dto = new IdentificationDTO();
+		try {
+			dto.setIds(saglasnostService.obicnaPretraga(searchTerm));
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

@@ -19,7 +19,11 @@ export const environment = {
   saglasnostXhtml: 'saglasnost/generateHTML',
   getSertifikate: 'sertifikat/getAllXmlByEmail',
   sertifikatPdf: 'sertifikat/generatePDF',
+  obicnaPretragaSagl: 'saglasnost/obicnaPretraga',
+  obicnaPretragaSertif: 'sertifikat/obicnaPretraga',
+  obicnaPretragaPotvrda: 'potvrda/obicnaPretraga',  
   sertifikatXhtml: 'sertifikat/generateHTML',
+
 };
 
 /*

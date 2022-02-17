@@ -26,10 +26,28 @@ export class PotvrdeService {
       { responseType: 'arraybuffer' }
     );
   }
+
+
+  obicnaPretraga(searchTerm: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml'
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.obicnaPretragaPotvrda}/${searchTerm}`,
+      { headers: headers, responseType: 'text' }
+    );
+  }
+
   getXHtml(id: string): Observable<any> {
     return this.http.get(
       `${environment.baseUrl}/${environment.potvrdaXhtml}/${id}`,
       { responseType: 'arraybuffer' }
     );
+  }
+  
+  getAll(): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/potvrda/getAll`, {
+      responseType: 'text',
+    });
   }
 }
