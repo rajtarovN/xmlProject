@@ -26,4 +26,10 @@ export class SaglasnostService {
       { responseType: 'arraybuffer' }
     );
   }
+  getXHtml(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.saglasnostXhtml}/${id}`,
+      { responseType: 'arraybuffer' }
+    );
+  }
 }

@@ -26,4 +26,10 @@ export class PotvrdeService {
       { responseType: 'arraybuffer' }
     );
   }
+  getXHtml(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.potvrdaXhtml}/${id}`,
+      { responseType: 'arraybuffer' }
+    );
+  }
 }

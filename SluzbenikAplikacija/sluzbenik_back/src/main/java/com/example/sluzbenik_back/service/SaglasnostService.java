@@ -8,6 +8,7 @@ import com.example.sluzbenik_back.util.XSLFORTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,38 @@ public class SaglasnostService {
             ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
             if (ok)
                 return pdf_path;
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String generateHTML(String id) throws XMLDBException {
+        XSLFORTransformer transformer = null;
+
+        try {
+            transformer = new XSLFORTransformer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        //XMLResource xmlRes = this.readXML(id);
+        String doc_str = null;//xmlRes.getContent().toString();
+        try {
+            doc_str = saglasnostClient.getXml(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        boolean ok = false;
+        String html_path = SAVE_HTML + "saglasnost_" + id + ".html";
+        System.out.println(doc_str);
+
+        try {
+            ok = transformer.generateHTML(doc_str, html_path, SAGLASNOST_XSL);
+            if (ok)
+                return html_path;
             else
                 return null;
         } catch (Exception e) {

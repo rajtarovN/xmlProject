@@ -9,12 +9,12 @@ import com.example.sluzbenik_back.util.XSLFORTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.sluzbenik_back.util.PathConstants.SAGLASNOST_XSL_FO;
-import static com.example.sluzbenik_back.util.PathConstants.SAVE_PDF;
+import static com.example.sluzbenik_back.util.PathConstants.*;
 
 @Service
 public class PotvrdaVakcinacijeService {
@@ -32,7 +32,6 @@ public class PotvrdaVakcinacijeService {
     }
 
     public String generatePDF(String id) {
-        //TODO natasa
         XSLFORTransformer transformer = null;
 
         try {
@@ -59,6 +58,38 @@ public class PotvrdaVakcinacijeService {
             ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
             if (ok)
                 return pdf_path;
+            else
+                return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public String generateHTML(String id) {
+        XSLFORTransformer transformer = null;
+
+        try {
+            transformer = new XSLFORTransformer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        //XMLResource xmlRes = potvrdeClient.getXml(id);
+        String doc_str = null;//xmlRes.getContent().toString();
+        try {
+            doc_str = potvrdeClient.getXml(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        boolean ok = false;
+        String html_path = SAVE_HTML + "potvrda_" + id + ".html";
+        System.out.println(doc_str);
+
+        try {
+            ok = transformer.generateHTML(doc_str, html_path, POTVRDA_O_VAKCINACIJI_XSL);
+            if (ok)
+                return html_path;
             else
                 return null;
         } catch (Exception e) {
