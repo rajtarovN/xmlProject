@@ -18,6 +18,7 @@ import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.com
 import { SaglasnostViewComponent } from './components/saglasnost-view/saglasnost-view.component';
 import { SertifikatViewComponent } from './components/sertifikat-view/sertifikat-view.component';
 import { PotvrdaViewComponent } from './components/potvrda-view/potvrda-view.component';
+import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pretraga.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +34,8 @@ import { PotvrdaViewComponent } from './components/potvrda-view/potvrda-view.com
     SaglasnostViewComponent,
     SertifikatViewComponent,
     PotvrdaViewComponent,
-  ],
+    ObicnaPretragaComponent,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(SluzbenikRoutes),
     HttpClientModule,

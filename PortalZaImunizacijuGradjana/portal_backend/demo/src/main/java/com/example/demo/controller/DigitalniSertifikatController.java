@@ -123,4 +123,15 @@ public class DigitalniSertifikatController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+	@GetMapping(path = "/obicnaPretraga/{searchTerm}",  produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+		IdentificationDTO dto = new IdentificationDTO();
+		try {
+			dto.setIds(digitalniSertifikatService.obicnaPretraga(searchTerm));
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

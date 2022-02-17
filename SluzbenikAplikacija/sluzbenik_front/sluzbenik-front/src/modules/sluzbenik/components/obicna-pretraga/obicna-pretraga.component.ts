@@ -1,66 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { ToastrService } from 'ngx-toastr';
 import { Information } from 'src/modules/shared/models/information';
 import { PotvrdeService } from '../../services/potvrde-service/potvrde.service';
 import { SaglasnostService } from '../../services/saglasnost-service/saglasnost.service';
-import * as JsonToXML from 'js2xmlparser';
 import { SertifikatService } from '../../services/sertifikat-service/sertifikat.service';
-import { ToastrService } from 'ngx-toastr';
-declare const Xonomy: any;
 
 @Component({
-  selector: 'app-arhiva-dokumenata',
-  templateUrl: './arhiva-dokumenata.component.html',
-  styleUrls: ['./arhiva-dokumenata.component.scss'],
+  selector: 'app-obicna-pretraga',
+  templateUrl: './obicna-pretraga.component.html',
+  styleUrls: ['./obicna-pretraga.component.scss']
 })
-export class ArhivaDokumenataComponent implements OnInit {
-  pretragaSaglasnostiForm: FormGroup;
-  pretragaSertifikataForm: FormGroup;
+export class ObicnaPretragaComponent implements OnInit {
+  @ViewChild('selektor') matSelect!: MatSelect;
+  pretragaForm: FormGroup;
   parser = new DOMParser();
   selected: string = 'zahtev';
-
-  selectedOperator: string = 'and';
 
   dokument: String = '1';
   documents: Array<Information> = [];
 
   constructor(
-    private toastr: ToastrService,
     private fb: FormBuilder,
+    private toastr: ToastrService,
     private saglasnostService: SaglasnostService,
     private sertifikatService: SertifikatService,
     private potvrdaService: PotvrdeService
   ) {}
 
   ngOnInit(): void {
-    this.pretragaSaglasnostiForm = this.fb.group({
-      datumTermina: new FormControl(''),
-      ime: new FormControl(''),
-      prezime: new FormControl(''),
-      jmbg: new FormControl(''),
-      email: new FormControl(''),
-      operator: ['true'],
+    this.pretragaForm = this.fb.group({
+      searchTerm: new FormControl('')
     });
 
-    this.pretragaSertifikataForm = this.fb.group({
-      datum: new FormControl(''),
-      ime: new FormControl(''),
-      prezime: new FormControl(''),
-      jmbg: new FormControl(''),
-      brPasosa: new FormControl(''),
-      brSertifikata: new FormControl(''),
-      operator: ['true'],
-    });
     this.getAllSaglasnosti();
   }
 
-  // get Saglasnosti
+  ngAfterViewInit() {
+    this.matSelect.valueChange.subscribe((value) => {
+      this.dokument = value;
+      if(this.dokument === '1'){
+        this.getAllSaglasnosti();
+      }
+      else if(this.dokument === '2'){
+        this.getAllSertifikati();
+      }
+      else if(this.dokument === '3'){
+        this.getAllPotvrde();
+      }
+    });
+  }
+
   getAllSaglasnosti(): void {
+    this.documents = [];
     this.saglasnostService.getAll().subscribe({
       next: (success) => {
         this.parseIdXml(success, 'saglasnost');
@@ -71,8 +64,8 @@ export class ArhivaDokumenataComponent implements OnInit {
     });
   }
 
-  // get Sertifikati
   getAllSertifikati(): void {
+    this.documents = [];
     this.sertifikatService.getAll().subscribe({
       next: (success) => {
         this.parseIdXml(success, 'sertifikat');
@@ -83,7 +76,6 @@ export class ArhivaDokumenataComponent implements OnInit {
     });
   }
 
-  // get Potvrde
   getAllPotvrde(): void {
     this.documents = [];
     this.potvrdaService.getAll().subscribe({
@@ -95,7 +87,7 @@ export class ArhivaDokumenataComponent implements OnInit {
       },
     });
   }
-  
+
   // Parse IdentificationDTO
   parseIdXml(doc: string, tip: string) {
     let xmlDoc = this.parser.parseFromString(doc, 'text/xml');
@@ -113,7 +105,7 @@ export class ArhivaDokumenataComponent implements OnInit {
 
   reset(): void {
     this.documents = [];
-    this.pretragaSaglasnostiForm.reset();
+    this.pretragaForm.reset();
     this.getAllSaglasnosti();
   }
 
@@ -121,49 +113,61 @@ export class ArhivaDokumenataComponent implements OnInit {
     this.documents[index].open = false;
   }
 
+  pretrazi(){
+    if(this.dokument === '1'){
+      this.pretraziSaglasnosti();
+    }
+    else if(this.dokument === '2'){
+      this.pretraziSertifikate();
+    }
+    else if(this.dokument === '3'){
+      this.pretraziPotvrde();
+    }
+  }
+
   pretraziSaglasnosti() {
     this.documents = [];
-
-    let pretragaDTO = `<saglasnostNaprednaDTO>
-                          <ime>${this.pretragaSaglasnostiForm.value.ime}</ime>
-                          <prezime>${this.pretragaSaglasnostiForm.value.prezime}</prezime>
-                          <jmbg>${this.pretragaSaglasnostiForm.value.jmbg}</jmbg>
-                          <datum>${this.pretragaSaglasnostiForm.value.datumTermina}</datum>
-                          <email>${this.pretragaSaglasnostiForm.value.email}</email>
-                          <and>${this.pretragaSaglasnostiForm.value.operator}</and>
-                      </saglasnostNaprednaDTO>`;
-
-    this.saglasnostService.naprednaPretraga(pretragaDTO).subscribe({
-      next: (success) => {
-        this.parseIdXml(success, 'saglasnost');
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    if(this.pretragaForm.value.searchTerm != null && this.pretragaForm.value.searchTerm != ""){
+      this.saglasnostService.obicnaPretraga(this.pretragaForm.value.searchTerm).subscribe({
+        next: (success) => {
+          this.parseIdXml(success, 'saglasnost');
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error);
+        },
+      });
+    }    
   }
 
   pretraziSertifikate() {
     this.documents = [];
+    if(this.pretragaForm.value.searchTerm != null && this.pretragaForm.value.searchTerm != ""){
+      this.sertifikatService.obicnaPretraga(this.pretragaForm.value.searchTerm).subscribe({
+        next: (success) => {
+          this.parseIdXml(success, 'sertifikat');
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error);
+        },
+      });
+    }  
+  }
 
-    let pretragaDTO = `<sertifikatNaprednaDTO>
-                          <broj_pasosa>${this.pretragaSertifikataForm.value.brPasosa}</broj_pasosa>
-                          <broj_sertifikata>${this.pretragaSertifikataForm.value.brSertifikata}</broj_sertifikata>
-                          <datum_izdavaja>${this.pretragaSertifikataForm.value.datum}</datum_izdavaja>
-                          <ime>${this.pretragaSertifikataForm.value.ime}</ime>
-                          <jmbg>${this.pretragaSertifikataForm.value.jmbg}</jmbg>
-                          <prezime>${this.pretragaSertifikataForm.value.prezime}</prezime>
-                          <and>${this.pretragaSertifikataForm.value.operator}</and>
-                      </sertifikatNaprednaDTO>`;
-
-    this.sertifikatService.naprednaPretraga(pretragaDTO).subscribe({
-      next: (success) => {
-        this.parseIdXml(success, 'sertifikat');
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+  pretraziPotvrde(){
+    this.documents = [];
+    if(this.pretragaForm.value.searchTerm != null && this.pretragaForm.value.searchTerm != ""){
+      this.potvrdaService.obicnaPretraga(this.pretragaForm.value.searchTerm).subscribe({
+        next: (success) => {
+          this.parseIdXml(success, 'potvrda');
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error);
+        },
+      });
+    }  
   }
 
   preuzmiPDF(url: String | null) {
@@ -295,3 +299,4 @@ export class ArhivaDokumenataComponent implements OnInit {
     }
   }
 }
+

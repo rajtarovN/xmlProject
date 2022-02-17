@@ -112,4 +112,16 @@ public class DigitalniSertifikatClient {
         return new String(IOUtils.toByteArray(in), URL_ENCODING);
     }
 
+	public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception{
+		URL url = new URL(BASE_URL + "/sertifikat/obicnaPretraga/" + searchTerm);
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+		JAXBContext context = JAXBContext.newInstance(IdentificationDTO.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		StringReader reader = new StringReader(txt);
+		IdentificationDTO dto = (IdentificationDTO) unmarshaller.unmarshal(reader);
+
+		return dto;
+	}
 }

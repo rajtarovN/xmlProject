@@ -16,8 +16,12 @@ import com.example.demo.util.DBManager;
 import com.example.demo.util.XSLFORTransformer;
 
 import org.apache.commons.io.input.ReaderInputStream;
+import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -396,7 +400,16 @@ public class SaglasnostService extends AbstractService {
 			String email = saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().getValue();
 			createNextAppointment(i, lastVaxName, email,  ime, prezime);
 
-			//TODO smanji zalihe
+			//smanji zalihe
+			Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
+			for (Vakcina zaliha : zalihe.getVakcina()) {
+				if ( zaliha.getNaziv().compareTo(lastVaxName) != 0) {
+					zaliha.setRezervisano(zaliha.getRezervisano() - 1);
+					zaliha.setDostupno(zaliha.getDostupno() - 1);
+				}
+			}
+			this.dostupneVakcineClient.updateVakcine(zalihe);
+
 			return "Uspesno sacuvane evidentirane vakcine.";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -628,7 +641,6 @@ public class SaglasnostService extends AbstractService {
 		saglasnost.setEvidencijaOVakcinaciji(new Saglasnost.EvidencijaOVakcinaciji());
 		saglasnost.setPacijent(new Saglasnost.Pacijent());
 		if(currentDoseGiven == 1){
-			//TODO smanji zalihe
 			saglasnost.setOdabraneVakcine(vaxName);
 		}else
 			saglasnost.setOdabraneVakcine("");
@@ -698,6 +710,33 @@ public class SaglasnostService extends AbstractService {
 
 		return this.saglasnostRepository.naprednaPretraga(ime, prezime, jmbg, datum, email, and);
 
+	}
+
+	public List<String> obicnaPretraga(String searchTerm) throws Exception{
+		List<String> filteredIds = new ArrayList<>();
+		ResourceSet result = this.saglasnostRepository.obicnaPretraga(searchTerm);
+		ResourceIterator i = result.getIterator();
+		Resource res = null;
+		JAXBContext context = JAXBContext.newInstance(Saglasnost.class);
+
+		while (i.hasMoreResources()) {
+			try {
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+				res = i.nextResource();
+				Saglasnost r = (Saglasnost) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+
+				String about = r.getAbout();
+
+				filteredIds.add(about);
+			} finally {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		return filteredIds;
 	}
 
 }

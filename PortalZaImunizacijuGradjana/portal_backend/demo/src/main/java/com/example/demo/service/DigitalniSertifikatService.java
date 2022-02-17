@@ -21,8 +21,12 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -271,5 +275,32 @@ public class DigitalniSertifikatService extends AbstractService {
 	public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException,
 			ClassNotFoundException, XMLDBException, IOException {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
+	}
+
+	public List<String> obicnaPretraga(String searchTerm) throws Exception{
+		List<String> filteredIds = new ArrayList<>();
+		ResourceSet result = ((DigitalniSertifikatRepository) this.repository).obicnaPretraga(searchTerm);
+		ResourceIterator i = result.getIterator();
+		Resource res = null;
+		JAXBContext context = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
+
+		while (i.hasMoreResources()) {
+			try {
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+				res = i.nextResource();
+				DigitalniZeleniSertifikat r = (DigitalniZeleniSertifikat) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+
+				String about = r.getAbout();
+
+				filteredIds.add(about);
+			} finally {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
+			}
+		}
+		return filteredIds;
 	}
 }
