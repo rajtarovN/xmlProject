@@ -15,7 +15,18 @@ export const environment = {
   createPotvrdu: 'potvrda/kreirajPotvrdu',
   savePotvrdu: 'potvrda/savePotvrdu',
   saveDoze: 'potvrda/saveDoze',
-  getAvailableVacs: 'saglasnost/getAvailableVaccines'
+  getAvailableVacs: 'saglasnost/getAvailableVaccines',
+  potvrdaXhtml: 'potvrda/generateHTML',
+  saglasnostXhtml: 'saglasnost/generateHTML',
+  getSertifikate: 'sertifikat/getAllXmlByEmail',
+  sertifikatPdf: 'sertifikat/generatePDF',
+  sertifikatXhtml: 'sertifikat/generateHTML',
+  potvrdaPdf: 'potvrda/generatePDF',
+  saglasnostPdf: 'saglasnost/generatePDF',
+  getSaglasnosti: 'saglasnost/getAllXmlByEmail',
+  getPotvrde: 'potvrda/getAllXmlByEmail',
+ 
+
 };
 
 /*

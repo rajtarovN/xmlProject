@@ -96,4 +96,32 @@ export class SaglasnostService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getPdf(id: string): Observable<any> {
+    if(!id.startsWith("saglasnost")){
+      id = "saglasnost_" + id + ".xml";
+    }
+    return this.http.get(
+      `${environment.baseUrl}/${environment.saglasnostPdf}/${id}`,
+      { responseType: 'arraybuffer' }
+    );
+  }
+  getXHtml(id: string): Observable<any> {
+    if(!id.startsWith("saglasnost")){
+      id = "saglasnost_" + id + ".xml";
+    }
+    return this.http.get(
+      `${environment.baseUrl}/${environment.saglasnostXhtml}/${id}`,
+      { responseType: 'arraybuffer' });
+  }
+
+  getXmlIdsByEmail(email: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}` + '/saglasnost/getAllS/'+`${email}`,
+      { headers: headers, responseType: 'text' }
+    );
+  }
 }
