@@ -107,4 +107,16 @@ public class ZahtevController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GET
+    @GetMapping(path ="/getZahtev/{jmbg}")
+    public ResponseEntity<String> getZahtev(@PathVariable("jmbg") String jmbg){
+        try {
+            String ret = zahtevService.getListuZahtevaPoStatusuJMBG(jmbg);
+            return new ResponseEntity<>(ret, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

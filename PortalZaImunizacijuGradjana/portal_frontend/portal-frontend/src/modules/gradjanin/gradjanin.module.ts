@@ -14,9 +14,10 @@ import { SharedModule } from '../shared/shared.module';
 import { InteresovanjeFormComponent } from './components/interesovanje-form/interesovanje-form.component';
 import { PodnosenjeZahtevaComponent } from './components/podnosenje-zahteva/podnosenje-zahteva.component';
 import { SaglasnostFormComponent } from './components/saglasnost-form/saglasnost-form.component';
+import { PregledZahtevaComponent } from './components/pregled-zahteva/pregled-zahteva.component';
 
 @NgModule({
-  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent, SaglasnostFormComponent],
+  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent, SaglasnostFormComponent, PregledZahtevaComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

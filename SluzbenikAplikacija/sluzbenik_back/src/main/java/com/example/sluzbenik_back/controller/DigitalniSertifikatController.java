@@ -80,4 +80,30 @@ public class DigitalniSertifikatController {
 		}
 
 	}
+
+	@PreAuthorize("hasRole('S')")
+	@GetMapping(value = "/obicnaPretraga/{searchTerm}", produces = "application/xml")
+	public ResponseEntity<?> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+		try {
+			return new ResponseEntity<>(this.digitalniSertifikatService.obicnaPretraga(searchTerm), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+
+	@GetMapping("/generateHTML/{id}")
+	public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
+
+		try {
+			String file_path = this.digitalniSertifikatService.generateHTML(id);
+			File file = new File(file_path);
+			FileInputStream fileInputStream = new FileInputStream(file);
+			return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

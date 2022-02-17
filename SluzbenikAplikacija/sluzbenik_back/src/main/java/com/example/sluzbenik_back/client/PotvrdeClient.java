@@ -1,5 +1,6 @@
 package com.example.sluzbenik_back.client;
 
+import com.example.sluzbenik_back.dto.IdentificationDTO;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
@@ -50,5 +51,29 @@ public class PotvrdeClient {
 
     public static String getStringFromInputStream(InputStream in) throws Exception {
         return new String(IOUtils.toByteArray(in), URL_ENCODING);
+    }
+
+    public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception{
+        URL url = new URL(BASE_URL + "/potvrda/obicnaPretraga/" + searchTerm);
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+        JAXBContext context = JAXBContext.newInstance(IdentificationDTO.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        StringReader reader = new StringReader(txt);
+        IdentificationDTO dto = (IdentificationDTO) unmarshaller.unmarshal(reader);
+
+        return dto;
+    }
+
+    public String getAllIds() throws Exception {
+        System.out.println("Sent HTTP GET request to query saglasnost id's");
+        URL url = new URL(BASE_URL + "/potvrda/getAll");
+
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return txt;
     }
 }

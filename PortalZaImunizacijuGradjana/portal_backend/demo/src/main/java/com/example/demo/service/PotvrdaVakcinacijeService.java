@@ -3,17 +3,23 @@ package com.example.demo.service;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
+import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import com.example.demo.repository.DigitalniSertifikatRepository;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.FusekiManager;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
+import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -321,5 +327,36 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
     public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
         return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
+    }
+
+    public List<String> getAllPotvrde() throws IOException {
+        return this.potvrdaVakcinacijeRepository.readAllDocumentIds(fusekiCollectionId);
+    }
+
+    public List<String> obicnaPretraga(String searchTerm) throws Exception{
+        List<String> filteredIds = new ArrayList<>();
+        ResourceSet result = this.potvrdaVakcinacijeRepository.obicnaPretraga(searchTerm);
+        ResourceIterator i = result.getIterator();
+        Resource res = null;
+        JAXBContext context = JAXBContext.newInstance(PotvrdaOVakcinaciji.class);
+
+        while (i.hasMoreResources()) {
+            try {
+                Unmarshaller unmarshaller = context.createUnmarshaller();
+                res = i.nextResource();
+                PotvrdaOVakcinaciji r = (PotvrdaOVakcinaciji) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+
+                String about = r.getAbout();
+
+                filteredIds.add(about);
+            } finally {
+                try {
+                    ((EXistResource) res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+        return filteredIds;
     }
 }

@@ -42,4 +42,5 @@
         <Datum property="pred:datum_termina">2022-02-15</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji xsi:nil="true"/>
+    <Potvrda property="pred:seeAlso"/>
 </Saglasnost>

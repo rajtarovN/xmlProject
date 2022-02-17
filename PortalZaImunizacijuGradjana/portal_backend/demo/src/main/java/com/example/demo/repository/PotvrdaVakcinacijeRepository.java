@@ -1,10 +1,13 @@
 package com.example.demo.repository;
 
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.util.DBManager;
+import com.example.demo.util.ExistManager;
 import com.example.demo.util.FusekiManager;
 import org.exist.xupdate.XUpdateProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -17,8 +20,6 @@ import java.util.List;
 public class PotvrdaVakcinacijeRepository extends RepositoryInterface {
 
     private String collectionId = "/db/portal/lista_potvrda";
-
-    private static final String ID_STRING = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/";
 
     private static final String TARGET_NAMESPACE = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji";
 
@@ -37,6 +38,9 @@ public class PotvrdaVakcinacijeRepository extends RepositoryInterface {
 
     @Autowired
     private DBManager dbManager;
+
+    @Autowired
+    private ExistManager existManager;
 
     public List<String> pronadjiPoJmbgIDatumu(String jmbg, String datumIzdavanja ) throws Exception {
         List<String> ids = new ArrayList<>();
@@ -79,4 +83,21 @@ public class PotvrdaVakcinacijeRepository extends RepositoryInterface {
         ids = this.fusekiManager.query("/lista_potvrda", SPARQL_FILE + "potvrda_ebs.rq", params);
         return ids;
     }
+
+    public ResourceSet obicnaPretraga(String searchTerm){
+        String xPath = "//potvrda_o_vakcinaciji[contains(lower-case(licni_podaci/ime), lower-case('" + searchTerm + "')) "
+                + " or contains(lower-case(licni_podaci/prezime), lower-case('" + searchTerm + "')) "
+                + " or contains(vakcinacija/doze/doza/naziv_vakcine, '" + searchTerm + "')"
+                + " or contains(vakcinacija/doze/doza/broj_serije, '" + searchTerm + "')"
+                + " or contains(lower-case(zdravstvena_ustanova), lower-case('" + searchTerm + "')) "
+                + " ]";
+
+        try {
+            return this.existManager.retrieve(collectionId , xPath, TARGET_NAMESPACE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestException("Doslo je do errora pri obicnoj pretrazi potvrda.");
+        }
+    }
+
 }

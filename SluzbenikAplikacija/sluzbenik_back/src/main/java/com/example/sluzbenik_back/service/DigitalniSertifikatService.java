@@ -11,12 +11,11 @@ import org.xmldb.api.base.XMLDBException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.sluzbenik_back.util.PathConstants.SAGLASNOST_XSL_FO;
-import static com.example.sluzbenik_back.util.PathConstants.SAVE_PDF;
-
 import com.example.sluzbenik_back.client.DigitalniSertifikatClient;
 import com.example.sluzbenik_back.dto.IdentificationDTO;
 import com.example.sluzbenik_back.dto.SertifikatNaprednaDTO;
+
+import static com.example.sluzbenik_back.util.PathConstants.*;
 
 @Service
 public class DigitalniSertifikatService {
@@ -64,10 +63,10 @@ public class DigitalniSertifikatService {
 		}
 
 		boolean ok = false;
-		String pdf_path = SAVE_PDF + "saglasnost_" + id.split(".xml")[0] + ".pdf";
+		String pdf_path = SAVE_PDF + "sertifikat_" + id.split(".xml")[0] + ".pdf";
 
 		try {
-			ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
+			ok = transformer.generatePDF(doc_str, pdf_path, DIGITALNISERTIFIKAT_XSL_FO);
 			if (ok)
 				return pdf_path;
 			else
@@ -77,4 +76,42 @@ public class DigitalniSertifikatService {
 			return null;
 		}
 	}
+
+	public IdentificationDTO obicnaPretraga(String searchTerm) throws Exception {
+		return this.digitalniSertifikatClient.getByObicnaPretraga(searchTerm);
+	}
+
+	public String generateHTML(String id) throws XMLDBException {
+		XSLFORTransformer transformer = null;
+
+		try {
+			transformer = new XSLFORTransformer();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		//XMLResource xmlRes = this.readXML(id);
+		String doc_str = null;//xmlRes.getContent().toString();
+		try {
+			doc_str = this.digitalniSertifikatClient.getXml(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		boolean ok = false;
+		String html_path = SAVE_HTML + "sertifikat_" + id + ".html";
+		System.out.println(doc_str);
+
+		try {
+			ok = transformer.generateHTML(doc_str, html_path, DIGITALNISERTIFIKAT_XSL);
+			if (ok)
+				return html_path;
+			else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

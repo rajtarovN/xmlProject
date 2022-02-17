@@ -15,6 +15,10 @@ import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz
 import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva-dokumenata.component';
 import { RazlogZahtevaComponent } from './components/razlog-zahteva/razlog-zahteva.component';
 import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.component';
+import { SaglasnostViewComponent } from './components/saglasnost-view/saglasnost-view.component';
+import { SertifikatViewComponent } from './components/sertifikat-view/sertifikat-view.component';
+import { PotvrdaViewComponent } from './components/potvrda-view/potvrda-view.component';
+import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pretraga.component';
 
 @NgModule({
   declarations: [
@@ -27,9 +31,12 @@ import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.com
     ArhivaDokumenataComponent,
     RazlogZahtevaComponent,
     OdbijZahtevComponent,
+    SaglasnostViewComponent,
+    SertifikatViewComponent,
+    PotvrdaViewComponent,
+    ObicnaPretragaComponent,
   ],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(SluzbenikRoutes),
     HttpClientModule,

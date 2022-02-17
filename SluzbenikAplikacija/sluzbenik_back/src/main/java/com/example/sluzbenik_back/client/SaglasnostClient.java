@@ -15,10 +15,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.*;
 import org.apache.commons.io.IOUtils;
 
 import com.example.sluzbenik_back.dto.IdentificationDTO;
@@ -119,5 +116,18 @@ public class SaglasnostClient {
 			post.releaseConnection(); 
 		}
 
+	}
+
+	public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception{
+		URL url = new URL(BASE_URL + "/saglasnost/obicnaPretraga/" + searchTerm);
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+		JAXBContext context = JAXBContext.newInstance(IdentificationDTO.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		StringReader reader = new StringReader(txt);
+		IdentificationDTO dto = (IdentificationDTO) unmarshaller.unmarshal(reader);
+
+		return dto;
 	}
 }

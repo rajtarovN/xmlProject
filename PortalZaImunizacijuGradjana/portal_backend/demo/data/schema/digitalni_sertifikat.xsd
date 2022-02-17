@@ -14,19 +14,19 @@
                             <xs:element name="Broj_sertifikata">
                                 <xs:complexType>
                                     <xs:simpleContent>
-                                        <xs:extension base="xs:positiveInteger">
+                                        <xs:extension base="xs:string">
                                             <xs:attribute fixed="pred:broj_sertifikata"
-                                                          name="property" type="xs:string"/>
+                                                name="property" type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="Datum_izdavanja">
+                            <xs:element name="Datum_i_vreme_izdavanja">
                                 <xs:complexType>
                                     <xs:simpleContent>
-                                        <xs:extension base="xs:date">
+                                        <xs:extension base="xs:dateTime">
                                             <xs:attribute fixed="pred:datum_izdavaja"
-                                                          name="property" type="xs:string"/>
+                                                name="property" type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
@@ -42,7 +42,7 @@
                                     <xs:simpleContent>
                                         <xs:extension base="xs:string">
                                             <xs:attribute fixed="pred:ime" name="property"
-                                                          type="xs:string"/>
+                                                type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
@@ -52,7 +52,7 @@
                                     <xs:simpleContent>
                                         <xs:extension base="xs:string">
                                             <xs:attribute fixed="pred:prezime" name="property"
-                                                          type="xs:string"/>
+                                                type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
@@ -71,7 +71,7 @@
                                     <xs:simpleContent>
                                         <xs:extension base="ftn:TJmbg">
                                             <xs:attribute fixed="pred:jmbg" name="property"
-                                                          type="xs:string"/>
+                                                type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
@@ -81,7 +81,7 @@
                                     <xs:simpleContent>
                                         <xs:extension base="ftn:TBroj_pasosa">
                                             <xs:attribute fixed="pred:broj_pasosa" name="property"
-                                                          type="xs:string"/>
+                                                type="xs:string"/>
                                         </xs:extension>
                                     </xs:simpleContent>
                                 </xs:complexType>
@@ -98,23 +98,23 @@
                                         <xs:element name="Tip">
                                             <xs:simpleType>
                                                 <xs:restriction base="xs:string">
-                                                    <xs:enumeration value="Pfizer-BioNTech"/>
-                                                    <xs:enumeration value="Sputnik V"/>
-                                                    <xs:enumeration value="Sinopharm"/>
-                                                    <xs:enumeration value="AstraZeneca"/>
-                                                    <xs:enumeration value="Moderna"/>
+                                                  <xs:enumeration value="Pfizer-BioNTech"/>
+                                                  <xs:enumeration value="Sputnik V"/>
+                                                  <xs:enumeration value="Sinopharm"/>
+                                                  <xs:enumeration value="AstraZeneca"/>
+                                                  <xs:enumeration value="Moderna"/>
                                                 </xs:restriction>
                                             </xs:simpleType>
                                         </xs:element>
                                         <xs:element name="Proizvodjac" type="xs:string"/>
                                         <xs:element name="Serija" type="xs:string"/>
-                                        <xs:element name="Datum_davanja" type="xs:date" />
+                                        <xs:element name="Datum_davanja" type="xs:date"/>
                                         <xs:element name="Zdravstvena_ustanova" type="xs:string"/>
                                     </xs:sequence>
                                     <xs:attribute name="br_doze">
                                         <xs:simpleType>
                                             <xs:restriction base="xs:positiveInteger">
-                                                <xs:totalDigits value="1" />
+                                                <xs:totalDigits value="1"/>
                                             </xs:restriction>
                                         </xs:simpleType>
                                     </xs:attribute>
@@ -134,6 +134,26 @@
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="Datum" type="xs:date"/>
+                <xs:element name="Potvrda" nillable="true">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anyURI">
+                                <xs:attribute fixed="pred:seeAlso" name="property" type="xs:string"
+                                />
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Zahtev" nillable="true">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anyURI">
+                                <xs:attribute fixed="pred:seeAlso" name="property" type="xs:string"
+                                />
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
             <xs:attribute name="qr_kod">
                 <xs:simpleType>
