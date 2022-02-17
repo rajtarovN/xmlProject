@@ -139,6 +139,47 @@ export class PrikazDokumenataComponent implements OnInit {
     );
   }
 
+  showPdf(id: string){
+    if(this.tipDokumenta === "Saglasnosti"){
+      this.saglasnostService.getPdf(id).subscribe((response) =>{
+        let file = new Blob([response], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `${id}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();
+          
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      });
+    }
+    else if(this.tipDokumenta === "Potvrde"){
+      this.potvrdeService.getPdf(id).subscribe((response) =>{
+        
+        let file = new Blob([response], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
+  
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+    },
+    (error) => {
+      this.toastr.error(error.error);
+    });
+    }
+    else if(this.tipDokumenta === "Sertifikati"){ //TODO natasa
+    }}
   setSertifikate() {
     this.sertifservice.getXmlByEmail(this.email).subscribe(
       (response) => {
@@ -167,44 +208,56 @@ export class PrikazDokumenataComponent implements OnInit {
     );
   }
 
-  showPdf(id: string) {
-    if (this.tipDokumenta === 'Saglasnosti') {
-      this.saglasnostService.getPdf(id).subscribe(
-        (response) => {
-          //TODO natasa
-        },
-        (error) => {
-          this.toastr.error(error.error);
-        }
-      );
-    } else if (this.tipDokumenta === 'Potvrde') {
-      this.potvrdeService.getPdf(id).subscribe(
-        (response) => {
-          //TODO natasa
-        },
-        (error) => {
-          this.toastr.error(error.error);
-        }
-      );
-    } else if (this.tipDokumenta === 'Sertifikati') {
-      this.sertifservice.getPdf(id).subscribe(
-        (response) => {
-          //TODO natasa
-        },
-        (error) => {
-          this.toastr.error(error.error);
-        }
-      );
-    }
-  }
 
-  showXhtml(id: string) {
-    if (this.tipDokumenta === 'Saglasnosti') {
-      //TODO natasa
-    } else if (this.tipDokumenta === 'Potvrde') {
-      //TODO natasa
-    } else if (this.tipDokumenta === 'Sertifikati') {
-      //TODO natasa
+
+  showXhtml(id: string){
+    if(this.tipDokumenta === "Saglasnosti"){
+      this.saglasnostService.getXHtml(id).subscribe((response) =>{
+
+            let file = new Blob([response], { type: 'text/html' });
+            var fileURL = URL.createObjectURL(file);
+    
+            let a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display: none');
+            a.href = fileURL;
+            a.download = `${id}.html`;
+            a.click();
+            window.URL.revokeObjectURL(fileURL);
+            a.remove();           
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      });
     }
-  }
+    else if(this.tipDokumenta === "Potvrde"){
+      this.potvrdeService.getXHtml(id).subscribe((response) =>{
+        
+            let file = new Blob([response], { type: 'text/html' });
+            var fileURL = URL.createObjectURL(file);
+    
+            let a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display: none');
+            a.href = fileURL;
+            a.download = `${id}.html`;
+            a.click();
+            window.URL.revokeObjectURL(fileURL);
+            a.remove();
+    },
+    (error) => {
+      this.toastr.error(error.error);
+    });
+    }
+    else if(this.tipDokumenta === "Sertifikati"){}}
+
+  // showXhtml(id: string) {
+  //   if (this.tipDokumenta === 'Saglasnosti') {
+  //     //TODO natasa
+  //   } else if (this.tipDokumenta === 'Potvrde') {
+  //     //TODO natasa
+  //   } else if (this.tipDokumenta === 'Sertifikati') {
+  //     //TODO natasa
+  //   }
+  // }
 }

@@ -24,7 +24,7 @@ import org.apache.commons.io.IOUtils;
 import com.example.sluzbenik_back.dto.IdentificationDTO;
 import com.example.sluzbenik_back.dto.SaglasnostNaprednaDTO;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
-import com.sun.org.apache.bcel.internal.generic.IRETURN;
+//import com.sun.org.apache.bcel.internal.generic.IRETURN;
 
 @org.springframework.stereotype.Service
 public class SaglasnostClient {
