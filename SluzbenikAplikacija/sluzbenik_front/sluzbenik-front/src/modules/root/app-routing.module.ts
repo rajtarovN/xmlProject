@@ -1,33 +1,44 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from '../auth/guards/role/role.guard';
+import { SaglasnostViewComponent } from '../sluzbenik/components/saglasnost-view/saglasnost-view.component';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
-    path: "sluzbenik",
+    path: 'sluzbenik',
     component: AppComponent,
     children: [
       {
-        path: "sluzbenik",
+        path: 'sluzbenik',
         loadChildren: () =>
-          import("./../sluzbenik/sluzbenik.module").then((m) => m.SluzbenikModule),
+          import('./../sluzbenik/sluzbenik.module').then(
+            (m) => m.SluzbenikModule
+          ),
       },
       {
-        path: "auth",
+        path: 'auth',
         loadChildren: () =>
-          import("./../auth/auth.module").then((m) => m.AuthModule),
+          import('./../auth/auth.module').then((m) => m.AuthModule),
       },
     ],
   },
   {
-    path: "",
-    redirectTo: "/sluzbenik/auth/login",
-    pathMatch: "full",
+    path: '',
+    redirectTo: '/sluzbenik/auth/login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'saglasnost/:id',
+    pathMatch: 'full',
+    component: SaglasnostViewComponent,
+    canActivate: [RoleGuard],
+    data: { expectedRoles: 'S' },
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
