@@ -19,6 +19,7 @@ export const environment = {
   saglasnostXhtml: 'saglasnost/generateHTML',
   getSertifikate: 'sertifikat/getAllXmlByEmail',
   sertifikatPdf: 'sertifikat/generatePDF',
+  sertifikatXhtml: 'sertifikat/generateHTML',
 };
 
 /*

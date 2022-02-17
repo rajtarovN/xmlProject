@@ -10,7 +10,7 @@ import { PotvrdeService } from '../../services/potvrde-service/potvrde.service';
 import { SaglasnostService } from '../../services/saglasnost-service/saglasnost.service';
 import * as JsonToXML from 'js2xmlparser';
 import { SertifikatService } from '../../services/sertifikat-service/sertifikat.service';
-
+import { ToastrService } from 'ngx-toastr';
 declare const Xonomy: any;
 
 @Component({
@@ -30,6 +30,7 @@ export class ArhivaDokumenataComponent implements OnInit {
   documents: Array<Information> = [];
 
   constructor(
+    private toastr: ToastrService,
     private fb: FormBuilder,
     private saglasnostService: SaglasnostService,
     private sertifikatService: SertifikatService,
@@ -156,14 +157,63 @@ export class ArhivaDokumenataComponent implements OnInit {
 
   preuzmiPDF(url: String | null) {
     if (url === null) return;
-    // TODO NATASA
+    var lista = url.split('/');
+    var id = lista[lista.length - 1];
 
     if (this.dokument === '1') {
-      // Saglasnost
+      this.saglasnostService.getPdf(id).subscribe((response) =>{
+        let file = new Blob([response], { type: 'application/pdf' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `${id}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();
+          
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      });
     } else if (this.dokument === '2') {
-      // Digitalni zeleni sertifikat
+      this.sertifikatService.getPdf(id).subscribe((response) =>{
+        
+        let file = new Blob([response], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
+  
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+    },
+    (error) => {
+      this.toastr.error(error.error);
+    });
     } else {
-      // Potvrda
+      this.potvrdaService.getPdf(id).subscribe((response) =>{
+        
+        let file = new Blob([response], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
+  
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+    },
+    (error) => {
+      this.toastr.error(error.error);
+    });
     }
   }
 
@@ -176,14 +226,61 @@ export class ArhivaDokumenataComponent implements OnInit {
     console.log(url);
     console.log(id);
 
-    // TODO NATASA
 
     if (this.dokument === '1') {
-      // Saglasnost
+      this.saglasnostService.getXHtml(id).subscribe((response) =>{
+
+        let file = new Blob([response], { type: 'text/html' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `${id}.html`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();           
+  },
+  (error) => {
+    this.toastr.error(error.error);
+  });
     } else if (this.dokument === '2') {
-      // Digitalni zeleni sertifikat
+      this.sertifikatService.getXHtml(id).subscribe((response) =>{
+        
+        let file = new Blob([response], { type: 'text/html' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `${id}.html`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();
+    },
+    (error) => {
+       this.toastr.error(error.error);
+    });
     } else {
-      // Potvrda
+      this.potvrdaService.getXHtml(id).subscribe((response) =>{
+        
+        let file = new Blob([response], { type: 'text/html' });
+        var fileURL = URL.createObjectURL(file);
+
+        let a = document.createElement('a');
+        document.body.appendChild(a);
+        a.setAttribute('style', 'display: none');
+        a.href = fileURL;
+        a.download = `${id}.html`;
+        a.click();
+        window.URL.revokeObjectURL(fileURL);
+        a.remove();
+},
+(error) => {
+  this.toastr.error(error.error);
+});
     }
   }
 }
