@@ -21,7 +21,7 @@
                         Iskazivanje interesovanja za vakcinisanje protiv COVID-19
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt"  font-family="Times New Roman">
-                        Држављанин:
+                        Državljanin:
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                          <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Drzavljanstvo='Drzavljanin_republike_srbije'">
@@ -36,43 +36,43 @@
 
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                       ЈМБГ:
+                       JMBG:
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Jmbg"/>
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Име:
+                        Ime:
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Ime"/>
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Презиме:
+                        Prezime:
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Prezime"/>
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Адреса електронске поште:
+                        Adresa elektronske pošte:
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Email"/>
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Број мобилног телефона (навести број у формату 06X..... без размака и цртица):
+                        Broj mobilnog telefona (navesti broj u formatu 06X..... bez razmaka i crtica):
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Broj_mobilnog"/>
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Број фиксног телефона (навести број у формату нпр. 011..... без размака и цртица):
+                        Broj fiksnog telefona (navesti broj u formatu npr. 011..... bez razmaka i crtica):
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
                         <xsl:value-of select="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Kontakt/ns2:Broj_fiksnog"/>
                     </fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Odabrana локацију где желите да примите вакцину (унесите општину):
+                        Odabrana lokacija gde želite da primite vakcinu (opština):
 
                     </fo:block>
                     <fo:block text-align="justify" font-size="12pt" font-family="Times New Roman" text-decoration="underline">
@@ -80,18 +80,19 @@
                     </fo:block>
                     <fo:block>&#160;</fo:block>
                     <fo:block  text-align="justify" font-size="12pt" font-family="Times New Roman">
-                        Исказујем интересовање да примим искључиво вакцину следећих произвођача за
-                        који Агенција за лекове и медицинска средства потврди безбедност, ефикасност и
-                        квалитет и изда дозволу за употребу лека:  <xsl:value-of select="/ns2:Interesovanje/ns2:Proizvodjaci"/>
+                        Iskazujem interesovanje da primim isključivo vakcinu sledećih proizvođača za 
+                        koji Agencija za lekove i medicinska sredstva potvrdi bezbednost, efikasnost i 
+                        kvalitet i izda dozvolu za upotrebu leka:
+                          <xsl:value-of select="/ns2:Interesovanje/ns2:Proizvodjaci"/>
                     </fo:block>
                     <fo:block>&#160;</fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Да ли сте добровољни давалац крви?
+                        Da li ste dobrovoljni davalac krvi?
                         <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Davalac_krvi='true'"><fo:block>Da</fo:block></xsl:if>
                         <xsl:if test="/ns2:Interesovanje/ns2:Licne_informacije/ns2:Davalac_krvi='false'"><fo:block>Ne</fo:block></xsl:if>
                     </fo:block>
                     <fo:block  text-align="left" font-size="12pt" font-family="Times New Roman">
-                        Дана   <xsl:value-of select="/ns2:Interesovanje/ns2:Datum_podnosenja_interesovanja"/>  године
+                        Dana <xsl:value-of select="/ns2:Interesovanje/ns2:Datum_podnosenja_interesovanja"/>  godine
                     </fo:block>
                 </fo:flow>
             </fo:page-sequence>
