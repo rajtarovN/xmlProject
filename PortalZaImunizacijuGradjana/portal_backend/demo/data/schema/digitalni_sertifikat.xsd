@@ -14,7 +14,7 @@
                             <xs:element name="Broj_sertifikata">
                                 <xs:complexType>
                                     <xs:simpleContent>
-                                        <xs:extension base="xs:positiveInteger">
+                                        <xs:extension base="xs:string">
                                             <xs:attribute fixed="pred:broj_sertifikata"
                                                 name="property" type="xs:string"/>
                                         </xs:extension>

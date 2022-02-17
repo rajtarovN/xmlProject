@@ -8,9 +8,9 @@ import static com.example.demo.util.PathConstants.SAVE_PDF;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,9 +111,12 @@ public class DigitalniSertifikatService extends AbstractService {
 
 	public String saveSertifikat(ZahtevZaZeleniSertifikat zahtev) throws Exception {
 		String id = UUID.randomUUID().toString();
-		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		LocalDateTime now = LocalDateTime.now();
 		XMLGregorianCalendar dateFormatted = DatatypeFactory.newInstance()
-				.newXMLGregorianCalendar(ft.format(new Date()));
+				.newXMLGregorianCalendar(now.format(formatter));
 
 		DigitalniZeleniSertifikat sertifikat = new DigitalniZeleniSertifikat();
 		sertifikat.setAbout("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/" + id);
@@ -122,7 +125,7 @@ public class DigitalniSertifikatService extends AbstractService {
 
 		DigitalniZeleniSertifikat.PodaciOSertifikatu ps = new DigitalniZeleniSertifikat.PodaciOSertifikatu();
 		DigitalniZeleniSertifikat.PodaciOSertifikatu.BrojSertifikata bs = new DigitalniZeleniSertifikat.PodaciOSertifikatu.BrojSertifikata();
-		DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja di = new DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIzdavanja();
+		DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja di = new DigitalniZeleniSertifikat.PodaciOSertifikatu.DatumIVremeIzdavanja();
 		bs.setValue(id);
 		bs.setProperty("pred:broj_sertifikata");
 		di.setValue(dateFormatted);

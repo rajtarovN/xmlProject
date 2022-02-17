@@ -1172,8 +1172,7 @@ public class DigitalniZeleniSertifikat {
         public static class BrojSertifikata {
 
             @XmlValue
-            @XmlSchemaType(name = "positiveInteger")
-            protected BigInteger value;
+            protected String value;
             @XmlAttribute(name = "property")
             protected String property;
 
@@ -1185,7 +1184,7 @@ public class DigitalniZeleniSertifikat {
              *     {@link BigInteger }
              *     
              */
-            public BigInteger getValue() {
+            public String getValue() {
                 return value;
             }
 
@@ -1197,7 +1196,7 @@ public class DigitalniZeleniSertifikat {
              *     {@link BigInteger }
              *     
              */
-            public void setValue(BigInteger value) {
+            public void setValue(String value) {
                 this.value = value;
             }
 
