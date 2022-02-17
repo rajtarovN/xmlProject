@@ -109,12 +109,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
 		web.ignoring().antMatchers(HttpMethod.POST, "/korisnik/prijava", "/korisnik/registracija",
-				"/saglasnost/naprednaPretraga", "/sertifikat/naprednaPretraga", "/ws/**");
+				"/saglasnost/naprednaPretraga",
+				"/sertifikat/naprednaPretraga",
+				"/ws/**");
 
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/interesovanje/updatePending",
-				"/saglasnost/getAll", "/sertifikat/getAll", "/zahtev/findByStatus", "/zahtev/odbijZahtev/**",
-				"/zahtev/odobriZahtev/**", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/potvrda/xml/**",
-				"/potvrda/allXmlByEmail/**", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css",
-				"/**/*.js", "/v2/api-docs");
+				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**",
+				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**",
+				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
+				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**",
+				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
 	}
 }
