@@ -9,7 +9,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,11 +19,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
+import com.example.demo.util.QRCodeService;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -190,6 +189,9 @@ public class DigitalniSertifikatService extends AbstractService {
 		}
 		podaciOVakcinaciji.setVakcinacija(vakcinacije);
 		sertifikat.setPodaciOVakcinaciji(podaciOVakcinaciji);
+
+		//TODO: sta je URI za dobavljanje dokumenta?
+		sertifikat.setQrKod(QRCodeService.getQRCode(sertifikat.getAbout()));
 
 		JAXBContext contextSaglasnost = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
 		OutputStream os = new ByteArrayOutputStream();

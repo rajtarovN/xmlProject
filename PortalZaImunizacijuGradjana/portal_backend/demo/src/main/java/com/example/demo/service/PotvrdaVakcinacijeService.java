@@ -10,10 +10,7 @@ import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import com.example.demo.repository.DigitalniSertifikatRepository;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
-import com.example.demo.util.DBManager;
-import com.example.demo.util.FusekiManager;
-import com.example.demo.util.MetadataExtractor;
-import com.example.demo.util.XSLFORTransformer;
+import com.example.demo.util.*;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,7 +117,6 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         Date dateRodj = saglasnost.getPacijent().getLicniPodaci().getDatumRodjenja().toGregorianCalendar().getTime();
         String zUstanova = saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova();
 
-
         PotvrdaVakcinacijeDTO dto = new PotvrdaVakcinacijeDTO(
                         saglasnost.getBrojSaglasnosti(), saglasnost.getPacijent().getLicniPodaci().getIme().getValue(),
                         saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue(), ft.format(dateRodj),
@@ -166,6 +162,10 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         lp.setDatumRodjenja(datumXML);
 
         lp.setPol(content.getPol());
+
+        //TODO: uri?
+        p.setQrKod(QRCodeService.getQRCode(p.getAbout()));
+
         if(content.getDrz().equals("srb")){
             PotvrdaOVakcinaciji.LicniPodaci.Jmbg jmbg = new PotvrdaOVakcinaciji.LicniPodaci.Jmbg();
             jmbg.setValue(content.getJmbg());
