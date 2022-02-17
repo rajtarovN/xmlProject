@@ -161,7 +161,7 @@ public class PotvrdaVakcinacijeController {
     }
 
     @GetMapping(value = "/getAll", produces = "application/xml")
-    public ResponseEntity<?> getAllSaglasnosti() {
+    public ResponseEntity<?> getAllPotvrde() {
         IdentificationDTO dto = new IdentificationDTO();
         try {
             dto.setIds(potvrdaVakcinacijeService.getAllPotvrde());
