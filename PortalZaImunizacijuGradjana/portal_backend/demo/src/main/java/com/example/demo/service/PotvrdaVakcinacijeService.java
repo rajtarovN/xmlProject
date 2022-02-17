@@ -187,13 +187,13 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         saveXMl(p, "potvrda_" + documentId);
     }
 
-    public String saveDoze(String documentId, ListaEvidentiranihVakcina evidentiraneVakcineDTO) throws Exception {
+    public String saveDoze(String documentId, ListaEvidentiranihVakcina evidentiraneVakcineDTO, String email) throws Exception {
         PotvrdaOVakcinaciji potvrdaOVakcinaciji = pronadjiPoId(documentId);
         PotvrdaOVakcinaciji.Vakcinacija vakcinacija = new PotvrdaOVakcinaciji.Vakcinacija();
         PotvrdaOVakcinaciji.Vakcinacija.Doze doze = new PotvrdaOVakcinaciji.Vakcinacija.Doze();
         List<PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza> lista = new ArrayList<>();
         int i = 0;
-
+        String lastVaxName = "";
         for (EvidentiraneVakcineDTO vakcinaDto: evidentiraneVakcineDTO.getEvidentiraneVakcineDTO()){
             i += 1;
             PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza doza = new PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza();
@@ -203,6 +203,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             doza.setBrojSerije(vakcinaDto.getSerijaVakcine());
             doza.setBroj(BigInteger.valueOf(i));
             doza.setNazivVakcine(vakcinaDto.getNazivVakcine());
+            lastVaxName = vakcinaDto.getNazivVakcine();
             lista.add(doza);
         }
         doze.setDoze(lista);
@@ -211,6 +212,12 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
         String finalString = saveXMl(potvrdaOVakcinaciji, "potvrda_" + documentId);
         repository.saveRDF(finalString, fusekiCollectionId);
+
+        //TODO mail
+        String ime = potvrdaOVakcinaciji.getLicniPodaci().getIme().getValue();
+        String prezime = potvrdaOVakcinaciji.getLicniPodaci().getPrezime().getValue();
+        saglasnostService.createNextAppointment(i, lastVaxName, email,  ime, prezime);
+
         return "Uspesno izdata potvrda o vakcinaciji.";
     }
 
@@ -298,9 +305,9 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             if(saglasnost.getPacijent().getStraniDrzavljanin() != null &&
                     saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija() != null &&
                     saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue() != null){
-                ids = potvrdaVakcinacijeRepository.pronadjiPoEbs(email);
+                ids = potvrdaVakcinacijeRepository.pronadjiPoEbs(saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue());
             }else{
-                ids = potvrdaVakcinacijeRepository.pronadjiPoJmbg(email);
+                ids = potvrdaVakcinacijeRepository.pronadjiPoJmbg(saglasnost.getPacijent().getDrzavljaninSrbije().getJmbg().getValue());
             }
 
             if(!ids.isEmpty()){

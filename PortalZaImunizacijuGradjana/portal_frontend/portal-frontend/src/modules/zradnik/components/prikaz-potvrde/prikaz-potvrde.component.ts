@@ -222,11 +222,11 @@ export class PrikazPotvrdeComponent implements OnInit {
           (response) => {
             var t = String(response);
             this.potvrdaService
-              .saveDoze(tryal03, t)
+              .saveDoze(tryal03, t, this.email)
               .subscribe(
                 (result) => {
                   this.toastr.success('Uspesno izdata potvrda o vakcinaciji!');
-                  //TODO mail && saglasnost create
+                  this.toastr.success('Uspesno kreiran sledeci termin vakcinacije!');
                   this.onPotvrdaSaved.emit(this.brojSaglasnosti);
                 },
                 (error) => {

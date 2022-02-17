@@ -207,7 +207,6 @@ export class PopuniEvidencijuComponent implements OnInit {
               .subscribe(
                 (response) => {
                   this.toastr.success('Uspesno sacuvana evidentirana vakcina!');
-                  this.toastr.success('Uspesno kreiran sledeci termin vakcinacije!');
                 },
                 (error) => {
                   this.toastr.error(error.error);

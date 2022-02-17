@@ -3,6 +3,7 @@ package com.example.demo.util;
 import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.model.korisnik.ListaKorisnika;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -32,7 +33,9 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujXMLBazu() throws JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IOException, IllegalAccessException {
         try {
-            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_3216549877418_2022-01-01-04-04-00");
+            List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901",
+                    "zahtev_3216549877418_2022-01-01-04-04-00", "zahtev_1234567891234_2022-02-01-04-04-00",
+                    "potvrda_3216549877418_2021-12-10", "potvrda_3216549877418_2021-09-08");
             for(String documentId : docIds){
                 String collectionId = "";
                 OutputStream os = new ByteArrayOutputStream();
@@ -43,6 +46,10 @@ public class InitXmlAndRdfDb {
                 else if(documentId.contains("zah")){
                     collectionId = "/db/portal/lista_zahteva";
                     os = parsiraj(documentId, "zahtev_za_sertifikatom");
+                }
+                else if(documentId.contains("pot")){
+                    collectionId = "/db/portal/lista_potvrda";
+                    os = parsiraj(documentId, "potvrda_o_vakcinaciji");
                 }
                 runXML(documentId, collectionId, os.toString());
             }
@@ -83,6 +90,11 @@ public class InitXmlAndRdfDb {
                 ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = (ZahtevZaZeleniSertifikat) unmarshaller
                         .unmarshal(new File("data/xml/" + documentId + ".xml"));
                 marshaller.marshal(zahtevZaZeleniSertifikat, os);
+            }
+            else if(type.equals("potvrda_o_vakcinaciji")){
+                PotvrdaOVakcinaciji potvrda = (PotvrdaOVakcinaciji) unmarshaller
+                        .unmarshal(new File("data/xml/" + documentId + ".xml"));
+                marshaller.marshal(potvrda, os);
             }
             return os;
         }catch (Exception e){
@@ -199,13 +211,17 @@ public class InitXmlAndRdfDb {
 
     public static void inicijalizujRDFBazu() throws IOException, SAXException, TransformerException {
         AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
-        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901", "zahtev_3216549877418_2022-01-01-04-04-00");
+        List<String> docIds = Arrays.asList("saglasnost_12345", "saglasnost_54321", "saglasnost_67890", "saglasnost_78901",
+                "zahtev_3216549877418_2022-01-01-04-04-00", "zahtev_1234567891234_2022-02-01-04-04-00",
+                "potvrda_3216549877418_2021-12-10", "potvrda_3216549877418_2021-09-08");
         for(String documentId : docIds) {
             String graphUri = "";
             if(documentId.contains("sag")){
                 graphUri = "/lista_saglasnosti";
-            }else{
+            }else if(documentId.contains("zah")){
                 graphUri = "/lista_zahteva";
+            }else if(documentId.contains("pot")){
+                graphUri = "/lista_potvrda";
             }
             String xmlFilePath = "data/xml/" + documentId + ".xml";
             String rdfFilePath = "gen/" + documentId + ".rdf";

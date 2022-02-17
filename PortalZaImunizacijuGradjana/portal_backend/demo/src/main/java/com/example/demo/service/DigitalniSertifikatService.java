@@ -116,7 +116,7 @@ public class DigitalniSertifikatService extends AbstractService {
 	public String saveSertifikat(ZahtevZaZeleniSertifikat zahtev) throws Exception {
 		String id = UUID.randomUUID().toString();
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
 		LocalDateTime now = LocalDateTime.now();
 		XMLGregorianCalendar dateFormatted = DatatypeFactory.newInstance()

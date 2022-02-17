@@ -74,8 +74,8 @@ public class PotvrdaVakcinacijeController {
     }
 
     @PreAuthorize("hasRole('Z')")
-    @PostMapping(path = "/saveDoze/{docId}", consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> saveDoze(@PathVariable("docId") String docId,
+    @PostMapping(path = "/saveDoze/{docId}/{email}", consumes = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> saveDoze(@PathVariable("docId") String docId, @PathVariable("email") String email,
                                                         @RequestBody String evidentiraneVakcineDTO) {
         try {
             JAXBContext context = JAXBContext.newInstance(ListaEvidentiranihVakcina.class);
@@ -84,7 +84,7 @@ public class PotvrdaVakcinacijeController {
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
             ListaEvidentiranihVakcina evidentiraneVakcine = (ListaEvidentiranihVakcina) unmarshaller.unmarshal(inputStream);
-            return new ResponseEntity<>(potvrdaVakcinacijeService.saveDoze(docId, evidentiraneVakcine),
+            return new ResponseEntity<>(potvrdaVakcinacijeService.saveDoze(docId, evidentiraneVakcine, email),
                     HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

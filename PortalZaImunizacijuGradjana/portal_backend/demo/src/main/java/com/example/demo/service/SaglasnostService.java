@@ -395,15 +395,11 @@ public class SaglasnostService extends AbstractService {
 			marshaller.marshal(saglasnost, os);
 			dbManager.saveFileToDB(documentId, collectionId, os.toString());
 
-			String ime = saglasnost.getPacijent().getLicniPodaci().getIme().getValue();
-			String prezime = saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue();
-			String email = saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().getValue();
-			createNextAppointment(i, lastVaxName, email,  ime, prezime);
 
 			//smanji zalihe
 			Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
 			for (Vakcina zaliha : zalihe.getVakcina()) {
-				if ( zaliha.getNaziv().compareTo(lastVaxName) != 0) {
+				if ( zaliha.getNaziv().equals(lastVaxName)) {
 					zaliha.setRezervisano(zaliha.getRezervisano() - 1);
 					zaliha.setDostupno(zaliha.getDostupno() - 1);
 				}
@@ -640,6 +636,7 @@ public class SaglasnostService extends AbstractService {
 		saglasnost.setBrojSaglasnosti(id);
 		saglasnost.setEvidencijaOVakcinaciji(new Saglasnost.EvidencijaOVakcinaciji());
 		saglasnost.setPacijent(new Saglasnost.Pacijent());
+		saglasnost.getPacijent().setLicniPodaci(new Saglasnost.Pacijent.LicniPodaci());
 		if(currentDoseGiven == 1){
 			saglasnost.setOdabraneVakcine(vaxName);
 		}else
@@ -662,6 +659,7 @@ public class SaglasnostService extends AbstractService {
 		saglasnost.getPacijent().getDatum().setValue(dateFormatted);
 
 		// Email
+        saglasnost.getPacijent().getLicniPodaci().setKontaktInformacije(new Saglasnost.Pacijent.LicniPodaci.KontaktInformacije());
 		saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().setEmail(new Saglasnost.Pacijent.LicniPodaci.KontaktInformacije.Email());
 		saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setValue(email);
 		saglasnost.getPacijent().getLicniPodaci().getKontaktInformacije().getEmail().setProperty("pred:email");
@@ -689,7 +687,7 @@ public class SaglasnostService extends AbstractService {
 		saveRDF(os.toString(), "/lista_saglasnosti");
 
 		String subject = "Naredni termin vakcinacije";
-		String message = "Poštovani, \n Obaveštavamo vas da je vaš sledeći termin vakcinacije protiv covid-19: \n" + nextDate;
+		String message = "Poštovani, \n Obaveštavamo vas da je vaš sledeći termin vakcinacije protiv covid-19: \n" + nextDate.toString();
 		sendMail(email, message, subject);
 	}
 

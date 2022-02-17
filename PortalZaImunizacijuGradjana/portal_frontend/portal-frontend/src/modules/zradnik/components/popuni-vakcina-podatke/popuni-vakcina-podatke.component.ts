@@ -71,7 +71,8 @@ export class PopuniVakcinaPodatkeComponent implements OnInit {
           if(vacs === "none"){
             this.toastr.error("Nema dostupnih vakcina!");
           }else{
-            const splitted = vacs.split(',');
+            const trimed = vacs.substring(0, vacs.length-1);
+            const splitted = trimed.split(',');
             splitted.forEach((vacx, i)=>{
               this.naziviVakcina.push({index: i, name: vacx});
             });
