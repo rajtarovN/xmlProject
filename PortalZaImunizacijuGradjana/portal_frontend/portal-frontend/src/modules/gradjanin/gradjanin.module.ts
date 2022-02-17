@@ -15,9 +15,10 @@ import { InteresovanjeFormComponent } from './components/interesovanje-form/inte
 import { PodnosenjeZahtevaComponent } from './components/podnosenje-zahteva/podnosenje-zahteva.component';
 import { SaglasnostFormComponent } from './components/saglasnost-form/saglasnost-form.component';
 import { PregledZahtevaComponent } from './components/pregled-zahteva/pregled-zahteva.component';
+import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz-dokumenata.component';
 
 @NgModule({
-  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent, SaglasnostFormComponent, PregledZahtevaComponent],
+  declarations: [GradjaninHomepageComponent, InteresovanjeFormComponent, PodnosenjeZahtevaComponent, SaglasnostFormComponent, PregledZahtevaComponent, PrikazDokumenataComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

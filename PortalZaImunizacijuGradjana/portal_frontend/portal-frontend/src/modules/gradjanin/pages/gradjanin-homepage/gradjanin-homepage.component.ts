@@ -16,6 +16,8 @@ export class GradjaninHomepageComponent implements OnInit {
   showModalLogout: boolean;
   mail: string = '';
   activeView = '1';
+  selectedTipDokumenta: string;
+  showPrikazDokumenata: boolean;
 
   constructor(
     private observer: BreakpointObserver,
@@ -24,6 +26,8 @@ export class GradjaninHomepageComponent implements OnInit {
   ) {
     this.showModalLogout = false;
     this.mail = localStorage.getItem('email')!;
+    this.selectedTipDokumenta = '';
+    this.showPrikazDokumenata = false;
   }
 
   ngOnInit(): void {}
@@ -46,5 +50,24 @@ export class GradjaninHomepageComponent implements OnInit {
 
   onLogoutCloseClicked(item: boolean) {
     this.showModalLogout = false;
+  }
+
+
+  openSertifikat(){
+    console.log("aaaaa")
+    this.selectedTipDokumenta = "Sertifikati";
+    this.showPrikazDokumenata = true;
+  }
+  openSaglasnost(){
+    this.selectedTipDokumenta = "Saglasnosti";
+    this.showPrikazDokumenata = true;
+  }
+  openPotvrda(){
+    this.selectedTipDokumenta = "Potvrde";
+    this.showPrikazDokumenata = true;
+  }
+  openInteresovanja(){
+    this.selectedTipDokumenta = "Interesovanje";
+    this.showPrikazDokumenata = true;
   }
 }
