@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -124,6 +125,21 @@ public class DigitalniSertifikatController {
         }
     }
 
+	@PreAuthorize("hasRole('G')")
+	@GetMapping(path ="/getAllS/{email}")
+	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
+		System.out.println("USLOOOOOOO");
+		try {
+			List<com.example.sluzbenik_back.dto.DokumentDTO> retval = digitalniSertifikatService.getSertifikatiAllByEmail(email);
+			if (retval.isEmpty()) {
+				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
+			} else
+				return new ResponseEntity<>(retval, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error pri dobavljanju potvrda.", HttpStatus.NOT_FOUND);
+		}
+	}
 	@GetMapping(path = "/obicnaPretraga/{searchTerm}",  produces = "application/xml")
 	public ResponseEntity<IdentificationDTO> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
 		IdentificationDTO dto = new IdentificationDTO();

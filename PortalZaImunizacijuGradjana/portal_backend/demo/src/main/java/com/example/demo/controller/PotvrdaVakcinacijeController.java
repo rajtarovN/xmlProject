@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
+import com.example.demo.model.email.Email;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.service.PotvrdaVakcinacijeService;
 import com.example.demo.service.SaglasnostService;
@@ -28,6 +29,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/potvrda")
@@ -149,6 +151,23 @@ public class PotvrdaVakcinacijeController {
         }
     }
 
+    @PreAuthorize("hasRole('G')")
+    @GetMapping(path ="/getAllS/{email}")
+    public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
+        System.out.println("USLOOOOOOO");
+        try {
+            List<com.example.sluzbenik_back.dto.DokumentDTO> retval = potvrdaVakcinacijeService.getPotvrdaAllByEmail(email);
+            if (retval.isEmpty()) {
+                return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
+            } else
+                return new ResponseEntity<>(retval, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error pri dobavljanju potvrda.", HttpStatus.NOT_FOUND);
+
+        }
+    }
+    
     @GetMapping(path = "/obicnaPretraga/{searchTerm}",  produces = "application/xml")
     public ResponseEntity<IdentificationDTO> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
         IdentificationDTO dto = new IdentificationDTO();
