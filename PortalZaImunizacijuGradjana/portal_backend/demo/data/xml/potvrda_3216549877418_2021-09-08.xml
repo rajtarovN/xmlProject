@@ -1,0 +1,28 @@
+<potvrda_o_vakcinaciji
+        xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/"
+        xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji ../schema/potvrda_o_vakcinaciji.xsd"
+        about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/3216549877418_2021-09-08"
+        sifra_potvrde_vakcine="3216549877418_2021-09-08">
+    <licni_podaci>
+        <ime property="pred:ime">Gradjica</ime>
+        <prezime property="pred:prezime">Gradjanic</prezime>
+        <datum_rodjenja>2000-10-10</datum_rodjenja>
+        <pol>Zenski</pol>
+        <jmbg property="pred:jmbg">3216549877418</jmbg>
+    </licni_podaci>
+    <vakcinacija>
+        <doze>
+            <doza>
+                <broj>1</broj>
+                <datum_davanja>2021-09-08</datum_davanja>
+                <broj_serije>1cf3</broj_serije>
+                <naziv_vakcine>Pfizer-BioNTech</naziv_vakcine>
+            </doza>
+        </doze>
+    </vakcinacija>
+    <zdravstvena_ustanova>Dom Zdravlja, Novi Sad</zdravstvena_ustanova>
+    <datum_izdavanja property="pred:datum_izdavanja">2021-09-08</datum_izdavanja>
+</potvrda_o_vakcinaciji>

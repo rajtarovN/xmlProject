@@ -8,6 +8,7 @@ import static com.example.demo.util.PathConstants.SAVE_PDF;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,9 +19,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
@@ -268,5 +271,26 @@ public class DigitalniSertifikatService extends AbstractService {
 	public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException,
 			ClassNotFoundException, XMLDBException, IOException {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
+	}
+
+	public List<com.example.sluzbenik_back.dto.DokumentDTO> getSertifikatiAllByEmail(String email){
+		try {
+			System.out.println("OVDEEEEEE");
+			String all = allXmlByEmail(email);
+
+			JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			StringReader reader = new StringReader(all);
+			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
+			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+			for (DigitalniZeleniSertifikat s: saglasnosti.getSertifikate()) {
+				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
+			}System.out.println("OVDEEEEEE");
+			return ret;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
 	}
 }

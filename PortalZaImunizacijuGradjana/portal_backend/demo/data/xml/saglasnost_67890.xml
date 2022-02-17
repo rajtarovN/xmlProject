@@ -15,7 +15,7 @@
             <Prezime property="pred:prezime">Gradjic</Prezime>
             <Ime property="pred:ime">Gradjica</Ime>
             <Ime_roditelja>Milenko</Ime_roditelja>
-            <Pol>Muski</Pol>
+            <Pol>Zenski</Pol>
             <Datum_rodjenja>2000-10-10</Datum_rodjenja>
             <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
             <Adresa>
@@ -39,7 +39,8 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_termina">2022-02-15</Datum>
+        <Datum property="pred:datum_termina">2022-02-17</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji xsi:nil="true"/>
+    <Potvrda property="pred:seeAlso"/>
 </Saglasnost>

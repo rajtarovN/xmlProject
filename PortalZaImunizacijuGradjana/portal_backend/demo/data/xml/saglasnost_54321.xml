@@ -15,7 +15,7 @@
             <Prezime property="pred:prezime">Gradjanic</Prezime>
             <Ime property="pred:ime">Gradjica</Ime>
             <Ime_roditelja>Milenko</Ime_roditelja>
-            <Pol>Muski</Pol>
+            <Pol>Zenski</Pol>
             <Datum_rodjenja>2000-10-10</Datum_rodjenja>
             <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
             <Adresa>
@@ -55,7 +55,7 @@
                 <Datum_davanja>2021-09-08</Datum_davanja>
                 <Nacin_davanja>IM</Nacin_davanja>
                 <Ekstremiter>desna ruka</Ekstremiter>
-                <Serija>1</Serija>
+                <Serija>1cf3</Serija>
                 <Proizvodjac>Pfizer</Proizvodjac>
                 <Nezeljena_reakcija></Nezeljena_reakcija>
             </Vakcina>
@@ -64,7 +64,7 @@
                 <Datum_davanja>2021-12-10</Datum_davanja>
                 <Nacin_davanja>IM</Nacin_davanja>
                 <Ekstremiter>desna ruka</Ekstremiter>
-                <Serija>1</Serija>
+                <Serija>73</Serija>
                 <Proizvodjac>cgfbv</Proizvodjac>
                 <Nezeljena_reakcija>hf</Nezeljena_reakcija>
             </Vakcina>
@@ -75,4 +75,5 @@
             <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>
         </Vakcine>
     </Evidencija_o_vakcinaciji>
+    <Potvrda property="pred:seeAlso"/>
 </Saglasnost>

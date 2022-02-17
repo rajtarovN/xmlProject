@@ -15,6 +15,7 @@ import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.XSLFORTransformer;
 
+import com.example.sluzbenik_back.dto.DokumentDTO;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -700,4 +701,37 @@ public class SaglasnostService extends AbstractService {
 
 	}
 
+
+	public List<DokumentDTO> getSaglasnostiAllByEmail(String email){
+		try {
+			System.out.println("OVDEEEEEE");
+			String all = allXmlByEmail(email);
+
+			JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+			StringReader reader = new StringReader(all);
+			ListaSaglasnosti saglasnosti = (ListaSaglasnosti) unmarshaller.unmarshal(reader);
+			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+			for (Saglasnost s: saglasnosti.getSaglasnosti()) {
+				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
+			}System.out.println("OVDEEEEEE");
+			return ret;
+
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XMLDBException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (DatatypeConfigurationException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<>();
+	}
 }

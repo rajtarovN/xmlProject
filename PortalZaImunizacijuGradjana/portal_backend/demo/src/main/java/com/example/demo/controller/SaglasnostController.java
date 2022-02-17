@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import javax.ws.rs.GET;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -229,6 +230,24 @@ public class SaglasnostController {
 			return new ResponseEntity<>(new IdentificationDTO(lista), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+
+
+	@PreAuthorize("hasRole('G')")
+	@GetMapping(path ="/getAllS/{email}")
+	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
+		System.out.println("USLOOOOOOO");
+		try {
+			List<com.example.sluzbenik_back.dto.DokumentDTO> retval = saglasnostService.getSaglasnostiAllByEmail(email);
+			if (retval.isEmpty()) {
+				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
+			} else
+				return new ResponseEntity<>(retval, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error pri dobavljanju potvrda.", HttpStatus.NOT_FOUND);
+		}
 	}
 
 }

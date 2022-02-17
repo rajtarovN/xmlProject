@@ -43,6 +43,21 @@
     <button mat-button class="menu-button" (click)="this.activeView = '3'">
       <span>Подношење захтева</span>
     </button>
+    <button mat-button class="menu-button" (click)="this.activeView = '4'">
+      <span>Преглед захтева</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.openSertifikat()">
+      <span>Преглед сертификата</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.openSaglasnost()">
+      <span>Преглед сагласности</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.openPotvrda()">
+      <span>Преглед потврда</span>
+    </button>
+    <button mat-button class="menu-button" (click)="openInteresovanja()">
+      <span>Преглед интересовања</span>
+    </button>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
@@ -58,6 +73,10 @@
         class="items"
         *ngIf="this.activeView === '3'"
       ></app-podnosenje-zahteva>
+      <app-pregled-zahteva
+        class="items"
+        *ngIf="this.activeView === '4'"
+      ></app-pregled-zahteva>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
@@ -65,3 +84,9 @@
   *ngIf="this.showModalLogout"
   (onLogoutClose)="onLogoutCloseClicked($event)"
 ></app-logout>
+
+<app-prikaz-dokumenata
+  *ngIf="this.showPrikazDokumenata"
+  [tipDokumenta]="this.selectedTipDokumenta"
+  (onPrikazDokumenataClose)="this.showPrikazDokumenata = false"
+ ></app-prikaz-dokumenata>

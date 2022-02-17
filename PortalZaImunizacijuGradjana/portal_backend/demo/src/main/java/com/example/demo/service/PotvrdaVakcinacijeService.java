@@ -24,10 +24,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -321,5 +318,26 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
     public XMLResource getXML(String documentId) throws IllegalAccessException, InstantiationException, JAXBException, ClassNotFoundException, XMLDBException, IOException {
         return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
+    }
+
+    public List<com.example.sluzbenik_back.dto.DokumentDTO> getPotvrdaAllByEmail(String email){
+        try {
+            System.out.println("OVDEEEEEE");
+            String all = this.allXmlByEmail(email);
+
+            JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            StringReader reader = new StringReader(all);
+            ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
+            List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+            for (PotvrdaOVakcinaciji s: potvrde.getPotvrde()) {
+                ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
+            }System.out.println("OVDEEEEEE");
+            return ret;
+
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 }

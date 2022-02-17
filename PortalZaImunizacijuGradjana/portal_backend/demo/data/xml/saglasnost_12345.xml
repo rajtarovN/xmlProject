@@ -39,7 +39,7 @@
         <Saglasnost_pacijenta>
             <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
         </Saglasnost_pacijenta>
-        <Datum property="pred:datum_termina">2022-02-15</Datum>
+        <Datum property="pred:datum_termina">2022-02-17</Datum>
     </Pacijent>
     <Evidencija_o_vakcinaciji>
         <Zdravstvena_ustanova>Dom Zdravlja, Novi Sad</Zdravstvena_ustanova>
@@ -52,7 +52,7 @@
         <Vakcine>
             <Vakcina  Doza="1">
                 <Naziv>Pfizer-BioNTech</Naziv>
-                <Datum_davanja>2022-02-15</Datum_davanja>
+                <Datum_davanja>2022-02-17</Datum_davanja>
                 <Nacin_davanja>IM</Nacin_davanja>
                 <Ekstremiter>desna ruka</Ekstremiter>
                 <Serija>1</Serija>
@@ -60,10 +60,11 @@
                 <Nezeljena_reakcija></Nezeljena_reakcija>
             </Vakcina>
             <Privremene_kontraindikacije>
-                <Datum_utvrdjivanja>2022-02-15</Datum_utvrdjivanja>
+                <Datum_utvrdjivanja>2022-02-17</Datum_utvrdjivanja>
                 <Dijagnoza>Povisena temperatura</Dijagnoza>
             </Privremene_kontraindikacije>
             <Odluka_komisije_za_trajne_kontraindikacije></Odluka_komisije_za_trajne_kontraindikacije>
         </Vakcine>
     </Evidencija_o_vakcinaciji>
+    <Potvrda property="pred:seeAlso"/>
 </Saglasnost>

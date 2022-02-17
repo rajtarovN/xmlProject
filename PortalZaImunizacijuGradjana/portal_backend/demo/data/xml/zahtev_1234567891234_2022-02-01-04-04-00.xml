@@ -4,20 +4,20 @@
                              xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
                              xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/zahtev_za_sertifikatom/predicate/"
                              xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom ../schema/zahtev.xsd"
-                             about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/3216549877418_2022-01-01-04-04-00"
-                             email="gradjica@maildrop.cc">
+                             about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/1234567891234_2022-02-01-04-04-00"
+                             email="gradjanin@maildrop.cc">
     <Podnosilac_zahteva>
-        <Ime property="pred:ime">Gradjica</Ime>
-        <Prezime property="pred:prezime">Gradjic</Prezime>
+        <Ime property="pred:ime">Gradjanin</Ime>
+        <Prezime property="pred:prezime">Gradjanic</Prezime>
         <Datum_rodjenja>2000-10-10</Datum_rodjenja>
-        <Pol>Zenski</Pol>
-        <Jmbg property="pred:jmbg">3216549877418</Jmbg>
-        <Broj_pasosa property="pred:broj_pasosa">111111111</Broj_pasosa>
-        <Razlog_podnosenja_zahteva>Potrebno za poslovne svrhe.</Razlog_podnosenja_zahteva>
+        <Pol>Muski</Pol>
+        <Jmbg property="pred:jmbg">1234567891234</Jmbg>
+        <Broj_pasosa property="pred:broj_pasosa">222222222</Broj_pasosa>
+        <Razlog_podnosenja_zahteva>Potrebno za fakultet.</Razlog_podnosenja_zahteva>
     </Podnosilac_zahteva>
     <Zaglavlje>
         <Mesto_podnosenja_zahteva>Novi Sad</Mesto_podnosenja_zahteva>
-        <Dan_podnosenja_zahteva property="pred:dan_podnosenja_zahteva">2022-01-01T04:04:00</Dan_podnosenja_zahteva>
+        <Dan_podnosenja_zahteva property="pred:dan_podnosenja_zahteva">2022-02-01T04:04:00</Dan_podnosenja_zahteva>
     </Zaglavlje>
     <Status property="pred:status">na cekanju</Status>
 </Zahtev_za_zeleni_sertifikat>
