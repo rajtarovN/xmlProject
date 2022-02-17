@@ -2,6 +2,7 @@ package com.example.sluzbenik_back.service;
 
 import com.example.sluzbenik_back.client.PotvrdeClient;
 import com.example.sluzbenik_back.dto.DokumentDTO;
+import com.example.sluzbenik_back.dto.IdentificationDTO;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
@@ -65,5 +66,9 @@ public class PotvrdaVakcinacijeService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public IdentificationDTO obicnaPretraga(String searchTerm) throws Exception {
+        return this.potvrdeClient.getByObicnaPretraga(searchTerm);
     }
 }

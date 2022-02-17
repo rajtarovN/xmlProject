@@ -26,4 +26,14 @@ export class PotvrdeService {
       { responseType: 'arraybuffer' }
     );
   }
+
+  obicnaPretraga(searchTerm: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml'
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.obicnaPretragaPotvrda}/${searchTerm}`,
+      { headers: headers, responseType: 'text' }
+    );
+  }
 }

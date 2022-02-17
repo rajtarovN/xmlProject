@@ -1,7 +1,7 @@
 <mat-card class="card-position">
     <div class="example-full-width">
       <mat-label for="dokument">Odaberite opciju: </mat-label>
-      <mat-select [(ngModel)]="dokument" id="dokument" name="dokument">
+      <mat-select id="dokument" name="dokument" #selektor>
         <mat-option value="1">Saglasnost</mat-option>
         <mat-option value="2">Sertifikat</mat-option>
         <mat-option value="3">Potvrda</mat-option>
@@ -21,7 +21,7 @@
             aria-label="Pretrazi"
             id="pretraziSaglasnosti"
             class="btn-spacing"
-            (click)="pretraziSaglasnosti()"
+            (click)="pretrazi()"
           >
             Pretraži
           </button>

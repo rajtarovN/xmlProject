@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.ExistManager;
 import com.example.demo.util.FusekiManager;
@@ -136,45 +137,36 @@ public class SaglasnostRepository extends RepositoryInterface {
 		return ids;
 	}
 
-	public boolean obicnaPretraga(String documentId, String searchTerm){
-		String xPath =  "//Saglasnost[contains(Pacijent/Licni_podaci/Kontakt_informacije/Email, '" + searchTerm + "')]" ;
-				/*"contains(Ime, '" + searchTerm + "') or " +
-				" contains(Prezime, '" + searchTerm + "') or contains(Ime_roditelja, '" + searchTerm + "') or " +
-				" contains(Mesto_rodjenja, '" + searchTerm + "') or contains(Adresa/Mesto, '" + searchTerm + "') or " +
-				" contains(Adresa/Grad, '" + searchTerm + "') or contains(Kontakt_informacije/Email, '" + searchTerm + "') or ]";*/
-		/*
-		String xPath = "/ns2:Saglasnost[ns2:Pacijent/ns2:Licni_podaci/ns2:Ime[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Prezime[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Ime_roditelja[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Mesto_rodjenja[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Adresa/Mesto[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Adresa/Grad[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Kontakt_informacije/Email[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Radni_status[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Zanimanje_zaposlenog[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Socijalna_zastita/Naziv_sedista[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Licni_podaci/Socijalna_zastita/Opstina_sedista[contains(., '" + searchTerm + "')]"
-				+ " or Pacijent/Saglasnost_pacijenta/Naziv_imunoloskog_lekara[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Zdravstvena_ustanova[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Vakcinacijski_punkt[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Lekar/Ime[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Lekar/Prezime[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Vakcine/Vakcina/Naziv[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Vakcine/Vakcina/Proizvodjac[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Vakcine/Vakcina/Nezeljena_reakcija[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Dijagnoza[contains(., '" + searchTerm + "')]";*/
+	public ResourceSet obicnaPretraga(String searchTerm){
+		String xPath = "//Saglasnost[contains(lower-case(Pacijent/Licni_podaci/Ime), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Prezime), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Ime_roditelja), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Mesto_rodjenja), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Adresa/Mesto), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Adresa/Grad), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Kontakt_informacije/Email), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Kontakt_informacije/Fiksni_telefon), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Kontakt_informacije/Mobilni_telefon), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Radni_status), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Zanimanje_zaposlenog), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Socijalna_zastita/Naziv_sedista), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Licni_podaci/Socijalna_zastita/Opstina_sedista), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Pacijent/Saglasnost_pacijenta/Naziv_imunoloskog_lekara), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Evidencija_o_vakcinaciji/Zdravstvena_ustanova), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Evidencija_o_vakcinaciji/Vakcinacijski_punkt), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Evidencija_o_vakcinaciji/Lekar/Ime), lower-case('" + searchTerm + "')) " +
+				" or contains(lower-case(Evidencija_o_vakcinaciji/Lekar/Prezime), lower-case('" + searchTerm + "')) " +
+				" or contains(Evidencija_o_vakcinaciji/Vakcine/Vakcina/Naziv, '" + searchTerm + "') " +
+				" or contains(Evidencija_o_vakcinaciji/Vakcine/Vakcina/Proizvodjac, '" + searchTerm + "') " +
+				" or contains(Evidencija_o_vakcinaciji/Vakcine/Vakcina/Nezeljena_reakcija, '" + searchTerm + "') " +
+				" or contains(lower-case(Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Dijagnoza), lower-case('" + searchTerm + "')) " +
+				" ]";
 
-		/* DIGITALNI SERTIFIKAT
-		String xPath = "/Digitalni_zeleni_sertifikat[Podaci_o_osobi/Ime[contains(., '" + searchTerm + "')]"
-				+ " or Podaci_o_osobi/Prezime[contains(., '" + searchTerm + "')]"
-				+ " or Podaci_o_vakcinaciji/Vakcinacija/Tip[contains(., '" + searchTerm + "')]"
-				+ " or Podaci_o_vakcinaciji/Vakcinacija/Proizvodjac[contains(., '" + searchTerm + "')]"
-				+ " or Podaci_o_vakcinaciji/Vakcinacija/Zdravstvena_ustanova[contains(., '" + searchTerm + "')]";*/
-
-		try {//+ "/" + documentId
-			return this.existManager.retrieve(collectionId , xPath, TARGET_NAMESPACE).getSize() != 0;
+		try {
+			return this.existManager.retrieve(collectionId , xPath, TARGET_NAMESPACE);
 		} catch (Exception e) {
-			return false;
+			e.printStackTrace();
+			throw new BadRequestException("Doslo je do errora pri obicnoj pretrazi saglasnosti.");
 		}
 	}
 }

@@ -80,4 +80,14 @@ public class DigitalniSertifikatController {
 		}
 
 	}
+
+	@PreAuthorize("hasRole('S')")
+	@GetMapping(value = "/obicnaPretraga/{searchTerm}", produces = "application/xml")
+	public ResponseEntity<?> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
+		try {
+			return new ResponseEntity<>(this.digitalniSertifikatService.obicnaPretraga(searchTerm), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

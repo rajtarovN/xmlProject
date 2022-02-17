@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
 import { Information } from 'src/modules/shared/models/information';
 import { PotvrdeService } from '../../services/potvrde-service/potvrde.service';
@@ -12,6 +13,7 @@ import { SertifikatService } from '../../services/sertifikat-service/sertifikat.
   styleUrls: ['./obicna-pretraga.component.scss']
 })
 export class ObicnaPretragaComponent implements OnInit {
+  @ViewChild('selektor') matSelect!: MatSelect;
   pretragaForm: FormGroup;
   parser = new DOMParser();
   selected: string = 'zahtev';
@@ -35,8 +37,23 @@ export class ObicnaPretragaComponent implements OnInit {
     this.getAllSaglasnosti();
   }
 
-  // get Saglasnosti
+  ngAfterViewInit() {
+    this.matSelect.valueChange.subscribe((value) => {
+      this.dokument = value;
+      if(this.dokument === '1'){
+        this.getAllSaglasnosti();
+      }
+      else if(this.dokument === '2'){
+        this.getAllSertifikati();
+      }
+      else if(this.dokument === '3'){
+        //TODO
+      }
+    });
+  }
+
   getAllSaglasnosti(): void {
+    this.documents = [];
     this.saglasnostService.getAll().subscribe({
       next: (success) => {
         this.parseIdXml(success, 'saglasnost');
@@ -47,8 +64,8 @@ export class ObicnaPretragaComponent implements OnInit {
     });
   }
 
-  // get Sertifikati
   getAllSertifikati(): void {
+    this.documents = [];
     this.sertifikatService.getAll().subscribe({
       next: (success) => {
         this.parseIdXml(success, 'sertifikat');
@@ -86,9 +103,20 @@ export class ObicnaPretragaComponent implements OnInit {
     this.documents[index].open = false;
   }
 
+  pretrazi(){
+    if(this.dokument === '1'){
+      this.pretraziSaglasnosti();
+    }
+    else if(this.dokument === '2'){
+      this.pretraziSertifikate();
+    }
+    else if(this.dokument === '3'){
+      this.pretraziPotvrde();
+    }
+  }
+
   pretraziSaglasnosti() {
     this.documents = [];
-
     if(this.pretragaForm.value.searchTerm != null && this.pretragaForm.value.searchTerm != ""){
       this.saglasnostService.obicnaPretraga(this.pretragaForm.value.searchTerm).subscribe({
         next: (success) => {
@@ -99,32 +127,37 @@ export class ObicnaPretragaComponent implements OnInit {
           this.toastr.error(error.error);
         },
       });
-    }
-    
+    }    
   }
 
   pretraziSertifikate() {
     this.documents = [];
-    //TODO olja
-    /*
-    let pretragaDTO = `<sertifikatNaprednaDTO>
-                          <broj_pasosa>${this.pretragaSertifikataForm.value.brPasosa}</broj_pasosa>
-                          <broj_sertifikata>${this.pretragaSertifikataForm.value.brSertifikata}</broj_sertifikata>
-                          <datum_izdavaja>${this.pretragaSertifikataForm.value.datum}</datum_izdavaja>
-                          <ime>${this.pretragaSertifikataForm.value.ime}</ime>
-                          <jmbg>${this.pretragaSertifikataForm.value.jmbg}</jmbg>
-                          <prezime>${this.pretragaSertifikataForm.value.prezime}</prezime>
-                          <and>${this.pretragaSertifikataForm.value.operator}</and>
-                      </sertifikatNaprednaDTO>`;
+    if(this.pretragaForm.value.searchTerm != null && this.pretragaForm.value.searchTerm != ""){
+      this.sertifikatService.obicnaPretraga(this.pretragaForm.value.searchTerm).subscribe({
+        next: (success) => {
+          this.parseIdXml(success, 'sertifikat');
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error);
+        },
+      });
+    }  
+  }
 
-    this.sertifikatService.naprednaPretraga(pretragaDTO).subscribe({
-      next: (success) => {
-        this.parseIdXml(success, 'sertifikat');
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });*/
+  pretraziPotvrde(){
+    this.documents = [];
+    if(this.pretragaForm.value.searchTerm != null && this.pretragaForm.value.searchTerm != ""){
+      this.potvrdaService.obicnaPretraga(this.pretragaForm.value.searchTerm).subscribe({
+        next: (success) => {
+          this.parseIdXml(success, 'potvrda');
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastr.error(error.error);
+        },
+      });
+    }  
   }
 
   preuzmiPDF(url: String | null) {

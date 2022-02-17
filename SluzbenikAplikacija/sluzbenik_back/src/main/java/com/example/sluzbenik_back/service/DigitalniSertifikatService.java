@@ -77,4 +77,8 @@ public class DigitalniSertifikatService {
 			return null;
 		}
 	}
+
+	public IdentificationDTO obicnaPretraga(String searchTerm) throws Exception {
+		return this.digitalniSertifikatClient.getByObicnaPretraga(searchTerm);
+	}
 }

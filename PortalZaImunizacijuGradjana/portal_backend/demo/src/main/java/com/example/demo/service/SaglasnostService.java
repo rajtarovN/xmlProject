@@ -16,8 +16,12 @@ import com.example.demo.util.DBManager;
 import com.example.demo.util.XSLFORTransformer;
 
 import org.apache.commons.io.input.ReaderInputStream;
+import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xmldb.api.base.Resource;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -708,13 +712,28 @@ public class SaglasnostService extends AbstractService {
 
 	}
 
-	public List<String> obicnaPretraga(String searchTerm) throws IOException{
-		List<String> allIds = getAllSaglasnosti();
+	public List<String> obicnaPretraga(String searchTerm) throws Exception{
 		List<String> filteredIds = new ArrayList<>();
-		for (String about: allIds ) {
-			String id = about.substring(about.lastIndexOf('/') + 1);
-			if(this.saglasnostRepository.obicnaPretraga("saglasnost_"+id+".xml", searchTerm)){
-				filteredIds.add("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/"+id);
+		ResourceSet result = this.saglasnostRepository.obicnaPretraga(searchTerm);
+		ResourceIterator i = result.getIterator();
+		Resource res = null;
+		JAXBContext context = JAXBContext.newInstance(Saglasnost.class);
+
+		while (i.hasMoreResources()) {
+			try {
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+				res = i.nextResource();
+				Saglasnost r = (Saglasnost) unmarshaller.unmarshal(((XMLResource) res).getContentAsDOM());
+
+				String about = r.getAbout();
+
+				filteredIds.add(about);
+			} finally {
+				try {
+					((EXistResource) res).freeResources();
+				} catch (XMLDBException xe) {
+					xe.printStackTrace();
+				}
 			}
 		}
 		return filteredIds;

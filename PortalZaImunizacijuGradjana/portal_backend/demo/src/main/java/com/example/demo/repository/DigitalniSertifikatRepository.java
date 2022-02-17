@@ -6,12 +6,21 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.util.ExistManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
 @Repository
 public class DigitalniSertifikatRepository extends RepositoryInterface {
+
+	@Autowired
+	private ExistManager existManager;
+
+	private static final String TARGET_NAMESPACE = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat";
 
 	public static final String SPARQL_FILE = "src/main/resources/static/sparql/sertifikat/";
 
@@ -53,4 +62,20 @@ public class DigitalniSertifikatRepository extends RepositoryInterface {
 		return ids;
 	}
 
+	public ResourceSet obicnaPretraga(String searchTerm){
+		String xPath = "//Digitalni_zeleni_sertifikat[contains(lower-case(Podaci_o_osobi/Ime), lower-case('" + searchTerm + "')) "
+				+ " or contains(lower-case(Podaci_o_osobi/Prezime), lower-case('" + searchTerm + "')) "
+				+ " or contains(Podaci_o_vakcinaciji/Vakcinacija/Tip, '" + searchTerm + "')"
+				+ " or contains(Podaci_o_vakcinaciji/Vakcinacija/Proizvodjac, '" + searchTerm + "')"
+				+ " or contains(Podaci_o_vakcinaciji/Vakcinacija/Serija, '" + searchTerm + "')"
+				+ " or contains(Podaci_o_vakcinaciji/Vakcinacija/Zdravstvena_ustanova, '" + searchTerm + "')" +
+				" ]";
+
+		try {
+			return this.existManager.retrieve(collectionId , xPath, TARGET_NAMESPACE);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BadRequestException("Doslo je do errora pri obicnoj pretrazi sertifikata.");
+		}
+	}
 }

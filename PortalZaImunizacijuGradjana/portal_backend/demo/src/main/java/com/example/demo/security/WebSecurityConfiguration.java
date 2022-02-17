@@ -90,7 +90,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// "/api/cultural-content-category").hasRole("ROLE_ADMIN")
 
 				// za svaki drugi zahtev korisnik mora biti autentifikovan
-				.antMatchers("/korisnik/prijava").permitAll().antMatchers("/korisnik/registracija").permitAll()
+				.antMatchers("/korisnik/prijava").permitAll()
+				.antMatchers("/korisnik/registracija").permitAll()
 				.antMatchers("/korisnik/logout").permitAll().anyRequest().authenticated().and()
 				// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
 				.cors().and()
@@ -115,9 +116,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/interesovanje/updatePending",
 				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**",
-				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**",
+				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**",
 				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
-				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**",
+				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**",
 				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
 	}
 }
