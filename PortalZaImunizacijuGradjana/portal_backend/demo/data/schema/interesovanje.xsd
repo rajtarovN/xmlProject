@@ -126,6 +126,16 @@
                         </xs:simpleContent>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="Saglasnost" nillable="true">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anyURI">
+                                <xs:attribute fixed="pred:seeAlso" name="property" type="xs:string"
+                                />
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
             </xs:sequence>
             <xs:attribute name="about" type="xs:string"/>
             <xs:attribute name="Dodeljen_termin" type="xs:boolean" default="false"/>
