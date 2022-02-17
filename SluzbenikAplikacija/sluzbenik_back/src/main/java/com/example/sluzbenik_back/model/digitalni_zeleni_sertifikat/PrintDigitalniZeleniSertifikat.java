@@ -9,7 +9,7 @@ public class PrintDigitalniZeleniSertifikat {
         System.out.println("Digitalni zeleni sertifikat: ");
         System.out.println("Podaci o sertifikatu: ");
         System.out.println("----->Broj sertifikata: " + digitalniZeleniSertifikat.getPodaciOSertifikatu().getBrojSertifikata().getValue());
-        System.out.println("----->Datum i vreme izdavanja: " + digitalniZeleniSertifikat.getPodaciOSertifikatu().getDatumIzdavanja().getValue());
+        System.out.println("----->Datum i vreme izdavanja: " + digitalniZeleniSertifikat.getPodaciOSertifikatu().getDatumIVremeIzdavanja().getValue());
         System.out.println("Podaci o osobi: ");
         System.out.println("----->Ime: " + digitalniZeleniSertifikat.getPodaciOOsobi().getIme().getValue());
         System.out.println("----->Prezime: " + digitalniZeleniSertifikat.getPodaciOOsobi().getPrezime().getValue());

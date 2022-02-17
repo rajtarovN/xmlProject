@@ -21,10 +21,10 @@
                                     </xs:simpleContent>
                                 </xs:complexType>
                             </xs:element>
-                            <xs:element name="Datum_izdavanja">
+                            <xs:element name="Datum_i_vreme_izdavanja">
                                 <xs:complexType>
                                     <xs:simpleContent>
-                                        <xs:extension base="xs:date">
+                                        <xs:extension base="xs:dateTime">
                                             <xs:attribute fixed="pred:datum_izdavaja"
                                                 name="property" type="xs:string"/>
                                         </xs:extension>

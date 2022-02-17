@@ -9,7 +9,7 @@
     about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/8516543579">
     <Podaci_o_sertifikatu>
         <Broj_sertifikata property="pred:broj_sertifikata">8516543579</Broj_sertifikata>
-        <Datum_izdavanja property="pred:datum_izdavaja" >2021-11-11</Datum_izdavanja>
+        <Datum_i_vreme_izdavanja property="pred:datum_izdavaja" >2021-11-11T08:00:00</Datum_i_vreme_izdavanja>
     </Podaci_o_sertifikatu>
     <Podaci_o_osobi>
         <Ime property="pred:ime">Mika</Ime>
@@ -45,4 +45,5 @@
     </Testovi>
     <Datum>2021-11-11</Datum>
     <Potvrda property="pred:seeAlso"/>
+    <Zahtev property="pred:seeAlso"/>
 </Digitalni_zeleni_sertifikat>
