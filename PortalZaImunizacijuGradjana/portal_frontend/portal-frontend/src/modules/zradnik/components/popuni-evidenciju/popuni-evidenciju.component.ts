@@ -26,6 +26,7 @@ import { EvidencijaVakcinacije } from '../../models/evidencija-vakcinacije';
 export class PopuniEvidencijuComponent implements OnInit {
   @Input() email = '';
   @Input() brojSaglasnosti = '';
+  @Input() odabranaVakcina = '';
   vakcForm: FormGroup;
   @Output() onEvidencijaClose = new EventEmitter();
   @Output() onEvidencijaSaved = new EventEmitter();
@@ -206,6 +207,7 @@ export class PopuniEvidencijuComponent implements OnInit {
               .subscribe(
                 (response) => {
                   this.toastr.success('Uspesno sacuvana evidentirana vakcina!');
+                  this.toastr.success('Uspesno kreiran sledeci termin vakcinacije!');
                 },
                 (error) => {
                   this.toastr.error(error.error);

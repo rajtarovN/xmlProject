@@ -2,9 +2,12 @@ package com.example.sluzbenik_back.service;
 
 import com.example.sluzbenik_back.client.SaglasnostClient;
 import com.example.sluzbenik_back.dto.DokumentDTO;
+import com.example.sluzbenik_back.dto.IdentificationDTO;
+import com.example.sluzbenik_back.dto.SaglasnostNaprednaDTO;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.sluzbenik_back.util.XSLFORTransformer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
@@ -17,7 +20,7 @@ import static com.example.sluzbenik_back.util.PathConstants.*;
 
 @Service
 public class SaglasnostService {
-
+	
     @Autowired
     private SaglasnostClient saglasnostClient;
 
@@ -95,4 +98,14 @@ public class SaglasnostService {
             return null;
         }
     }
+    
+    public String getAllSaglasnosti() throws Exception {
+		return this.saglasnostClient.getAllIds();
+	}
+    
+	public IdentificationDTO naprednaPretraga(SaglasnostNaprednaDTO dto) throws Exception {
+
+		return this.saglasnostClient.getByNaprednaPretraga(dto);
+	}
+
 }

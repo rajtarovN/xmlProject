@@ -104,7 +104,7 @@ public class InteresovanjeService extends AbstractService {
 		if (!dostupno) {
 			message = "Postovani, \n trenutno nema odabanih vakcina na stanju, u najkracem mogucem roku cemo vas obavestiti o terminu.";
 		} else {
-			LocalDateTime termin = this.saglasnostService.pronadjiSlobodanTermin();
+			LocalDateTime termin = this.saglasnostService.pronadjiSlobodanTermin(1);
 			DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
 
 			message = "Poštovani, \n Obaveštavamo vas da je izvršena prijava za vakcinaciju. Vaš termin je: "
@@ -243,7 +243,7 @@ public class InteresovanjeService extends AbstractService {
 					}
 					
 					if(dostupno){
-						LocalDateTime termin = this.saglasnostService.pronadjiSlobodanTermin();
+						LocalDateTime termin = this.saglasnostService.pronadjiSlobodanTermin(1);
 						DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
 
 						message = "Poštovani, \n Obaveštavamo vas da je izvršena prijava za vakcinaciju. Vaš termin je: "
@@ -329,11 +329,7 @@ public class InteresovanjeService extends AbstractService {
 		saglasnost.getPacijent().getLicniPodaci().getIme()
 				.setValue(interesovanje.getLicneInformacije().getIme().getValue());
 
-		// Prezime
-		saglasnost.getPacijent().getLicniPodaci().setPrezime(new Prezime());
-		saglasnost.getPacijent().getLicniPodaci().getPrezime().setProperty("pred:prezime");
-		saglasnost.getPacijent().getLicniPodaci().getPrezime()
-				.setValue(interesovanje.getLicneInformacije().getPrezime().getValue());
+	
 
 		saglasnost.getPacijent().getLicniPodaci().setZanimanjeZaposlenog("");
 

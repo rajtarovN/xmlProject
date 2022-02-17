@@ -108,6 +108,7 @@ public class PotvrdaVakcinacijeController {
         }
 
     }
+
     @GetMapping(path = "/allXmlByEmail/{userEmail}")
     public ResponseEntity<String> allXmlByEmail(@PathVariable("userEmail") String userEmail){
         try{
@@ -117,9 +118,9 @@ public class PotvrdaVakcinacijeController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-
     }
+
+
     @GetMapping("/generateHTML/{id}")
     public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
 
@@ -145,6 +146,5 @@ public class PotvrdaVakcinacijeController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 }

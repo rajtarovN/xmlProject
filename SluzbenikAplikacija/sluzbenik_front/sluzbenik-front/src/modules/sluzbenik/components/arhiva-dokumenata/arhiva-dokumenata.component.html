@@ -1,0 +1,236 @@
+<mat-card class="card-position">
+  <div class="example-full-width">
+    <mat-label for="dokument">Одаберите опцију: </mat-label>
+    <mat-select [(ngModel)]="dokument" id="dokument" name="dokument">
+      <mat-option value="1">Сагласност</mat-option>
+      <mat-option value="2">Сертификат</mat-option>
+      <mat-option value="3">Потврда</mat-option>
+    </mat-select>
+  </div>
+
+  <div>
+    <form [formGroup]="pretragaSaglasnostiForm" *ngIf="this.dokument === '1'">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>ЈМБГ грађанина</mat-label>
+            <input
+              matInput
+              name="jmbg"
+              formControlName="jmbg"
+              [maxLength]="13"
+              [minLength]="13"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Име грађанина</mat-label>
+            <input matInput name="ime" formControlName="ime" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Презиме грађанина</mat-label>
+            <input matInput name="prezime" formControlName="prezime" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Емаил</mat-label>
+            <input matInput name="email" formControlName="email" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Датум термина</mat-label>
+            <input
+              matInput
+              name="datumTermina"
+              formControlName="datumTermina"
+            />
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Логички оператор:</mat-label>
+            <mat-select formControlName="operator">
+              <mat-option value="true">Логичко 'И'</mat-option>
+              <mat-option value="false">Логичко 'ИЛИ'</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <tr>
+        <button
+          mat-raised-button
+          color="primary"
+          aria-label="Pretrazi"
+          id="pretraziSaglasnosti"
+          class="btn-spacing"
+          (click)="pretraziSaglasnosti()"
+        >
+          Претражи
+        </button>
+      </tr>
+    </form>
+
+    <form [formGroup]="pretragaSaglasnostiForm" *ngIf="this.dokument === '2'">
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>ЈМБГ грађанина</mat-label>
+            <input
+              matInput
+              name="jmbg"
+              formControlName="jmbg"
+              [maxLength]="13"
+              [minLength]="13"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Број пасоша</mat-label>
+            <input
+              matInput
+              name="brPasosa"
+              formControlName="brPasosa"
+              [maxLength]="9"
+              [minLength]="9"
+            />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Име грађанина</mat-label>
+            <input matInput name="ime" formControlName="ime" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Презиме грађанина</mat-label>
+            <input matInput name="prezime" formControlName="prezime" />
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Број сертификата</mat-label>
+            <input
+              matInput
+              name="brSertifikata"
+              formControlName="brSertifikata"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Датум термина</mat-label>
+            <input
+              matInput
+              name="datumTermina"
+              formControlName="datumTermina"
+            />
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Логички оператор:</mat-label>
+            <mat-select formControlName="operator">
+              <mat-option value="true">Логичко 'И'</mat-option>
+              <mat-option value="false">Логичко 'ИЛИ'</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+
+      <tr>
+        <button
+          mat-raised-button
+          color="primary"
+          aria-label="Pretrazi"
+          id="pretraziSaglasnosti"
+          class="btn-spacing"
+          (click)="pretraziSertifikate()"
+        >
+          Претражи
+        </button>
+      </tr>
+    </form>
+  </div>
+
+  <div class="row d-flex justify-content-center">
+    <mat-accordion class="col-10">
+      <mat-expansion-panel
+        *ngFor="let item of documents; let i = index"
+        (closed)="close(i)"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <a [href]="item.url">{{ item.url }}</a>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="table-wrap m-3">
+          <table class="table table-hover border">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Dokumenti koji referenciraju ovaj dokument</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let url of item.referencedBy; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <a [href]="url.replace('4201', '4200')">{{ url }}</a>
+                </td>
+              </tr>
+              <tr *ngIf="item.referencedBy.length == 0">
+                <td colspan="4">
+                  Nema dokumenata koji referenciraju ovaj dokument.
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    aria-label="preuzmiPDF"
+                    id="preuzmiPDF"
+                    class="btn-spacing"
+                    (click)="preuzmiPDF(item.url)"
+                  >
+                    PDF
+                    <mat-icon>download</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    aria-label="preuzmiXML"
+                    id="preuzmiXML"
+                    class="btn-spacing"
+                    (click)="preuzmiXML(item.url)"
+                  >
+                    XHTML
+                    <mat-icon>download</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</mat-card>

@@ -1,0 +1,15 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?obrazac_saglasnosti_za_imunizaciju FROM <%s>
+WHERE {
+ 	?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/ime> ?ime .
+    ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/prezime> ?prezime .
+    ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/jmbg> ?jmbg .
+    ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/datum_termina> ?datum .
+ 	?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/email> ?email .
+    BIND(xs:string(%s) as ?ime1) .
+    BIND(xs:string(%s) as ?prezime1) .
+    BIND(xs:string(%s) as ?jmbg1) .
+    BIND(xs:string(%s) as ?datum1) .
+    BIND(xs:string(%s) as ?email1) .
+    FILTER ( ( ?ime1 != "" && regex(str(?ime), ?ime1, "i")) || ( ?prezime1 != "" && regex(str(?prezime), ?prezime1, "i")) || ( ?jmbg1 != "" && regex(str(?jmbg), ?jmbg1, "i")) || ( ?datum1 != "" && regex(str(?datum), ?datum1, "i")) || ( ?email1 != "" && regex(str(?email), ?email1, "i")))
+}

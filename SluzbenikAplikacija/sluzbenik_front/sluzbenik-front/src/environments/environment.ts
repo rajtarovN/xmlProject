@@ -17,6 +17,8 @@ export const environment = {
   odobriZahtev: 'zahtev/odobriZahtev',
   potvrdaXhtml: 'potvrda/generateHTML',
   saglasnostXhtml: 'saglasnost/generateHTML',
+  getSertifikate: 'sertifikat/getAllXmlByEmail',
+  sertifikatPdf: 'sertifikat/generatePDF',
 };
 
 /*
