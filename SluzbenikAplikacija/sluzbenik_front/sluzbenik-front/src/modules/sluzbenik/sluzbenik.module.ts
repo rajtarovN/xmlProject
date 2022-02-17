@@ -35,6 +35,7 @@ import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pre
     SertifikatViewComponent,
     PotvrdaViewComponent,
     ObicnaPretragaComponent,
+  ],
   imports: [
     ReactiveFormsModule,
     RouterModule.forChild(SluzbenikRoutes),
