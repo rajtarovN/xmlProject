@@ -137,7 +137,13 @@ public class SaglasnostRepository extends RepositoryInterface {
 	}
 
 	public boolean obicnaPretraga(String documentId, String searchTerm){
-		String xPath = "/Saglasnost[Pacijent/Licni_podaci/Ime[contains(., '" + searchTerm + "')]"
+		String xPath =  "//Saglasnost[contains(Pacijent/Licni_podaci/Kontakt_informacije/Email, '" + searchTerm + "')]" ;
+				/*"contains(Ime, '" + searchTerm + "') or " +
+				" contains(Prezime, '" + searchTerm + "') or contains(Ime_roditelja, '" + searchTerm + "') or " +
+				" contains(Mesto_rodjenja, '" + searchTerm + "') or contains(Adresa/Mesto, '" + searchTerm + "') or " +
+				" contains(Adresa/Grad, '" + searchTerm + "') or contains(Kontakt_informacije/Email, '" + searchTerm + "') or ]";*/
+		/*
+		String xPath = "/ns2:Saglasnost[ns2:Pacijent/ns2:Licni_podaci/ns2:Ime[contains(., '" + searchTerm + "')]"
 				+ " or Pacijent/Licni_podaci/Prezime[contains(., '" + searchTerm + "')]"
 				+ " or Pacijent/Licni_podaci/Ime_roditelja[contains(., '" + searchTerm + "')]"
 				+ " or Pacijent/Licni_podaci/Mesto_rodjenja[contains(., '" + searchTerm + "')]"
@@ -156,7 +162,7 @@ public class SaglasnostRepository extends RepositoryInterface {
 				+ " or Evidencija_o_vakcinaciji/Vakcine/Vakcina/Naziv[contains(., '" + searchTerm + "')]"
 				+ " or Evidencija_o_vakcinaciji/Vakcine/Vakcina/Proizvodjac[contains(., '" + searchTerm + "')]"
 				+ " or Evidencija_o_vakcinaciji/Vakcine/Vakcina/Nezeljena_reakcija[contains(., '" + searchTerm + "')]"
-				+ " or Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Dijagnoza[contains(., '" + searchTerm + "')]";
+				+ " or Evidencija_o_vakcinaciji/Vakcine/Privremene_kontraindikacije/Dijagnoza[contains(., '" + searchTerm + "')]";*/
 
 		/* DIGITALNI SERTIFIKAT
 		String xPath = "/Digitalni_zeleni_sertifikat[Podaci_o_osobi/Ime[contains(., '" + searchTerm + "')]"
@@ -165,8 +171,8 @@ public class SaglasnostRepository extends RepositoryInterface {
 				+ " or Podaci_o_vakcinaciji/Vakcinacija/Proizvodjac[contains(., '" + searchTerm + "')]"
 				+ " or Podaci_o_vakcinaciji/Vakcinacija/Zdravstvena_ustanova[contains(., '" + searchTerm + "')]";*/
 
-		try {
-			return this.existManager.retrieve(collectionId + "/" + documentId, xPath, TARGET_NAMESPACE).getSize() != 0;
+		try {//+ "/" + documentId
+			return this.existManager.retrieve(collectionId , xPath, TARGET_NAMESPACE).getSize() != 0;
 		} catch (Exception e) {
 			return false;
 		}

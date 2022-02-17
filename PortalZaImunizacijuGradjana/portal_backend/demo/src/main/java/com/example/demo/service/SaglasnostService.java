@@ -711,7 +711,8 @@ public class SaglasnostService extends AbstractService {
 	public List<String> obicnaPretraga(String searchTerm) throws IOException{
 		List<String> allIds = getAllSaglasnosti();
 		List<String> filteredIds = new ArrayList<>();
-		for (String id: allIds ) {
+		for (String about: allIds ) {
+			String id = about.substring(about.lastIndexOf('/') + 1);
 			if(this.saglasnostRepository.obicnaPretraga("saglasnost_"+id+".xml", searchTerm)){
 				filteredIds.add("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/"+id);
 			}

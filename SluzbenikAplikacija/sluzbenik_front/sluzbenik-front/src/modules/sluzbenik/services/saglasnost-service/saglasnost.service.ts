@@ -45,4 +45,14 @@ export class SaglasnostService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  obicnaPretraga(searchTerm: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml'
+    });
+    return this.http.get(
+      `${environment.baseUrl}/${environment.obicnaPretragaSagl}/${searchTerm}`,
+      { headers: headers, responseType: 'text' }
+    );
+  }
 }

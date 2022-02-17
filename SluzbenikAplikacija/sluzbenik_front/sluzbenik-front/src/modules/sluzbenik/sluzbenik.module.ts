@@ -15,6 +15,7 @@ import { PrikazDokumenataComponent } from './components/prikaz-dokumenata/prikaz
 import { ArhivaDokumenataComponent } from './components/arhiva-dokumenata/arhiva-dokumenata.component';
 import { RazlogZahtevaComponent } from './components/razlog-zahteva/razlog-zahteva.component';
 import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.component';
+import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pretraga.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { OdbijZahtevComponent } from './components/odbij-zahtev/odbij-zahtev.com
     ArhivaDokumenataComponent,
     RazlogZahtevaComponent,
     OdbijZahtevComponent,
+    ObicnaPretragaComponent,
   ],
   imports: [
     CommonModule,

@@ -235,7 +235,7 @@ public class SaglasnostController {
 	public ResponseEntity<IdentificationDTO> obicnaPretraga(@PathVariable("searchTerm") String searchTerm){
 		IdentificationDTO dto = new IdentificationDTO();
 		try {
-			dto.setSaglasnost(saglasnostService.obicnaPretraga(searchTerm));
+			dto.setIds(saglasnostService.obicnaPretraga(searchTerm));
 			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
