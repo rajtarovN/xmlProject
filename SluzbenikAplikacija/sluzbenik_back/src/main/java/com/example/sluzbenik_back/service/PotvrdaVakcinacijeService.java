@@ -53,10 +53,10 @@ public class PotvrdaVakcinacijeService {
         }
 
         boolean ok = false;
-        String pdf_path = SAVE_PDF + "saglasnost_" + id.split(".xml")[0] + ".pdf";
+        String pdf_path = SAVE_PDF + "potvrda_" + id.split(".xml")[0] + ".pdf";
 
         try {
-            ok = transformer.generatePDF(doc_str, pdf_path, SAGLASNOST_XSL_FO);
+            ok = transformer.generatePDF(doc_str, pdf_path, POTVRDA_O_VAKCINACIJI_XSL);
             if (ok)
                 return pdf_path;
             else
