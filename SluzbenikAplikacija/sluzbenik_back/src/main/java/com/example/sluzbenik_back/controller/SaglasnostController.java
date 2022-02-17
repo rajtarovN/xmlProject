@@ -24,41 +24,73 @@ import com.example.sluzbenik_back.service.SaglasnostService;
 @RequestMapping(value = "/saglasnost")
 public class SaglasnostController {
 
-	@Autowired
-	private SaglasnostService saglasnostService;
+    @Autowired
+    private SaglasnostService saglasnostService;
 
-	@PreAuthorize("hasRole('S')")
-	@GetMapping(path = "/getAllXmlByEmail/{email}", produces = "application/xml")
-	public ResponseEntity<?> getAllXmlByEmail(@PathVariable("email") String email) {
-		try {
-			List<DokumentDTO> retval = saglasnostService.getAllXmlIdsByEmail(email);
-			if (retval.isEmpty()) {
-				return new ResponseEntity<>("Nema izdatih saglasnosti za prisutnog gradjana.", HttpStatus.OK);
-			} else
-				return new ResponseEntity<>(retval, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>("Error pri dobavljanju saglasnosti.", HttpStatus.NOT_FOUND);
-		}
-	}
+    @PreAuthorize("hasRole('S')")
+    @GetMapping(path = "/getAllXmlByEmail/{email}", produces = "application/xml")
+    public ResponseEntity<?> getAllXmlByEmail(@PathVariable("email") String email){
+        try{
+            List<DokumentDTO> retval = saglasnostService.getAllXmlIdsByEmail(email);
+            if(retval.isEmpty()){
+                return new ResponseEntity<>("Nema izdatih saglasnosti za prisutnog gradjana.", HttpStatus.OK);
+            }else
+                return new ResponseEntity<>(retval, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error pri dobavljanju saglasnosti.", HttpStatus.NOT_FOUND);
+        }
+    }
 
-	@PreAuthorize("hasRole('S')")
-	@GetMapping(path = "/generatePDF/{documentId}")
-	public ResponseEntity<byte[]> generatePDF(@PathVariable("documentId") String documentId) {
+    @PreAuthorize("hasRole('S')")
+    @GetMapping(path = "/generatePDF/{documentId}")
+    public ResponseEntity<byte[]> generatePDF(@PathVariable("documentId") String documentId) {
 
-		String file_path = this.saglasnostService.generatePDF(documentId);
+        String file_path = this.saglasnostService.generatePDF(documentId);
 
-		try {
-			File file = new File(file_path);
-			FileInputStream fileInputStream = new FileInputStream(file);
-			return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+        try {
+            File file = new File(file_path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-	}
+    }
+    @GetMapping("/generateHTML/{id}")
+    public ResponseEntity<byte[]> generateHTML(@PathVariable("id") String id) {
+
+        try {
+            String file_path = this.saglasnostService.generateHTML(id);
+            File file = new File(file_path);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            return new ResponseEntity<byte[]>(IOUtils.toByteArray(fileInputStream), HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+//	@PreAuthorize("hasRole('S')")
+//	@GetMapping(path = "/getAllXmlByEmail/{email}", produces = "application/xml")
+//	public ResponseEntity<?> getAllXmlByEmail(@PathVariable("email") String email) {
+//		try {
+//			List<DokumentDTO> retval = saglasnostService.getAllXmlIdsByEmail(email);
+//			if (retval.isEmpty()) {
+//				return new ResponseEntity<>("Nema izdatih saglasnosti za prisutnog gradjana.", HttpStatus.OK);
+//			} else
+//				return new ResponseEntity<>(retval, HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<>("Error pri dobavljanju saglasnosti.", HttpStatus.NOT_FOUND);
+//		}
+//	}
+
+
 
 	@GetMapping(value = "/getAll", produces="text/xml")
 	public ResponseEntity<?> getAllSaglasnosti() {

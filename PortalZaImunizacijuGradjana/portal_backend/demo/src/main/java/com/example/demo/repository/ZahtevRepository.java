@@ -49,4 +49,31 @@ public class ZahtevRepository extends RepositoryInterface{
             IOException, XMLDBException, ClassNotFoundException {
         return dbManager.readFileFromDB("zahtev_" + id + ".xml", collectionId);
     }
+
+    public List<String> pronadjiPoStatusuIJmbg(String status, String jmbg) throws Exception {
+        List<String> ids = new ArrayList<>();
+        ArrayList<String> params = new ArrayList<>();
+        params.add("\"" +status+"\"");
+
+        ids = this.fusekiManager.query("/lista_zahteva", SPARQL_FILE + "zahtev_status.rq", params);
+
+
+        List<String> idsJmbg = new ArrayList<>();
+        params = new ArrayList<>();
+        params.add("\"" +jmbg+"\"");
+
+        idsJmbg = this.fusekiManager.query("/lista_zahteva", SPARQL_FILE + "zahtev_jmbg.rq", params);
+
+        List<String> idsFinal = new ArrayList<>();
+        for(String i : ids){
+            for(String j: idsJmbg){
+                if(i.equals(j)){
+                    idsFinal.add(i);
+                    break;
+                }
+            }
+        }
+
+        return idsFinal;
+    }
 }

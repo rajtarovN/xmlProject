@@ -15,8 +15,11 @@ export const environment = {
   potvrdaPdf: 'potvrda/generatePDF',
   odbijZahtev: 'zahtev/odbijZahtev',
   odobriZahtev: 'zahtev/odobriZahtev',
+  potvrdaXhtml: 'potvrda/generateHTML',
+  saglasnostXhtml: 'saglasnost/generateHTML',
   getSertifikate: 'sertifikat/getAllXmlByEmail',
   sertifikatPdf: 'sertifikat/generatePDF',
+  sertifikatXhtml: 'sertifikat/generateHTML',
 };
 
 /*
