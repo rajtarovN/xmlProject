@@ -159,4 +159,15 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/getAll", produces = "application/xml")
+    public ResponseEntity<?> getAllSaglasnosti() {
+        IdentificationDTO dto = new IdentificationDTO();
+        try {
+            dto.setIds(potvrdaVakcinacijeService.getAllPotvrde());
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

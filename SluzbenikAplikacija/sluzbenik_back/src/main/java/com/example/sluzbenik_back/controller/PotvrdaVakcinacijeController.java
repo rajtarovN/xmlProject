@@ -81,4 +81,15 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/getAll", produces="text/xml")
+    public ResponseEntity<?> getAllPotvrde() {
+
+        try {
+            System.out.println(potvrdaVakcinacijeService.getAllPotvrde());
+            return new ResponseEntity<>(potvrdaVakcinacijeService.getAllPotvrde(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

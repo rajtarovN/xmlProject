@@ -118,7 +118,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**",
 				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**",
 				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
-				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**",
+				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll",
 				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
 	}
 }

@@ -83,8 +83,19 @@ export class ArhivaDokumenataComponent implements OnInit {
     });
   }
 
-  // TODO GET potvrde
-
+  // get Potvrde
+  getAllPotvrde(): void {
+    this.documents = [];
+    this.potvrdaService.getAll().subscribe({
+      next: (success) => {
+        this.parseIdXml(success, 'potvrda');
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+  
   // Parse IdentificationDTO
   parseIdXml(doc: string, tip: string) {
     let xmlDoc = this.parser.parseFromString(doc, 'text/xml');

@@ -45,4 +45,9 @@ export class PotvrdeService {
     );
   }
   
+  getAll(): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/potvrda/getAll`, {
+      responseType: 'text',
+    });
+  }
 }

@@ -329,6 +329,10 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
     }
 
+    public List<String> getAllPotvrde() throws IOException {
+        return this.potvrdaVakcinacijeRepository.readAllDocumentIds(fusekiCollectionId);
+    }
+
     public List<String> obicnaPretraga(String searchTerm) throws Exception{
         List<String> filteredIds = new ArrayList<>();
         ResourceSet result = this.potvrdaVakcinacijeRepository.obicnaPretraga(searchTerm);

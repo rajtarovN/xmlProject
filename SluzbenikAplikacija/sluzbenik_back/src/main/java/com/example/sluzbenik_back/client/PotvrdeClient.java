@@ -65,4 +65,15 @@ public class PotvrdeClient {
 
         return dto;
     }
+
+    public String getAllIds() throws Exception {
+        System.out.println("Sent HTTP GET request to query saglasnost id's");
+        URL url = new URL(BASE_URL + "/potvrda/getAll");
+
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return txt;
+    }
 }

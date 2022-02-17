@@ -103,4 +103,8 @@ public class PotvrdaVakcinacijeService {
             return null;
         }
     }
+
+    public String getAllPotvrde() throws Exception {
+        return this.potvrdeClient.getAllIds();
+    }
 }
