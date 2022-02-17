@@ -23,4 +23,5 @@
 		<Proizvodjac >Pfizer-BioNTech</Proizvodjac>
 	</Proizvodjaci>
     <Datum_podnosenja_interesovanja property="pred:datum_podnosenja_interesovanja">2021-09-24</Datum_podnosenja_interesovanja>
+    <Saglasnost property="pred:seeAlso"/>
 </Interesovanje>

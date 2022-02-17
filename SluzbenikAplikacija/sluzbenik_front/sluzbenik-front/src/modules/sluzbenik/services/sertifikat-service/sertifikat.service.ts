@@ -55,4 +55,10 @@ export class SertifikatService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getXHtml(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.sertifikatXhtml}/${id}`,
+      { responseType: 'arraybuffer' });}
+
 }

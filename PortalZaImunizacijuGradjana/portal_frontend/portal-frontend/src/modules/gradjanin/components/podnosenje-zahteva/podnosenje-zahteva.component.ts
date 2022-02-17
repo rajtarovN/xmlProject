@@ -21,8 +21,10 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
   datumRodjenja: string="";
   pol: string="";
   vreme: string="";
+  gmail: string="";
   datumPodnosenjaZhteva: string="";
   addZahtevForm: FormGroup;
+  vreme2: string="";
 
   constructor(
     private fb: FormBuilder,
@@ -58,7 +60,7 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
         ]
       ]
     });
-
+      this.gmail = localStorage.getItem("email")!;
       this.ime = localStorage.getItem("ime")!;
       this.prezime = localStorage.getItem("prezime")!;
       this.datumRodjenja = localStorage.getItem("rodjendan")!;
@@ -66,9 +68,7 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
       const danasnjiDan = new Date();
       this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();
       this.vreme = "-"+danasnjiDan.getHours() + "-" + danasnjiDan.getMinutes() + "-" + danasnjiDan.getSeconds();
-   
-      this.getHtml("saglasnost_54321.xml");
-      //this.getPdf("saglasnost_54321.xml");
+      this.vreme2 = "T"+danasnjiDan.getHours() + ":" + danasnjiDan.getMinutes() + ":" + danasnjiDan.getSeconds();
    
     }
 
@@ -120,6 +120,7 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
           xmlns:xsi="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom"
           about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/${this.addZahtevForm.value.JMBG}/${this.datumPodnosenjaZhteva+this.vreme}"
           xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/zahtev_za_sertifikatom/predicate/"
+          email="${this.gmail}"
           xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom ../schema/zahtev_sema.xsd">
           <Podnosilac_zahteva>
               <Ime property="pred:ime">${this.ime}</Ime>
@@ -132,44 +133,11 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
           `</Podnosilac_zahteva>
           <Zaglavlje>
               <Mesto_podnosenja_zahteva>${this.addZahtevForm.value.mesto}</Mesto_podnosenja_zahteva>
-              <Dan_podnosenja_zahteva property="pred:dan_podnosenja_zahteva">${this.datumPodnosenjaZhteva+this.vreme}</Dan_podnosenja_zahteva>
+              <Dan_podnosenja_zahteva property="pred:dan_podnosenja_zahteva">${this.datumPodnosenjaZhteva+this.vreme2}</Dan_podnosenja_zahteva>
           </Zaglavlje>
+          <Status property="pred:status">na cekanju</Status>
       </Zahtev_za_zeleni_sertifikat>`;
   }
-  getPdf(id: string) {
-    this.zahtevService.getPdf(id).subscribe(
-      data => {
-        let file = new Blob([data], { type: 'application/pdf' });
-        var fileURL = URL.createObjectURL(file);
-
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `obavestenje_${id}.pdf`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-      }
-    );
-  }
-
-  getHtml(id: string) {
-    this.zahtevService.getHtml(id).subscribe(
-      data => {
-        let file = new Blob([data], { type: 'text/html' });
-        var fileURL = URL.createObjectURL(file);
-
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `obavestenje_${id}.html`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-      }
-    );
-  }
+  
 
 }

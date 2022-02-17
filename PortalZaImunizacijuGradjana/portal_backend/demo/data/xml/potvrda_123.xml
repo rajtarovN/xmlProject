@@ -1,5 +1,9 @@
 <potvrda_o_vakcinaciji
         xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/"
+        xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji ../schema/potvrda_o_vakcinaciji.xsd"
         about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1234567891234_2022-02-12"
         sifra_potvrde_vakcine="1234567891234_2022-02-12">
     <licni_podaci>

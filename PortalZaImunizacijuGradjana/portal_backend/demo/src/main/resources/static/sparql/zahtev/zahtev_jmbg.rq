@@ -1,0 +1,8 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?zahtev_za_sertifikatom FROM <%s>
+WHERE {
+    ?zahtev_za_sertifikatom <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/zahtev_za_sertifikatom/predicate/jmbg> ?jmbg .
+    BIND(xs:string(%s) as ?searchedjmbg) .
+    BIND(xs:string(?jmbg) as ?presentjmbg) .
+    FILTER( ?searchedjmbg = ?presentjmbg)
+}
