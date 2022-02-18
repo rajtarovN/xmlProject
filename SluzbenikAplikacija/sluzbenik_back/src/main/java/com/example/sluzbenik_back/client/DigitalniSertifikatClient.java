@@ -46,6 +46,15 @@ public class DigitalniSertifikatClient {
 		return txt;
 	}
 
+	public int getNumberOfIzdatihSertifikata(String dateFrom, String dateTo) throws Exception {
+		URL url = new URL(BASE_URL + "/sertifikat/getAllIssuedInDateRange/dateFrom/dateTo");
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+		System.out.println("Broj izdatih zelenih sertifikata:" + txt);
+		return Integer.parseInt(txt);
+	}
+	
 	public String getAllIdReferences(String id) throws Exception {
 		System.out.println("Sent HTTP GET request to query sertifikat references id's");
 		URL url = new URL(BASE_URL + "/sertifikat/referenciraniDoc/" + id);
@@ -53,7 +62,6 @@ public class DigitalniSertifikatClient {
 		InputStream in = url.openStream();
 
 		String txt = getStringFromInputStream(in);
-
 		return txt;
 	}
 

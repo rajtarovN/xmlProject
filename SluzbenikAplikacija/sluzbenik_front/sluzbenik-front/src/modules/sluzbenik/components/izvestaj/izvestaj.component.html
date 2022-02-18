@@ -1,0 +1,50 @@
+<mat-card class="card-position">
+  <mat-card-title> Izvesaj o imunizaciji </mat-card-title>
+
+  <mat-card-content>
+    <div id="form-holder-div">
+      <form class="example-form" [formGroup]="datePeriodForm">
+        <mat-card-content>
+          <mat-form-field class="date-picker" appearance="fill">
+            <mat-label>Pocetak perioda:</mat-label>
+            <input
+              matInput
+              [matDatepicker]="pickerFrom"
+              formControlName="dateFrom"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="pickerFrom"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #pickerFrom></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="date-picker" appearance="fill">
+            <mat-label>Kraj perioda:</mat-label>
+            <input
+              matInput
+              [min]="datePeriodForm.value.dateFrom"
+              [matDatepicker]="pickerTo"
+              formControlName="dateTo"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="pickerTo"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #pickerTo></mat-datepicker>
+          </mat-form-field>
+        </mat-card-content>
+        <button
+          mat-flat-button
+          color="accent"
+          type="submit"
+          class="submit-button"
+          (click)="getIzvestaj()"
+          id="submit-button"
+          [disabled]="datePeriodForm.invalid"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

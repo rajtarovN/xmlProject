@@ -6,6 +6,8 @@ import static com.example.demo.util.PathConstants.SAVE_HTML;
 import static com.example.demo.util.PathConstants.SAVE_PDF;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,6 +22,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -385,6 +389,27 @@ public class DigitalniSertifikatService extends AbstractService {
 			throw new BadRequestException("Error pri generisanju rdf sertifikata.");
 		}
 	}
+	public String pronadjiPoVremenskomPeriodu(String odDatum, String doDatum) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException, ParseException {
+
+		try{
+			List<String> sviSertifikatiId = this.getAllSertifikati();
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+			XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+			XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+			int brojac = 0;
+			for(String id : sviSertifikatiId){
+				DigitalniZeleniSertifikat sertifikat = this.pronadjiPoId(id);
+				if (sertifikat.getDatum().compare(kraj) ==  DatatypeConstants.LESSER &&
+						sertifikat.getDatum().compare(pocetak) == DatatypeConstants.GREATER){
+					brojac+=1;
+				}
+			}
+			return String.valueOf(brojac);
+		}catch (Exception e){
+			return "0";
+		}
+	}
+
  
 	public List<String> getSertifikatRefFromSeeAlso(String seeAlso) throws Exception {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoPotvrdaRef(seeAlso);

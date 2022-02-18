@@ -89,6 +89,17 @@ public class ZahtevController {
         }
     }
 
+    @GET
+    @GetMapping(path ="/findByStatusAndPeriod/{fromDate}/{toDate}")
+    public ResponseEntity<String> findByStatusAndPeriod(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate){
+        try {
+            String ret = zahtevService.getListuZahtevaPoStatusuIPeriodu("na cekanju", fromDate, toDate);
+            return new ResponseEntity<>(ret, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(path = "/odbijZahtev/{idZahteva}/{content}")
     public ResponseEntity<?> odbijZahtev(@PathVariable("idZahteva") String idZahteva,
                                          @PathVariable("content") String content) {

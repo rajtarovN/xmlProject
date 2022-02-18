@@ -89,6 +89,28 @@ public class PotvrdeClient {
         return txt;
     }
 
+    public int getByPeriodAndDose(int doza, String odDatum, String doDatum) throws Exception {
+        System.out.println("Sent HTTP GET request to query potvrde by date and dose");
+        URL url = new URL(BASE_URL + "/potvrda/getByPeriodAndDose/"+ doza +"/"+odDatum+"/"+doDatum+"");
+
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return Integer.parseInt(txt);
+    }
+
+    public int getByPeriodAndManufactrer(String manufacturer, String odDatum, String doDatum) throws Exception {
+        System.out.println("Sent HTTP GET request to query potvrde by date and manufacturer");
+        URL url = new URL(BASE_URL + "/potvrda/getByPeriodAndManufacturer/"+ manufacturer +"/"+odDatum+"/"+doDatum+"");
+
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return Integer.parseInt(txt);
+    }
+    
     public String generateJson(String id) throws Exception{
         System.out.println("Sent HTTP GET request to query potvrda id's");
         URL url = new URL(BASE_URL + "/potvrda/generateJson/" + id);

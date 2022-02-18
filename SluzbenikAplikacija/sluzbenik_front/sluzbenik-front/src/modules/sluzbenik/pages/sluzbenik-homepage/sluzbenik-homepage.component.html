@@ -58,6 +58,10 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
+      <!-- <app-izvestaj
+        class="registar"
+        *ngIf="this.activeView === '3'"
+      ></app-izvestaj> -->
       <app-registar-gradjana
         class="registar"
         *ngIf="this.activeView === '1'"
@@ -66,6 +70,10 @@
         class="registar"
         *ngIf="this.activeView === '2'"
       ></app-zahtevi>
+      <app-izvestaj
+        class="registar"
+        *ngIf="this.activeView === '3'"
+      ></app-izvestaj>
       <app-inventory-form
         class="items"
         *ngIf="this.activeView === '4'"

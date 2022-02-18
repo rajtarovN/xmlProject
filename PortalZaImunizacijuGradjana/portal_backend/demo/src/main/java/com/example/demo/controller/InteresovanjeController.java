@@ -130,6 +130,17 @@ public class InteresovanjeController {
 		}
 	}
 
+	@GetMapping(value="/getAllInDateRange/{fromDate}/{toDate}", produces = "application/xml")
+	public ResponseEntity<String> getAllInDateRange(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate){
+		try {
+			String ret = interesovanjeService.pronadjiPoVremenskomPeriodu(fromDate, toDate);
+			System.out.println(ret);
+			return new ResponseEntity<>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+	}
 
 	@GetMapping(path ="/getAllI/{email}")
 	public ResponseEntity<?> getAllI(@PathVariable("email") String email) {
