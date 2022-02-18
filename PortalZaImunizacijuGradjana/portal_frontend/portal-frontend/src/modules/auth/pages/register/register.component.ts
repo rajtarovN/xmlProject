@@ -47,7 +47,14 @@ export class RegisterComponent implements OnInit {
       this.toastr.error('Sva polja moraju biti popunjena!');
     } else {
       var d = this.loginForm.value.birthday;
-      var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var date =
+        d.getFullYear() +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day);
       let user = {
         ime: this.loginForm.value.name,
         prezime: this.loginForm.value.surname,

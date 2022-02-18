@@ -99,8 +99,39 @@ public class PotvrdaVakcinacijeRepository extends RepositoryInterface {
             throw new BadRequestException("Doslo je do errora pri obicnoj pretrazi potvrda.");
         }
     }
+    
+	public String pronadjiPoSertifikatRef(String sertifikat) throws Exception {
+		ArrayList<String> params = new ArrayList<>();
+		params.add("\"" + sertifikat + "\"");
+
+		List<String> found = this.fusekiManager.queryAbout("/lista_potvrda", SPARQL_FILE + "potvrda_ref_sertifikat.rq", params);
+		if(!found.isEmpty()) {
+			return found.get(0);
+		}
+		return null;
+	}
+
 
     public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
         fusekiManager.generisiJSON(documentNameId, graphUri, about);
     }
+    
+	public List<String> naprednaPretraga(String ime, String prezime, String id, String datum, boolean and) throws Exception {
+		List<String> ids = new ArrayList<>();
+		ArrayList<String> params = new ArrayList<>();
+		params.add(ime);
+		params.add(prezime);
+		params.add(id);
+		params.add(datum);
+		if (and) {
+
+			ids = this.fusekiManager.queryAbout("/lista_potvrda", SPARQL_FILE + "potvrda_sve_and.rq", params);
+
+		} else {
+
+			ids = this.fusekiManager.queryAbout("/lista_potvrda", SPARQL_FILE + "potvrda_sve_or.rq", params);
+		}
+		System.out.println(ids);
+		return ids;
+	}
 }

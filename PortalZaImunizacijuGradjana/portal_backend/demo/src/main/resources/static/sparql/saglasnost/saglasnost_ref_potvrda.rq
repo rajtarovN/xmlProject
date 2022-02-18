@@ -1,0 +1,8 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?obrazac_saglasnosti_za_imunizaciju FROM <%s>
+WHERE{
+    ?obrazac_saglasnosti_za_imunizaciju <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/seeAlso> ?ref .
+    BIND(xs:string(%s) as ?ref1) .
+    BIND(xs:string(?ref) as ?ref2) .
+    FILTER ( ?ref1 = ?ref2)
+}

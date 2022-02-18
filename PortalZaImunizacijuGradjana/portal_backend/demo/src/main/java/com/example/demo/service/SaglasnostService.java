@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.client.DostupneVakcineClient;
 import com.example.demo.client.EmailClient;
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
@@ -17,7 +18,6 @@ import com.example.demo.util.DBManager;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
 
-import com.example.demo.dto.DokumentDTO;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.exist.xmldb.EXistResource;
@@ -37,7 +37,6 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -56,6 +55,9 @@ public class SaglasnostService extends AbstractService {
 
 	@Autowired
 	private SaglasnostRepository saglasnostRepository;
+	
+	@Autowired
+	private InteresovanjeService interesovanjeService;
 
 	@Autowired
 	private PotvrdaVakcinacijeService potvrdaVakcinacijeService;
@@ -80,7 +82,8 @@ public class SaglasnostService extends AbstractService {
 
 	public LocalDateTime pronadjiSlobodanTermin(int plusDays) throws NumberFormatException, IllegalAccessException,
 			InstantiationException, ClassNotFoundException, JAXBException, XMLDBException, IOException {
-		LocalDate date = LocalDate.now().plusDays(plusDays);
+		LocalDate date = LocalDate.now();
+		date = date.plusDays(plusDays);
 		List<String> ids = new ArrayList<>();
 
 		DateTimeFormatter ft = DateTimeFormatter.ofPattern("YYYY-MM-dd");
@@ -279,6 +282,21 @@ public class SaglasnostService extends AbstractService {
 
 	}
 
+	public void saveSaglasnost(Saglasnost saglasnost) throws Exception {
+		String collectionId = "/db/portal/lista_saglasnosti";
+		String documentId = "saglasnost_" + saglasnost.getBrojSaglasnosti();
+
+		JAXBContext context = JAXBContext.newInstance("com.example.demo.model.obrazac_saglasnosti_za_imunizaciju");
+		OutputStream os = new ByteArrayOutputStream();
+
+		Marshaller marshaller = context.createMarshaller();
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+		marshaller.marshal(saglasnost, os);
+		dbManager.saveFileToDB(documentId, collectionId, os.toString());
+		repository.saveRDF(os.toString(), "/lista_saglasnosti");
+	}
+	
 	public Saglasnost pronadjiPoId(String id) throws IllegalAccessException, InstantiationException, JAXBException,
 			ClassNotFoundException, XMLDBException, IOException {
 		XMLResource res = this.saglasnostRepository.pronadjiPoId(id);
@@ -709,10 +727,10 @@ public class SaglasnostService extends AbstractService {
 		return this.saglasnostRepository.readAllDocumentIds(fusekiCollectionId);
 	}
 
-	public List<String> naprednaPretraga(String ime, String prezime, String jmbg, String datum, String email,
+	public List<String> naprednaPretraga(String ime, String prezime, String id, String datum, String email,
 			boolean and) throws Exception {
 
-		return this.saglasnostRepository.naprednaPretraga(ime, prezime, jmbg, datum, email, and);
+		return this.saglasnostRepository.naprednaPretraga(ime, prezime, id, datum, email, and);
 
 	}
 
@@ -726,9 +744,9 @@ public class SaglasnostService extends AbstractService {
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSaglasnosti saglasnosti = (ListaSaglasnosti) unmarshaller.unmarshal(reader);
-			List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
+			List<DokumentDTO> ret = new ArrayList<>();
 			for (Saglasnost s: saglasnosti.getSaglasnosti()) {
-				ret.add(new com.example.demo.dto.DokumentDTO(s));
+				ret.add(new DokumentDTO(s));
 			}System.out.println("OVDEEEEEE");
 			return ret;
 
@@ -810,4 +828,14 @@ public class SaglasnostService extends AbstractService {
 		}
 	}
 
+	public List<String> getDocumentIdReferences(String id) throws Exception {
+		List<String> refs = new ArrayList<>();
+		String id1 = interesovanjeService.getInteresovanjeRefFromSeeAlso(id);
+		if(id1 != null) refs.add(id1);
+		return refs;
+	}
+	
+	public String getSaglasnostRefFromSeeAlso(String seeAlso) throws Exception {
+		return ((SaglasnostRepository) this.repository).pronadjiPoPotvrdaRef(seeAlso);
+	}
 }

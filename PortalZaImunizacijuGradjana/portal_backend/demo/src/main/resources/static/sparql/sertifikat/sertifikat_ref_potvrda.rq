@@ -1,0 +1,8 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?digitalni_zeleni_sertifikat FROM <%s>
+WHERE{
+    ?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/seeAlso> ?ref .
+    BIND(xs:string(%s) as ?ref1) .
+    BIND(xs:string(?ref) as ?ref2) .
+    FILTER ( ?ref1 = ?ref2)
+}

@@ -112,13 +112,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, "/korisnik/prijava", "/korisnik/registracija",
 				"/saglasnost/naprednaPretraga",
 				"/sertifikat/naprednaPretraga",
+				"/potvrda/naprednaPretraga",
 				"/ws/**");
 
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/interesovanje/updatePending",
-				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**", "/saglasnost/generateJson/**", "/saglasnost/generateRdf/**",
-				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**", "/sertifikat/generateJson/**", "/sertifikat/generateRdf/**",
+				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**", "/saglasnost/generateJson/**", "/saglasnost/generateRdf/**", "/saglasnost/referenciraniDoc/**",
+				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**", "/sertifikat/generateJson/**", "/sertifikat/generateRdf/**", "/sertifikat/referenciraniDoc/**",
 				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
-				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll", "/potvrda/generateJson/**", "/potvrda/generateRdf/**",
+				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll", "/potvrda/generateJson/**", "/potvrda/generateRdf/**", "/potvrda/referenciraniDoc/**",
 				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
 	}
 }
