@@ -92,8 +92,12 @@ public class DigitalniSertifikatController {
 
 	@GetMapping(value="/getAllIssuedInDateRange/{fromDate}/{toDate}", produces = "application/xml")
 	public ResponseEntity<?> getAllIssuedInDateRange(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate){
-		// TODO: uraditi
-		return null;
+		try {
+			String ret = digitalniSertifikatService.pronadjiPoVremenskomPeriodu(fromDate, toDate);
+			return new ResponseEntity<>(ret, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 

@@ -44,7 +44,7 @@ public class InteresovanjeClient {
 	}
 
 	public int getNumberOfInteresovanja(String dateFrom, String dateTo) throws Exception {
-		URL url = new URL(BASE_URL + "/getAllInDateRange/dateFrom/dateTo");
+		URL url = new URL(BASE_URL + "/getAllInDateRange/"+dateFrom+"/"+dateTo);
 
 		InputStream in = url.openStream();
 

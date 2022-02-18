@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Izvestaj } from 'src/modules/shared/models/izvestaj';
 
 @Injectable({
   providedIn: 'root',

@@ -455,36 +455,43 @@ public class InteresovanjeService extends AbstractService {
 	}
 
 	public String pronadjiPoVremenskomPeriodu(String odDatum, String doDatum) throws DatatypeConfigurationException, IOException, ParseException, Exception {
-		List<String> sviId = this.getAllInteresovanja();
-		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-		XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
-		XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
-		int brojac = 0;
-		for(String id : sviId){
-			XMLResource res = this.pronadjiPoId(id);
-			try {
-				if (res != null) {
+		System.out.println("uslo u service");
+		try{
+			List<String> sviId = this.getAllInteresovanja();
+			System.out.println("dobio sva interesovanja");
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+			XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+			XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+			System.out.println("parsirao datume");
+			int brojac = 0;
+			for(String id : sviId){
+				System.out.println("uslo u id");
+				XMLResource res = this.pronadjiPoId(id);
+				try {
+					if (res != null) {
 
-					JAXBContext context = JAXBContext.newInstance("com.example.demo.model.interesovanje");
+						JAXBContext context = JAXBContext.newInstance("com.example.demo.model.interesovanje");
 
-					Unmarshaller unmarshaller = context.createUnmarshaller();
+						Unmarshaller unmarshaller = context.createUnmarshaller();
 
-					Interesovanje interesovanje = (Interesovanje) unmarshaller
-							.unmarshal((res).getContentAsDOM());
+						Interesovanje interesovanje = (Interesovanje) unmarshaller
+								.unmarshal((res).getContentAsDOM());
 
-					if (interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
-							interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(pocetak) == DatatypeConstants.GREATER){
-						brojac+=1;
+						if (interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+								interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(pocetak) == DatatypeConstants.GREATER){
+							brojac+=1;
+						}
 					}
-				} else {
-					return null;
+				} catch (Exception e) {
+					return "0";
 				}
-			} catch (Exception e) {
-				return null;
 			}
-
+			return String.valueOf(brojac);
 		}
-		return String.valueOf(brojac);
+		catch (Exception e){
+			return "0";
+		}
+
 	}
 
 	public byte[] generateJson(String documentId) throws Exception {

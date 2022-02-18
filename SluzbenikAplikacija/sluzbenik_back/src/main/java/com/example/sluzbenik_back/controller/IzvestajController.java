@@ -1,6 +1,7 @@
 package com.example.sluzbenik_back.controller;
 
 
+import com.example.sluzbenik_back.dto.IzvestajDTO;
 import com.example.sluzbenik_back.service.IzvestajService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class IzvestajController {
     @GetMapping(path = "/getIzvestaji/{fromDate}/{toDate}", produces = "application/xml")
     public ResponseEntity<?> getIzvestaji(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate){
         try{
-            String retval = izvestajService.createIzvestaj(fromDate, toDate);
-            return new ResponseEntity<>(retval, HttpStatus.OK);
+            IzvestajDTO izvestaj = izvestajService.createIzvestaj(fromDate, toDate);
+            return new ResponseEntity<>(izvestaj, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Error pri dobavljanju izvestaja.", HttpStatus.NOT_FOUND);

@@ -117,8 +117,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/interesovanje/updatePending",
 				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**", "/saglasnost/generateJson/**", "/saglasnost/generateRdf/**",
 				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**", "/sertifikat/generateJson/**", "/sertifikat/generateRdf/**",
-				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
-				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll", "/potvrda/generateJson/**", "/potvrda/generateRdf/**",
+				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**", "/interesovanje/getAllInDateRange/**", "/zahtev/findByStatusAndPeriod/**", "/zahtev/findByStatus/**", "/sertifikat/getAllIssuedInDateRange/**",
+				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll", "/potvrda/generateJson/**", "/potvrda/generateRdf/**", "/potvrda/getByPeriodAndDose/**", "/potvrda/getByPeriodAndManufacturer/**",
 				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
 	}
 }

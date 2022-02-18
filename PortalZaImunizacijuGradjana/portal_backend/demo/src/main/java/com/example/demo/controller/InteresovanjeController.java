@@ -134,6 +134,7 @@ public class InteresovanjeController {
 	public ResponseEntity<String> getAllInDateRange(@PathVariable("fromDate") String fromDate, @PathVariable("toDate") String toDate){
 		try {
 			String ret = interesovanjeService.pronadjiPoVremenskomPeriodu(fromDate, toDate);
+			System.out.println(ret);
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

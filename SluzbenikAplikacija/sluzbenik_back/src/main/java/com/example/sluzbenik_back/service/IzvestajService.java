@@ -5,6 +5,7 @@ import com.example.sluzbenik_back.client.InteresovanjeClient;
 import com.example.sluzbenik_back.client.PotvrdeClient;
 import com.example.sluzbenik_back.client.ZahtevClient;
 import com.example.sluzbenik_back.dto.DokumentDTO;
+import com.example.sluzbenik_back.dto.IzvestajDTO;
 import com.example.sluzbenik_back.model.izvestaj_o_imunizaciji.*;
 import com.example.sluzbenik_back.repository.IzvestajRepository;
 import com.example.sluzbenik_back.repository.RepositoryInterface;
@@ -51,10 +52,11 @@ public class IzvestajService extends AbstractService{
         super(repository, "/db/sluzbenik/lista_izvestaja", "/lista_izvestaja");
     }
 
-    public String createIzvestaj(String fromDate, String toDate) throws Exception {
+    public IzvestajDTO createIzvestaj(String fromDate, String toDate) throws Exception {
         LocalDate todayDate = LocalDate.now();
 
         IzvestajOImunizaciji izvestaj = new IzvestajOImunizaciji();
+        IzvestajDTO izvestajDTO = new IzvestajDTO();
 
         //period izvestaja
         PeriodIzvestaja period = new PeriodIzvestaja();
@@ -64,6 +66,9 @@ public class IzvestajService extends AbstractService{
         period.setPocetakPerioda(pocetak);
         period.setKrajPerioda(kraj);
         izvestaj.setPeriodIzvestaja(period);
+
+        izvestajDTO.setPocetakPerioda(fromDate);
+        izvestajDTO.setKrajPerioda(toDate);
 
         // podaci o zahtevima
         PodaciOZahtevima podaciOZahtevima = new PodaciOZahtevima();
@@ -80,6 +85,10 @@ public class IzvestajService extends AbstractService{
         podaciOZahtevima.setBrojZahteva(brojZahteva);
         izvestaj.setPodaciOZahtevima(podaciOZahtevima);
 
+        izvestajDTO.setBrInteresovanja(brojInteresovanja);
+        izvestajDTO.setBrIzdatihZahteva(brojIzdatihSertifikata);
+        izvestajDTO.setBrPrimljenihZahteva(brojIzdatihSertifikata+brojSertifikataNaCekanju);
+
         //lista vakcina
         ListaVakcina listaVakcina = new ListaVakcina();
         List<Vakcina> lista = new ArrayList<Vakcina>();
@@ -89,11 +98,11 @@ public class IzvestajService extends AbstractService{
         v1.setBrojDatihDoza(BigInteger.valueOf(potvrdeClient.getByPeriodAndDose(1, fromDate, toDate)));
         //druga doza
         Vakcina v2 = new Vakcina();
-        v2.setRedniBrojDoze(BigInteger.valueOf(1));
+        v2.setRedniBrojDoze(BigInteger.valueOf(2));
         v2.setBrojDatihDoza(BigInteger.valueOf(potvrdeClient.getByPeriodAndDose(2, fromDate, toDate)));
         //treca doza
         Vakcina v3 = new Vakcina();
-        v3.setRedniBrojDoze(BigInteger.valueOf(1));
+        v3.setRedniBrojDoze(BigInteger.valueOf(3));
         v3.setBrojDatihDoza(BigInteger.valueOf(potvrdeClient.getByPeriodAndDose(3, fromDate, toDate)));
 
         lista.add(v1);
@@ -102,20 +111,39 @@ public class IzvestajService extends AbstractService{
         listaVakcina.setVakcina(lista);
         izvestaj.setListaVakcina(listaVakcina);
 
+        izvestajDTO.setBrPrveDoze(v1.getBrojDatihDoza().intValue());
+        izvestajDTO.setBrDrugeDoze(v2.getBrojDatihDoza().intValue());
+        izvestajDTO.setBrTreceDoze(v3.getBrojDatihDoza().intValue());
+
         //proizvodjaci
         RaspodelaPoProizvodjacima raspodelaPoProizvodjacima = new RaspodelaPoProizvodjacima();
         List<Proizvodjac> listaProizovdjaca = new ArrayList<Proizvodjac>();
         List<String> imenaProizvodjaca = new ArrayList<>();
-        imenaProizvodjaca.add("Pfizer, BioNTech");
+        imenaProizvodjaca.add("Pfizer");
         imenaProizvodjaca.add("Sinopharm");
-        imenaProizvodjaca.add("Sputnik V");
-        imenaProizvodjaca.add("AstraZeneca, Oxford");
+        imenaProizvodjaca.add("Sputnik");
+        imenaProizvodjaca.add("AstraZeneca");
 
         for(String proizvodjac : imenaProizvodjaca){
             Proizvodjac p = new Proizvodjac();
             p.setImeProizvodjaca(proizvodjac);
-            p.setBrojDoza(BigInteger.valueOf(potvrdeClient.getByPeriodAndManufactrer(proizvodjac, fromDate, toDate)));
+            int brDoza = potvrdeClient.getByPeriodAndManufactrer(proizvodjac, fromDate, toDate);
+            p.setBrojDoza(BigInteger.valueOf(brDoza));
             listaProizovdjaca.add(p);
+            switch (proizvodjac) {
+                case "Pfizer":
+                    izvestajDTO.setBrPfizerVakcina(brDoza);
+                    break;
+                case "Sinopharm":
+                    izvestajDTO.setBrSinopharmVakcina(brDoza);
+                    break;
+                case "Sputnik":
+                    izvestajDTO.setBrSputnikVakcina(brDoza);
+                    break;
+                case "AstraZeneca":
+                    izvestajDTO.setBrAstraZenecaVakcina(brDoza);
+                    break;
+            }
         }
         raspodelaPoProizvodjacima.setProizvodjac(listaProizovdjaca);
         izvestaj.setRaspodelaPoProizvodjacima(raspodelaPoProizvodjacima);
@@ -123,6 +151,8 @@ public class IzvestajService extends AbstractService{
         //datum kreiranja
         XMLGregorianCalendar datumIzdavanja = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(todayDate.toString())));
         izvestaj.setDatumIzdavanja(datumIzdavanja);
+
+        izvestajDTO.setDatumIzdavanja(todayDate.toString());
 
         //save
         JAXBContext contextSaglasnost = JAXBContext.newInstance(IzvestajOImunizaciji.class);
@@ -134,8 +164,8 @@ public class IzvestajService extends AbstractService{
         marshaller.marshal(izvestaj, os);
         repository.saveXML("izvestaj_o_imunizaciji_" + fromDate +"_"+toDate, collectionId, os.toString());
 
-        //TODO
-        return "";
+
+        return izvestajDTO;
     }
 
     public String generatePDF(String fromDate, String toDate) {

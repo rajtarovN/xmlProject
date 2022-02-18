@@ -380,18 +380,24 @@ public class DigitalniSertifikatService extends AbstractService {
 		}
 	}
 	public String pronadjiPoVremenskomPeriodu(String odDatum, String doDatum) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException, ParseException {
-		List<String> sviSertifikatiId = this.getAllSertifikati();
-		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-		XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
-		XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
-		int brojac = 0;
-		for(String id : sviSertifikatiId){
-			DigitalniZeleniSertifikat sertifikat = this.pronadjiPoId(id);
-			if (sertifikat.getDatum().compare(kraj) ==  DatatypeConstants.LESSER &&
-					sertifikat.getDatum().compare(pocetak) == DatatypeConstants.GREATER){
-				brojac+=1;
+
+		try{
+			List<String> sviSertifikatiId = this.getAllSertifikati();
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+			XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+			XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+			int brojac = 0;
+			for(String id : sviSertifikatiId){
+				DigitalniZeleniSertifikat sertifikat = this.pronadjiPoId(id);
+				if (sertifikat.getDatum().compare(kraj) ==  DatatypeConstants.LESSER &&
+						sertifikat.getDatum().compare(pocetak) == DatatypeConstants.GREATER){
+					brojac+=1;
+				}
 			}
+			return String.valueOf(brojac);
+		}catch (Exception e){
+			return "0";
 		}
-		return String.valueOf(brojac);
+
 	}
 }
