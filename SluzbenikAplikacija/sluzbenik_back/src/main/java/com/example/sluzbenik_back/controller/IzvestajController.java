@@ -1,7 +1,6 @@
 package com.example.sluzbenik_back.controller;
 
 
-import com.example.sluzbenik_back.dto.IzvestajDTO;
 import com.example.sluzbenik_back.service.IzvestajService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;

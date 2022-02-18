@@ -5,7 +5,6 @@ import com.example.sluzbenik_back.client.InteresovanjeClient;
 import com.example.sluzbenik_back.client.PotvrdeClient;
 import com.example.sluzbenik_back.client.ZahtevClient;
 import com.example.sluzbenik_back.dto.DokumentDTO;
-import com.example.sluzbenik_back.dto.IzvestajDTO;
 import com.example.sluzbenik_back.model.izvestaj_o_imunizaciji.*;
 import com.example.sluzbenik_back.repository.IzvestajRepository;
 import com.example.sluzbenik_back.repository.RepositoryInterface;
