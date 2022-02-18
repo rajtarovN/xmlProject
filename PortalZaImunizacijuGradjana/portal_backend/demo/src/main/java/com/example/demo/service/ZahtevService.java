@@ -22,6 +22,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -217,7 +219,7 @@ public class ZahtevService extends AbstractService {
         }
     }
 
-    public String odobriZahtev(String documentId){
+    public void odobriZahtev(String documentId){
         try {
             ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odobren");
 
@@ -242,12 +244,22 @@ public class ZahtevService extends AbstractService {
             emailModel.setTo(email);
             emailModel.setContent(message);
             emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
-            //TODO send pdf and xhtml
-            //emailModel.setPdf();
-            //emailModel.setXhtml();
-            emailClient.sendMail(emailModel);
 
-            return "Uspesno odobren zahtev za digitalni sertifikat!";
+            String pdf = digitalniSertifikatService.generatePDF(idSertifikata);
+            String html = digitalniSertifikatService.generateHTML(idSertifikata);
+            try {
+                byte[] byteArr = Files.readAllBytes(Paths.get(pdf));
+                emailModel.setPdf(byteArr);
+
+                byteArr = Files.readAllBytes(Paths.get(html));
+                emailModel.setXhtml(byteArr);
+
+                emailClient.sendMail(emailModel);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new BadRequestException("Error pri odobravanju zahteva za digitalni sertifikat.");
