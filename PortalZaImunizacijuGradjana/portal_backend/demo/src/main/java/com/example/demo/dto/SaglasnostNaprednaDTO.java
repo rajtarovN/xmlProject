@@ -9,20 +9,20 @@ public class SaglasnostNaprednaDTO {
 	private String prezime;
 	private String datum;
 	private String email;
-	private String jmbg;
+	private String id;
 	private boolean and;
 
 	public SaglasnostNaprednaDTO() {
 		super();
 	}
 
-	public SaglasnostNaprednaDTO(String ime, String prezime, String datum, String email, String jmbg, boolean and) {
+	public SaglasnostNaprednaDTO(String ime, String prezime, String datum, String email, String id, boolean and) {
 		super();
 		this.ime = ime;
 		this.prezime = prezime;
 		this.datum = datum;
 		this.email = email;
-		this.jmbg = jmbg;
+		this.id = id;
 		this.and = and;
 	}
 
@@ -58,12 +58,12 @@ public class SaglasnostNaprednaDTO {
 		this.email = email;
 	}
 
-	public String getJmbg() {
-		return jmbg;
+	public String getId() {
+		return id;
 	}
 
-	public void setJmbg(String jmbg) {
-		this.jmbg = jmbg;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public boolean isAnd() {

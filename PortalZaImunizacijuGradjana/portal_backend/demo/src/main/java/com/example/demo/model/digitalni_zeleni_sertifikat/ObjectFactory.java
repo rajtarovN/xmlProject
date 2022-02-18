@@ -85,14 +85,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DigitalniZeleniSertifikat.Zahtev }
-     * 
-     */
-    public DigitalniZeleniSertifikat.Zahtev createDigitalniZeleniSertifikatZahtev() {
-        return new DigitalniZeleniSertifikat.Zahtev();
-    }
-
-    /**
      * Create an instance of {@link DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija }
      * 
      */
