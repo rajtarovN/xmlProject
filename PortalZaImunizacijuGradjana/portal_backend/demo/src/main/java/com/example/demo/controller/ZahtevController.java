@@ -119,4 +119,21 @@ public class ZahtevController {
         }
     }
 
+    @GetMapping(path = "/generateJson/{documentId}")
+    public ResponseEntity<byte[]> generateJson(@PathVariable("documentId") String documentId){
+        try {
+            return new ResponseEntity<>(zahtevService.generateJson(documentId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(path = "/generateRdf/{documentId}")
+    public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
+        try {
+            return new ResponseEntity<>(zahtevService.generateRdf(documentId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

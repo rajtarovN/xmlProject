@@ -67,4 +67,18 @@ export class PotvrdaService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonPotvrda}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfPotvrda}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
 }

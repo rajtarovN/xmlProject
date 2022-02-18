@@ -9,10 +9,7 @@ import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
-import com.example.demo.util.DBManager;
-import com.example.demo.util.FusekiManager;
-import com.example.demo.util.MetadataExtractor;
-import com.example.demo.util.XSLFORTransformer;
+import com.example.demo.util.*;
 import org.apache.commons.io.IOUtils;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +110,6 @@ public class PotvrdaVakcinacijeService extends AbstractService {
         Date dateRodj = saglasnost.getPacijent().getLicniPodaci().getDatumRodjenja().toGregorianCalendar().getTime();
         String zUstanova = saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova();
 
-
         PotvrdaVakcinacijeDTO dto = new PotvrdaVakcinacijeDTO(
                 saglasnost.getBrojSaglasnosti(), saglasnost.getPacijent().getLicniPodaci().getIme().getValue(),
                 saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue(), ft.format(dateRodj),
@@ -164,11 +160,14 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             jmbg.setValue(content.getJmbg());
             jmbg.setProperty("pred:jmbg");
             lp.setJmbg(jmbg);
-        } else {
+            p.setQrKod(QRCodeService.getQRCode("http://localhost:4001/potvrda_o_vakcinaciji/"+content.getJmbg()));
+        }
+        else{
             PotvrdaOVakcinaciji.LicniPodaci.Ebs ebs = new PotvrdaOVakcinaciji.LicniPodaci.Ebs();
             ebs.setValue(content.getEbs());
             ebs.setProperty("pred:ebs");
             lp.setEbs(ebs);
+            p.setQrKod(QRCodeService.getQRCode("http://localhost:4200/potvrda_o_vakcinaciji/"+content.getEbs()));
         }
 
         p.setLicniPodaci(lp);
@@ -234,7 +233,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             return null;
         }
 
-        XMLResource xmlRes = this.readXML(id);
+        XMLResource xmlRes = this.readXML("potvrda_"+id+".xml");
         String doc_str = "";
         try {
             doc_str = xmlRes.getContent().toString();
@@ -268,7 +267,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             return null;
         }
 
-        XMLResource xmlRes = this.readXML(id);
+        XMLResource xmlRes = this.readXML("potvrda_"+id+".xml");
         String doc_str = xmlRes.getContent().toString();
         boolean ok = false;
         String html_path = SAVE_HTML + "potvrda_" + id + ".html";
@@ -330,7 +329,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             System.out.println("OVDEEEEEE");
             String all = this.allXmlByEmail(email);
 
-            JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+            JAXBContext context = JAXBContext.newInstance(ListaPotvrda.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             StringReader reader = new StringReader(all);
             ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
@@ -343,8 +342,8 @@ public class PotvrdaVakcinacijeService extends AbstractService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new BadRequestException("Error pri dobavljanju potvrda.");
         }
-        return new ArrayList<>();
     }
 
     public List<String> getAllPotvrde() throws IOException {

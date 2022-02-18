@@ -73,7 +73,10 @@ public class ZahtevRepository extends RepositoryInterface{
                 }
             }
         }
-
         return idsFinal;
+    }
+
+    public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
+        fusekiManager.generisiJSON(documentNameId, graphUri, about);
     }
 }

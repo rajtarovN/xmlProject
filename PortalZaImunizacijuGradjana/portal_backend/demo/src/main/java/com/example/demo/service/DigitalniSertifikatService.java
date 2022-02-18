@@ -17,12 +17,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
+import com.example.demo.util.QRCodeService;
 import com.example.demo.util.MetadataExtractor;
 import org.apache.commons.io.IOUtils;
 import org.exist.xmldb.EXistResource;
@@ -66,7 +66,7 @@ public class DigitalniSertifikatService extends AbstractService {
 			return null;
 		}
 
-		XMLResource xmlRes = this.readXML(id);
+		XMLResource xmlRes = this.readXML("sertifikat_"+id+".xml");
 		String doc_str = "";
 		try {
 			doc_str = xmlRes.getContent().toString();
@@ -100,7 +100,7 @@ public class DigitalniSertifikatService extends AbstractService {
 			return null;
 		}
 
-		XMLResource xmlRes = this.readXML(id);
+		XMLResource xmlRes = this.readXML("sertifikat_"+id+".xml");
 		String doc_str = xmlRes.getContent().toString();
 		boolean ok = false;
 		String html_path = SAVE_HTML + "sertifikat_" + id + ".html";
@@ -192,6 +192,8 @@ public class DigitalniSertifikatService extends AbstractService {
 		podaciOVakcinaciji.setVakcinacija(vakcinacije);
 		sertifikat.setPodaciOVakcinaciji(podaciOVakcinaciji);
 
+		sertifikat.setQrKod(QRCodeService.getQRCode("http://localhost:4200/digitalni_zeleni_sertifikat/"+id));
+
 		JAXBContext contextSaglasnost = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
 		OutputStream os = new ByteArrayOutputStream();
 
@@ -282,12 +284,12 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) {
+	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) throws Exception {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
 
-			JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+			JAXBContext context = JAXBContext.newInstance(ListaSertifikata.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
@@ -300,9 +302,10 @@ public class DigitalniSertifikatService extends AbstractService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new BadRequestException("Error pri dobavljanju sertifikata.");
 		}
-		return new ArrayList<>();
 	}
+
 	public List<String> obicnaPretraga(String searchTerm) throws Exception{
 		List<String> filteredIds = new ArrayList<>();
 		ResourceSet result = ((DigitalniSertifikatRepository) this.repository).obicnaPretraga(searchTerm);

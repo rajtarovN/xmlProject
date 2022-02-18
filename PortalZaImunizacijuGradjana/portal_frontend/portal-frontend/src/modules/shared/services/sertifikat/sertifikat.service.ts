@@ -31,4 +31,18 @@ export class SertifikatService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonSertifikat}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfSertifikat}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
 }
