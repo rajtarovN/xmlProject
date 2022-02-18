@@ -20,4 +20,5 @@
         <Dan_podnosenja_zahteva property="pred:dan_podnosenja_zahteva">2022-02-01T04:04:00</Dan_podnosenja_zahteva>
     </Zaglavlje>
     <Status property="pred:status">na cekanju</Status>
+    <Sertifikat property="pred:seeAlso"/>
 </Zahtev_za_zeleni_sertifikat>

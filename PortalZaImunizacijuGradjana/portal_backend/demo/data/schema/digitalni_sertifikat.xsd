@@ -144,16 +144,6 @@
                         </xs:simpleContent>
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="Zahtev" nillable="true">
-                    <xs:complexType>
-                        <xs:simpleContent>
-                            <xs:extension base="xs:anyURI">
-                                <xs:attribute fixed="pred:seeAlso" name="property" type="xs:string"
-                                />
-                            </xs:extension>
-                        </xs:simpleContent>
-                    </xs:complexType>
-                </xs:element>
             </xs:sequence>
             <xs:attribute name="qr_kod">
                 <xs:simpleType>
