@@ -10,5 +10,5 @@ WHERE {
     BIND(xs:string(%s) as ?prezime1) .
     BIND(xs:string(%s) as ?id1) .
     BIND(xs:string(%s) as ?datum1) .
-    FILTER ( ( ?ime1 != "" && regex(str(?ime), ?ime1, "i")) || ( ?prezime1 != "" && regex(str(?prezime), ?prezime1, "i")) || ( ?id1 != "" && ( regex(str(?jmbg), ?id1, "i") || regex(str(?ebs), ?id1, "i") )) || ( ?datum1 != "" && regex(str(?datum), ?datum1, "i")) || ( ?email1 != "" && regex(str(?email), ?email1, "i")))
+    FILTER ( ( ?ime1 = "" || regex(str(?ime), ?ime1, "i")) || ( ?prezime1 = "" || regex(str(?prezime), ?prezime1, "i")) || ( ?id1 = "" || ( regex(str(?jmbg), ?id1, "i") || regex(str(?ebs), ?id1, "i") )) || ( ?datum1 = "" || regex(str(?datum), ?datum1, "i")) || ( ?email1 = "" || regex(str(?email), ?email1, "i")))
 }

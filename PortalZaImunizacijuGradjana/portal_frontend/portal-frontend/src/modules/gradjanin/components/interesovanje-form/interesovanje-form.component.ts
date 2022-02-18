@@ -109,6 +109,8 @@ export class InteresovanjeFormComponent implements OnInit {
         });
       },
       error: (error) => {
+        if (this.addInteresovanjeForm != null)
+          this.addInteresovanjeForm.reset();
         this.addInteresovanjeForm = this.fb.group({
           drzavljanstvo: [null, Validators.required],
           JMBG: [

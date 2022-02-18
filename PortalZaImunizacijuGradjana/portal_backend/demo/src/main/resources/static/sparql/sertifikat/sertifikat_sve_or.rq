@@ -13,11 +13,11 @@ WHERE {
     BIND(xs:string(%s) as ?ime1) .
     BIND(xs:string(%s) as ?jmbg1) .
     BIND(xs:string(%s) as ?prezime1) .
-    FILTER ( ( ?broj_pasosa1 != "" && regex(str(?broj_pasosa), ?broj_pasosa1, "i")) ||
-    		 ( ?broj_sertifikata1 != "" && regex(str(?broj_sertifikata), ?broj_sertifikata1, "i")) ||
-    		 ( ?datum_izdavaja1 != "" && regex(str(?datum_izdavaja), ?datum_izdavaja1, "i")) ||
-    		 ( ?ime1 != "" && regex(str(?ime), ?ime1, "i")) ||
-    		 ( ?jmbg1 != "" && regex(str(?jmbg), ?jmbg1, "i")) ||
-    		 ( ?prezime1 != "" && regex(str(?prezime), ?prezime1, "i"))
+    FILTER ( ( ?broj_pasosa1 = "" || regex(str(?broj_pasosa), ?broj_pasosa1, "i")) ||
+    		 ( ?broj_sertifikata1 = "" || regex(str(?broj_sertifikata), ?broj_sertifikata1, "i")) ||
+    		 ( ?datum_izdavaja1 = "" || regex(str(?datum_izdavaja), ?datum_izdavaja1, "i")) ||
+    		 ( ?ime1 = "" || regex(str(?ime), ?ime1, "i")) ||
+    		 ( ?jmbg1 = "" || regex(str(?jmbg), ?jmbg1, "i")) ||
+    		 ( ?prezime1 = "" || regex(str(?prezime), ?prezime1, "i"))
     		)
 }

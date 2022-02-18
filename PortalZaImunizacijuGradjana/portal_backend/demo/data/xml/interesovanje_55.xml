@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:Interesovanje xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/interesovanje/predicate/" xmlns:ns2="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje" about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje/55">
+        <ns2:Licne_informacije>
+            <ns2:Drzavljanstvo>Strani_drzavljanin_sa_boravkom_u_rs</ns2:Drzavljanstvo>
+            <ns2:Jmbg property="pred:jmbg">1111111111111</ns2:Jmbg>
+            <ns2:Ime property="pred:ime">Gradjanin</ns2:Ime>
+            <ns2:Prezime property="pred:prezime">Gradjanic</ns2:Prezime>
+            <ns2:Kontakt>
+                <ns2:Email property="pred:email">gradjanin@maildrop.cc</ns2:Email>
+                <ns2:Broj_mobilnog>0652882266</ns2:Broj_mobilnog>
+                <ns2:Broj_fiksnog>0111111111</ns2:Broj_fiksnog>
+            </ns2:Kontakt>
+            <ns2:Davalac_krvi Davalac="true"/>
+        </ns2:Licne_informacije>
+        <ns2:Lokacija_primanja_vakcine property="pred:lokacija_primanja_vakcine">Novi Sad</ns2:Lokacija_primanja_vakcine>
+        <ns2:Proizvodjaci>
+            <ns2:Proizvodjac>Sputnik</ns2:Proizvodjac>
+        </ns2:Proizvodjaci>
+        <ns2:Datum_podnosenja_interesovanja property="pred:datum_podnosenja_interesovanja">2022-02-18</ns2:Datum_podnosenja_interesovanja>
+        <ns2:Saglasnost property="pred:seeAlso">http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/12345</ns2:Saglasnost>
+    </ns2:Interesovanje>

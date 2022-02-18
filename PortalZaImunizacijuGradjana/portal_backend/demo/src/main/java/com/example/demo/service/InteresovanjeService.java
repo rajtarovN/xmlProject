@@ -194,7 +194,6 @@ public class InteresovanjeService extends AbstractService {
 
 				// Azuriraj zalihe
 				Zalihe zalihe = this.dostupneVakcineClient.getDostupneVakcine();
-				System.out.println("CAO " + saglasnost.getOdabraneVakcine());
 				String[] temp = saglasnost.getOdabraneVakcine().split(",");
 				List<String> proizvodjaci = new ArrayList<>();
 				for (String t : temp) {
@@ -283,7 +282,7 @@ public class InteresovanjeService extends AbstractService {
 
 						message = "Poštovani, \n Obaveštavamo vas da je vaš termin za vakcinaciju protiv Covid-19 u "
 								+ termin.format(ft) + ". \n   Dostupne vakcine su: " + message
-								+ ".\n Molimo vas da popunite obrazac saglasnosti za vakcinaciju pre pocetka vaseg termina. Obrazac za saglasnost se nalazi na poralu. \\n S poštovanjem, Institut za javno zdravlje Srbije.";
+								+ "\n Molimo vas da popunite obrazac saglasnosti za vakcinaciju pre pocetka vaseg termina. Obrazac za saglasnost se nalazi na poralu. \\n S poštovanjem, Institut za javno zdravlje Srbije.";
 
 						com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
 						emailModel.setTo(interesovanje.getLicneInformacije().getKontakt().getEmail().getValue());
