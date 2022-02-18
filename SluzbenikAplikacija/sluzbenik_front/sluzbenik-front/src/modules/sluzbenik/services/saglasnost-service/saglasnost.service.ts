@@ -26,10 +26,13 @@ export class SaglasnostService {
       { responseType: 'arraybuffer' }
     );
   }
+
   getXHtml(id: string): Observable<any> {
     return this.http.get(
       `${environment.baseUrl}/${environment.saglasnostXhtml}/${id}`,
-      { responseType: 'arraybuffer' });}
+      { responseType: 'arraybuffer' }
+    );
+  }
 
   // api/saglasnost/getAll
   getAll(): Observable<any> {
@@ -52,11 +55,25 @@ export class SaglasnostService {
 
   obicnaPretraga(searchTerm: string): Observable<string> {
     const headers = new HttpHeaders({
-      Accept: 'application/xml'
+      Accept: 'application/xml',
     });
     return this.http.get(
       `${environment.baseUrl}/${environment.obicnaPretragaSagl}/${searchTerm}`,
       { headers: headers, responseType: 'text' }
+    );
+  }
+
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonSaglasnost}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfSaglasnost}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
     );
   }
 }

@@ -23,7 +23,12 @@ export const environment = {
   obicnaPretragaSertif: 'sertifikat/obicnaPretraga',
   obicnaPretragaPotvrda: 'potvrda/obicnaPretraga',  
   sertifikatXhtml: 'sertifikat/generateHTML',
-
+  jsonSaglasnost: 'saglasnost/generisiJSON',
+  jsonPotvrda: 'potvrda/generisiJSON',
+  jsonSertifikat: 'sertifikat/generisiJSON',
+  rdfSaglasnost: 'saglasnost/generisiRDF',
+  rdfPotvrda: 'potvrda/generisiRDF',
+  rdfSertifikat: 'sertifikat/generisiRDF',
 };
 
 /*

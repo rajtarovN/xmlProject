@@ -5,10 +5,8 @@ import static com.example.demo.util.PathConstants.DIGITALNISERTIFIKAT_XSL_FO;
 import static com.example.demo.util.PathConstants.SAVE_HTML;
 import static com.example.demo.util.PathConstants.SAVE_PDF;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringReader;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,11 +20,15 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.util.QRCodeService;
+import com.example.demo.util.MetadataExtractor;
+import org.apache.commons.io.IOUtils;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
@@ -282,7 +284,7 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.sluzbenik_back.dto.DokumentDTO> getSertifikatiAllByEmail(String email) {
+	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
@@ -291,9 +293,9 @@ public class DigitalniSertifikatService extends AbstractService {
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
-			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+			List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
 			for (DigitalniZeleniSertifikat s : saglasnosti.getSertifikate()) {
-				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
+				ret.add(new com.example.demo.dto.DokumentDTO(s));
 			}
 			System.out.println("OVDEEEEEE");
 			return ret;
@@ -328,5 +330,49 @@ public class DigitalniSertifikatService extends AbstractService {
 			}
 		}
 		return filteredIds;
+	}
+
+	public byte[] generateJson(String documentId) throws Exception {
+		String about = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/" + documentId;
+		String graphUri = "/lista_sertifikata";
+		String documentNameId = "sertifikat_" + documentId;
+		String filePath = "src/main/resources/static/json/" + documentNameId + ".json";
+		((DigitalniSertifikatRepository) this.repository).generateJson(documentNameId, graphUri, about);
+		File file = new File(filePath);
+		FileInputStream fileInputStream = new FileInputStream(file);
+
+		return IOUtils.toByteArray(fileInputStream);
+	}
+
+	public byte[] generateRdf(String id) throws SAXException, IOException {
+		String rdfFilePath = "src/main/resources/static/rdf/sertifikat_" + id + ".rdf";
+		String xmlFilePath = "src/main/resources/static/xml/sertifikat_" + id + ".xml";
+		MetadataExtractor metadataExtractor = new MetadataExtractor();
+		String rs;
+		FileWriter fw;
+		try {
+			XMLResource res = ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(id);
+			rs = (String) res.getContent();
+			fw = new FileWriter(xmlFilePath);
+			fw.write(rs);
+			fw.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			metadataExtractor.extractMetadata(
+					new FileInputStream(new File(xmlFilePath)),
+					new FileOutputStream(new File(rdfFilePath)));
+
+			File file = new File(rdfFilePath);
+			FileInputStream fileInputStream = new FileInputStream(file);
+
+			return IOUtils.toByteArray(fileInputStream);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BadRequestException("Error pri generisanju rdf sertifikata.");
+		}
 	}
 }

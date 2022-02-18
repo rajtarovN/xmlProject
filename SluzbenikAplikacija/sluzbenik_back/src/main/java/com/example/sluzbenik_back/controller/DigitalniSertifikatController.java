@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.sluzbenik_back.dto.DokumentDTO;
 import com.example.sluzbenik_back.dto.SertifikatNaprednaDTO;
 import com.example.sluzbenik_back.service.DigitalniSertifikatService;
+import org.xmldb.api.base.XMLDBException;
 
 @Controller
 @RequestMapping(value = "/sertifikat")
@@ -104,6 +105,28 @@ public class DigitalniSertifikatController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PreAuthorize("hasRole('S')")
+	@GetMapping("/generisiJSON/{id}")
+	public ResponseEntity<byte[]> generisiJSON(@PathVariable("id") String id) throws XMLDBException {
+		try {
+			return new ResponseEntity<byte[]>(this.digitalniSertifikatService.generisiJSON(id), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+	}
+
+	@PreAuthorize("hasRole('S')")
+	@GetMapping("/generisiRDF/{id}")
+	public ResponseEntity<byte[]> generisiRDF(@PathVariable("id") String id) throws XMLDBException {
+		try {
+			return new ResponseEntity<byte[]>(this.digitalniSertifikatService.generisiRDF(id), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
 }

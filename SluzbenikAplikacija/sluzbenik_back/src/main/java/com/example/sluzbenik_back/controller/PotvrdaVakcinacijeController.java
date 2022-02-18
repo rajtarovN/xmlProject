@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.xmldb.api.base.XMLDBException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -90,6 +91,28 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(potvrdaVakcinacijeService.getAllPotvrde(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasRole('S')")
+    @GetMapping("/generisiJSON/{idPotvrde}")
+    public ResponseEntity<byte[]> generisiJSON(@PathVariable("idPotvrde") String idPotvrde) throws XMLDBException {
+        try {
+            return new ResponseEntity<byte[]>(this.potvrdaVakcinacijeService.generisiJSON(idPotvrde), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PreAuthorize("hasRole('S')")
+    @GetMapping("/generisiRDF/{idPotvrde}")
+    public ResponseEntity<byte[]> generisiRDF(@PathVariable("idPotvrde") String idPotvrde) throws XMLDBException {
+        try {
+            return new ResponseEntity<byte[]>(this.potvrdaVakcinacijeService.generisiRDF(idPotvrde), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

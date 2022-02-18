@@ -115,10 +115,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				"/ws/**");
 
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/korisnik", "/interesovanje/updatePending",
-				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**",
-				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**",
+				"/saglasnost/getAll", "/saglasnost/xml/**", "/saglasnost/allXmlByEmail/**", "/saglasnost/obicnaPretraga/**", "/saglasnost/generateJson/**", "/saglasnost/generateRdf/**",
+				"/sertifikat/getAll", "/sertifikat/xml/**", "/sertifikat/allXmlByEmail/**", "/sertifikat/obicnaPretraga/**", "/sertifikat/generateJson/**", "/sertifikat/generateRdf/**",
 				"/zahtev/findByStatus", "/zahtev/odbijZahtev/**", "/zahtev/odobriZahtev/**",
-				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll",
+				"/potvrda/xml/**", "/potvrda/allXmlByEmail/**", "/potvrda/obicnaPretraga/**", "/potvrda/getAll", "/potvrda/generateJson/**", "/potvrda/generateRdf/**",
 				"/webjars/**", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs");
 	}
 }
