@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.1"
+    targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom"
+    xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom">
+
+    <xs:element name="Zahtev_za_zeleni_sertifikat">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Podnosilac_zahteva" type="ftn:Podnosilac_zahteva"/>
+                <xs:element name="Zaglavlje" type="ftn:Zaglavlje"/>
+                <xs:element name="Status">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute fixed="pred:status" name="property" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Sertifikat" nillable="true">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anyURI">
+                                <xs:attribute fixed="pred:seeAlso" name="property" type="xs:string"
+                                />
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="about" type="xs:anyURI"/>
+            <xs:attribute name="email" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="Podnosilac_zahteva">
+        <xs:sequence>
+            <xs:element name="Ime">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute fixed="pred:ime" name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Prezime">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute fixed="pred:prezime" name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Datum_rodjenja" type="xs:date"/>
+            <xs:element name="Pol">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="Muski"/>
+                        <xs:enumeration value="Zenski"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Jmbg">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="ftn:TJmbg">
+                            <xs:attribute fixed="pred:jmbg" name="property" type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Broj_pasosa">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="ftn:TBroj_pasosa">
+                            <xs:attribute fixed="pred:broj_pasosa" name="property" type="xs:string"
+                            />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Razlog_podnosenja_zahteva">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Zaglavlje">
+        <xs:sequence>
+            <xs:element name="Mesto_podnosenja_zahteva">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Dan_podnosenja_zahteva">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:dateTime">
+                            <xs:attribute fixed="pred:dan_podnosenja_zahteva" name="property"
+                                type="xs:string"/>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="TJmbg">
+        <xs:restriction base="xs:string">
+            <xs:length value="13"/>
+            <xs:pattern value="\d{13}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TBroj_pasosa">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

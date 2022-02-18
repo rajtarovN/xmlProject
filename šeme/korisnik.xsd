@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/korisnik"
+           xmlns:korisnik="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/korisnik"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:element name="lista_korisnika">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="korisnik:korisnik"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="korisnik">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="korisnik:ime"/>
+				<xs:element ref="korisnik:prezime"/>
+				<xs:element ref="korisnik:pol"/>
+				<xs:element ref="korisnik:rodjendan"/>
+                <xs:element ref="korisnik:email"/>
+                <xs:element ref="korisnik:lozinka"/>
+                <xs:element ref="korisnik:uloga"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ime" type="xs:string"/>
+	<xs:element name="prezime" type="xs:string"/>
+	<xs:element name="pol" type="xs:string"/>
+	<xs:element name="rodjendan" type="xs:string"/>
+    <xs:element name="email" type="xs:string"/>
+    <xs:element name="lozinka" type="xs:string"/>
+    <xs:element name="uloga" type="xs:string"/>
+</xs:schema>
