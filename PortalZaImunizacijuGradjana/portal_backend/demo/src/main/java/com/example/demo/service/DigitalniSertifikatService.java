@@ -199,7 +199,7 @@ public class DigitalniSertifikatService extends AbstractService {
 		podaciOVakcinaciji.setVakcinacija(vakcinacije);
 		sertifikat.setPodaciOVakcinaciji(podaciOVakcinaciji);
 
-		sertifikat.setQrKod(QRCodeService.getQRCode("http://localhost:4200/digitalni_zeleni_sertifikat/"+id));
+		//sertifikat.setQrKod(QRCodeService.getQRCode("http://localhost:4200/digitalni_zeleni_sertifikat/"+id));
 
 		JAXBContext contextSaglasnost = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
 		OutputStream os = new ByteArrayOutputStream();
