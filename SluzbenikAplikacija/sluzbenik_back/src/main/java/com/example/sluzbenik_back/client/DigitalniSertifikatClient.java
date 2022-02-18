@@ -124,4 +124,24 @@ public class DigitalniSertifikatClient {
 
 		return dto;
 	}
+
+	public String generateJson(String id) throws Exception{
+		System.out.println("Sent HTTP GET request to query saglasnost id's");
+		URL url = new URL(BASE_URL + "/sertifikat/generateJson/" + id);
+
+		InputStream in = url.openStream();
+		String s = getStringFromInputStream(in);
+
+		return s;
+	}
+
+	public String generateRdf(String id) throws Exception{
+		System.out.println("Sent HTTP GET request to query saglasnost id's");
+		URL url = new URL(BASE_URL + "/sertifikat/generateRdf/" + id);
+
+		InputStream in = url.openStream();
+		String s = getStringFromInputStream(in);
+
+		return s;
+	}
 }

@@ -1,8 +1,6 @@
 package com.example.demo.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -300,7 +298,22 @@ public class FusekiManager {
 
 		return ids;
 	}
-    
+
+    public void generisiJSON(String documentNameId, String graphUri, String about) throws FileNotFoundException, IOException {
+        AuthenticationManagerFuseki.ConnectionProperties fusekiConn = AuthenticationManagerFuseki.loadProperties();
+        String sparqlQuery = SparqlUtil.selectData(fusekiConn.dataEndpoint +
+                graphUri, "<" + about + "> ?p ?o");
+        QueryExecution query = QueryExecutionFactory.sparqlService(fusekiConn.queryEndpoint, sparqlQuery);
+
+        ResultSet results = query.execSelect();
+
+        String filePath = "src/main/resources/static/json/" + documentNameId + ".json";
+        File rdfFile = new File(filePath);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(rdfFile));
+        ResultSetFormatter.outputAsJSON(out, results);
+
+        query.close();
+    }
     
 }
 

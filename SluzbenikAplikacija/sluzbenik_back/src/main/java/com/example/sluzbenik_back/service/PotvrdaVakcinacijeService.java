@@ -107,4 +107,14 @@ public class PotvrdaVakcinacijeService {
     public String getAllPotvrde() throws Exception {
         return this.potvrdeClient.getAllIds();
     }
+
+    public byte[] generisiJSON(String documentId) throws Exception  {
+        String res = potvrdeClient.generateJson(documentId);
+        return res.getBytes();
+    }
+
+    public byte[] generisiRDF(String documentId) throws Exception  {
+        String res = potvrdeClient.generateRdf(documentId);
+        return res.getBytes();
+    }
 }

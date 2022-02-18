@@ -407,7 +407,7 @@ public class InteresovanjeService extends AbstractService {
 		}
 	}
 
-	public List<com.example.sluzbenik_back.dto.DokumentDTO> getSaglasnostiAllByEmail(String email){
+	public List<com.example.demo.dto.DokumentDTO> getSaglasnostiAllByEmail(String email){
 //		try {
 //			System.out.println("OVDEEEEEE");
 //			String all = this.allXmlByEmail(email);

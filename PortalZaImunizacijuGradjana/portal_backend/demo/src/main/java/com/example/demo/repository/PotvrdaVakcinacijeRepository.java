@@ -100,4 +100,7 @@ public class PotvrdaVakcinacijeRepository extends RepositoryInterface {
         }
     }
 
+    public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
+        fusekiManager.generisiJSON(documentNameId, graphUri, about);
+    }
 }

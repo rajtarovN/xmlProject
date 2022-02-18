@@ -67,7 +67,7 @@ a:hover {
 #form-holder-div {
   opacity: 1;
   background-color: #424242;
-  width: 700px;
+  width: 800px;
   margin: auto;
   margin-top: -80px;
   /*height: 300px;*/
@@ -183,34 +183,6 @@ table {
   background: transparent;
 }
 
-.tekst {
-  margin-top: 20px;
-  margin-left: 50px;
-  width: 700px;
-  text-align: center;
-  align-self: center;
-  vertical-align: middle;
-  color: #ffffff7a;
-}
-
-.tabelaBtn {
-  border: none;
-  background-color: transparent;
-  color: mediumseagreen;
-}
-
-.tabelaBtn:hover {
-  border: none;
-  background-color: black;
-  color: mediumseagreen;
-}
-
-.imePrezTelefonLekara {
-  display: flex;
-  width: 400px;
-  margin-left: 50px;
-}
-
 .custom-scroll-bar::-webkit-scrollbar {
   width: 5px;
 }
@@ -219,8 +191,3 @@ table {
   background: rgba(0, 0, 0, 0.26);
 }
 
-.m_l_r_20 {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom: 10px;
-}

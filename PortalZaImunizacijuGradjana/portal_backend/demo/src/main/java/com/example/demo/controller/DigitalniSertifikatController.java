@@ -130,7 +130,7 @@ public class DigitalniSertifikatController {
 	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
 		System.out.println("USLOOOOOOO");
 		try {
-			List<com.example.sluzbenik_back.dto.DokumentDTO> retval = digitalniSertifikatService.getSertifikatiAllByEmail(email);
+			List<com.example.demo.dto.DokumentDTO> retval = digitalniSertifikatService.getSertifikatiAllByEmail(email);
 			if (retval.isEmpty()) {
 				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
 			} else
@@ -146,6 +146,24 @@ public class DigitalniSertifikatController {
 		try {
 			dto.setIds(digitalniSertifikatService.obicnaPretraga(searchTerm));
 			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/generateJson/{documentId}")
+	public ResponseEntity<byte[]> generateJson(@PathVariable("documentId") String documentId){
+		try {
+			return new ResponseEntity<>(digitalniSertifikatService.generateJson(documentId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/generateRdf/{documentId}")
+	public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
+		try {
+			return new ResponseEntity<>(digitalniSertifikatService.generateRdf(documentId), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
