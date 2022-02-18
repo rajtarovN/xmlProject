@@ -54,7 +54,8 @@ public class ZahtevService {
     }
 
     public String odobriZahtev(String idZahteva) throws Exception{
-        return zahtevClient.odobriZahtev(idZahteva);
+        zahtevClient.odobriZahtev(idZahteva);
+        return "Uspesno odobren zahtev za digitalni sertifikat.";
     }
 
 }

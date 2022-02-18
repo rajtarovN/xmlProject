@@ -136,8 +136,8 @@ public class InteresovanjeController {
 		System.out.println("USLOOOOOOO");
 		try {
 			List<DokumentDTO> retval = interesovanjeService.getInteresovanjeAllByEmail(email);
-			if (retval.isEmpty()) {
-				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
+			if (retval == null || retval.isEmpty()) {
+				return new ResponseEntity<>("Nema interesovanja za prisutnog gradjana.", HttpStatus.OK);
 			} else
 				return new ResponseEntity<>(retval, HttpStatus.OK);
 		} catch (Exception e) {

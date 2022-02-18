@@ -389,7 +389,7 @@ export class PrikazDokumenataComponent implements OnInit {
     } else if (this.tipDokumenta === 'Sertifikati') {
       this.sertifservice.getJSON(documentId).subscribe(
         (response) => {
-          this.doJsonRdf(response, `saglasnost_${documentId}.json`, 'application/json');
+          this.doJsonRdf(response, `sertifikat_${documentId}.json`, 'application/json');
         },
         (error) => {
           this.toastr.error(error.error);

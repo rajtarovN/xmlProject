@@ -179,21 +179,23 @@ public class DigitalniSertifikatService extends AbstractService {
 		DigitalniZeleniSertifikat.PodaciOVakcinaciji podaciOVakcinaciji = new DigitalniZeleniSertifikat.PodaciOVakcinaciji();
 		List<DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija> vakcinacije = new ArrayList<>();
 		List<String> saglasnosti = saglasnostService.pronadjiSveSaglasnostiPoEmailu(zahtev.getEmail());
-		for (String sid : saglasnosti) {
-			Saglasnost saglasnost = saglasnostService.pronadjiPoId(sid);
-			if (saglasnost.getEvidencijaOVakcinaciji() != null
-					&& saglasnost.getEvidencijaOVakcinaciji().getVakcine() != null) {
-				int size = saglasnost.getEvidencijaOVakcinaciji().getVakcine().getVakcina().size();
-				Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina = saglasnost.getEvidencijaOVakcinaciji()
-						.getVakcine().getVakcina().get(size - 1);
-				DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija v = new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija();
-				v.setSerija(vakcina.getSerija());
-				v.setProizvodjac(vakcina.getProizvodjac());
-				v.setZdravstvenaUstanova(saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova());
-				v.setDatumDavanja(vakcina.getDatumDavanja());
-				v.setBrDoze(vakcina.getDoza());
-				v.setTip(vakcina.getNaziv());
-				vakcinacije.add(v);
+		if(!saglasnosti.isEmpty()) {
+			for (String sid : saglasnosti) {
+				Saglasnost saglasnost = saglasnostService.pronadjiPoId(sid);
+				if (saglasnost.getEvidencijaOVakcinaciji() != null
+						&& saglasnost.getEvidencijaOVakcinaciji().getVakcine() != null) {
+					int size = saglasnost.getEvidencijaOVakcinaciji().getVakcine().getVakcina().size();
+					Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina = saglasnost.getEvidencijaOVakcinaciji()
+							.getVakcine().getVakcina().get(size - 1);
+					DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija v = new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija();
+					v.setSerija(vakcina.getSerija());
+					v.setProizvodjac(vakcina.getProizvodjac());
+					v.setZdravstvenaUstanova(saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova());
+					v.setDatumDavanja(vakcina.getDatumDavanja());
+					v.setBrDoze(vakcina.getDoza());
+					v.setTip(vakcina.getNaziv());
+					vakcinacije.add(v);
+				}
 			}
 		}
 		podaciOVakcinaciji.setVakcinacija(vakcinacije);

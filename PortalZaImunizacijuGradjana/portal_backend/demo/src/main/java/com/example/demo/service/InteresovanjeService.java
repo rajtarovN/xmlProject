@@ -448,12 +448,11 @@ public class InteresovanjeService extends AbstractService {
 
 	public List<DokumentDTO> getInteresovanjeAllByEmail(String email){
 		try {
-			//System.out.println(pronadjiInteresovanjePoEmailu(email));
 			String id = ((InteresovanjeRepository) repository).pronadjiPoEmailu(email);
 			XMLResource res = pronadjiInteresovanjePoEmailu(email);
 			System.out.println("natasa"+id);
 			List<DokumentDTO> ret = new ArrayList<>();
-			if (res != null) {
+			if (id != null) {
 
 				JAXBContext context = JAXBContext
 						.newInstance("com.example.demo.model.interesovanje");
@@ -463,7 +462,6 @@ public class InteresovanjeService extends AbstractService {
 				Interesovanje s = (Interesovanje) unmarshaller.unmarshal((res).getContentAsDOM());
 
 				ret.add(new DokumentDTO(id,s));
-				System.out.println("OVDEEEEEE");
 				return ret;
 			} else {
 				return null;
@@ -472,23 +470,7 @@ public class InteresovanjeService extends AbstractService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		try {
-//			System.out.println("OVDEEEEEE");
-//			String all = this.allXmlByEmail(email);
-//
-//			JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
-//			Unmarshaller unmarshaller = context.createUnmarshaller();
-//			StringReader reader = new StringReader(all);
-//			ListaSaglasnosti saglasnosti = (ListaSaglasnosti) unmarshaller.unmarshal(reader);
-//			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
-//			for (Saglasnost s: saglasnosti.getSaglasnosti()) {
-//				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
-//			}System.out.println("OVDEEEEEE");
-//			return ret;
-//
-//		} catch (Exception e){
-//			e.printStackTrace();
-//		}
+
 		return new ArrayList<>();
 	}
 
