@@ -1,0 +1,23 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?digitalni_zeleni_sertifikat FROM <%s>
+WHERE {
+ 	?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/broj_pasosa> ?broj_pasosa .
+    ?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/broj_sertifikata> ?broj_sertifikata .
+    ?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/datum_izdavaja> ?datum_izdavaja .
+    ?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/ime> ?ime .
+ 	?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/jmbg> ?jmbg .
+ 	?digitalni_zeleni_sertifikat <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/prezime> ?prezime .
+    BIND(xs:string(%s) as ?broj_pasosa1) .
+    BIND(xs:string(%s) as ?broj_sertifikata1) .
+    BIND(xs:string(%s) as ?datum_izdavaja1) .
+    BIND(xs:string(%s) as ?ime1) .
+    BIND(xs:string(%s) as ?jmbg1) .
+    BIND(xs:string(%s) as ?prezime1) .
+    FILTER ( ( ?broj_pasosa1 = "" || regex(str(?broj_pasosa), ?broj_pasosa1, "i")) ||
+    		 ( ?broj_sertifikata1 = "" || regex(str(?broj_sertifikata), ?broj_sertifikata1, "i")) ||
+    		 ( ?datum_izdavaja1 = "" || regex(str(?datum_izdavaja), ?datum_izdavaja1, "i")) ||
+    		 ( ?ime1 = "" || regex(str(?ime), ?ime1, "i")) ||
+    		 ( ?jmbg1 = "" || regex(str(?jmbg), ?jmbg1, "i")) ||
+    		 ( ?prezime1 = "" || regex(str(?prezime), ?prezime1, "i"))
+    		)
+}

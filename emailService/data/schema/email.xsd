@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/email"
+           xmlns:korisnik="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/email"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xs:element name="Email">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="To">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[^@]+@[^\.]+\..+"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Subject" type="xs:string"/>
+                <xs:element name="Content" type="xs:string"/>
+                <xs:element name="Pdf"/>
+                <xs:element name="Xhtml"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

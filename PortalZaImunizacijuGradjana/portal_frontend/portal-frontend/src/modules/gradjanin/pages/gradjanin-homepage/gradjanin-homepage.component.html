@@ -1,0 +1,92 @@
+<mat-toolbar class="mat-elevation-z8">
+  <button
+    mat-icon-button
+    *ngIf="sidenav.mode === 'over'"
+    (click)="sidenav.toggle()"
+  >
+    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+  </button>
+  <span class="span">Портал за имунизацију Грађана</span>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+    <img
+      class="avatar mat-elevation-z8"
+      src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+      alt="”animated”"
+    />
+
+    <h4 class="name" id="current-user">{{ this.mail }}</h4>
+
+    <button
+      mat-button
+      class="menu-button"
+      (click)="onLogoutButtonClicked()"
+      id="logout-button"
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Излогуј се</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-button class="menu-button" (click)="this.activeView = '1'">
+      <!---- <mat-icon>supervised_user_circle</mat-icon>-->
+      <span>Подношење интересвања</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="this.activeView = '2'">
+      <span>Подношење сагласности</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.activeView = '3'">
+      <span>Подношење захтева</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.activeView = '4'">
+      <span>Преглед захтева</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.openSertifikat()">
+      <span>Преглед сертификата</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.openSaglasnost()">
+      <span>Преглед сагласности</span>
+    </button>
+    <button mat-button class="menu-button" (click)="this.openPotvrda()">
+      <span>Преглед потврда</span>
+    </button>
+    <button mat-button class="menu-button" (click)="openInteresovanja()">
+      <span>Преглед интересовања</span>
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <app-interesovanje-form
+        class="items"
+        *ngIf="this.activeView === '1'"
+      ></app-interesovanje-form>
+      <app-saglasnost-form
+        class="items"
+        *ngIf="this.activeView === '2'"
+      ></app-saglasnost-form>
+      <app-podnosenje-zahteva
+        class="items"
+        *ngIf="this.activeView === '3'"
+      ></app-podnosenje-zahteva>
+      <app-pregled-zahteva
+        class="items"
+        *ngIf="this.activeView === '4'"
+      ></app-pregled-zahteva>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-logout
+  *ngIf="this.showModalLogout"
+  (onLogoutClose)="onLogoutCloseClicked($event)"
+></app-logout>
+
+<app-prikaz-dokumenata
+  *ngIf="this.showPrikazDokumenata"
+  [tipDokumenta]="this.selectedTipDokumenta"
+  (onPrikazDokumenataClose)="this.showPrikazDokumenata = false"
+ ></app-prikaz-dokumenata>

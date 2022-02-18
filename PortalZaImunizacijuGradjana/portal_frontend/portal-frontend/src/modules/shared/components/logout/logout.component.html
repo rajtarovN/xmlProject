@@ -1,0 +1,30 @@
+<div id="container-div">
+  <div id="img-div">
+    <img
+      src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+      alt="”animated”"
+    />
+  </div>
+  <div id="form-holder-div">
+    <h3>Da li ste sigurni da želite da se izlogujete?</h3>
+    <div class="modal-footer">
+      <button
+        mat-flat-button
+        class="btn btn-danger"
+        (click)="cancel()"
+      >
+        Odustani
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        class="btn btn-primary"
+        id="confirm-logout-button"
+        (click)="confirm()"
+      >
+        Potvrdi
+      </button>
+    </div>
+  </div>
+</div>
+<div class="jw-modal-background"></div>

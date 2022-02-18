@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.1" targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje"
+    xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/interesovanje">
+
+    <xs:element name="Interesovanje">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Licne_informacije">
+                    <xs:complexType>
+                        <xs:all>
+                            <xs:element name="Drzavljanstvo">
+                                <xs:simpleType >
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Drzavljanin_republike_srbije"/>
+                                        <xs:enumeration value="Strani_drzavljanin_sa_boravkom_u_rs"/>
+                                        <xs:enumeration value="Strani_drzavljanin_bez_boravka_u_rs"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Jmbg">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="ftn:TJmbg">
+                                            <xs:attribute fixed="pred:jmbg" name="property"
+                                                          type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Ime">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute fixed="pred:ime" name="property"
+                                                          type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Prezime">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute fixed="pred:prezime" name="property"
+                                                          type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Kontakt">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Email">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="ftn:TEmail">
+                                                        <xs:attribute fixed="pred:email" name="property"
+                                                                      type="xs:string"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="Broj_mobilnog">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="06\d{8,10}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+                                        <xs:element name="Broj_fiksnog">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:pattern value="\d{7,10}"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Davalac_krvi">
+                                <xs:complexType>
+                                    <xs:attribute default="false" name="Davalac" type="xs:boolean"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:all>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Lokacija_primanja_vakcine">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:string">
+                                <xs:attribute fixed="pred:lokacija_primanja_vakcine" name="property"
+                                              type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Proizvodjac">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="Pfizer-BioNTech"/>
+                            <xs:enumeration value="Sputnik V"/>
+                            <xs:enumeration value="Sinopharm"/>
+                            <xs:enumeration value="AstraZeneca"/>
+                            <xs:enumeration value="Moderna"/>
+                            <xs:enumeration value="Bilo koja"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="Datum_podnosenja_interesovanja">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:date">
+                                <xs:attribute fixed="pred:datum_podnosenja_interesovanja"
+                                              name="property" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="about" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="TJmbg">
+        <xs:restriction base="xs:string">
+            <xs:length value="13"/>
+            <xs:pattern value="\d{13}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TEmail">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^@]+@[^\.]+\..+"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

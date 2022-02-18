@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Digitalni_zeleni_sertifikat
+    xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/digitalni_zeleni_sertifikat/predicate/"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/digitalni_sertifikat ../schema/digitalni_sertifikat.xsd"
+    qr_kod="1234" Id_sertifikata="8516543579"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/8516543579">
+    <Podaci_o_sertifikatu>
+        <Broj_sertifikata property="pred:broj_sertifikata">8516543579</Broj_sertifikata>
+        <Datum_i_vreme_izdavanja property="pred:datum_izdavaja" >2021-11-11T08:00:00</Datum_i_vreme_izdavanja>
+    </Podaci_o_sertifikatu>
+    <Podaci_o_osobi>
+        <Ime property="pred:ime">Mika</Ime>
+        <Prezime property="pred:prezime">Mikic</Prezime>
+        <Pol>Zenski</Pol>
+        <Datum_rodjenja>1999-01-01</Datum_rodjenja>
+        <Jmbg property="pred:jmbg">1234567891234</Jmbg>
+        <Broj_pasosa property="pred:broj_pasosa">123456789</Broj_pasosa>
+    </Podaci_o_osobi>
+    <Podaci_o_vakcinaciji>
+        <Vakcinacija br_doze="1">
+            <Tip>AstraZeneca</Tip>
+            <Proizvodjac>AstraZeneca plc</Proizvodjac>
+            <Serija>2</Serija>
+            <Datum_davanja>2021-10-11</Datum_davanja>
+            <Zdravstvena_ustanova>Dom Zdravlja, Novi
+                Sad</Zdravstvena_ustanova>
+        </Vakcinacija>
+        <Vakcinacija br_doze="2">
+            <Tip>AstraZeneca</Tip>
+            <Proizvodjac>AstraZeneca plc</Proizvodjac>
+            <Serija>2</Serija>
+            <Datum_davanja>2021-11-11</Datum_davanja>
+            <Zdravstvena_ustanova>Dom Zdravlja, Novi
+                Sad</Zdravstvena_ustanova>
+        </Vakcinacija>
+    </Podaci_o_vakcinaciji>
+    <Testovi>
+        <Naziv_testa/>
+        <Vrsta_uzorka/>
+        <Datum_i_vreme_uzorkovanja/>
+        <Datum_i_vreme_izdavanja_rezultata/>
+    </Testovi>
+    <Datum>2021-11-11</Datum>
+    <Potvrda property="pred:seeAlso"/>
+    <Zahtev property="pred:seeAlso"/>
+</Digitalni_zeleni_sertifikat>

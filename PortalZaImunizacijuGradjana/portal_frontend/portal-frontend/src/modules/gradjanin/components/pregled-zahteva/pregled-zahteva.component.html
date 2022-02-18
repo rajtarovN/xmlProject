@@ -1,0 +1,45 @@
+<mat-card class="card-position">
+    <mat-card-title>
+        Pregled zahteva za zeleni sertifikat
+    </mat-card-title>
+    
+    <mat-card-content>
+        <label>Unesite Vas jmbg:</label>
+        <input [(ngModel)]="this.jmbg">
+        <button mat-raised-button color="primary" aria-label="pronadji zahtev" (click)="onSubmit()" id="pronadji" 
+        class="btn-spacing">
+        Pronadji zahtev
+    </button> 
+    </mat-card-content>
+
+    <mat-card-content>
+        <div>
+            <label>Ime: {{this.ime}}</label><br/>
+            <label>Prezime: {{this.prezime}}</label><br/>
+            <label>Pol: {{this.pol}}</label><br/>
+            <label>Datum rodjenja: {{this.datumRodjenja}}</label><br/>
+            <label>Datum podnosenja zahteva: {{this.datumPodnosenjaZhteva}}</label><br/>
+            <label>Jmbg: {{this.jmbg}}</label> <br/>
+            <label>Broj pasosa: {{this.brPasosa}}</label><br/>
+            <label>Mesto podnosenja zahteva: {{this.mesto}}</label> <br/>
+            <label>Razlog podnosenja zahteva: {{this.razlog}} </label><br/>
+        </div>
+        <button mat-raised-button color="primary" aria-label="getPdf" (click)="getPdf()" id="pdf" 
+            class="btn-spacing">
+            Pdf
+        </button>
+        <button mat-raised-button color="primary" aria-label="getHtml" (click)="getHtml()" id="xhtml"
+            class="btn-spacing">
+            XHTML
+        </button>
+        <button mat-raised-button color="primary" aria-label="getJSON" (click)="getJSON()" id="json" 
+            class="btn-spacing">
+            JSON
+        </button>
+        <button mat-raised-button color="primary" aria-label="getRDF" (click)="getRDF()" id="rdf"
+            class="btn-spacing">
+            RDF
+        </button>  
+
+    </mat-card-content>
+</mat-card> 

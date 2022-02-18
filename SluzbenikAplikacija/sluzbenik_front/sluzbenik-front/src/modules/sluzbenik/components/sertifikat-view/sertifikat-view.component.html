@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-title>Сагласност - {{ id }}</mat-card-title>
+  <div>{{ sertifikat }}</div>
+  <mat-card-actions>
+    <tr>
+      <button mat-raised-button (click)="preuzmiPDF()">
+        <mat-icon>download</mat-icon> Преузми PDF
+      </button>
+      <button mat-raised-button (click)="preuzmiXHTML()">
+        <mat-icon>download</mat-icon> Преузми XHTML
+      </button>
+    </tr>
+    <tr>
+      <button mat-raised-button (click)="extractMetadataAsJSON()">
+        <mat-icon>download</mat-icon> Преузми metapodatke - JSON
+      </button>
+      <button mat-raised-button (click)="extractMetadataAsRDF()">
+        <mat-icon>download</mat-icon> Преузми metapodatke - RDF
+      </button>
+    </tr>
+  </mat-card-actions>
+</mat-card>

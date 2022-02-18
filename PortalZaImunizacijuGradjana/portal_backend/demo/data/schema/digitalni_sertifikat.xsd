@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.0" vc:maxVersion="1.1"
+    targetNamespace="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat"
+    xmlns:ftn="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat">
+
+    <xs:element name="Digitalni_zeleni_sertifikat">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Podaci_o_sertifikatu">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Broj_sertifikata">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute fixed="pred:broj_sertifikata"
+                                                name="property" type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Datum_i_vreme_izdavanja">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:dateTime">
+                                            <xs:attribute fixed="pred:datum_izdavaja"
+                                                name="property" type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Podaci_o_osobi">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Ime">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute fixed="pred:ime" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Prezime">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="xs:string">
+                                            <xs:attribute fixed="pred:prezime" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Pol">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:enumeration value="Muski"/>
+                                        <xs:enumeration value="Zenski"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Datum_rodjenja" type="xs:date"/>
+                            <xs:element name="Jmbg">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="ftn:TJmbg">
+                                            <xs:attribute fixed="pred:jmbg" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Broj_pasosa">
+                                <xs:complexType>
+                                    <xs:simpleContent>
+                                        <xs:extension base="ftn:TBroj_pasosa">
+                                            <xs:attribute fixed="pred:broj_pasosa" name="property"
+                                                type="xs:string"/>
+                                        </xs:extension>
+                                    </xs:simpleContent>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Podaci_o_vakcinaciji">
+                    <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded" minOccurs="1">
+                            <xs:element name="Vakcinacija">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Tip">
+                                            <xs:simpleType>
+                                                <xs:restriction base="xs:string">
+                                                  <xs:enumeration value="Pfizer-BioNTech"/>
+                                                  <xs:enumeration value="Sputnik V"/>
+                                                  <xs:enumeration value="Sinopharm"/>
+                                                  <xs:enumeration value="AstraZeneca"/>
+                                                  <xs:enumeration value="Moderna"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:element>
+                                        <xs:element name="Proizvodjac" type="xs:string"/>
+                                        <xs:element name="Serija" type="xs:string"/>
+                                        <xs:element name="Datum_davanja" type="xs:date"/>
+                                        <xs:element name="Zdravstvena_ustanova" type="xs:string"/>
+                                    </xs:sequence>
+                                    <xs:attribute name="br_doze">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:positiveInteger">
+                                                <xs:totalDigits value="1"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:attribute>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Testovi" nillable="true">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Naziv_testa" type="xs:string"/>
+                            <xs:element name="Vrsta_uzorka" type="xs:string"/>
+                            <xs:element name="Datum_i_vreme_uzorkovanja" type="xs:string"/>
+                            <xs:element name="Datum_i_vreme_izdavanja_rezultata" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Datum" type="xs:date"/>
+                <xs:element name="Potvrda" nillable="true">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:anyURI">
+                                <xs:attribute fixed="pred:seeAlso" name="property" type="xs:string"
+                                />
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="qr_kod">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="Id_sertifikata" type="xs:string"/>
+            <xs:attribute name="about" type="xs:anyURI"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="TJmbg">
+        <xs:restriction base="xs:string">
+            <xs:length value="13"/>
+            <xs:pattern value="\d{13}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TBroj_pasosa">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{9}"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

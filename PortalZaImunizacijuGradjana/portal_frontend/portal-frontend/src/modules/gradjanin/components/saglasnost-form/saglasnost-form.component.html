@@ -1,0 +1,343 @@
+<mat-card class="card-position">
+  <ng-container *ngIf="this.id != '-1'; else elseTemplate">
+    <mat-card-title>
+      Исказивање интересовања за вакцинисање против COVID-19
+    </mat-card-title>
+    <mat-card-content>
+      <div
+        class="example-full-width"
+        style="padding-bottom: 10px; padding-top: 20px"
+      >
+        <mat-label>Датум термина {{ this.datum }}</mat-label>
+      </div>
+      <div class="example-full-width" style="padding-bottom: 20px">
+        <mat-label *ngIf="this.vreme != null"
+          >Време термина {{ this.vreme }}</mat-label
+        >
+      </div>
+      <tr>
+        <td>
+          <mat-form-field class="example-full-width">
+            <mat-label>Држављанство: </mat-label>
+            <mat-select
+              [(ngModel)]="this.odabranoDrzavljanstvo"
+              (selectionChange)="this.setFormValidators()"
+            >
+              <mat-option
+                *ngFor="let drzavljanstvo of this.drzavljanstvoSelect"
+                [value]="drzavljanstvo.value"
+              >
+                {{ drzavljanstvo.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <form [formGroup]="addSaglasnostForm" *ngIf="addSaglasnostForm">
+        <ng-container
+          *ngIf="this.odabranoDrzavljanstvo === '1'; else elseTemplate"
+          ><tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>ЈМБГ</mat-label>
+                <input
+                  matInput
+                  name="jmbg"
+                  minlength="13"
+                  maxlength="13"
+                  formControlName="jmbg"
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>назив страног држављанства</mat-label>
+                <input
+                  matInput
+                  name="stranoDrzavljanstvo"
+                  formControlName="stranoDrzavljanstvo"
+                />
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>бр. пасоша или ЕБС за стране држављане</mat-label>
+                <input
+                  matInput
+                  name="stranoDrzavljanstvoId"
+                  formControlName="stranoDrzavljanstvoId"
+                />
+              </mat-form-field>
+            </td></tr
+        ></ng-template>
+
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Презиме</mat-label>
+              <input matInput name="prezime" formControlName="prezime" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Име</mat-label>
+              <input matInput name="ime" formControlName="ime" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Име родитеља</mat-label>
+              <input
+                matInput
+                name="imeRoditelja"
+                formControlName="imeRoditelja"
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Пол</mat-label>
+              <input matInput name="pol" formControlName="pol" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Датум рођења</mat-label>
+              <input
+                matInput
+                name="datumRodjenja"
+                formControlName="datumRodjenja"
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Место рођења</mat-label>
+              <input
+                matInput
+                name="mestoRodjenja"
+                formControlName="mestoRodjenja"
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Адреса (улица) </mat-label>
+              <input matInput name="adresa" formControlName="adresa" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Адреса (број) </mat-label>
+              <input matInput name="broj" formControlName="broj" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Место/Насеље </mat-label>
+              <input matInput name="mesto" formControlName="mesto" />
+            </mat-form-field>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Општина/Град</mat-label>
+              <input matInput name="grad" formControlName="grad" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Тел. фиксни</mat-label>
+              <input matInput name="fiksni" formControlName="fiksni" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Тел. мобилни</mat-label>
+              <input matInput name="mobilni" formControlName="mobilni" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>имејл</mat-label>
+              <input matInput name="email" formControlName="email" />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td class="example-full-width">
+            <mat-label>Радни статус</mat-label>
+            <mat-radio-group
+              formControlName="radniStatus"
+              aria-labelledby="example-radio-group-label"
+              (change)="checkIfZaposlen()"
+            >
+              <mat-radio-button
+                class="example-radio-button"
+                *ngFor="let status of radniStatusSelect"
+                [value]="status.value"
+                style="padding: 5px"
+              >
+                {{ status.viewValue }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td class="example-full-width">
+            <mat-label>Занимање запосленог:</mat-label>
+            <mat-radio-group
+              [disabled]="
+                this.addSaglasnostForm.value.radniStatus !== 'Zaposlen'
+              "
+              formControlName="zanimanjeZaposlenog"
+              aria-labelledby="example-radio-group-label"
+            >
+              <mat-radio-button
+                class="example-radio-button"
+                *ngFor="let zanimanje of zanimanjeZaposlenogSelect"
+                [value]="zanimanje.value"
+                style="padding: 5px"
+              >
+                {{ zanimanje.viewValue }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td class="example-full-width">
+            <mat-label>Корисник установе соц. зашт.</mat-label>
+            <mat-radio-group formControlName="socijalnaZastita">
+              <mat-radio-button style="padding: 5px" value="true"
+                >Да</mat-radio-button
+              >
+              <mat-radio-button style="padding: 5px" value="false"
+                >Не</mat-radio-button
+              >
+            </mat-radio-group>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Назив седишта</mat-label>
+              <input
+                matInput
+                name="nazivSedista"
+                formControlName="nazivSedista"
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Општина седишта</mat-label>
+              <input
+                matInput
+                name="opstinaSedista"
+                formControlName="opstinaSedista"
+              />
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Одаберите вакцину коју желите да примите: </mat-label>
+              <mat-select formControlName="odabranaVakcina">
+                <mat-option
+                  *ngFor="let vakcina of odabraneVakcineSelect"
+                  [value]="vakcina.value"
+                >
+                  {{ vakcina.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr class="example-full-width">
+          <td rowspan="2" colspan="2">
+            <mat-label>Изјављујем да:</mat-label>
+            <mat-radio-group formControlName="saglasan">
+              <mat-radio-button style="padding: 5px" value="true"
+                >CAГЛACAH САМ</mat-radio-button
+              >
+              <mat-radio-button style="padding: 5px" value="false"
+                >HИСАМ САГЛАСАН</mat-radio-button
+              >
+            </mat-radio-group>
+            <mat-label
+              >(означити) са спровођењем активне/пасивне имунизације (уписати
+              назив имунолошког лека):</mat-label
+            >
+            <mat-form-field class="example-full-width">
+              <input matInput name="lekar" formControlName="lekar" />
+            </mat-form-field>
+          </td>
+        </tr>
+
+        <div class="example-full-width">
+          <button
+            (click)="cancel()"
+            mat-raised-button
+            color="primary"
+            aria-label="Obustavi"
+            id="cancelBtn"
+            class="btn-spacing"
+          >
+            Обустави
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            aria-label="Posalji resenje"
+            [disabled]="
+              addSaglasnostForm.invalid ||
+              (this.addSaglasnostForm.value.radniStatus === 'Zaposlen'
+                ? this.addSaglasnostForm.value.zanimanjeZaposlenog === null
+                : false)
+            "
+            (click)="send()"
+            id="sendBtn"
+          >
+            Пошаљи
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </ng-container>
+  <ng-template #elseTemplate
+    ><mat-label>Тренутно нема сагласности за попњавање</mat-label>
+  </ng-template>
+</mat-card>

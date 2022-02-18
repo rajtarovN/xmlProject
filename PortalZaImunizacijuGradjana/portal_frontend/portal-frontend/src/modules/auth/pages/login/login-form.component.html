@@ -1,0 +1,74 @@
+<div id="container-div">
+  <div id="img-div">
+    <img
+      src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+      alt="”animated”"
+    />
+  </div>
+  <div id="form-holder-div">
+    <form class="example-form" [formGroup]="loginForm">
+      <mat-card-content>
+        <mat-form-field class="example-full-width" id="email-field">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Email"
+            formControlName="email"
+            id="email"
+            name="email"
+            required
+          />
+          <mat-hint
+            *ngIf="loginForm.controls['email'].dirty && loginForm.controls['email'].errors?.['required']"
+            >Unesite vas email</mat-hint
+          >
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="password-field">
+          <input
+            matInput
+            class="form-control"
+            placeholder="Lozinka"
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            required
+            id="password"
+            name="password"
+          />
+          <mat-icon matSuffix (click)="hide = !hide">{{
+            hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+          <mat-hint
+            *ngIf="loginForm.controls['password'].dirty && loginForm.controls['password'].errors?.['required'] "
+            >Unesite vasu lozinku</mat-hint
+          >
+        </mat-form-field>
+      </mat-card-content>
+      <div id="button-div">
+        <button
+          mat-flat-button
+          color="accent"
+          type="submit"
+          class="submit-button"
+          (click)="login()"
+          id="submit-button"
+          [disabled]="loginForm.invalid"
+        >
+          Login
+        </button>
+      </div>
+      
+    </form>
+    <div class="row">
+      <mat-icon matBadgeColor="primary" matBadgePosition="before"
+        >information</mat-icon
+      >
+      <span >Nemate nalog? Registrujte se <a [routerLink]="['/portal/auth/registracija']">ovde </a></span>
+      
+    </div>
+  </div>
+</div>
+<div class="jw-modal-background"></div>
+
+<!--https://galeri13.uludagsozluk.com/636/kahve_1589108.gif-->
+<!--https://media.giphy.com/media/UJvttT1byONauiwlex/giphy.gif-->

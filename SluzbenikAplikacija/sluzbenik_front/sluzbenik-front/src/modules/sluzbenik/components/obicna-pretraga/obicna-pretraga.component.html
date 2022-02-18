@@ -1,0 +1,107 @@
+<mat-card class="card-position">
+  <div class="example-full-width">
+    <mat-label for="dokument">Odaberite opciju: </mat-label>
+    <mat-select id="dokument" name="dokument" #selektor>
+      <mat-option value="1">Saglasnost</mat-option>
+      <mat-option value="2">Sertifikat</mat-option>
+      <mat-option value="3">Potvrda</mat-option>
+    </mat-select>
+  </div>
+
+  <div>
+    <form [formGroup]="pretragaForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Unesite tekst pretrage</mat-label>
+        <input matInput name="searchTerm" formControlName="searchTerm" />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        aria-label="Pretrazi"
+        id="pretraziSaglasnosti"
+        class="btn-spacing"
+        (click)="pretrazi()"
+      >
+        Pretraži
+      </button>
+    </form>
+  </div>
+
+  <div class="row d-flex justify-content-center">
+    <mat-accordion class="col-10">
+      <mat-expansion-panel
+        *ngFor="let item of documents; let i = index"
+        (closed)="close(i)"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <a
+              [href]="
+                item.url?.replace(
+                  'www.ftn.uns.ac.rs/xml_i_veb_servisi',
+                  'localhost:4201/sluzbenik'
+                )
+              "
+              >{{ item.url }}</a
+            >
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="table-wrap m-3">
+          <table class="table table-hover border">
+            <thead>
+              <tr>
+                <th>Референце</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let url of item.referencedBy; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <a
+                    [href]="
+                      url?.replace(
+                        'www.ftn.uns.ac.rs/xml_i_veb_servisi',
+                        'localhost:4201/sluzbenik'
+                      )
+                    "
+                    >{{ url }}</a
+                  >
+                </td>
+              </tr>
+              <tr *ngIf="item.referencedBy.length == 0">
+                <td colspan="4">Тренутно нема референаца на овај документ.</td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    aria-label="preuzmiPDF"
+                    id="preuzmiPDF"
+                    class="btn-spacing"
+                    (click)="preuzmiPDF(item.url)"
+                  >
+                    PDF
+                    <mat-icon>download</mat-icon>
+                  </button>
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    aria-label="preuzmiXML"
+                    id="preuzmiXML"
+                    class="btn-spacing"
+                    (click)="preuzmiXML(item.url)"
+                  >
+                    XHTML
+                    <mat-icon>download</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</mat-card>

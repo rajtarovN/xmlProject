@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lista_korisnika
+        xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/korisnik"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/korisnik ../schema/korisnik.xsd"
+        >
+
+    <korisnik>
+        <ime>Sluzbenik</ime>
+        <prezime>Sluzbenikic</prezime>
+        <email>sluzbenik@maildrop.cc</email>
+        <pol>M</pol>
+        <rodjendan>2000-10-10</rodjendan>
+        <lozinka>$2a$10$N5MZtCigIDUN30U0Gfs3Eu.uGTcD21l63RfGreGXD/CIiS.VokrLm</lozinka>
+        <uloga>S</uloga>
+    </korisnik>
+
+    <korisnik>
+        <ime>Sluzbenica</ime>
+        <prezime>Sluzbenikic</prezime>
+        <email>sluzbenica@maildrop.cc</email>
+        <pol>Z</pol>
+        <rodjendan>2001-10-10</rodjendan>
+        <lozinka>$2a$10$lMyYkPcWPKY2gn/WRoZ8WOZFwwSVAeO9YpFGQAoJrEqowq2aZxTN2</lozinka>
+        <uloga>S</uloga>
+    </korisnik>
+
+</lista_korisnika>

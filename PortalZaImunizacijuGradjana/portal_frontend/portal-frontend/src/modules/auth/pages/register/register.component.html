@@ -1,0 +1,123 @@
+<div id="container-div">
+  <div id="img-div">
+    <img
+      src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+      alt="”animated”"
+    />
+  </div>
+  <div id="form-holder-div">
+    <form class="example-form" [formGroup]="loginForm">
+      <mat-card-content>
+        <mat-form-field class="example-full-width" id="name-field">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Ime"
+            formControlName="name"
+            id="name"
+            name="name"
+            required
+          />
+          <mat-hint
+            *ngIf="loginForm.controls['name'].dirty && loginForm.controls['name'].errors?.['required']"
+            >Unesite vase ime</mat-hint
+          >
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="surname-field">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Prezime"
+            formControlName="surname"
+            id="surname"
+            name="surname"
+            required
+          />
+          <mat-hint
+            *ngIf="loginForm.controls['surname'].dirty && loginForm.controls['surname'].errors?.['required']"
+            >Unesite vase prezime</mat-hint
+          >
+        </mat-form-field>
+        <div class="radio-button-class">
+          <mat-label>Pol</mat-label>
+          <mat-radio-group formControlName="gender">
+            <mat-radio-button style="padding: 5px" value="M"
+              >Muski</mat-radio-button
+            >
+            <mat-radio-button style="padding: 5px" value="Z"
+              >Zenski</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Datum rodjenja:</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [max]="yesterday"
+            formControlName="birthday"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="email-field">
+          <input
+            matInput
+            class="form-control"
+            type="text"
+            placeholder="Email"
+            formControlName="email"
+            id="email"
+            name="email"
+            required
+          />
+          <mat-hint
+            *ngIf="loginForm.controls['email'].dirty && loginForm.controls['email'].errors?.['required']"
+            >Unesite vas email</mat-hint
+          >
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="password-field">
+          <input
+            matInput
+            class="form-control"
+            placeholder="Lozinka"
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            required
+            id="password"
+            name="password"
+          />
+          <mat-icon matSuffix (click)="hide = !hide">{{
+            hide ? "visibility_off" : "visibility"
+          }}</mat-icon>
+          <mat-hint
+            *ngIf="loginForm.controls['password'].dirty && loginForm.controls['password'].errors?.['required'] "
+            >Unesite vasu lozinku</mat-hint
+          >
+        </mat-form-field>
+      </mat-card-content>
+      <div id="button-div">
+        <button
+          mat-flat-button
+          color="accent"
+          type="submit"
+          class="submit-button"
+          (click)="register()"
+          id="submit-button"
+          [disabled]="loginForm.invalid"
+        >
+          Registruj se
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="jw-modal-background"></div>
+
+<!--https://galeri13.uludagsozluk.com/636/kahve_1589108.gif-->
+<!--https://media.giphy.com/media/UJvttT1byONauiwlex/giphy.gif-->

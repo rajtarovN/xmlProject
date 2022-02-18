@@ -1,0 +1,175 @@
+<form class="example-form" [formGroup]="searchForm">
+  <mat-form-field class="example-container">
+    <span matPrefix> </span>
+    <input
+      matInput
+      class="form-control"
+      type="text"
+      placeholder="Pretraga po imenu/prezimenu..."
+      formControlName="search"
+      id="employee-search"
+      name="itemSearch"
+    />
+  </mat-form-field>
+
+  <button
+    color="accent"
+    type="submit"
+    class="submit-button"
+    (click)="search()"
+    id="submit-button"
+    matSuffix
+    mat-icon-button
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+<mat-card>
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="announceSortChange($event)"
+    class="mat-elevation-z8"
+  >
+    <!-- Email Column -->
+    <ng-container matColumnDef="JMBG/EBS">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="jmbgebs"
+        sortActionDescription="Sort by jmbgebs"
+      >
+        JMBG/EBS
+      </th>
+      <td mat-cell name="jmbgebs" *matCellDef="let element">
+        {{ element.jmbgEbs }}
+      </td>
+    </ng-container>
+
+    <!-- Ime Column -->
+    <ng-container matColumnDef="Ime">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="ime"
+        sortActionDescription="Sort by ime"
+      >
+        Ime
+      </th>
+      <td mat-cell *matCellDef="let element" name="ime">{{ element.ime }}</td>
+    </ng-container>
+
+    <!-- Prezime Column -->
+    <ng-container matColumnDef="Prezime">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="prezime"
+        sortActionDescription="Sort by prezime"
+      >
+        Prezime
+      </th>
+      <td mat-cell *matCellDef="let element" name="prezime">
+        {{ element.prezime }}
+      </td>
+    </ng-container>
+
+    <!-- Datum Column -->
+    <ng-container matColumnDef="Datum">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="datum"
+        sortActionDescription="Sort by datum"
+      >
+        Datum podnošenja
+      </th>
+      <td mat-cell *matCellDef="let element" name="datum">
+        {{ element.datumPodnosenja }}
+      </td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="Status">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header="status"
+        sortActionDescription="Sort by status"
+      >
+        Status
+      </th>
+      <td mat-cell *matCellDef="let element" name="status">
+        {{ element.status }}
+      </td>
+    </ng-container>
+
+    <!--  -->
+    <ng-container matColumnDef="Razlog podnosenja">
+      <td></td>
+      <th mat-header-cell *matHeaderCellDef>Razlog podnosenja</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button
+          mat-button
+          color="accent"
+          type="submit"
+          class="submit-button"
+          (click)="openRazlog(element.razlog)"
+        >
+          <mat-icon>list </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!--  -->
+    <ng-container matColumnDef="Odbij">
+      <td></td>
+      <th mat-header-cell *matHeaderCellDef>Odbij zahtev</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button
+          *ngIf="element.status === 'na cekanju'"
+          mat-button
+          color="accent"
+          type="submit"
+          class="submit-button"
+          (click)="odbijZahtev(element.brojZahteva)"
+        >
+          <mat-icon>remove_circle_outline</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!--  -->
+    <ng-container matColumnDef="Prihvati">
+      <td></td>
+      <th mat-header-cell *matHeaderCellDef>Prihvati zahtev</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button
+          *ngIf="element.status === 'na cekanju'"
+          mat-button
+          color="accent"
+          type="submit"
+          class="submit-button"
+          (click)="prihvatiZahtev(element.brojZahteva)"
+        >
+          <mat-icon>check_circle_outline </mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</mat-card>
+<app-razlog-zahteva
+  *ngIf="this.currentRazlog != '' "
+  [currentNotes]="this.currentRazlog"
+  (onRazlogClose)="this.currentRazlog = '' "
+></app-razlog-zahteva>
+<app-odbij-zahtev
+  *ngIf="this.currentZahtevId != '' "
+  [currentZahtevId]="this.currentZahtevId"
+  (onRazlogOdbijanjaClose)="onRazlogOdbijanjaCloseClicked($event)"
+  (onRazlogOdbijanjaConfirm)="onRazlogOdbijanjaConfirmClicked($event)"
+></app-odbij-zahtev>

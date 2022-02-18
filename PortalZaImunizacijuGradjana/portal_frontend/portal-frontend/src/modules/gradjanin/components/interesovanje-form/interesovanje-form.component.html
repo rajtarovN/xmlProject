@@ -1,0 +1,194 @@
+<mat-card class="card-position">
+  <mat-card-title>
+    Исказивање интересовања за вакцинисање против COVID-19
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="addInteresovanjeForm" *ngIf="addInteresovanjeForm">
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Одаберите опцију: </mat-label>
+            <mat-select formControlName="drzavljanstvo">
+              <mat-option
+                *ngFor="let drzavljanstvo of drzavljanstva"
+                [value]="drzavljanstvo.value"
+              >
+                {{ drzavljanstvo.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>ЈМБГ</mat-label>
+            <input
+              matInput
+              name="JMBG"
+              formControlName="JMBG"
+              [maxLength]="13"
+              [minLength]="13"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Име</mat-label>
+            <input matInput name="ime" formControlName="ime" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Презиме</mat-label>
+            <input matInput name="prezime" formControlName="prezime" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Адреса електронске поште:</mat-label>
+            <input matInput name="email" formControlName="email" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label
+              >Број мобилног телефона (навести број у формату 06X..... без
+              размака и цртица):</mat-label
+            >
+            <input matInput name="mobilni" formControlName="mobilni" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label
+              >Број фиксног телефона (навести број у формату нпр. 011..... без
+              размака и цртица):</mat-label
+            >
+            <input matInput name="fiksni" formControlName="fiksni" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label
+              >Одаберите локацију где желите да примите вакцину (унесите
+              општину):
+            </mat-label>
+            <input matInput name="opstina" formControlName="opstina" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-label
+            >Исказујем интересовање да примим искључиво вакцину следећих
+            произвођача за који Агенција за лекове и медицинска средства потврди
+            безбедност, ефикасност и квалитет и изда дозволу за употребу
+            лека:</mat-label
+          >
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Одаберите опцију: </mat-label>
+            <mat-select formControlName="izabraneVakcine" multiple>
+              <mat-select-trigger>
+                {{
+                  addInteresovanjeForm.controls["izabraneVakcine"].value
+                    ?.length >= 5
+                    ? "Било која"
+                    : addInteresovanjeForm.controls["izabraneVakcine"].value
+                }}
+              </mat-select-trigger>
+              <mat-option
+                *ngFor="let vakcina of vakcine"
+                [value]="vakcina.value"
+              >
+                {{ vakcina.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="example-full-width">
+          <mat-label>Да ли сте добровољни давалац крви?</mat-label>
+          <mat-radio-group formControlName="davalacKrvi">
+            <mat-radio-button style="padding: 5px" value="true"
+              >Да</mat-radio-button
+            >
+            <mat-radio-button style="padding: 5px" value="false"
+              >Не</mat-radio-button
+            >
+          </mat-radio-group>
+        </td>
+      </tr>
+
+      <div class="example-full-width">
+        <ng-container *ngIf="datumPodnosenja != null; else elseTemplate">
+          <tr>
+            <td colspan="1">
+              <div class="example-full-width">
+                <mat-label>Датум подношења ѕахтева: </mat-label>
+                <input
+                  matInput
+                  name="opstina"
+                  [value]="this.datumPodnosenja"
+                  disabled
+                />
+              </div>
+            </td>
+            <td colspan="1">
+              <button
+                (click)="delete()"
+                mat-raised-button
+                color="primary"
+                aria-label="Izbrisi"
+                id="cancelBtn"
+                class="btn-spacing"
+              >
+                Избриши
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <button
+            (click)="cancel()"
+            mat-raised-button
+            color="primary"
+            aria-label="Obustavi"
+            id="cancelBtn"
+            class="btn-spacing"
+          >
+            Обустави
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            aria-label="Posalji resenje"
+            [disabled]="addInteresovanjeForm.invalid"
+            (click)="send()"
+            id="sendBtn"
+          >
+            Пошаљи
+          </button>
+        </ng-template>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

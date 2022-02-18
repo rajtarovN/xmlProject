@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Saglasnost xmlns="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:pred="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/obrazac_saglasnosti_za_imunizaciju/predicate/"
+    xsi:schemaLocation="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju ../schema/saglasnost.xsd"
+    about="http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/67890"
+    Broj_saglasnosti="67890"
+	Vreme_termina="18:00:00">
+    <Pacijent>
+        <Drzavljanin_srbije>
+            <Jmbg property="pred:jmbg">3216549877418</Jmbg>
+        </Drzavljanin_srbije>
+        <Licni_podaci>
+            <Prezime property="pred:prezime">Gradjic</Prezime>
+            <Ime property="pred:ime">Gradjica</Ime>
+            <Ime_roditelja>Milenko</Ime_roditelja>
+            <Pol>Zenski</Pol>
+            <Datum_rodjenja>2000-10-10</Datum_rodjenja>
+            <Mesto_rodjenja>Novi Sad</Mesto_rodjenja>
+            <Adresa>
+                <Ulica>Jevrejska</Ulica>
+                <Broj>55</Broj>
+                <Mesto>Novi Sad</Mesto>
+                <Grad>Novi Sad</Grad>
+            </Adresa>
+            <Kontakt_informacije>
+                <Fiksni_telefon>021 120 456</Fiksni_telefon>
+                <Mobilni_telefon>065 120 45 67</Mobilni_telefon>
+                <Email property="pred:email">gradjica@maildrop.cc</Email>
+            </Kontakt_informacije>
+            <Radni_status>Zaposlen</Radni_status>
+            <Zanimanje_zaposlenog>prosveta</Zanimanje_zaposlenog>
+            <Socijalna_zastita>
+                <Naziv_sedista>Novi Sad</Naziv_sedista>
+                <Opstina_sedista>Novi Sad</Opstina_sedista>
+            </Socijalna_zastita>
+        </Licni_podaci>
+        <Saglasnost_pacijenta>
+            <Naziv_imunoloskog_lekara>Boban</Naziv_imunoloskog_lekara>
+        </Saglasnost_pacijenta>
+        <Datum property="pred:datum_termina">2022-02-22</Datum>
+    </Pacijent>
+    <Evidencija_o_vakcinaciji xsi:nil="true"/>
+    <Potvrda property="pred:seeAlso"/>
+</Saglasnost>

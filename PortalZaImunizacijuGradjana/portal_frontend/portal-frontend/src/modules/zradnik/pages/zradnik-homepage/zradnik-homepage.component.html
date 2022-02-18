@@ -1,0 +1,49 @@
+<mat-toolbar class="mat-elevation-z8">
+    <button
+      mat-icon-button
+      *ngIf="sidenav.mode === 'over'"
+      (click)="sidenav.toggle()"
+    >
+      <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+      <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+    </button>
+    <span class="span">Portal za Imunizaciju Gradjana</span>
+  </mat-toolbar>
+  
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+      <img
+        class="avatar mat-elevation-z8"
+        src="https://c.tenor.com/znl7mOWHkhwAAAAi/vaxxed-plan-your-vaccine.gif"
+        alt="”animated”"
+      />
+  
+      <h4 class="name" id="current-user">{{this.mail}}</h4>
+  
+        
+      <button
+        mat-button
+        class="menu-button"
+        (click)="onLogoutButtonClicked()"
+        id="logout-button"
+      >
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+  
+      <mat-divider></mat-divider>
+         
+      
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content mat-elevation-z8">
+        <app-saglasnosti-gradjana class="saglasnosti"></app-saglasnosti-gradjana>
+  
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <app-logout
+  *ngIf="this.showModalLogout"
+  (onLogoutClose)="onLogoutCloseClicked($event)"
+></app-logout>
+  
