@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
 import com.example.demo.dto.SaglasnostNaprednaDTO;
+import com.example.demo.service.InteresovanjeService;
 import com.example.demo.service.SaglasnostService;
 
 import org.apache.commons.io.IOUtils;
@@ -219,11 +221,12 @@ public class SaglasnostController {
 	public ResponseEntity<IdentificationDTO> naprednaPretraga(@RequestBody SaglasnostNaprednaDTO dto) throws Exception {
 		String ime = "\"" + dto.getIme() + "\"";
 		String prezime = "\"" + dto.getPrezime() + "\"";
-		String jmbg = "\"" + dto.getJmbg() + "\"";
+		String id = "\"" + dto.getId() + "\"";
 		String datum = "\"" + dto.getDatum() + "\"";
 		String email = "\"" + dto.getEmail() + "\"";
 
-		List<String> lista = this.saglasnostService.naprednaPretraga(ime, prezime, jmbg, datum, email, dto.isAnd());
+		System.out.println("coa");
+		List<String> lista = this.saglasnostService.naprednaPretraga(ime, prezime, id, datum, email, dto.isAnd());
 
 		if (!lista.isEmpty())
 
@@ -239,7 +242,7 @@ public class SaglasnostController {
 	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
 		System.out.println("USLOOOOOOO");
 		try {
-			List<com.example.demo.dto.DokumentDTO> retval = saglasnostService.getSaglasnostiAllByEmail(email);
+			List<DokumentDTO> retval = saglasnostService.getSaglasnostiAllByEmail(email);
 			if (retval.isEmpty()) {
 				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
 			} else
@@ -274,6 +277,18 @@ public class SaglasnostController {
 	public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
 		try {
 			return new ResponseEntity<>(saglasnostService.generateRdf(documentId), HttpStatus.OK);
+    } catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+  }
+    
+	@GET
+	@GetMapping(path = "/referenciraniDoc/{id}",  produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> getDocumentIdReferences(@PathVariable("id") String id) {
+		IdentificationDTO dto = new IdentificationDTO();
+		try {
+			dto.setIds(saglasnostService.getDocumentIdReferences("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/" + id));
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

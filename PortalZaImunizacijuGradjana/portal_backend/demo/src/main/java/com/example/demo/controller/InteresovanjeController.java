@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,7 +68,6 @@ public class InteresovanjeController {
 		try {
 			System.out.println(content);
 			interesovanjeService.saveXML(documentId, content);
-			interesovanjeService.saveRDF(content, "/interesovanje");
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,8 +147,8 @@ public class InteresovanjeController {
 		System.out.println("USLOOOOOOO");
 		try {
 			List<DokumentDTO> retval = interesovanjeService.getInteresovanjeAllByEmail(email);
-			if (retval.isEmpty()) {
-				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
+			if (retval == null || retval.isEmpty()) {
+				return new ResponseEntity<>("Nema interesovanja za prisutnog gradjana.", HttpStatus.OK);
 			} else
 				return new ResponseEntity<>(retval, HttpStatus.OK);
 		} catch (Exception e) {
@@ -156,4 +156,5 @@ public class InteresovanjeController {
 			return new ResponseEntity<>("Error pri dobavljanju potvrda.", HttpStatus.NOT_FOUND);
 		}
 	}
+
 }

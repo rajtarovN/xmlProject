@@ -27,6 +27,10 @@ public class DigitalniSertifikatService {
 		return this.digitalniSertifikatClient.getAllIds();
 	}
 
+	public String getAllIdReferences(String id) throws Exception {
+		return this.digitalniSertifikatClient.getAllIdReferences(id);
+	}
+
 	public IdentificationDTO naprednaPretraga(SertifikatNaprednaDTO dto) throws Exception {
 
 		return this.digitalniSertifikatClient.getByNaprednaPretraga(dto);

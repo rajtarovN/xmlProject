@@ -210,6 +210,25 @@ export class PrikazDokumenataComponent implements OnInit {
           this.toastr.error(error.error);
         }
       );
+    }else if (this.tipDokumenta === 'Interesovanje') {
+      this.interesovanjeService.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
+
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
   }
 
@@ -326,6 +345,25 @@ export class PrikazDokumenataComponent implements OnInit {
           this.toastr.error(error.error);
         }
       );
+    }else if (this.tipDokumenta === 'Interesovanje') {
+      this.interesovanjeService.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
+
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
   }
 
@@ -351,7 +389,7 @@ export class PrikazDokumenataComponent implements OnInit {
     } else if (this.tipDokumenta === 'Sertifikati') {
       this.sertifservice.getJSON(documentId).subscribe(
         (response) => {
-          this.doJsonRdf(response, `saglasnost_${documentId}.json`, 'application/json');
+          this.doJsonRdf(response, `sertifikat_${documentId}.json`, 'application/json');
         },
         (error) => {
           this.toastr.error(error.error);

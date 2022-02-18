@@ -1,8 +1,10 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
+import com.example.demo.model.interesovanje.Interesovanje;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import org.xmldb.api.modules.XMLResource;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.text.SimpleDateFormat;
@@ -45,6 +47,14 @@ public class DokumentDTO {
         this.datumKreiranja = datumKreiranja;
 
     }
+
+    public DokumentDTO(String id, Interesovanje s) {
+        this.id = "interesovanje_"+id+".xml";
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        Date date = s.getDatumPodnosenjaInteresovanja().getValue().toGregorianCalendar().getTime();
+        this.datumKreiranja = ft.format(date);
+    }
+
 
     public String getId() {
         return id;

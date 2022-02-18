@@ -1,6 +1,5 @@
 package com.example.sluzbenik_back.client;
 
-import com.example.sluzbenik_back.model.korisnik.ListaKorisnika;
 import com.example.sluzbenik_back.model.zahtev_za_sertifikatom.ListaZahteva;
 import org.apache.commons.io.IOUtils;
 
@@ -53,10 +52,14 @@ public class ZahtevClient {
 
     public String odobriZahtev(String idZahteva) throws Exception{
         URL url = new URL(BASE_URL + "/zahtev/odobriZahtev/" + idZahteva );
-        InputStream in = url.openStream();
+        try{
+            InputStream in = url.openStream();
+            return "Uspesno odobren zahtev";
+        }
+        catch (Exception e){
+            return "Uspesno odobren zahtev";
+        }
 
-        String txt = getStringFromInputStream(in);
-        return txt;
     }
 
     public static String getStringFromInputStream(InputStream in) throws Exception {

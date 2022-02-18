@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,9 +8,9 @@ import {
 import { Information } from 'src/modules/shared/models/information';
 import { PotvrdeService } from '../../services/potvrde-service/potvrde.service';
 import { SaglasnostService } from '../../services/saglasnost-service/saglasnost.service';
-import * as JsonToXML from 'js2xmlparser';
 import { SertifikatService } from '../../services/sertifikat-service/sertifikat.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatSelect } from '@angular/material/select';
 declare const Xonomy: any;
 
 @Component({
@@ -19,12 +19,12 @@ declare const Xonomy: any;
   styleUrls: ['./arhiva-dokumenata.component.scss'],
 })
 export class ArhivaDokumenataComponent implements OnInit {
+  @ViewChild('selektor') matSelect!: MatSelect;
   pretragaSaglasnostiForm: FormGroup;
   pretragaSertifikataForm: FormGroup;
-  parser = new DOMParser();
-  selected: string = 'zahtev';
+  pretragaPotvrdaForm: FormGroup;
 
-  selectedOperator: string = 'and';
+  parser = new DOMParser();
 
   dokument: String = '1';
   documents: Array<Information> = [];
@@ -37,16 +37,20 @@ export class ArhivaDokumenataComponent implements OnInit {
     private potvrdaService: PotvrdeService
   ) {}
 
+  today: Date = new Date();
+
   ngOnInit(): void {
     this.pretragaSaglasnostiForm = this.fb.group({
       datumTermina: new FormControl(''),
       ime: new FormControl(''),
       prezime: new FormControl(''),
-      jmbg: new FormControl(''),
+      identifikator: new FormControl(''),
       email: new FormControl(''),
       operator: ['true'],
     });
 
+    let dte = new Date();
+    this.today.setDate(dte.getDate() - 1);
     this.pretragaSertifikataForm = this.fb.group({
       datum: new FormControl(''),
       ime: new FormControl(''),
@@ -56,7 +60,29 @@ export class ArhivaDokumenataComponent implements OnInit {
       brSertifikata: new FormControl(''),
       operator: ['true'],
     });
+
+    this.pretragaPotvrdaForm = this.fb.group({
+      datum: new FormControl(''),
+      ime: new FormControl(''),
+      prezime: new FormControl(''),
+      identifikator: new FormControl(''),
+      operator: ['true'],
+    });
+
     this.getAllSaglasnosti();
+  }
+
+  ngAfterViewInit() {
+    this.matSelect.valueChange.subscribe((value) => {
+      this.dokument = value;
+      if (this.dokument === '1') {
+        this.getAllSaglasnosti();
+      } else if (this.dokument === '2') {
+        this.getAllSertifikati();
+      } else if (this.dokument === '3') {
+        this.getAllPotvrde();
+      }
+    });
   }
 
   // get Saglasnosti
@@ -88,6 +114,7 @@ export class ArhivaDokumenataComponent implements OnInit {
     this.documents = [];
     this.potvrdaService.getAll().subscribe({
       next: (success) => {
+        console.log(success);
         this.parseIdXml(success, 'potvrda');
       },
       error: (error) => {
@@ -95,11 +122,12 @@ export class ArhivaDokumenataComponent implements OnInit {
       },
     });
   }
-  
+
   // Parse IdentificationDTO
   parseIdXml(doc: string, tip: string) {
     let xmlDoc = this.parser.parseFromString(doc, 'text/xml');
     let saglasnosti = xmlDoc.getElementsByTagName('ids')[0].childNodes;
+
     for (let i = 0; i < saglasnosti.length; i++) {
       console.log(saglasnosti[i].textContent);
       this.documents.push({
@@ -108,13 +136,65 @@ export class ArhivaDokumenataComponent implements OnInit {
         type: tip,
         referencedBy: [],
       });
+      this.getReference(saglasnosti[i].childNodes[0].textContent, i);
     }
   }
 
-  reset(): void {
-    this.documents = [];
-    this.pretragaSaglasnostiForm.reset();
-    this.getAllSaglasnosti();
+  getReference(url: String | null, index: number) {
+    let references: (string | null)[] = [];
+    if (url === null) return;
+    var lista = url.split('/');
+    var id = lista[lista.length - 1];
+
+    if (this.dokument === '1') {
+      this.saglasnostService.getAllRefs(id).subscribe({
+        next: (success) => {
+          let xmlDoc = this.parser.parseFromString(success, 'text/xml');
+          let refs = xmlDoc.getElementsByTagName('ids')[0].childNodes;
+          console.log(refs);
+          for (let i = 0; i < refs.length; i++) {
+            console.log(refs[i].textContent);
+            this.documents[index].referencedBy.push(refs[i].textContent);
+          }
+          return references;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    } else if (this.dokument === '2') {
+      this.sertifikatService.getAllRefs(id).subscribe({
+        next: (success) => {
+          let xmlDoc = this.parser.parseFromString(success, 'text/xml');
+          let refs = xmlDoc.getElementsByTagName('ids')[0].childNodes;
+
+          for (let i = 0; i < refs.length; i++) {
+            console.log(refs[i].textContent);
+            this.documents[index].referencedBy.push(refs[i].textContent);
+          }
+          return references;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    } else {
+      this.potvrdaService.getAllRefs(id).subscribe({
+        next: (success) => {
+          let xmlDoc = this.parser.parseFromString(success, 'text/xml');
+          let refs = xmlDoc.getElementsByTagName('ids')[0].childNodes;
+
+          for (let i = 0; i < refs.length; i++) {
+            console.log(refs[i].textContent);
+            this.documents[index].referencedBy.push(refs[i].textContent);
+          }
+          return references;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
   }
 
   close(index: number) {
@@ -124,11 +204,24 @@ export class ArhivaDokumenataComponent implements OnInit {
   pretraziSaglasnosti() {
     this.documents = [];
 
+    var d = this.pretragaSaglasnostiForm.value.datumTermina;
+    var date = '';
+
+    if (d != '') {
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var date =
+        d.getFullYear() +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day);
+    }
     let pretragaDTO = `<saglasnostNaprednaDTO>
                           <ime>${this.pretragaSaglasnostiForm.value.ime}</ime>
                           <prezime>${this.pretragaSaglasnostiForm.value.prezime}</prezime>
-                          <jmbg>${this.pretragaSaglasnostiForm.value.jmbg}</jmbg>
-                          <datum>${this.pretragaSaglasnostiForm.value.datumTermina}</datum>
+                          <id>${this.pretragaSaglasnostiForm.value.identifikator}</id>
+                          <datum>${date}</datum>
                           <email>${this.pretragaSaglasnostiForm.value.email}</email>
                           <and>${this.pretragaSaglasnostiForm.value.operator}</and>
                       </saglasnostNaprednaDTO>`;
@@ -145,11 +238,22 @@ export class ArhivaDokumenataComponent implements OnInit {
 
   pretraziSertifikate() {
     this.documents = [];
-
+    var d = this.pretragaSertifikataForm.value.datum;
+    var date = '';
+    if (d != '') {
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var date =
+        d.getFullYear() +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day);
+    }
     let pretragaDTO = `<sertifikatNaprednaDTO>
                           <broj_pasosa>${this.pretragaSertifikataForm.value.brPasosa}</broj_pasosa>
                           <broj_sertifikata>${this.pretragaSertifikataForm.value.brSertifikata}</broj_sertifikata>
-                          <datum_izdavaja>${this.pretragaSertifikataForm.value.datum}</datum_izdavaja>
+                          <datum_izdavaja>${date}</datum_izdavaja>
                           <ime>${this.pretragaSertifikataForm.value.ime}</ime>
                           <jmbg>${this.pretragaSertifikataForm.value.jmbg}</jmbg>
                           <prezime>${this.pretragaSertifikataForm.value.prezime}</prezime>
@@ -158,7 +262,40 @@ export class ArhivaDokumenataComponent implements OnInit {
 
     this.sertifikatService.naprednaPretraga(pretragaDTO).subscribe({
       next: (success) => {
+        console.log(success);
         this.parseIdXml(success, 'sertifikat');
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  pretraziPotvrde() {
+    this.documents = [];
+    var d = this.pretragaSaglasnostiForm.value.datumTermina;
+    var date = '';
+    if (d != '') {
+      var month = d.getMonth() + 1;
+      var day = d.getDate();
+      var date =
+        d.getFullYear() +
+        '-' +
+        (month < 10 ? '0' + month : month) +
+        '-' +
+        (day < 10 ? '0' + day : day);
+    }
+    let pretragaDTO = `<potvrdaNaprednaDTO>
+                          <ime>${this.pretragaPotvrdaForm.value.ime}</ime>
+                          <prezime>${this.pretragaPotvrdaForm.value.prezime}</prezime>
+                          <id>${this.pretragaPotvrdaForm.value.identifikator}</id>
+                          <datum>${date}</datum>
+                          <and>${this.pretragaPotvrdaForm.value.operator}</and>
+                      </potvrdaNaprednaDTO>`;
+
+    this.potvrdaService.naprednaPretraga(pretragaDTO).subscribe({
+      next: (success) => {
+        this.parseIdXml(success, 'potvrda');
       },
       error: (error) => {
         console.log(error);
@@ -172,29 +309,30 @@ export class ArhivaDokumenataComponent implements OnInit {
     var id = lista[lista.length - 1];
 
     if (this.dokument === '1') {
-      this.saglasnostService.getPdf(id).subscribe((response) =>{
-        let file = new Blob([response], { type: 'application/pdf' });
-        var fileURL = URL.createObjectURL(file);
+      this.saglasnostService.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
 
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `${id}.pdf`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-          
-      },
-      (error) => {
-        this.toastr.error(error.error);
-      });
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     } else if (this.dokument === '2') {
-      this.sertifikatService.getPdf(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'application/pdf' });
+      this.sertifikatService.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
           var fileURL = URL.createObjectURL(file);
-  
+
           let a = document.createElement('a');
           document.body.appendChild(a);
           a.setAttribute('style', 'display: none');
@@ -203,16 +341,17 @@ export class ArhivaDokumenataComponent implements OnInit {
           a.click();
           window.URL.revokeObjectURL(fileURL);
           a.remove();
-    },
-    (error) => {
-      this.toastr.error(error.error);
-    });
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     } else {
-      this.potvrdaService.getPdf(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'application/pdf' });
+      this.potvrdaService.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
           var fileURL = URL.createObjectURL(file);
-  
+
           let a = document.createElement('a');
           document.body.appendChild(a);
           a.setAttribute('style', 'display: none');
@@ -221,10 +360,11 @@ export class ArhivaDokumenataComponent implements OnInit {
           a.click();
           window.URL.revokeObjectURL(fileURL);
           a.remove();
-    },
-    (error) => {
-      this.toastr.error(error.error);
-    });
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
   }
 
@@ -237,61 +377,63 @@ export class ArhivaDokumenataComponent implements OnInit {
     console.log(url);
     console.log(id);
 
-
     if (this.dokument === '1') {
-      this.saglasnostService.getXHtml(id).subscribe((response) =>{
+      this.saglasnostService.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
 
-        let file = new Blob([response], { type: 'text/html' });
-        var fileURL = URL.createObjectURL(file);
-
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `${id}.html`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();           
-  },
-  (error) => {
-    this.toastr.error(error.error);
-  });
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     } else if (this.dokument === '2') {
-      this.sertifikatService.getXHtml(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'text/html' });
-        var fileURL = URL.createObjectURL(file);
+      this.sertifikatService.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
 
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `${id}.html`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-    },
-    (error) => {
-       this.toastr.error(error.error);
-    });
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     } else {
-      this.potvrdaService.getXHtml(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'text/html' });
-        var fileURL = URL.createObjectURL(file);
+      this.potvrdaService.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
 
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `${id}.html`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-},
-(error) => {
-  this.toastr.error(error.error);
-});
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
   }
 }

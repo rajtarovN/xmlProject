@@ -6,6 +6,7 @@ import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.InteresovanjeRepository;
+import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.repository.ZahtevRepository;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
@@ -24,6 +25,8 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -253,10 +256,16 @@ public class ZahtevService extends AbstractService {
         }
     }
 
-    public String odobriZahtev(String documentId){
+    public void odobriZahtev(String documentId){
         try {
             ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odobren");
 
+            String idSertifikata = digitalniSertifikatService.saveSertifikat(zahtevZaZeleniSertifikat);
+            
+            zahtevZaZeleniSertifikat.setSertifikat(new ZahtevZaZeleniSertifikat.Sertifikat());
+            zahtevZaZeleniSertifikat.getSertifikat().setProperty("pred:seeAlso");
+            zahtevZaZeleniSertifikat.getSertifikat().setValue(idSertifikata);
+            
             String finalString = marshal(zahtevZaZeleniSertifikat);
             System.out.println(finalString);
 
@@ -265,8 +274,6 @@ public class ZahtevService extends AbstractService {
                     "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
             zahtevRepository.saveRDF(finalString, "/lista_zahteva");
 
-            String idSertifikata = digitalniSertifikatService.saveSertifikat(zahtevZaZeleniSertifikat);
-
             String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odobren. \n";
 
             com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
@@ -274,12 +281,22 @@ public class ZahtevService extends AbstractService {
             emailModel.setTo(email);
             emailModel.setContent(message);
             emailModel.setSubject("Odgovor na zahtev za digitalni sertifikat");
-            //TODO send pdf and xhtml
-            //emailModel.setPdf();
-            //emailModel.setXhtml();
-            emailClient.sendMail(emailModel);
 
-            return "Uspesno odobren zahtev za digitalni sertifikat!";
+            String pdf = digitalniSertifikatService.generatePDF(idSertifikata);
+            String html = digitalniSertifikatService.generateHTML(idSertifikata);
+            try {
+                byte[] byteArr = Files.readAllBytes(Paths.get(pdf));
+                emailModel.setPdf(byteArr);
+
+                byteArr = Files.readAllBytes(Paths.get(html));
+                emailModel.setXhtml(byteArr);
+
+                emailClient.sendMail(emailModel);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new BadRequestException("Error pri odobravanju zahteva za digitalni sertifikat.");
@@ -394,4 +411,10 @@ public class ZahtevService extends AbstractService {
             throw new BadRequestException("Error pri generisanju rdf zahteva.");
         }
     }
+   
+	public List<String> getZahtevRefFromSeeAlso(String seeAlso) throws Exception {
+		return ((ZahtevRepository) this.repository).pronadjiPoSertifikatRef(seeAlso);
+	}
+
+
 }

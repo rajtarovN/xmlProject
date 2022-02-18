@@ -17,6 +17,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
+import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -39,6 +41,15 @@ import javax.xml.bind.annotation.XmlValue;
  *             &lt;/simpleContent&gt;
  *           &lt;/complexType&gt;
  *         &lt;/element&gt;
+ *         &lt;element name="Sertifikat"&gt;
+ *           &lt;complexType&gt;
+ *             &lt;simpleContent&gt;
+ *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;anyURI"&gt;
+ *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:seeAlso" /&gt;
+ *               &lt;/extension&gt;
+ *             &lt;/simpleContent&gt;
+ *           &lt;/complexType&gt;
+ *         &lt;/element&gt;
  *       &lt;/sequence&gt;
  *       &lt;attribute name="about" type="{http://www.w3.org/2001/XMLSchema}anyURI" /&gt;
  *       &lt;attribute name="email" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
@@ -53,7 +64,8 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlType(name = "", propOrder = {
     "podnosilacZahteva",
     "zaglavlje",
-    "status"
+    "status",
+    "sertifikat"
 })
 @XmlRootElement(name = "Zahtev_za_zeleni_sertifikat")
 public class ZahtevZaZeleniSertifikat {
@@ -64,6 +76,8 @@ public class ZahtevZaZeleniSertifikat {
     protected Zaglavlje zaglavlje;
     @XmlElement(name = "Status", required = true)
     protected ZahtevZaZeleniSertifikat.Status status;
+    @XmlElement(name = "Sertifikat", required = true, nillable = true)
+    protected ZahtevZaZeleniSertifikat.Sertifikat sertifikat;
     @XmlAttribute(name = "about")
     @XmlSchemaType(name = "anyURI")
     protected String about;
@@ -141,6 +155,31 @@ public class ZahtevZaZeleniSertifikat {
     public void setStatus(ZahtevZaZeleniSertifikat.Status value) {
         this.status = value;
     }
+    
+    /**
+     * Gets the value of the sertifikat property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DigitalniZeleniSertifikat.Sertifikat }
+     *     
+     */
+    public ZahtevZaZeleniSertifikat.Sertifikat getSertifikat() {
+        return sertifikat;
+    }
+
+    /**
+     * Sets the value of the sertifikat property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DigitalniZeleniSertifikat.Sertifikat }
+     *     
+     */
+    public void setSertifikat(ZahtevZaZeleniSertifikat.Sertifikat value) {
+        this.sertifikat = value;
+    }
+
 
     /**
      * Gets the value of the about property.
@@ -254,6 +293,89 @@ public class ZahtevZaZeleniSertifikat {
         public String getProperty() {
             if (property == null) {
                 return "pred:status";
+            } else {
+                return property;
+            }
+        }
+
+        /**
+         * Sets the value of the property property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setProperty(String value) {
+            this.property = value;
+        }
+
+    }
+    
+    /**
+     * <p>Java class for anonymous complex type.
+     * 
+     * <p>The following schema fragment specifies the expected content contained within this class.
+     * 
+     * <pre>
+     * &lt;complexType&gt;
+     *   &lt;simpleContent&gt;
+     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;anyURI"&gt;
+     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:seeAlso" /&gt;
+     *     &lt;/extension&gt;
+     *   &lt;/simpleContent&gt;
+     * &lt;/complexType&gt;
+     * </pre>
+     * 
+     * 
+     */
+    @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlType(name = "", propOrder = {
+        "value"
+    })
+    public static class Sertifikat {
+
+        @XmlValue
+        @XmlSchemaType(name = "anyURI")
+        protected String value;
+        @XmlAttribute(name = "property")
+        protected String property;
+
+        /**
+         * Gets the value of the value property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * Sets the value of the value property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        /**
+         * Gets the value of the property property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getProperty() {
+            if (property == null) {
+                return "pred:seeAlso";
             } else {
                 return property;
             }

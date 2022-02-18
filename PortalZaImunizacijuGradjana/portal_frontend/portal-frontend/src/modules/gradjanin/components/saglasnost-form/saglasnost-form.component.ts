@@ -129,7 +129,7 @@ export class SaglasnostFormComponent implements OnInit {
     }
   }
 
-  setValidators(): void {
+  setFormValidators(): void {
     if (this.odabranoDrzavljanstvo == '1') {
       this.addSaglasnostForm.get('jmbg')?.setValidators(null);
       this.addSaglasnostForm
@@ -166,6 +166,7 @@ export class SaglasnostFormComponent implements OnInit {
 
   cancel(): void {
     this.addSaglasnostForm.reset();
+    this.setFormValidators();
   }
 
   send(): void {
@@ -288,10 +289,12 @@ export class SaglasnostFormComponent implements OnInit {
       .saveSaglasnostGradjanin(saglasnost, this.id, this.vakcineIzSaglasnosti)
       .subscribe({
         next: () => {
-          this.openSnackBar('saglasnost je uspesno kreirano.');
+          this.openSnackBar('Сагласност је успешно креирана.');
+          this.id = -1;
+          this.initialize();
         },
         error: () => {
-          this.openSnackBar('saglasnost nije uspesno kreirano.');
+          this.openSnackBar('Сагласност није успешно креирана.');
         },
       });
   }

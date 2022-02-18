@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoleGuard } from '../auth/guards/role/role.guard';
+import { PotvrdaViewComponent } from '../sluzbenik/components/potvrda-view/potvrda-view.component';
 import { SaglasnostViewComponent } from '../sluzbenik/components/saglasnost-view/saglasnost-view.component';
+import { SertifikatViewComponent } from '../sluzbenik/components/sertifikat-view/sertifikat-view.component';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
@@ -21,19 +22,24 @@ const routes: Routes = [
         loadChildren: () =>
           import('./../auth/auth.module').then((m) => m.AuthModule),
       },
+      {
+        path: 'obrazac_saglasnosti_za_imunizaciju/:id',
+        component: SaglasnostViewComponent,
+      },
+      {
+        path: 'digitalni_zeleni_sertifikat/:id',
+        component: SertifikatViewComponent,
+      },
+      {
+        path: 'potvrda_o_vakcinaciji/:id',
+        component: PotvrdaViewComponent,
+      },
     ],
   },
   {
     path: '',
     redirectTo: '/sluzbenik/auth/login',
     pathMatch: 'full',
-  },
-  {
-    path: 'saglasnost/:id',
-    pathMatch: 'full',
-    component: SaglasnostViewComponent,
-    canActivate: [RoleGuard],
-    data: { expectedRoles: 'S' },
   },
 ];
 

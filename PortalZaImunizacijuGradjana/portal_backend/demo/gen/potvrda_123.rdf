@@ -1,6 +1,0 @@
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:h="http://www.w3.org/1999/xhtml">
-  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1234567891234_2022-02-12 - pred:ime - Pera-->
-  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1234567891234_2022-02-12 - pred:prezime - Peric-->
-  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1234567891234_2022-02-12 - pred:jmbg - 1234567891234-->
-  <!--Could not produce the triple for: http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/1234567891234_2022-02-12 - pred:datum_izdavanja - 2022-02-12-->
-</rdf:RDF>

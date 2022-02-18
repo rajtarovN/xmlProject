@@ -17,6 +17,16 @@ export class SertifikatService {
     });
   }
 
+  // api/sertifikat/referenciraniDoc/id
+  getAllRefs(id: String): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/sertifikat/referenciraniDoc/` + id,
+      {
+        responseType: 'text',
+      }
+    );
+  }
+
   naprednaPretraga(data: any): Observable<string> {
     const headers = new HttpHeaders({
       Accept: 'application/xml',

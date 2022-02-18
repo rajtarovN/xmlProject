@@ -33,6 +33,7 @@ export class InteresovanjeFormComponent implements OnInit {
   ngOnInit(): void {}
 
   initialize() {
+    this.datumPodnosenja = null;
     const email = localStorage.getItem('email');
     if (email == null) return;
     this.service.getInteresovanje(email).subscribe({
@@ -108,6 +109,8 @@ export class InteresovanjeFormComponent implements OnInit {
         });
       },
       error: (error) => {
+        if (this.addInteresovanjeForm != null)
+          this.addInteresovanjeForm.reset();
         this.addInteresovanjeForm = this.fb.group({
           drzavljanstvo: [null, Validators.required],
           JMBG: [
@@ -154,11 +157,11 @@ export class InteresovanjeFormComponent implements OnInit {
   delete(): void {
     if (this.id === undefined) return;
     this.service.deleteInteresovanje(this.id).subscribe({
-      next: (success) => {
+      next: () => {
         this.initialize();
         this.openSnackBar('Интересованје је успешно избрисано.');
       },
-      error: (error) => {
+      error: () => {
         this.openSnackBar('Интересованје није избрисано.');
       },
     });

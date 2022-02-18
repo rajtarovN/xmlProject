@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
+import com.example.demo.dto.PotvrdaNaprednaDTO;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
-import com.example.demo.model.email.Email;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.PrintSaglasnost;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.service.DigitalniSertifikatService;
 import com.example.demo.service.PotvrdaVakcinacijeService;
 import com.example.demo.service.SaglasnostService;
 import org.apache.commons.io.IOUtils;
@@ -15,19 +18,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import javax.ws.rs.GET;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileInputStream;
-import javax.xml.datatype.DatatypeConfigurationException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,9 @@ public class PotvrdaVakcinacijeController {
 
     @Autowired
     private SaglasnostService saglasnostService;
+    
+    @Autowired
+    private DigitalniSertifikatService digitalniSertifikatService;
 
     @PreAuthorize("hasRole('Z')")
     @GetMapping(path = "/kreirajPotvrdu/{brojSaglasnosti}", produces = MediaType.APPLICATION_XML_VALUE)
@@ -47,7 +51,12 @@ public class PotvrdaVakcinacijeController {
 
         try {
             Saglasnost saglasnost = this.saglasnostService.pronadjiPoId(brojSaglasnosti);
+            PrintSaglasnost.printSaglasnost(saglasnost);
             PotvrdaVakcinacijeDTO potvrdaOVakcinaciji = potvrdaVakcinacijeService.kreirajPotvrdu(saglasnost);
+            saglasnost.setPotvrda(new Saglasnost.Potvrda());
+            saglasnost.getPotvrda().setValue("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/" + potvrdaOVakcinaciji.getBrojSaglasnosti());
+            saglasnost.getPotvrda().setProperty("pred:seeAlso");
+            this.saglasnostService.saveSaglasnost(saglasnost);
             return new ResponseEntity<>(potvrdaOVakcinaciji, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,7 +165,7 @@ public class PotvrdaVakcinacijeController {
     public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
         System.out.println("USLOOOOOOO");
         try {
-            List<com.example.demo.dto.DokumentDTO> retval = potvrdaVakcinacijeService.getPotvrdaAllByEmail(email);
+            List<DokumentDTO> retval = potvrdaVakcinacijeService.getPotvrdaAllByEmail(email);
             if (retval.isEmpty()) {
                 return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
             } else
@@ -225,4 +234,37 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    
+	@GET
+	@GetMapping(path = "/referenciraniDoc/{id}",  produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> getDocumentIdReferences(@PathVariable("id") String id) {
+
+		IdentificationDTO dto = new IdentificationDTO();
+		try {
+			List<String> ids = digitalniSertifikatService.getSertifikatRefFromSeeAlso("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/" + id);
+			String id1 = saglasnostService.getSaglasnostRefFromSeeAlso("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/" + id);
+			ids.add(id1);
+			dto.setIds(ids);
+			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping(value = "/naprednaPretraga", produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> naprednaPretraga(@RequestBody PotvrdaNaprednaDTO dto) throws Exception {
+		String ime = "\"" + dto.getIme() + "\"";
+		String prezime = "\"" + dto.getPrezime() + "\"";
+		String id = "\"" + dto.getId() + "\"";
+		String datum = "\"" + dto.getDatum() + "\"";
+
+		List<String> lista = this.potvrdaVakcinacijeService.naprednaPretraga(ime, prezime, id, datum, dto.isAnd());
+
+		if (!lista.isEmpty())
+
+			return new ResponseEntity<>(new IdentificationDTO(lista), HttpStatus.OK);
+		else
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 }

@@ -1,7 +1,7 @@
 package com.example.sluzbenik_back.controller;
 
 import com.example.sluzbenik_back.dto.DokumentDTO;
-import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import com.example.sluzbenik_back.dto.PotvrdaNaprednaDTO;
 import com.example.sluzbenik_back.service.PotvrdaVakcinacijeService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.xmldb.api.base.XMLDBException;
@@ -115,4 +117,26 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+    
+    @PostMapping(value = "/naprednaPretraga", consumes="application/xml", produces = "application/xml")
+	public ResponseEntity<?> naprednaPretraga(@RequestBody PotvrdaNaprednaDTO dto){
+
+		try {
+			return new ResponseEntity<>(this.potvrdaVakcinacijeService.naprednaPretraga(dto), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+    
+    @GetMapping(value = "/referenciraniDoc/{id}", produces = "text/xml")
+	public ResponseEntity<?> getAllReferences(@PathVariable("id") String id) {
+
+		try {	
+			String refs = this.potvrdaVakcinacijeService.getAllIdReferences(id);
+			if(refs != null)	return new ResponseEntity<>(refs, HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

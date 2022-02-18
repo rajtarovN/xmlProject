@@ -10,6 +10,32 @@ import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.*;
+import static com.example.demo.util.PathConstants.POTVRDA_O_VAKCINACIJI_XSL;
+import static com.example.demo.util.PathConstants.POTVRDA_O_VAKCINACIJI_XSL_FO;
+import static com.example.demo.util.PathConstants.SAVE_HTML;
+import static com.example.demo.util.PathConstants.SAVE_PDF;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.apache.commons.io.IOUtils;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +65,18 @@ import java.util.Date;
 import java.util.List;
 
 import static com.example.demo.util.PathConstants.*;
+import com.example.demo.dto.DokumentDTO;
+import com.example.demo.dto.EvidentiraneVakcineDTO;
+import com.example.demo.dto.ListaEvidentiranihVakcina;
+import com.example.demo.dto.PotvrdaVakcinacijeDTO;
+import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
+import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
+import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import com.example.demo.repository.PotvrdaVakcinacijeRepository;
+import com.example.demo.util.MetadataExtractor;
+import com.example.demo.util.XSLFORTransformer;
 
 @Service
 public class PotvrdaVakcinacijeService extends AbstractService {
@@ -163,7 +201,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             jmbg.setValue(content.getJmbg());
             jmbg.setProperty("pred:jmbg");
             lp.setJmbg(jmbg);
-            p.setQrKod(QRCodeService.getQRCode("http://localhost:4001/potvrda_o_vakcinaciji/"+content.getJmbg()));
+            p.setQrKod(QRCodeService.getQRCode("http://localhost:4200/potvrda_o_vakcinaciji/"+content.getJmbg()));
         }
         else{
             PotvrdaOVakcinaciji.LicniPodaci.Ebs ebs = new PotvrdaOVakcinaciji.LicniPodaci.Ebs();
@@ -327,7 +365,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
         return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
     }
 
-    public List<com.example.demo.dto.DokumentDTO> getPotvrdaAllByEmail(String email) {
+    public List<DokumentDTO> getPotvrdaAllByEmail(String email) {
         try {
             System.out.println("OVDEEEEEE");
             String all = this.allXmlByEmail(email);
@@ -336,9 +374,9 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             StringReader reader = new StringReader(all);
             ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
-            List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
+            List<DokumentDTO> ret = new ArrayList<>();
             for (PotvrdaOVakcinaciji s : potvrde.getPotvrde()) {
-                ret.add(new com.example.demo.dto.DokumentDTO(s));
+                ret.add(new DokumentDTO(s));
             }
             System.out.println("OVDEEEEEE");
             return ret;
@@ -476,4 +514,15 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             throw new BadRequestException("Error pri generisanju rdf potvrde.");
         }
     }
+
+	public List<String> getDocumentIdReferences(String id) throws Exception {
+		List<String> refs = new ArrayList<>();
+		String id1 = saglasnostService.getSaglasnostRefFromSeeAlso(id);
+		refs.add(id1);
+		return refs;
+	}
+        
+    public List<String> naprednaPretraga(String ime, String prezime, String id, String datum, boolean and) throws Exception {
+    	return this.potvrdaVakcinacijeRepository.naprednaPretraga(ime, prezime, id, datum, and);
+	}
 }

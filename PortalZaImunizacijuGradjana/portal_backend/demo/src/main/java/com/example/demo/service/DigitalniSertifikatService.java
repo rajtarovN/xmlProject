@@ -8,6 +8,10 @@ import static com.example.demo.util.PathConstants.SAVE_PDF;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -38,6 +42,7 @@ import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.digitalni_zeleni_sertifikat.ListaSertifikata;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
@@ -50,13 +55,16 @@ public class DigitalniSertifikatService extends AbstractService {
 
 	private SaglasnostService saglasnostService;
 
+	public PotvrdaVakcinacijeService potvrdaVakcinacijeService;
+	
 	@Autowired
 	public DigitalniSertifikatService(DigitalniSertifikatRepository digitalniSertifikatRepository,
-			SaglasnostService saglasnostService) {
+			SaglasnostService saglasnostService, PotvrdaVakcinacijeService potvrdaVakcinacijeService) {
 
 		super(digitalniSertifikatRepository, "/db/portal/lista_sertifikata", "/lista_sertifikata");
 
 		this.saglasnostService = saglasnostService;
+		this.potvrdaVakcinacijeService = potvrdaVakcinacijeService;
 	}
 
 	public String generatePDF(String id) {
@@ -175,27 +183,29 @@ public class DigitalniSertifikatService extends AbstractService {
 		DigitalniZeleniSertifikat.PodaciOVakcinaciji podaciOVakcinaciji = new DigitalniZeleniSertifikat.PodaciOVakcinaciji();
 		List<DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija> vakcinacije = new ArrayList<>();
 		List<String> saglasnosti = saglasnostService.pronadjiSveSaglasnostiPoEmailu(zahtev.getEmail());
-		for (String sid : saglasnosti) {
-			Saglasnost saglasnost = saglasnostService.pronadjiPoId(sid);
-			if (saglasnost.getEvidencijaOVakcinaciji() != null
-					&& saglasnost.getEvidencijaOVakcinaciji().getVakcine() != null) {
-				int size = saglasnost.getEvidencijaOVakcinaciji().getVakcine().getVakcina().size();
-				Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina = saglasnost.getEvidencijaOVakcinaciji()
-						.getVakcine().getVakcina().get(size - 1);
-				DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija v = new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija();
-				v.setSerija(vakcina.getSerija());
-				v.setProizvodjac(vakcina.getProizvodjac());
-				v.setZdravstvenaUstanova(saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova());
-				v.setDatumDavanja(vakcina.getDatumDavanja());
-				v.setBrDoze(vakcina.getDoza());
-				v.setTip(vakcina.getNaziv());
-				vakcinacije.add(v);
+		if(!saglasnosti.isEmpty()) {
+			for (String sid : saglasnosti) {
+				Saglasnost saglasnost = saglasnostService.pronadjiPoId(sid);
+				if (saglasnost.getEvidencijaOVakcinaciji() != null
+						&& saglasnost.getEvidencijaOVakcinaciji().getVakcine() != null) {
+					int size = saglasnost.getEvidencijaOVakcinaciji().getVakcine().getVakcina().size();
+					Saglasnost.EvidencijaOVakcinaciji.Vakcine.Vakcina vakcina = saglasnost.getEvidencijaOVakcinaciji()
+							.getVakcine().getVakcina().get(size - 1);
+					DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija v = new DigitalniZeleniSertifikat.PodaciOVakcinaciji.Vakcinacija();
+					v.setSerija(vakcina.getSerija());
+					v.setProizvodjac(vakcina.getProizvodjac());
+					v.setZdravstvenaUstanova(saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova());
+					v.setDatumDavanja(vakcina.getDatumDavanja());
+					v.setBrDoze(vakcina.getDoza());
+					v.setTip(vakcina.getNaziv());
+					vakcinacije.add(v);
+				}
 			}
 		}
 		podaciOVakcinaciji.setVakcinacija(vakcinacije);
 		sertifikat.setPodaciOVakcinaciji(podaciOVakcinaciji);
 
-		sertifikat.setQrKod(QRCodeService.getQRCode("http://localhost:4200/digitalni_zeleni_sertifikat/"+id));
+		//sertifikat.setQrKod(QRCodeService.getQRCode("http://localhost:4200/digitalni_zeleni_sertifikat/"+id));
 
 		JAXBContext contextSaglasnost = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
 		OutputStream os = new ByteArrayOutputStream();
@@ -287,7 +297,7 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) throws Exception {
+	public List<DokumentDTO> getSertifikatiAllByEmail(String email) {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
@@ -296,9 +306,9 @@ public class DigitalniSertifikatService extends AbstractService {
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
-			List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
+			List<DokumentDTO> ret = new ArrayList<>();
 			for (DigitalniZeleniSertifikat s : saglasnosti.getSertifikate()) {
-				ret.add(new com.example.demo.dto.DokumentDTO(s));
+				ret.add(new DokumentDTO(s));
 			}
 			System.out.println("OVDEEEEEE");
 			return ret;
@@ -398,6 +408,10 @@ public class DigitalniSertifikatService extends AbstractService {
 		}catch (Exception e){
 			return "0";
 		}
+	}
 
+ 
+	public List<String> getSertifikatRefFromSeeAlso(String seeAlso) throws Exception {
+		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoPotvrdaRef(seeAlso);
 	}
 }

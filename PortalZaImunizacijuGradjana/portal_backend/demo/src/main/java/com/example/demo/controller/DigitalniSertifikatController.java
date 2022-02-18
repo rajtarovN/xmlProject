@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
+import javax.ws.rs.GET;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +21,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.xmldb.api.modules.XMLResource;
 
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.dto.IdentificationDTO;
 import com.example.demo.dto.SertifikatNaprednaDTO;
 import com.example.demo.service.DigitalniSertifikatService;
+import com.example.demo.service.ZahtevService;
 
 @Controller
 @RequestMapping(value = "/sertifikat")
 public class DigitalniSertifikatController {
 
 	private DigitalniSertifikatService digitalniSertifikatService;
-
+	
+	@Autowired
+	private ZahtevService zahtevService;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(InteresovanjeController.class);
 
 	@Autowired
@@ -150,7 +157,7 @@ public class DigitalniSertifikatController {
 	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
 		System.out.println("USLOOOOOOO");
 		try {
-			List<com.example.demo.dto.DokumentDTO> retval = digitalniSertifikatService.getSertifikatiAllByEmail(email);
+			List<DokumentDTO> retval = digitalniSertifikatService.getSertifikatiAllByEmail(email);
 			if (retval.isEmpty()) {
 				return new ResponseEntity<>("Nema izdatih sertifikata za prisutnog gradjana.", HttpStatus.OK);
 			} else
@@ -184,6 +191,19 @@ public class DigitalniSertifikatController {
 	public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
 		try {
 			return new ResponseEntity<>(digitalniSertifikatService.generateRdf(documentId), HttpStatus.OK);
+    } catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+  }
+
+	@GET
+	@GetMapping(path = "/referenciraniDoc/{id}",  produces = "application/xml")
+	public ResponseEntity<IdentificationDTO> getDocumentIdReferences(@PathVariable("id") String id) {
+		
+		IdentificationDTO dto = new IdentificationDTO();
+		try {
+			dto.setIds(zahtevService.getZahtevRefFromSeeAlso("http://www.ftn.uns.ac.rs/xml_i_veb_servisi/digitalni_zeleni_sertifikat/" + id));
+			return new ResponseEntity<>(dto, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

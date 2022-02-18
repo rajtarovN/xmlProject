@@ -8,7 +8,7 @@
 	<Vakcina>
 		<Naziv>Moderna</Naziv>
 		<Dostupno>10</Dostupno>
-		<Rezervisano>0</Rezervisano>
+		<Rezervisano>5</Rezervisano>
 	</Vakcina>
 	<Vakcina>
 		<Naziv>AstraZeneca</Naziv>
@@ -17,8 +17,8 @@
 	</Vakcina>
 	<Vakcina>
 		<Naziv>Sinopharm</Naziv>
-		<Dostupno>0</Dostupno>
-		<Rezervisano>0</Rezervisano>
+		<Dostupno>7</Dostupno>
+		<Rezervisano>4</Rezervisano>
 	</Vakcina>
 	<Vakcina>
 		<Naziv>Sputnik</Naziv>

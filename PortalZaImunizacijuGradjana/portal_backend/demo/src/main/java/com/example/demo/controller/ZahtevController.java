@@ -113,7 +113,8 @@ public class ZahtevController {
     @GetMapping(path = "/odobriZahtev/{idZahteva}")
     public ResponseEntity<?> odobriZahtev(@PathVariable("idZahteva") String idZahteva) {
         try{
-            return new ResponseEntity<>(zahtevService.odobriZahtev(idZahteva), HttpStatus.OK);
+            zahtevService.odobriZahtev(idZahteva);
+            return new ResponseEntity<>( HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

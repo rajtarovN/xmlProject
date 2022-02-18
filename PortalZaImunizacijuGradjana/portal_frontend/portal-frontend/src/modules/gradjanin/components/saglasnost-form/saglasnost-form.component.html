@@ -21,7 +21,7 @@
             <mat-label>Држављанство: </mat-label>
             <mat-select
               [(ngModel)]="this.odabranoDrzavljanstvo"
-              (selectionChange)="this.setValidators()"
+              (selectionChange)="this.setFormValidators()"
             >
               <mat-option
                 *ngFor="let drzavljanstvo of this.drzavljanstvoSelect"

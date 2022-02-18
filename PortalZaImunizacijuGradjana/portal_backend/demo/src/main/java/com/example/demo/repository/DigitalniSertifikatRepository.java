@@ -82,4 +82,16 @@ public class DigitalniSertifikatRepository extends RepositoryInterface {
 	public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
 		fusekiManager.generisiJSON(documentNameId, graphUri, about);
 	}
+	
+	public List<String> pronadjiPoPotvrdaRef(String sertifikat) throws Exception {
+		ArrayList<String> params = new ArrayList<>();
+		params.add("\"" + sertifikat + "\"");
+
+		List<String> found = this.fusekiManager.queryAbout("/lista_sertifikata", SPARQL_FILE + "sertifikat_ref_potvrda.rq", params);
+		if(!found.isEmpty()) {
+			// Potvrda moze imati vise DZS, DZS -> Potvrda
+			return found;
+		}
+		return null;
+	}
 }
