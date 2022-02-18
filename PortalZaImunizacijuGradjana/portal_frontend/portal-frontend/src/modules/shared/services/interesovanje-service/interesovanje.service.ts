@@ -62,4 +62,22 @@ export class InteresovanjeService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getPdf(id: string): Observable<any> {
+    if(!id.startsWith("interesovanje")){
+      id = "interesovanjet_" + id + ".xml";
+    }
+    return this.http.get(
+      `${environment.baseUrl}/interesovanje/generatePDF/${id}`,
+      { responseType: 'arraybuffer' }
+    );
+  }
+  getXHtml(id: string): Observable<any> {
+    if(!id.startsWith("interesovanje")){
+      id = "interesovanje_" + id + ".xml";
+    }
+    return this.http.get(
+      `${environment.baseUrl}/interesovanje/generateHTML/${id}`,
+      { responseType: 'arraybuffer' });
+  }
 }

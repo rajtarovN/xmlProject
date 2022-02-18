@@ -448,22 +448,31 @@ public class InteresovanjeService extends AbstractService {
 	}
 
 	public List<DokumentDTO> getInteresovanjeAllByEmail(String email){
-		return null;
-//		try {
-//			//System.out.println(pronadjiInteresovanjePoEmailu(email));
-//
-//			XMLResource interesovanje = pronadjiInteresovanjePoEmailu(email);
-//			System.out.println("natasa");
-//			List<DokumentDTO> ret = new ArrayList<>();
-//
-//				ret.add(new DokumentDTO(interesovanje));
-//			System.out.println("OVDEEEEEE");
-//			return ret;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-	}
-	public List<DokumentDTO> getSaglasnostiAllByEmail(String email){
+		try {
+			//System.out.println(pronadjiInteresovanjePoEmailu(email));
+			String id = ((InteresovanjeRepository) repository).pronadjiPoEmailu(email);
+			XMLResource res = pronadjiInteresovanjePoEmailu(email);
+			System.out.println("natasa"+id);
+			List<DokumentDTO> ret = new ArrayList<>();
+			if (res != null) {
+
+				JAXBContext context = JAXBContext
+						.newInstance("com.example.demo.model.interesovanje");
+
+				Unmarshaller unmarshaller = context.createUnmarshaller();
+
+				Interesovanje s = (Interesovanje) unmarshaller.unmarshal((res).getContentAsDOM());
+
+				ret.add(new DokumentDTO(id,s));
+				System.out.println("OVDEEEEEE");
+				return ret;
+			} else {
+				return null;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 //		try {
 //			System.out.println("OVDEEEEEE");
 //			String all = this.allXmlByEmail(email);
