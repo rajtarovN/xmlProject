@@ -76,4 +76,26 @@ public class PotvrdeClient {
 
         return txt;
     }
+
+    public int getByPeriodAndDose(int doza, String odDatum, String doDatum) throws Exception {
+        System.out.println("Sent HTTP GET request to query potvrde by date and dose");
+        URL url = new URL(BASE_URL + "/getByPeriodAndDose/"+ doza +"/"+odDatum+"/"+doDatum+"");
+
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return Integer.parseInt(txt);
+    }
+
+    public int getByPeriodAndManufactrer(String manufacturer, String odDatum, String doDatum) throws Exception {
+        System.out.println("Sent HTTP GET request to query potvrde by date and manufacturer");
+        URL url = new URL(BASE_URL + "/getByPeriodAndManufacturer/"+ manufacturer +"/"+odDatum+"/"+doDatum+"");
+
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return Integer.parseInt(txt);
+    }
 }

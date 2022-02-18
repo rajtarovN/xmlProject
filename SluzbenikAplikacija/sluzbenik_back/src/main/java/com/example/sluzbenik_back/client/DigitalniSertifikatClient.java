@@ -46,6 +46,16 @@ public class DigitalniSertifikatClient {
 		return txt;
 	}
 
+	public int getNumberOfIzdatihSertifikata(String dateFrom, String dateTo) throws Exception {
+		URL url = new URL(BASE_URL + "/sertifikat/getAllIssuedInDateRange/dateFrom/dateTo");
+
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+		System.out.println("Broj izdatih zelenih sertifikata:" + txt);
+		return Integer.parseInt(txt);
+	}
+
 	public IdentificationDTO getByNaprednaPretraga(SertifikatNaprednaDTO pretraga)
 			throws HttpException, IOException, JAXBException {
 

@@ -28,11 +28,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -376,5 +378,47 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             }
         }
         return filteredIds;
+    }
+
+    public String getByPeriodAndDose(int doza, String odDatum, String doDatum) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException, ParseException {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+        XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+
+        List<String> sviId = this.getAllPotvrde();
+        int brVakcina = 0;
+        for(String id : sviId){
+            PotvrdaOVakcinaciji potvrda = this.pronadjiPoId(id);
+            if( potvrda.getDatumIzdavanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+                    potvrda.getDatumIzdavanja().getValue().compare(pocetak) == DatatypeConstants.GREATER &&
+                    potvrda.getVakcinacija().getDoze().getDoza().size()+1 >= doza){
+                brVakcina+=1;
+            }
+        }
+
+        return String.valueOf(brVakcina);
+    }
+
+    public String getByPeriodAndManufacturer(String proizvodjac, String odDatum, String doDatum) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException, ParseException {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+        XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+
+        List<String> sviId = this.getAllPotvrde();
+        int brVakcina = 0;
+        for(String id : sviId){
+            PotvrdaOVakcinaciji potvrda = this.pronadjiPoId(id);
+            if( potvrda.getDatumIzdavanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+                    potvrda.getDatumIzdavanja().getValue().compare(pocetak) == DatatypeConstants.GREATER){
+                for(PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza doza : potvrda.getVakcinacija().getDoze().getDoza()){
+                    if(doza.getNazivVakcine().contains(proizvodjac)){
+                        brVakcina+=1;
+                    }
+                }
+
+            }
+        }
+
+        return String.valueOf(brVakcina);
     }
 }

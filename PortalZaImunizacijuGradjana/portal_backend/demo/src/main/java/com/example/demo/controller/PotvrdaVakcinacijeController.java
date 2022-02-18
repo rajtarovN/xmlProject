@@ -189,4 +189,24 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/getByPeriodAndDose/{doza}/{odDatum}/{doDatum}", produces="application/xml")
+    public ResponseEntity<?> getByPeriodAndDose(@PathVariable("doza") int doza, @PathVariable("odDatum") String odDatum, @PathVariable("doDatum") String doDatum) {
+        try {
+            String num = potvrdaVakcinacijeService.getByPeriodAndDose(doza,odDatum, doDatum);
+            return new ResponseEntity<>(num, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping(value = "/getByPeriodAndManufacturer/{proizvodjac}/{odDatum}/{doDatum}", produces="application/xml")
+    public ResponseEntity<?> getByPeriodAndManufacturer(@PathVariable("proizvodjac") String proizvodjac, @PathVariable("odDatum") String odDatum, @PathVariable("doDatum") String doDatum) {
+        try {
+            String num = potvrdaVakcinacijeService.getByPeriodAndManufacturer(proizvodjac, odDatum, doDatum);
+            return new ResponseEntity<>(num, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

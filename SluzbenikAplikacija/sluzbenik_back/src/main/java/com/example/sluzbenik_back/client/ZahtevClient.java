@@ -34,6 +34,15 @@ public class ZahtevClient {
         return zahtevi;
     }
 
+    public int getZahteveNaCekanjuUPeriodu(String odDatum, String doDatum) throws Exception {
+        URL url = new URL(BASE_URL + "/zahtev/findByStatusAndPeriod/"+odDatum+"/"+doDatum);
+        InputStream in = url.openStream();
+
+        String txt = getStringFromInputStream(in);
+
+        return Integer.parseInt(txt);
+    }
+
     public String odbijZahtev(String idZahteva, String razlog) throws Exception{
         URL url = new URL(BASE_URL + "/zahtev/odbijZahtev/" + idZahteva + "/" + razlog);
         InputStream in = url.openStream();

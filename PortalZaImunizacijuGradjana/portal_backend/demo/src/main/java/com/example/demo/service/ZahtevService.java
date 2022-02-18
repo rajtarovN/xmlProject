@@ -16,6 +16,9 @@ import org.xmldb.api.modules.XMLResource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -173,6 +176,25 @@ public class ZahtevService extends AbstractService {
 
         marshaller.marshal(listaZahteva, os);
         return os.toString();
+    }
+
+    public String getListuZahtevaPoStatusuIPeriodu(String status, String odDatum, String doDatum) throws Exception {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+        XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+
+        List<String> ids = pronadjiPoStatusu(status);
+        List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
+        for (String id : ids) {
+            ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
+            if( z.getZaglavlje().getDanPodnosenjaZahteva().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+                    z.getZaglavlje().getDanPodnosenjaZahteva().getValue().compare(pocetak) == DatatypeConstants.GREATER ){
+                zahtevi.add(z);
+            }
+
+        }
+
+        return String.valueOf(zahtevi.size());
     }
 
     public List<String> pronadjiPoStatusu(String status) {

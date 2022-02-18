@@ -71,4 +71,7 @@ public class ListaVakcina {
         return this.vakcina;
     }
 
+    public void setVakcina(List<Vakcina> vakcina) {
+        this.vakcina = vakcina;
+    }
 }
