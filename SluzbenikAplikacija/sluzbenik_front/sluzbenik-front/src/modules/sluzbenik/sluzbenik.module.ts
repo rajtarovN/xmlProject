@@ -37,6 +37,7 @@ import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pre
     ObicnaPretragaComponent,
   ],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(SluzbenikRoutes),
     HttpClientModule,

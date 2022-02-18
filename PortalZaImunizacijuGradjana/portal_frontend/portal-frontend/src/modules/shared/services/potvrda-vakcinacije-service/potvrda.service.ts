@@ -34,12 +34,12 @@ export class PotvrdaService {
     );
   }
 
-  saveDoze(vakcine: any, potvrdaId: string): Observable<string> {
+  saveDoze(vakcine: any, potvrdaId: string, email: string): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/xml',
     });
     return this.http.post(
-      `${environment.baseUrl}/${environment.saveDoze}/${potvrdaId}`,
+      `${environment.baseUrl}/${environment.saveDoze}/${potvrdaId}/${email}`,
       vakcine,
       { headers: headers,
         responseType: "text", }

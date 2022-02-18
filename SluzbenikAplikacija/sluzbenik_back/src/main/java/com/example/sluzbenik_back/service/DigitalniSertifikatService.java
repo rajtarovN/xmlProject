@@ -114,4 +114,13 @@ public class DigitalniSertifikatService {
 		}
 	}
 
+	public byte[] generisiJSON(String documentId) throws Exception  {
+		String res = digitalniSertifikatClient.generateJson(documentId);
+		return res.getBytes();
+	}
+
+	public byte[] generisiRDF(String documentId) throws Exception  {
+		String res = digitalniSertifikatClient.generateRdf(documentId);
+		return res.getBytes();
+	}
 }

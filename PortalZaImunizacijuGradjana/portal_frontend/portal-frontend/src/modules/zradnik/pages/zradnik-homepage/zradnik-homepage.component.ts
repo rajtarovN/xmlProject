@@ -48,8 +48,5 @@ export class ZradnikHomepageComponent implements OnInit {
     this.showModalLogout = false;
   }
 
-  onRegistarGradjanaClicked(){}
-
-  onImunizacijaClicked(){}
 
 }

@@ -76,8 +76,8 @@ public class PotvrdaVakcinacijeController {
     }
 
     @PreAuthorize("hasRole('Z')")
-    @PostMapping(path = "/saveDoze/{docId}", consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<?> saveDoze(@PathVariable("docId") String docId,
+    @PostMapping(path = "/saveDoze/{docId}/{email}", consumes = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> saveDoze(@PathVariable("docId") String docId, @PathVariable("email") String email,
                                                         @RequestBody String evidentiraneVakcineDTO) {
         try {
             JAXBContext context = JAXBContext.newInstance(ListaEvidentiranihVakcina.class);
@@ -86,7 +86,7 @@ public class PotvrdaVakcinacijeController {
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
             ListaEvidentiranihVakcina evidentiraneVakcine = (ListaEvidentiranihVakcina) unmarshaller.unmarshal(inputStream);
-            return new ResponseEntity<>(potvrdaVakcinacijeService.saveDoze(docId, evidentiraneVakcine),
+            return new ResponseEntity<>(potvrdaVakcinacijeService.saveDoze(docId, evidentiraneVakcine, email),
                     HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,7 +156,7 @@ public class PotvrdaVakcinacijeController {
     public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
         System.out.println("USLOOOOOOO");
         try {
-            List<com.example.sluzbenik_back.dto.DokumentDTO> retval = potvrdaVakcinacijeService.getPotvrdaAllByEmail(email);
+            List<com.example.demo.dto.DokumentDTO> retval = potvrdaVakcinacijeService.getPotvrdaAllByEmail(email);
             if (retval.isEmpty()) {
                 return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
             } else
@@ -199,12 +199,28 @@ public class PotvrdaVakcinacijeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping(path = "/generateJson/{documentId}")
+    public ResponseEntity<byte[]> generateJson(@PathVariable("documentId") String documentId){
+        try {
+            return new ResponseEntity<>(potvrdaVakcinacijeService.generateJson(documentId), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping(value = "/getByPeriodAndManufacturer/{proizvodjac}/{odDatum}/{doDatum}", produces="application/xml")
     public ResponseEntity<?> getByPeriodAndManufacturer(@PathVariable("proizvodjac") String proizvodjac, @PathVariable("odDatum") String odDatum, @PathVariable("doDatum") String doDatum) {
         try {
             String num = potvrdaVakcinacijeService.getByPeriodAndManufacturer(proizvodjac, odDatum, doDatum);
             return new ResponseEntity<>(num, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping(path = "/generateRdf/{documentId}")
+    public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
+        try {
+            return new ResponseEntity<>(potvrdaVakcinacijeService.generateRdf(documentId), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

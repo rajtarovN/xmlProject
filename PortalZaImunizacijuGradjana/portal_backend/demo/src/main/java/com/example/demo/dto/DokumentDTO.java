@@ -1,4 +1,4 @@
-package com.example.sluzbenik_back.dto;
+package com.example.demo.dto;
 
 import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
@@ -37,6 +37,8 @@ public class DokumentDTO {
         Date date = s.getPodaciOSertifikatu().getDatumIVremeIzdavanja().getValue().toGregorianCalendar().getTime();
         this.datumKreiranja = ft.format(date);
     }
+
+
 
     public DokumentDTO(String id, String datumKreiranja) {
         this.id = id;

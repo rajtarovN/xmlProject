@@ -169,4 +169,9 @@ public class SaglasnostRepository extends RepositoryInterface {
 			throw new BadRequestException("Doslo je do errora pri obicnoj pretrazi saglasnosti.");
 		}
 	}
+
+	public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
+		fusekiManager.generisiJSON(documentNameId, graphUri, about);
+	}
+
 }

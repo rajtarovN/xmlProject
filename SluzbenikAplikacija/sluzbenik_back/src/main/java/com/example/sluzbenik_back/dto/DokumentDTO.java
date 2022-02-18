@@ -1,7 +1,9 @@
 package com.example.sluzbenik_back.dto;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,19 +21,17 @@ public class DokumentDTO {
 
 	public DokumentDTO(Saglasnost saglasnost) {
 		this.id = saglasnost.getBrojSaglasnosti();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime date = saglasnost.getPacijent().getDatum().getValue().toGregorianCalendar()
-				.toZonedDateTime().toLocalDateTime();
-		this.datumKreiranja = date.format(formatter);
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+		Date date = saglasnost.getPacijent().getDatum().getValue().toGregorianCalendar().getTime();
+		this.datumKreiranja = ft.format(date);
 	}
 
 	public DokumentDTO(PotvrdaOVakcinaciji potvrdaOVakcinaciji) {
-		String num = potvrdaOVakcinaciji.getAbout().split("/")[-1];
-		this.id = num;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime date = potvrdaOVakcinaciji.getDatumIzdavanja().getValue().toGregorianCalendar()
-				.toZonedDateTime().toLocalDateTime();
-		this.datumKreiranja = date.format(formatter);
+		String idZahteva = potvrdaOVakcinaciji.getAbout().substring(potvrdaOVakcinaciji.getAbout().lastIndexOf('/') + 1);
+		this.id = idZahteva;
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+		Date date = potvrdaOVakcinaciji.getDatumIzdavanja().getValue().toGregorianCalendar().getTime();
+		this.datumKreiranja = ft.format(date);
 	}
 
 	public DokumentDTO(DigitalniZeleniSertifikat s) {

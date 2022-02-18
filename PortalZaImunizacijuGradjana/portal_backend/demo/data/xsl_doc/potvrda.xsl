@@ -77,7 +77,7 @@
                             <fo:block font-weight="bold">Датум даванја и број серије вакцине:</fo:block>
                             <xsl:value-of select="ns2:datum_davanja"/>
                             <fo:block font-weight="bold">серија:</fo:block>
-                            <xsl:value-of select="ns2:broj_serije"/>
+                            <xsl:value-of select="ns2:broj_serije"/> <xsl:value-of select="ns2:naziv_vakcine"/>
                             <fo:block font-size="10pt">Datum vakcinacije Vaccination day</fo:block>
                         </fo:block>
 

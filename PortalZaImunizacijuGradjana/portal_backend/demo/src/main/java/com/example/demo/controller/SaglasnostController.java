@@ -234,12 +234,12 @@ public class SaglasnostController {
 
 
 
-	@PreAuthorize("hasRole('G')")
+	//@PreAuthorize("hasRole('G')") i zradnik i sluzbenik
 	@GetMapping(path ="/getAllS/{email}")
 	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
 		System.out.println("USLOOOOOOO");
 		try {
-			List<com.example.sluzbenik_back.dto.DokumentDTO> retval = saglasnostService.getSaglasnostiAllByEmail(email);
+			List<com.example.demo.dto.DokumentDTO> retval = saglasnostService.getSaglasnostiAllByEmail(email);
 			if (retval.isEmpty()) {
 				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
 			} else
@@ -256,6 +256,24 @@ public class SaglasnostController {
 		try {
 			dto.setIds(saglasnostService.obicnaPretraga(searchTerm));
 			return new ResponseEntity<>(dto, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/generateJson/{documentId}")
+	public ResponseEntity<byte[]> generateJson(@PathVariable("documentId") String documentId){
+		try {
+			return new ResponseEntity<>(saglasnostService.generateJson(documentId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/generateRdf/{documentId}")
+	public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
+		try {
+			return new ResponseEntity<>(saglasnostService.generateRdf(documentId), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
