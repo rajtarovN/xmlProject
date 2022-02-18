@@ -61,7 +61,7 @@
                     }
                     .center-title2{
                     position:absolute;
-                    top:10;
+                    top:26;
                     right:50%;
                     text-align: center;
                     font-size: 14
@@ -78,6 +78,25 @@
                     text-align: left;
                     padding: 20px;
                     }
+                    .center-title3{
+                    position:absolute;
+                    top:55;
+                    right:50%;
+                    text-align: center;
+                    font-size: 16
+                    }
+                    .center-title4{
+                    position:absolute;
+                    top:70;
+                    right:50%;
+                    text-align: center;
+                    font-size: 14
+                    }
+                    .with-border{
+
+                    border: 1px solid black;
+                    width="50%";
+                    }
                 </style>
             </head>
 
@@ -89,10 +108,10 @@
                 </div>
                 <div class="center-title2">Potvrda o izvršeoj vakcinaciji protiv<br/>COVID-19 i rezultatima testiranja
                 </div>
-                <div class="center-title">
+                <div class="center-title3">
                     <b>DIGITAL GREEN CERTIFICATE</b>
                 </div>
-                <div class="center-title2">Certificate of vaccination against COVID-19
+                <div class="center-title4">Certificate of vaccination against COVID-19
                     <br/>
                     and test results
                 </div>
@@ -137,7 +156,7 @@
                 </div>
 
                 <xsl:for-each select="Digitalni_zeleni_sertifikat/Podaci_o_vakcinaciji/Vakcinacija">
-                    <div border="1px solid" width="50%">
+                    <div class="with-border">
 
                         <div>
                             Доза / Dose :

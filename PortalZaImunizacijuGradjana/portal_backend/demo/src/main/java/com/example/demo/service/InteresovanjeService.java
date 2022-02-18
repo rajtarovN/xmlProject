@@ -119,7 +119,7 @@ public class InteresovanjeService extends AbstractService {
 			// TODO send mail
 
 			com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
-			emailModel.setTo("rajtea6@gmail.com");
+			emailModel.setTo("rajtarovnatasa@gmail.com");
 			emailModel.setContent(message);
 			emailModel.setSubject("Pozdrav");
 			emailClient.sendMail(emailModel);
@@ -257,7 +257,7 @@ public class InteresovanjeService extends AbstractService {
 
 						// TODO send mail
 						com.example.demo.model.email.Email emailModel = new com.example.demo.model.email.Email();
-						emailModel.setTo("rajtea6@gmail.com");
+						emailModel.setTo("rajtarovnatasa@gmail.com");
 						emailModel.setContent(message);
 						emailModel.setSubject("Pozdrav");
 						//emailClient.sendMail(emailModel);
@@ -418,9 +418,9 @@ public class InteresovanjeService extends AbstractService {
 //
 //			XMLResource interesovanje = pronadjiInteresovanjePoEmailu(email);
 //			System.out.println("natasa");
-//			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+//			List<DokumentDTO> ret = new ArrayList<>();
 //
-//				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(interesovanje));
+//				ret.add(new DokumentDTO(interesovanje));
 //			System.out.println("OVDEEEEEE");
 //			return ret;
 //		} catch (Exception e) {

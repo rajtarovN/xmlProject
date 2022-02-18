@@ -66,9 +66,27 @@ export class PodnosenjeZahtevaComponent implements OnInit, AfterViewInit {
       this.datumRodjenja = localStorage.getItem("rodjendan")!;
       this.pol = localStorage.getItem("pol")==="M" ? 'Musko' : 'Zensko';
       const danasnjiDan = new Date();
-      this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();
+      if((danasnjiDan.getMonth()+1)<10){
+        this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-0" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();
+      }else{
+      this.datumPodnosenjaZhteva = danasnjiDan.getFullYear() + "-" + (danasnjiDan.getMonth()+1) + "-" +  danasnjiDan.getDate();}
       this.vreme = "-"+danasnjiDan.getHours() + "-" + danasnjiDan.getMinutes() + "-" + danasnjiDan.getSeconds();
-      this.vreme2 = "T"+danasnjiDan.getHours() + ":" + danasnjiDan.getMinutes() + ":" + danasnjiDan.getSeconds();
+      let minuti =danasnjiDan.getMinutes()+"";
+      let sati =danasnjiDan.getHours()+"";
+      let sekunde =danasnjiDan.getSeconds()+"";
+      if(danasnjiDan.getMinutes()<10)
+      {
+        minuti = "0"+danasnjiDan.getMinutes();
+      }
+      if(danasnjiDan.getSeconds()<10)
+      {
+        sekunde = "0"+danasnjiDan.getSeconds();
+      }
+      if(danasnjiDan.getHours()<10)
+      {
+        sati = "0"+danasnjiDan.getHours();
+      }
+      this.vreme2 = "T"+sati + ":" + minuti + ":" + sekunde;
    
     }
 
