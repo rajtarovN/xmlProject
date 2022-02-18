@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { PodnosenjeZahtevaService } from '../../services/podnosenje-zahteva.service';
 import { ToastrService } from 'ngx-toastr'
 @Component({
@@ -23,7 +22,6 @@ export class PregledZahtevaComponent implements OnInit {
   id="";
 
   constructor(
-    private toastr: ToastrService,
     private zahtevService: PodnosenjeZahtevaService,
     private toastr: ToastrService,
   ) { 
@@ -63,7 +61,7 @@ export class PregledZahtevaComponent implements OnInit {
     this.mesto = first_part[21].split("<")[0]
     this.datumPodnosenjaZhteva = first_part[23].split("<")[0]
   }catch(Exception){
-    this.toastr.error("Ne postoji yahtev sa tim jmbg-om")
+    this.toastr.error("Ne postoji zahtev sa tim jmbg-om")
   }
   }
 

@@ -214,7 +214,7 @@ export class PrikazDokumenataComponent implements OnInit {
   }
 
   setSertifikate() {
-    this.interesovanjeService.getXmlByEmail(this.email).subscribe(
+    this.sertifservice.getXmlByEmail(this.email).subscribe(
       (response) => {
         if (response != 'Nema izdatih sertifikata za prisutnog gradjana.') {
           let obj: any = txml.parse(response);
@@ -358,7 +358,14 @@ export class PrikazDokumenataComponent implements OnInit {
         }
       );
     }else if (this.tipDokumenta === 'Interesovanje'){
-      //TODO olja
+      this.interesovanjeService.getJSON(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `interesovanje_${documentId}.json`, 'application/json');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
   }
 
@@ -391,7 +398,14 @@ export class PrikazDokumenataComponent implements OnInit {
         }
       );
     }else if (this.tipDokumenta === 'Interesovanje'){
-      //TODO olja
+      this.interesovanjeService.getRDF(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `interesovanje_${documentId}.rdf`, 'application/pdf');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
   }
 

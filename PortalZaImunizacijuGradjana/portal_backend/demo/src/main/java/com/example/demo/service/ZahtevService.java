@@ -297,7 +297,7 @@ public class ZahtevService extends AbstractService {
         List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
         for (String id : ids) {
             System.out.println(id+" ****");
-            ZahtevZaZeleniSertifikat z = pronadjiPoId(jmbg+"_"+id);
+            ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
             zahtevi.add(z);
         }
         listaZahteva.setZahtevi(zahtevi);

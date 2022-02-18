@@ -66,7 +66,7 @@ public class DigitalniSertifikatService extends AbstractService {
 			return null;
 		}
 
-		XMLResource xmlRes = this.readXML(id);
+		XMLResource xmlRes = this.readXML("sertifikat_"+id+".xml");
 		String doc_str = "";
 		try {
 			doc_str = xmlRes.getContent().toString();
@@ -100,7 +100,7 @@ public class DigitalniSertifikatService extends AbstractService {
 			return null;
 		}
 
-		XMLResource xmlRes = this.readXML(id);
+		XMLResource xmlRes = this.readXML("sertifikat_"+id+".xml");
 		String doc_str = xmlRes.getContent().toString();
 		boolean ok = false;
 		String html_path = SAVE_HTML + "sertifikat_" + id + ".html";
