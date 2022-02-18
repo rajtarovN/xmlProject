@@ -1,21 +1,23 @@
 package com.example.sluzbenik_back.service;
 
-import com.example.sluzbenik_back.client.PotvrdeClient;
-import com.example.sluzbenik_back.dto.DokumentDTO;
-import com.example.sluzbenik_back.dto.IdentificationDTO;
-import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
-import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.ListaPotvrda;
-import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
-import com.example.sluzbenik_back.util.XSLFORTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.xmldb.api.base.XMLDBException;
-import org.xmldb.api.modules.XMLResource;
+import static com.example.sluzbenik_back.util.PathConstants.POTVRDA_O_VAKCINACIJI_XSL;
+import static com.example.sluzbenik_back.util.PathConstants.SAVE_HTML;
+import static com.example.sluzbenik_back.util.PathConstants.SAVE_PDF;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.sluzbenik_back.util.PathConstants.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.xmldb.api.base.XMLDBException;
+
+import com.example.sluzbenik_back.client.PotvrdeClient;
+import com.example.sluzbenik_back.dto.DokumentDTO;
+import com.example.sluzbenik_back.dto.IdentificationDTO;
+import com.example.sluzbenik_back.dto.PotvrdaNaprednaDTO;
+import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.ListaPotvrda;
+import com.example.sluzbenik_back.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
+import com.example.sluzbenik_back.util.XSLFORTransformer;
 
 @Service
 public class PotvrdaVakcinacijeService {
@@ -117,4 +119,14 @@ public class PotvrdaVakcinacijeService {
         String res = potvrdeClient.generateRdf(documentId);
         return res.getBytes();
     }
+    
+	public IdentificationDTO naprednaPretraga(PotvrdaNaprednaDTO dto) throws Exception {
+
+		return this.potvrdeClient.getByNaprednaPretraga(dto);
+	}
+	
+	public String getAllIdReferences(String id) throws Exception {
+		return this.potvrdeClient.getAllIdReferences(id);
+	}
+
 }

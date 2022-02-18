@@ -1,6 +1,5 @@
 package com.example.sluzbenik_back.client;
 
-import com.example.sluzbenik_back.model.korisnik.ListaKorisnika;
 import com.example.sluzbenik_back.model.zahtev_za_sertifikatom.ListaZahteva;
 import org.apache.commons.io.IOUtils;
 

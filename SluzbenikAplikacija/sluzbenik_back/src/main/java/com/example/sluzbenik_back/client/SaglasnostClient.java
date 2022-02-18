@@ -101,7 +101,7 @@ public class SaglasnostClient {
 			byte[] buffer = new byte[1024];
 			ByteArrayOutputStream builder = new ByteArrayOutputStream();
 			int end;
-			while((end = is.read(buffer)) > 0){
+			while ((end = is.read(buffer)) > 0) {
 				builder.write(buffer, 0, end);
 			}
 			String text = new String(builder.toByteArray(), StandardCharsets.UTF_8);
@@ -113,12 +113,12 @@ public class SaglasnostClient {
 
 		} finally {
 
-			post.releaseConnection(); 
+			post.releaseConnection();
 		}
 
 	}
 
-	public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception{
+	public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception {
 		URL url = new URL(BASE_URL + "/saglasnost/obicnaPretraga/" + searchTerm);
 		InputStream in = url.openStream();
 
@@ -131,7 +131,7 @@ public class SaglasnostClient {
 		return dto;
 	}
 
-	public String generateJson(String id) throws Exception{
+	public String generateJson(String id) throws Exception {
 		System.out.println("Sent HTTP GET request to query saglasnost id's");
 		URL url = new URL(BASE_URL + "/saglasnost/generateJson/" + id);
 
@@ -141,7 +141,7 @@ public class SaglasnostClient {
 		return s;
 	}
 
-	public String generateRdf(String id) throws Exception{
+	public String generateRdf(String id) throws Exception {
 		System.out.println("Sent HTTP GET request to query saglasnost id's");
 		URL url = new URL(BASE_URL + "/saglasnost/generateRdf/" + id);
 
@@ -149,5 +149,16 @@ public class SaglasnostClient {
 		String s = getStringFromInputStream(in);
 
 		return s;
+	}
+
+	public String getAllIdReferences(String id) throws Exception {
+		System.out.println("Sent HTTP GET request to query saglasnost references id's");
+		URL url = new URL(BASE_URL + "/saglasnost/referenciraniDoc/" + id);
+
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+
+		return txt;
 	}
 }

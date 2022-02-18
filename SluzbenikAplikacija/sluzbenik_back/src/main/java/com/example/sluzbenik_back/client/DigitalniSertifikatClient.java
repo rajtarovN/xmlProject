@@ -46,6 +46,17 @@ public class DigitalniSertifikatClient {
 		return txt;
 	}
 
+	public String getAllIdReferences(String id) throws Exception {
+		System.out.println("Sent HTTP GET request to query sertifikat references id's");
+		URL url = new URL(BASE_URL + "/sertifikat/referenciraniDoc/" + id);
+
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+
+		return txt;
+	}
+
 	public IdentificationDTO getByNaprednaPretraga(SertifikatNaprednaDTO pretraga)
 			throws HttpException, IOException, JAXBException {
 
@@ -87,32 +98,32 @@ public class DigitalniSertifikatClient {
 	}
 
 	public String getXml(String id) throws Exception {
-        URL url = new URL(BASE_URL + "/sertifikat/xml/" + id);
-        InputStream in = url.openStream();
+		URL url = new URL(BASE_URL + "/sertifikat/xml/" + id);
+		InputStream in = url.openStream();
 
-        String txt = getStringFromInputStream(in);
+		String txt = getStringFromInputStream(in);
 
-        return txt;
-    }
+		return txt;
+	}
 
-    public ListaSertifikata allXmlIdsByEmail(String email) throws Exception{
-        URL url = new URL(BASE_URL + "/sertifikat/allXmlByEmail/" + email);
-        InputStream in = url.openStream();
+	public ListaSertifikata allXmlIdsByEmail(String email) throws Exception {
+		URL url = new URL(BASE_URL + "/sertifikat/allXmlByEmail/" + email);
+		InputStream in = url.openStream();
 
-        String txt = getStringFromInputStream(in);
-        JAXBContext context = JAXBContext.newInstance(ListaSertifikata.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        StringReader reader = new StringReader(txt);
-        ListaSertifikata lista = (ListaSertifikata) unmarshaller.unmarshal(reader);
+		String txt = getStringFromInputStream(in);
+		JAXBContext context = JAXBContext.newInstance(ListaSertifikata.class);
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		StringReader reader = new StringReader(txt);
+		ListaSertifikata lista = (ListaSertifikata) unmarshaller.unmarshal(reader);
 
-        return lista;
-    }
+		return lista;
+	}
 
-    public static String getStringFromInputStream(InputStream in) throws Exception {
-        return new String(IOUtils.toByteArray(in), URL_ENCODING);
-    }
+	public static String getStringFromInputStream(InputStream in) throws Exception {
+		return new String(IOUtils.toByteArray(in), URL_ENCODING);
+	}
 
-	public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception{
+	public IdentificationDTO getByObicnaPretraga(String searchTerm) throws Exception {
 		URL url = new URL(BASE_URL + "/sertifikat/obicnaPretraga/" + searchTerm);
 		InputStream in = url.openStream();
 
@@ -125,7 +136,7 @@ public class DigitalniSertifikatClient {
 		return dto;
 	}
 
-	public String generateJson(String id) throws Exception{
+	public String generateJson(String id) throws Exception {
 		System.out.println("Sent HTTP GET request to query saglasnost id's");
 		URL url = new URL(BASE_URL + "/sertifikat/generateJson/" + id);
 
@@ -135,7 +146,7 @@ public class DigitalniSertifikatClient {
 		return s;
 	}
 
-	public String generateRdf(String id) throws Exception{
+	public String generateRdf(String id) throws Exception {
 		System.out.println("Sent HTTP GET request to query saglasnost id's");
 		URL url = new URL(BASE_URL + "/sertifikat/generateRdf/" + id);
 
