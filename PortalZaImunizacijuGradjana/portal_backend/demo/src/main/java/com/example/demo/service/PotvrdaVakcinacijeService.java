@@ -175,7 +175,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             ebs.setValue(content.getEbs());
             ebs.setProperty("pred:ebs");
             lp.setEbs(ebs);
-            p.setQrKod(QRCodeService.getQRCode("http://localhost:4001/potvrda_o_vakcinaciji/"+content.getEbs()));
+            p.setQrKod(QRCodeService.getQRCode("http://localhost:4200/potvrda_o_vakcinaciji/"+content.getEbs()));
         }
 
         p.setLicniPodaci(lp);
