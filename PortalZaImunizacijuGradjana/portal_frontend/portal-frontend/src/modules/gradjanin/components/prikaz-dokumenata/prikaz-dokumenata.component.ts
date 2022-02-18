@@ -26,7 +26,7 @@ import { InteresovanjeService } from '../../../shared/services/interesovanje-ser
 })
 export class PrikazDokumenataComponent implements OnInit {
   parser = new DOMParser();
-  email: string = localStorage.getItem("email")! ;
+  email: string = localStorage.getItem('email')!;
   @Input() tipDokumenta = '';
   @Output() onPrikazDokumenataClose = new EventEmitter();
   dataSource!: MatTableDataSource<any>;
@@ -34,7 +34,14 @@ export class PrikazDokumenataComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   title: string;
   data: any[];
-  displayedColumns: string[] = ['Naziv', 'Datum', 'PDF', 'XHTML'];
+  displayedColumns: string[] = [
+    'Naziv',
+    'Datum',
+    'PDF',
+    'XHTML',
+    'JSON',
+    'RDF',
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -139,38 +146,19 @@ export class PrikazDokumenataComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error.error.text)
+        console.log(error.error.text);
         this.toastr.error(error.error);
       }
     );
   }
 
-  showPdf(id: string){
-    if(this.tipDokumenta === "Saglasnosti"){
-      this.saglasnostService.getPdf(id).subscribe((response) =>{
-        let file = new Blob([response], { type: 'application/pdf' });
-        var fileURL = URL.createObjectURL(file);
-
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `${id}.pdf`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-          
-      },
-      (error) => {
-        this.toastr.error(error.error);
-      });
-    }
-    else if(this.tipDokumenta === "Potvrde"){
-      this.potvrdeService.getPdf(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'application/pdf' });
+  showPdf(id: string) {
+    if (this.tipDokumenta === 'Saglasnosti') {
+      this.saglasnostService.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
           var fileURL = URL.createObjectURL(file);
-  
+
           let a = document.createElement('a');
           document.body.appendChild(a);
           a.setAttribute('style', 'display: none');
@@ -179,17 +167,17 @@ export class PrikazDokumenataComponent implements OnInit {
           a.click();
           window.URL.revokeObjectURL(fileURL);
           a.remove();
-    },
-    (error) => {
-      this.toastr.error(error.error);
-    });
-    }
-    else if(this.tipDokumenta === "Sertifikati"){ 
-      this.sertifservice.getPdf(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'application/pdf' });
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Potvrde') {
+      this.potvrdeService.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
           var fileURL = URL.createObjectURL(file);
-  
+
           let a = document.createElement('a');
           document.body.appendChild(a);
           a.setAttribute('style', 'display: none');
@@ -198,15 +186,35 @@ export class PrikazDokumenataComponent implements OnInit {
           a.click();
           window.URL.revokeObjectURL(fileURL);
           a.remove();
-    },
-    (error) => {
-      this.toastr.error(error.error);
-    });
-    }}
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Sertifikati') {
+      this.sertifservice.getPdf(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
 
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.pdf`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    }
+  }
 
   setSertifikate() {
-    this.interesovanjeService.getXmlByEmail(this.email).subscribe(
+    this.sertifservice.getXmlByEmail(this.email).subscribe(
       (response) => {
         if (response != 'Nema izdatih sertifikata za prisutnog gradjana.') {
           let obj: any = txml.parse(response);
@@ -261,69 +269,156 @@ export class PrikazDokumenataComponent implements OnInit {
     );
   }
 
+  showXhtml(id: string) {
+    if (this.tipDokumenta === 'Saglasnosti') {
+      this.saglasnostService.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Potvrde') {
+      this.potvrdeService.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
 
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Sertifikati') {
+      this.sertifservice.getXHtml(id).subscribe(
+        (response) => {
+          let file = new Blob([response], { type: 'text/html' });
+          var fileURL = URL.createObjectURL(file);
 
-
-  showXhtml(id: string){
-    if(this.tipDokumenta === "Saglasnosti"){
-      this.saglasnostService.getXHtml(id).subscribe((response) =>{
-
-            let file = new Blob([response], { type: 'text/html' });
-            var fileURL = URL.createObjectURL(file);
-    
-            let a = document.createElement('a');
-            document.body.appendChild(a);
-            a.setAttribute('style', 'display: none');
-            a.href = fileURL;
-            a.download = `${id}.html`;
-            a.click();
-            window.URL.revokeObjectURL(fileURL);
-            a.remove();           
-      },
-      (error) => {
-        this.toastr.error(error.error);
-      });
+          let a = document.createElement('a');
+          document.body.appendChild(a);
+          a.setAttribute('style', 'display: none');
+          a.href = fileURL;
+          a.download = `${id}.html`;
+          a.click();
+          window.URL.revokeObjectURL(fileURL);
+          a.remove();
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
-    else if(this.tipDokumenta === "Potvrde"){
-      this.potvrdeService.getXHtml(id).subscribe((response) =>{
-        
-            let file = new Blob([response], { type: 'text/html' });
-            var fileURL = URL.createObjectURL(file);
-    
-            let a = document.createElement('a');
-            document.body.appendChild(a);
-            a.setAttribute('style', 'display: none');
-            a.href = fileURL;
-            a.download = `${id}.html`;
-            a.click();
-            window.URL.revokeObjectURL(fileURL);
-            a.remove();
-    },
-    (error) => {
-      this.toastr.error(error.error);
-    });
-    }
-    else if(this.tipDokumenta === "Sertifikati"){
-      this.sertifservice.getXHtml(id).subscribe((response) =>{
-        
-        let file = new Blob([response], { type: 'text/html' });
-        var fileURL = URL.createObjectURL(file);
-
-        let a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = fileURL;
-        a.download = `${id}.html`;
-        a.click();
-        window.URL.revokeObjectURL(fileURL);
-        a.remove();
-    },
-    (error) => {
-       this.toastr.error(error.error);
-    });
   }
 
+  showJSON(documentId: string) {
+    if (this.tipDokumenta === 'Saglasnosti') {
+      this.saglasnostService.getJSON(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `saglasnost_${documentId}.json`, 'application/json');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Potvrde') {
+      this.potvrdeService.getJSON(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `potvrda_${documentId}.json`, 'application/json');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Sertifikati') {
+      this.sertifservice.getJSON(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `saglasnost_${documentId}.json`, 'application/json');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    }else if (this.tipDokumenta === 'Interesovanje'){
+      this.interesovanjeService.getJSON(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `interesovanje_${documentId}.json`, 'application/json');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
     }
+  }
 
- 
+  showRDF(documentId: string) {
+    if (this.tipDokumenta === 'Saglasnosti') {
+      this.saglasnostService.getRDF(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `saglasnost_${documentId}.rdf`, 'application/pdf');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Potvrde') {
+      this.potvrdeService.getRDF(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `potvrda_${documentId}.rdf`, 'application/pdf');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    } else if (this.tipDokumenta === 'Sertifikati') {
+      this.sertifservice.getRDF(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `sertifikat_${documentId}.rdf`, 'application/pdf');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    }else if (this.tipDokumenta === 'Interesovanje'){
+      this.interesovanjeService.getRDF(documentId).subscribe(
+        (response) => {
+          this.doJsonRdf(response, `interesovanje_${documentId}.rdf`, 'application/pdf');
+        },
+        (error) => {
+          this.toastr.error(error.error);
+        }
+      );
+    }
+  }
+
+  doJsonRdf(response: any, documentNameId: string, typee: string){
+    let file = new Blob([response], { type: typee });
+    var fileURL = URL.createObjectURL(file);
+    let a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = fileURL;
+    a.download = documentNameId;
+    a.click();
+    window.URL.revokeObjectURL(fileURL);
+    a.remove();
+  }
 }

@@ -69,7 +69,7 @@ public class DigitalniSertifikatService extends AbstractService {
 			return null;
 		}
 
-		XMLResource xmlRes = this.readXML(id);
+		XMLResource xmlRes = this.readXML("sertifikat_"+id+".xml");
 		String doc_str = "";
 		try {
 			doc_str = xmlRes.getContent().toString();
@@ -103,7 +103,7 @@ public class DigitalniSertifikatService extends AbstractService {
 			return null;
 		}
 
-		XMLResource xmlRes = this.readXML(id);
+		XMLResource xmlRes = this.readXML("sertifikat_"+id+".xml");
 		String doc_str = xmlRes.getContent().toString();
 		boolean ok = false;
 		String html_path = SAVE_HTML + "sertifikat_" + id + ".html";
@@ -287,12 +287,12 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) {
+	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) throws Exception {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
 
-			JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+			JAXBContext context = JAXBContext.newInstance(ListaSertifikata.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
@@ -305,8 +305,8 @@ public class DigitalniSertifikatService extends AbstractService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new BadRequestException("Error pri dobavljanju sertifikata.");
 		}
-		return new ArrayList<>();
 	}
 
 	public List<String> obicnaPretraga(String searchTerm) throws Exception{

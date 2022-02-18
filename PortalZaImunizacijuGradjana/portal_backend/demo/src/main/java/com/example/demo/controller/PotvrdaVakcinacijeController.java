@@ -59,7 +59,7 @@ public class PotvrdaVakcinacijeController {
     @PostMapping(path = "/savePotvrdu", consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<?> savePotvrdu(@RequestBody PotvrdaVakcinacijeDTO content) {
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        String documentId = "";//TODO
+        String documentId = "";
         if(content.getDrz().equals("srb")){
             documentId = content.getJmbg() +"_"+ ft.format(new Date());
         }else{

@@ -22,8 +22,8 @@ export class PregledZahtevaComponent implements OnInit {
   id="";
 
   constructor(
-    private toastr: ToastrService,
     private zahtevService: PodnosenjeZahtevaService,
+    private toastr: ToastrService,
   ) { 
     
   }
@@ -61,7 +61,7 @@ export class PregledZahtevaComponent implements OnInit {
     this.mesto = first_part[21].split("<")[0]
     this.datumPodnosenjaZhteva = first_part[23].split("<")[0]
   }catch(Exception){
-    this.toastr.error("Ne postoji yahtev sa tim jmbg-om")
+    this.toastr.error("Ne postoji zahtev sa tim jmbg-om")
   }
   }
 
@@ -102,4 +102,39 @@ export class PregledZahtevaComponent implements OnInit {
     );
   }
 
+  getJSON(){
+    this.zahtevService.getHtml(this.id).subscribe(
+      data => {
+        this.doJsonRdf(data, `zahtev_${this.id}.json`, 'application/json');
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
+
+  getRDF(){
+    this.zahtevService.getHtml(this.id).subscribe(
+      data => {
+        this.doJsonRdf(data, `zahtev_${this.id}.rdf`, 'application/pdf');
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
+
+
+  doJsonRdf(response: any, documentNameId: string, typee: string){
+    let file = new Blob([response], { type: typee });
+    var fileURL = URL.createObjectURL(file);
+    let a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = fileURL;
+    a.download = documentNameId;
+    a.click();
+    window.URL.revokeObjectURL(fileURL);
+    a.remove();
+  }
 }

@@ -148,12 +148,12 @@ public class DigitalniSertifikatController {
 		try {
 			List<com.example.demo.dto.DokumentDTO> retval = digitalniSertifikatService.getSertifikatiAllByEmail(email);
 			if (retval.isEmpty()) {
-				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
+				return new ResponseEntity<>("Nema izdatih sertifikata za prisutnog gradjana.", HttpStatus.OK);
 			} else
 				return new ResponseEntity<>(retval, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Error pri dobavljanju potvrda.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Error pri dobavljanju sertifikata.", HttpStatus.NOT_FOUND);
 		}
 	}
 	@GetMapping(path = "/obicnaPretraga/{searchTerm}",  produces = "application/xml")

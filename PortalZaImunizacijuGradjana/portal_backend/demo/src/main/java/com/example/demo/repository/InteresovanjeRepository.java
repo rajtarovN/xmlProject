@@ -13,6 +13,8 @@ import javax.xml.bind.JAXBException;
 @Repository
 public class InteresovanjeRepository extends RepositoryInterface {
 
+	private String collectionId = "/db/portal/lista_interesovanja";
+
 	public static final String SPARQL_FILE = "src/main/resources/static/sparql/interesovanje/";
 
 	public String pronadjiPoEmailu(String email) throws Exception {
@@ -30,7 +32,14 @@ public class InteresovanjeRepository extends RepositoryInterface {
 	public List<String> getInteresovanjeOrderByAsc() throws Exception {
 		ArrayList<String> params = new ArrayList<>();
 		return this.fusekiManager.query("/lista_interesovanja", SPARQL_FILE + "interesovanje_sort.rq", params);
-
 	}
 
+	public XMLResource pronadjiPoId(String id) throws IllegalAccessException, JAXBException, InstantiationException,
+			IOException, XMLDBException, ClassNotFoundException {
+		return dbManager.readFileFromDB("interesovanje_" + id + ".xml", collectionId);
+	}
+
+	public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
+		fusekiManager.generisiJSON(documentNameId, graphUri, about);
+	}
 }

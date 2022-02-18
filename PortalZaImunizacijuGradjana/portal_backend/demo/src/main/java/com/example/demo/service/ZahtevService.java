@@ -5,11 +5,15 @@ import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
+import com.example.demo.repository.InteresovanjeRepository;
 import com.example.demo.repository.ZahtevRepository;
+import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
@@ -318,7 +322,7 @@ public class ZahtevService extends AbstractService {
         List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
         for (String id : ids) {
             System.out.println(id+" ****");
-            ZahtevZaZeleniSertifikat z = pronadjiPoId(jmbg+"_"+id);
+            ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
             zahtevi.add(z);
         }
         listaZahteva.setZahtevi(zahtevi);
@@ -332,5 +336,50 @@ public class ZahtevService extends AbstractService {
         marshaller.marshal(listaZahteva, os);
         return os.toString();
 
+    }
+
+
+    public byte[] generateJson(String documentId) throws Exception {
+        String about = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/" + documentId;
+        String graphUri = "/lista_zahteva";
+        String documentNameId = "zahtev_" + documentId;
+        String filePath = "src/main/resources/static/json/" + documentNameId + ".json";
+        zahtevRepository.generateJson(documentNameId, graphUri, about);
+        File file = new File(filePath);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        return IOUtils.toByteArray(fileInputStream);
+    }
+
+    public byte[] generateRdf(String id) throws SAXException, IOException {
+        String rdfFilePath = "src/main/resources/static/rdf/zahtev_" + id + ".rdf";
+        String xmlFilePath = "src/main/resources/static/xml/zahtev_" + id + ".xml";
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+        String rs;
+        FileWriter fw;
+        try {
+            XMLResource res = zahtevRepository.pronadjiPoId(id);
+            rs = (String) res.getContent();
+            fw = new FileWriter(xmlFilePath);
+            fw.write(rs);
+            fw.close();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        try {
+            metadataExtractor.extractMetadata(
+                    new FileInputStream(new File(xmlFilePath)),
+                    new FileOutputStream(new File(rdfFilePath)));
+
+            File file = new File(rdfFilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            return IOUtils.toByteArray(fileInputStream);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestException("Error pri generisanju rdf zahteva.");
+        }
     }
 }

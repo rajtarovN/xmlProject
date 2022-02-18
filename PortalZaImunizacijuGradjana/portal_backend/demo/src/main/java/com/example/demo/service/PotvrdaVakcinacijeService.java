@@ -236,7 +236,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             return null;
         }
 
-        XMLResource xmlRes = this.readXML(id);
+        XMLResource xmlRes = this.readXML("potvrda_"+id+".xml");
         String doc_str = "";
         try {
             doc_str = xmlRes.getContent().toString();
@@ -270,7 +270,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             return null;
         }
 
-        XMLResource xmlRes = this.readXML(id);
+        XMLResource xmlRes = this.readXML("potvrda_"+id+".xml");
         String doc_str = xmlRes.getContent().toString();
         boolean ok = false;
         String html_path = SAVE_HTML + "potvrda_" + id + ".html";
@@ -332,7 +332,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             System.out.println("OVDEEEEEE");
             String all = this.allXmlByEmail(email);
 
-            JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+            JAXBContext context = JAXBContext.newInstance(ListaPotvrda.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             StringReader reader = new StringReader(all);
             ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
@@ -345,8 +345,8 @@ public class PotvrdaVakcinacijeService extends AbstractService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new BadRequestException("Error pri dobavljanju potvrda.");
         }
-        return new ArrayList<>();
     }
 
     public List<String> getAllPotvrde() throws IOException {
