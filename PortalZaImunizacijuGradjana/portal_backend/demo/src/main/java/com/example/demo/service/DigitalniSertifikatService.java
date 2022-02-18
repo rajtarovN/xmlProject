@@ -6,7 +6,10 @@ import static com.example.demo.util.PathConstants.SAVE_HTML;
 import static com.example.demo.util.PathConstants.SAVE_PDF;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.digitalni_zeleni_sertifikat.ListaSertifikata;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
@@ -47,13 +51,16 @@ public class DigitalniSertifikatService extends AbstractService {
 
 	private SaglasnostService saglasnostService;
 
+	public PotvrdaVakcinacijeService potvrdaVakcinacijeService;
+	
 	@Autowired
 	public DigitalniSertifikatService(DigitalniSertifikatRepository digitalniSertifikatRepository,
-			SaglasnostService saglasnostService) {
+			SaglasnostService saglasnostService, PotvrdaVakcinacijeService potvrdaVakcinacijeService) {
 
 		super(digitalniSertifikatRepository, "/db/portal/lista_sertifikata", "/lista_sertifikata");
 
 		this.saglasnostService = saglasnostService;
+		this.potvrdaVakcinacijeService = potvrdaVakcinacijeService;
 	}
 
 	public String generatePDF(String id) {
@@ -284,7 +291,7 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) throws Exception {
+	public List<DokumentDTO> getSertifikatiAllByEmail(String email) {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
@@ -293,9 +300,9 @@ public class DigitalniSertifikatService extends AbstractService {
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
-			List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
+			List<DokumentDTO> ret = new ArrayList<>();
 			for (DigitalniZeleniSertifikat s : saglasnosti.getSertifikate()) {
-				ret.add(new com.example.demo.dto.DokumentDTO(s));
+				ret.add(new DokumentDTO(s));
 			}
 			System.out.println("OVDEEEEEE");
 			return ret;
@@ -375,5 +382,9 @@ public class DigitalniSertifikatService extends AbstractService {
 			e.printStackTrace();
 			throw new BadRequestException("Error pri generisanju rdf sertifikata.");
 		}
+	}
+ 
+	public List<String> getSertifikatRefFromSeeAlso(String seeAlso) throws Exception {
+		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoPotvrdaRef(seeAlso);
 	}
 }

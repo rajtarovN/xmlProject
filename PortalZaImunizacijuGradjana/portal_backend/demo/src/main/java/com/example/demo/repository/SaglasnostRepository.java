@@ -17,7 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,13 +115,13 @@ public class SaglasnostRepository extends RepositoryInterface {
 		fusekiManager.writeFuseki(rdfInputStream, uri);
 	}
 
-	public List<String> naprednaPretraga(String ime, String prezime, String jmbg, String datum, String email,
+	public List<String> naprednaPretraga(String ime, String prezime, String id, String datum, String email,
 			boolean and) throws Exception {
 		List<String> ids = new ArrayList<>();
 		ArrayList<String> params = new ArrayList<>();
 		params.add(ime);
 		params.add(prezime);
-		params.add(jmbg);
+		params.add(id);
 		params.add(datum);
 		params.add(email);
 		if (and) {
@@ -174,4 +173,15 @@ public class SaglasnostRepository extends RepositoryInterface {
 		fusekiManager.generisiJSON(documentNameId, graphUri, about);
 	}
 
+	
+	public String pronadjiPoPotvrdaRef(String potvrda) throws Exception {
+		ArrayList<String> params = new ArrayList<>();
+		params.add("\"" + potvrda + "\"");
+
+		List<String> found = this.fusekiManager.queryAbout("/lista_saglasnosti", SPARQL_FILE + "saglasnost_ref_potvrda.rq", params);
+		if(!found.isEmpty()) {
+			return found.get(0);
+		}
+		return null;
+	}
 }

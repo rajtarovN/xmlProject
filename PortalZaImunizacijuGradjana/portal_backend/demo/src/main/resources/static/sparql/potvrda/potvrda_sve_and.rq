@@ -1,0 +1,19 @@
+PREFIX xs:     <http://www.w3.org/2001/XMLSchema#>
+SELECT ?potvrda_o_vakcinaciji FROM <%s>
+WHERE {
+ 	?potvrda_o_vakcinaciji <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/ime> ?ime .
+    ?potvrda_o_vakcinaciji <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/prezime> ?prezime .
+    OPTIONAL { ?potvrda_o_vakcinaciji <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/jmbg> ?jmbg . }
+    OPTIONAL { ?potvrda_o_vakcinaciji <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/ebs> ?ebs . }
+    ?potvrda_o_vakcinaciji <http://www.ftn.uns.ac.rs/xml_i_veb_servisi/rdf/potvrda_o_vakcinaciji/predicate/datum_izdavanja> ?datum .
+    BIND(xs:string(%s) as ?ime1) .
+    BIND(xs:string(%s) as ?prezime1) .
+    BIND(xs:string(%s) as ?id1) .
+    BIND(xs:string(%s) as ?datum1) .
+    FILTER ( 
+    	     ( regex(str(?datum), ?datum1, "i") || ?datum1 = "") &&
+    	     ( regex(str(?ime), ?ime1, "i") || ?ime1 = "") &&
+    	     ( regex(str(?jmbg), ?id1, "i") || regex(str(?ebs), ?id1, "i") || ?id1 = "") &&
+    	     ( regex(str(?prezime), ?prezime1, "i") || ?prezime1 = "")
+    	   )
+}

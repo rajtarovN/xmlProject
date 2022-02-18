@@ -129,4 +129,15 @@ public class SaglasnostController {
         }
     }
 
+    @GetMapping(value = "/referenciraniDoc/{id}", produces = "text/xml")
+	public ResponseEntity<?> getAllReferences(@PathVariable("id") String id) {
+
+		try {
+			String refs = this.saglasnostService.getAllIdReferences(id);
+			if(refs != null) return new ResponseEntity<>(refs, HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

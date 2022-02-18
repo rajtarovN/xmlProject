@@ -181,15 +181,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *             &lt;/simpleContent&gt;
  *           &lt;/complexType&gt;
  *         &lt;/element&gt;
- *         &lt;element name="Zahtev"&gt;
- *           &lt;complexType&gt;
- *             &lt;simpleContent&gt;
- *               &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;anyURI"&gt;
- *                 &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:seeAlso" /&gt;
- *               &lt;/extension&gt;
- *             &lt;/simpleContent&gt;
- *           &lt;/complexType&gt;
- *         &lt;/element&gt;
  *       &lt;/sequence&gt;
  *       &lt;attribute name="qr_kod"&gt;
  *         &lt;simpleType&gt;
@@ -214,8 +205,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "podaciOVakcinaciji",
     "testovi",
     "datum",
-    "potvrda",
-    "zahtev"
+    "potvrda"
 })
 @XmlRootElement(name = "Digitalni_zeleni_sertifikat")
 public class DigitalniZeleniSertifikat {
@@ -233,8 +223,6 @@ public class DigitalniZeleniSertifikat {
     protected XMLGregorianCalendar datum;
     @XmlElement(name = "Potvrda", required = true, nillable = true)
     protected DigitalniZeleniSertifikat.Potvrda potvrda;
-    @XmlElement(name = "Zahtev", required = true, nillable = true)
-    protected DigitalniZeleniSertifikat.Zahtev zahtev;
     @XmlAttribute(name = "qr_kod")
     protected String qrKod;
     @XmlAttribute(name = "Id_sertifikata")
@@ -385,30 +373,6 @@ public class DigitalniZeleniSertifikat {
      */
     public void setPotvrda(DigitalniZeleniSertifikat.Potvrda value) {
         this.potvrda = value;
-    }
-
-    /**
-     * Gets the value of the zahtev property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DigitalniZeleniSertifikat.Zahtev }
-     *     
-     */
-    public DigitalniZeleniSertifikat.Zahtev getZahtev() {
-        return zahtev;
-    }
-
-    /**
-     * Sets the value of the zahtev property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DigitalniZeleniSertifikat.Zahtev }
-     *     
-     */
-    public void setZahtev(DigitalniZeleniSertifikat.Zahtev value) {
-        this.zahtev = value;
     }
 
     /**
@@ -1840,90 +1804,6 @@ public class DigitalniZeleniSertifikat {
          */
         public void setDatumIVremeIzdavanjaRezultata(String value) {
             this.datumIVremeIzdavanjaRezultata = value;
-        }
-
-    }
-
-
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType&gt;
-     *   &lt;simpleContent&gt;
-     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema&gt;anyURI"&gt;
-     *       &lt;attribute name="property" type="{http://www.w3.org/2001/XMLSchema}string" fixed="pred:seeAlso" /&gt;
-     *     &lt;/extension&gt;
-     *   &lt;/simpleContent&gt;
-     * &lt;/complexType&gt;
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "value"
-    })
-    public static class Zahtev {
-
-        @XmlValue
-        @XmlSchemaType(name = "anyURI")
-        protected String value;
-        @XmlAttribute(name = "property")
-        protected String property;
-
-        /**
-         * Gets the value of the value property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getValue() {
-            return value;
-        }
-
-        /**
-         * Sets the value of the value property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        /**
-         * Gets the value of the property property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link String }
-         *     
-         */
-        public String getProperty() {
-            if (property == null) {
-                return "pred:seeAlso";
-            } else {
-                return property;
-            }
-        }
-
-        /**
-         * Sets the value of the property property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link String }
-         *     
-         */
-        public void setProperty(String value) {
-            this.property = value;
         }
 
     }

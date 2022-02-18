@@ -27,10 +27,9 @@ export class PotvrdeService {
     );
   }
 
-
   obicnaPretraga(searchTerm: string): Observable<string> {
     const headers = new HttpHeaders({
-      Accept: 'application/xml'
+      Accept: 'application/xml',
     });
     return this.http.get(
       `${environment.baseUrl}/${environment.obicnaPretragaPotvrda}/${searchTerm}`,
@@ -44,11 +43,21 @@ export class PotvrdeService {
       { responseType: 'arraybuffer' }
     );
   }
-  
+
   getAll(): Observable<any> {
     return this.http.get(`${environment.baseUrl}/potvrda/getAll`, {
       responseType: 'text',
     });
+  }
+
+  // api/potvrda/referenciraniDoc/id
+  getAllRefs(id: String): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/potvrda/referenciraniDoc/` + id,
+      {
+        responseType: 'text',
+      }
+    );
   }
 
   getJSON(id: string): Observable<any> {
@@ -62,6 +71,18 @@ export class PotvrdeService {
     return this.http.get(
       `${environment.baseUrl}/${environment.rdfPotvrda}/${id}`,
       { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  naprednaPretraga(data: any): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+      'Content-Type': 'application/xml',
+    });
+    return this.http.post(
+      `${environment.baseUrl}/potvrda/naprednaPretraga`,
+      data,
+      { headers: headers, responseType: 'text' }
     );
   }
 }

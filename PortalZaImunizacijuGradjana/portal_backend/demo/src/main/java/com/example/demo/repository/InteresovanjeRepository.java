@@ -38,6 +38,17 @@ public class InteresovanjeRepository extends RepositoryInterface {
 			IOException, XMLDBException, ClassNotFoundException {
 		return dbManager.readFileFromDB("interesovanje_" + id + ".xml", collectionId);
 	}
+	
+	public String pronadjiPoSaglasnostRef(String saglasnost) throws Exception {
+		ArrayList<String> params = new ArrayList<>();
+		params.add("\"" + saglasnost + "\"");
+
+		List<String> found = this.fusekiManager.queryAbout("/lista_interesovanja", SPARQL_FILE + "interesovanje_ref_saglasnost.rq", params);
+		if(!found.isEmpty()) {
+			return found.get(0);
+		}
+		return null;
+	}
 
 	public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
 		fusekiManager.generisiJSON(documentNameId, graphUri, about);

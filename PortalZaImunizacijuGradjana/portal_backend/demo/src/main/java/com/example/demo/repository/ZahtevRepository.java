@@ -79,4 +79,15 @@ public class ZahtevRepository extends RepositoryInterface{
     public void generateJson(String documentNameId, String graphUri, String about) throws Exception {
         fusekiManager.generisiJSON(documentNameId, graphUri, about);
     }
+    
+    public List<String> pronadjiPoSertifikatRef(String sertifikat) throws Exception {
+      ArrayList<String> params = new ArrayList<>();
+      params.add("\"" + sertifikat + "\"");
+
+      List<String> found = this.fusekiManager.queryAbout("/lista_zahteva", SPARQL_FILE + "zahtev_ref_sertifikat.rq", params);
+      if(!found.isEmpty()) {
+        return found;
+      }
+      return null;
+    }
 }

@@ -6,6 +6,7 @@ import com.example.demo.model.korisnik.Korisnik;
 import com.example.demo.model.zahtev_za_sertifikatom.ListaZahteva;
 import com.example.demo.model.zahtev_za_sertifikatom.ZahtevZaZeleniSertifikat;
 import com.example.demo.repository.InteresovanjeRepository;
+import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.repository.ZahtevRepository;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
@@ -220,6 +221,12 @@ public class ZahtevService extends AbstractService {
         try {
             ZahtevZaZeleniSertifikat zahtevZaZeleniSertifikat = setZahtevStatus(documentId, "odobren");
 
+            String idSertifikata = digitalniSertifikatService.saveSertifikat(zahtevZaZeleniSertifikat);
+            
+            zahtevZaZeleniSertifikat.setSertifikat(new ZahtevZaZeleniSertifikat.Sertifikat());
+            zahtevZaZeleniSertifikat.getSertifikat().setProperty("pred:seeAlso");
+            zahtevZaZeleniSertifikat.getSertifikat().setValue(idSertifikata);
+            
             String finalString = marshal(zahtevZaZeleniSertifikat);
             System.out.println(finalString);
 
@@ -227,8 +234,6 @@ public class ZahtevService extends AbstractService {
             repository.deleteRDF(documentId, "/lista_zahteva",
                     "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/zahtev_za_sertifikatom/");
             zahtevRepository.saveRDF(finalString, "/lista_zahteva");
-
-            String idSertifikata = digitalniSertifikatService.saveSertifikat(zahtevZaZeleniSertifikat);
 
             String message = "Poštovani, \n Obaveštavamo vas da je vaš zahtev za digitalni sertifikat odobren. \n";
 
@@ -357,4 +362,10 @@ public class ZahtevService extends AbstractService {
             throw new BadRequestException("Error pri generisanju rdf zahteva.");
         }
     }
+   
+	public List<String> getZahtevRefFromSeeAlso(String seeAlso) throws Exception {
+		return ((ZahtevRepository) this.repository).pronadjiPoSertifikatRef(seeAlso);
+	}
+
+
 }

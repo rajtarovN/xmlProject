@@ -105,7 +105,7 @@
                                 <xs:simpleType>
                                     <xs:restriction base="xs:string">
                                         <xs:enumeration value="Pfizer-BioNTech"/>
-                                        <xs:enumeration value="Sputnik V"/>
+                                        <xs:enumeration value="Sputnik"/>
                                         <xs:enumeration value="Sinopharm"/>
                                         <xs:enumeration value="AstraZeneca"/>
                                         <xs:enumeration value="Moderna"/>

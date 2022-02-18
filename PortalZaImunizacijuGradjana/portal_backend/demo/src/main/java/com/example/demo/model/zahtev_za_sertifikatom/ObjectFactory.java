@@ -69,6 +69,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ZahtevZaZeleniSertifikat.Sertifikat }
+     * 
+     */
+    public ZahtevZaZeleniSertifikat.Sertifikat createZahtevZaZeleniSertifikatSertifikat() {
+        return new ZahtevZaZeleniSertifikat.Sertifikat();
+    }
+    
+    /**
      * Create an instance of {@link Zaglavlje.DanPodnosenjaZahteva }
      * 
      */
