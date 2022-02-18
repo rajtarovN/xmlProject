@@ -14,7 +14,7 @@
                 </fo:simple-page-master>
             </fo:layout-master-set>
 
-            <fo:page-sequence master-reference="sertifikat-page">
+            <fo:page-sequence master-reference="zahtev-page">
                 <fo:flow flow-name="xsl-region-body">
                     <fo:block font-family="Times New Roman" width="60%"
                               margin-top="10pt" text-align="center" border="none"  text-decoration="underline">
@@ -22,21 +22,23 @@
 
 
                     <fo:block font-family="Times New Roman" font-size="14pt" font-weight="bold" text-align="center" margin-top="48pt">
-                        ДИГИТАЛНИ ЗЕЛЕНИ СЕРТИФИКАТ
-                    </fo:block>
-                    <fo:block font-family="Times New Roman" font-size="14pt" text-align="center" margin-top="48pt">
+                        DIGITALNI ZELENI SERTIFIKAT
+                        <fo:block font-size="5pt">&#160;</fo:block>
                         Potvrda o izvršeoj vakcinaciji protiv COVID-19 i rezultatima testiranja
                     </fo:block>
+                    <fo:block font-size="10pt">&#160;</fo:block>
                     <fo:block font-family="Times New Roman" font-size="14pt" font-weight="bold" text-align="center" margin-top="48pt">
                         DIGITAL GREEN CERTIFICATE
+                        <fo:block font-size="5pt">&#160;</fo:block>
+                        Certificate of vaccination against COVID-19 and test results
                     </fo:block>
                     <fo:block font-family="Times New Roman" font-size="14pt" text-align="center" margin-top="48pt">
-                        Certificate of vaccination against COVID-19 and test results
+
                     </fo:block>
 
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            Број сертификата / Certificate id:
+                            Broj sertifikata / Certificate id:
                         </fo:inline>
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
                             <xsl:value-of select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_sertifikatu/ns2:Broj_sertifikata"/>
@@ -45,7 +47,7 @@
 
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            Датум и време издавања сертификата / Certificate issuing date and time
+                            Datum i vreme izdavanja sertifikata / Certificate issuing date and time
                         </fo:inline>
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
                             <xsl:value-of select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_sertifikatu/ns2:Datum_i_vreme_izdavanja"/>
@@ -54,7 +56,7 @@
 
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            Име и презиме / Name and surename:
+                            Ime i prezime / Name and surename:
                         </fo:inline>
 
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
@@ -65,7 +67,7 @@
 
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            Пол / Gender:
+                            Pol / Gender:
                         </fo:inline>
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
                             <xsl:value-of select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_osobi/ns2:Pol"/>
@@ -73,7 +75,7 @@
                     </fo:block>
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            Датум рођења / Date of birth:
+                            Datum rođenja / Date of birth:
                         </fo:inline>
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
                             <xsl:value-of select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_osobi/ns2:Datum_rodjenja"/>
@@ -81,7 +83,7 @@
                     </fo:block>
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            ЈМБГ / Personal No. / EBS:
+                            JMBG / Personal No. / EBS:
                         </fo:inline>
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
                             <xsl:value-of select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_osobi/ns2:Jmbg"/>
@@ -89,54 +91,56 @@
                     </fo:block>
                     <fo:block>
                         <fo:inline  text-align="left" font-size="12pt" font-weight="bold" font-family="Times New Roman">
-                            Број пасоша / Passport No.:
+                            Broj pasoša / Passport No.:
                         </fo:inline>
                         <fo:inline text-align="left" font-size="12pt" font-family="Times New Roman">
                             <xsl:value-of select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_osobi/ns2:Broj_pasosa"/>
                         </fo:inline>
                     </fo:block>
 
-                    <xsl:for-each select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_vakcinaciji/ns2:Vakcinacija">
-                        <fo:block border="1px solid" width="50%">
+                    <fo:block>
+                        <xsl:for-each select="/ns2:Digitalni_zeleni_sertifikat/ns2:Podaci_o_vakcinaciji/ns2:Vakcinacija">
+                            <fo:block border="1px solid" width="50%">
 
-                            <fo:block>
-                                Доза / Dose :
-                                <xsl:value-of select="@br_doze"/>
-                            </fo:block>
-                            <fo:block>
-                                Тип / Type :
-                                <xsl:value-of select="ns2:Tip"/>
-                            </fo:block>
-                            <fo:block>
-                                Произвођач и серија / Manufacturer and batch number :
+                                <fo:block>
+                                    Doza / Dose :
+                                    <xsl:value-of select="@br_doze"/>
+                                </fo:block>
+                                <fo:block>
+                                    Tip / Type :
+                                    <xsl:value-of select="ns2:Tip"/>
+                                </fo:block>
+                                <fo:block>
+                                    Proizvođač i serijski broj / Manufacturer and batch number :
 
-                                <xsl:value-of select="ns2:Proizvodjac"/>
-                                <xsl:value-of select="ns2:Serija"/>
-                            </fo:block>
-                            <fo:block>
-                                Датум / Date :
-                                <xsl:value-of select="ns2:Datum"/>
-                            </fo:block>
-                            <fo:block>
-                                Здравствена установа / Health care institution :
+                                    <xsl:value-of select="ns2:Proizvodjac"/>
+                                    <xsl:value-of select="ns2:Serija"/>
+                                </fo:block>
+                                <fo:block>
+                                    Datum / Date :
+                                    <xsl:value-of select="ns2:Datum_davanja"/>
+                                </fo:block>
+                                <fo:block>
+                                    Zdravstvena ustanova / Health care institution :
 
-                                <xsl:value-of select="ns2:Zdravstvena_ustanova"/>
+                                    <xsl:value-of select="ns2:Zdravstvena_ustanova"/>
+                                </fo:block>
                             </fo:block>
-                        </fo:block>
-                    </xsl:for-each>
-                    <fo:block class="left-down">
-                        Сертификат издаје:
-                        Институт за јавно здравље Србије
-                        ,,Др Милан Јовановић Батут"
+                        </xsl:for-each>
+                    </fo:block>
+                    <fo:block >
+                        Sertifikat izdaje
+                        Institut za javno zdravlje
+                        ,,Dr Milan Jovanović Batut"
                         Certificate issued by
                         Institute of Public Health of Serbia
                         "Dr Milan Jovanović Batut"
                     </fo:block>
 
-                    <fo:block class="right-down">
-                        Дигитални потпис / Digitally signed by:
-                        РЕПУБЛИКА СРБИЈА Влада Републике Србије Канцеларија за информационе
-                        технологије и електронску управу, Немаљина 11, Београд
+                    <fo:block >
+                        Digitalni potpis / Digitally signed by:
+                        REPUBLIKA SRBIJA Vlada Republike Srbije Kancelarija za informacione
+                        tehnologije i elektronsku upravu, Nemanjina 11, Beograd
                     </fo:block>
 
 

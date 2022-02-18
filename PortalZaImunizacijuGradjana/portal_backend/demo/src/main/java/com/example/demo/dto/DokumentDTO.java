@@ -38,6 +38,8 @@ public class DokumentDTO {
         this.datumKreiranja = ft.format(date);
     }
 
+
+
     public DokumentDTO(String id, String datumKreiranja) {
         this.id = id;
         this.datumKreiranja = datumKreiranja;

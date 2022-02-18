@@ -407,7 +407,20 @@ public class InteresovanjeService extends AbstractService {
 		}
 	}
 
-	public List<com.example.sluzbenik_back.dto.DokumentDTO> getSaglasnostiAllByEmail(String email){
+	public List<com.example.sluzbenik_back.dto.DokumentDTO> getInteresovanjeAllByEmail(String email){
+//		try {
+//			//System.out.println(pronadjiInteresovanjePoEmailu(email));
+//
+//			XMLResource interesovanje = pronadjiInteresovanjePoEmailu(email);
+//			System.out.println("natasa");
+//			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+//
+//				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(interesovanje));
+//			System.out.println("OVDEEEEEE");
+//			return ret;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 //		try {
 //			System.out.println("OVDEEEEEE");
 //			String all = this.allXmlByEmail(email);

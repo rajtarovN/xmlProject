@@ -105,7 +105,7 @@
                     <xsl:for-each select="/potvrda_o_vakcinaciji/vakcinacija/doze/doza">
                         <div class="bigF"><b>Датум даванја и број серије вакцине:</b>
                         <xsl:value-of select="datum_davanja"/> &#160; серија:
-                        <xsl:value-of select="broj_serije"/></div>
+                        <xsl:value-of select="broj_serije"/>  <xsl:value-of select="naziv_vakcine"/></div>
                         <div class="smallF">Datum vakcinacije Vaccination day</div>
                         <br/>
                     </xsl:for-each>

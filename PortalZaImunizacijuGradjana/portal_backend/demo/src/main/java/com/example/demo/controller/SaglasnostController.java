@@ -234,7 +234,7 @@ public class SaglasnostController {
 
 
 
-	@PreAuthorize("hasRole('G')")
+	//@PreAuthorize("hasRole('G')") i zradnik i sluzbenik
 	@GetMapping(path ="/getAllS/{email}")
 	public ResponseEntity<?> getAllS(@PathVariable("email") String email) {
 		System.out.println("USLOOOOOOO");
