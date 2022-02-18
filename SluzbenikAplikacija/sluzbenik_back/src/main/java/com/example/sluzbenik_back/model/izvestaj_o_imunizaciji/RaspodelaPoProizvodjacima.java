@@ -71,4 +71,7 @@ public class RaspodelaPoProizvodjacima {
         return this.proizvodjac;
     }
 
+    public void setProizvodjac(List<Proizvodjac> proizvodjac) {
+        this.proizvodjac = proizvodjac;
+    }
 }

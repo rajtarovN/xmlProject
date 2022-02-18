@@ -21,6 +21,9 @@ import org.xmldb.api.modules.XMLResource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -159,24 +162,58 @@ public class ZahtevService extends AbstractService {
         }
     }
 
+    public List<String> getSveIdZahteva() throws IOException {
+        return this.repository.readAllDocumentIds(fusekiCollectionId);
+    }
+
     public String getListuZahtevaPoStatusu(String status) throws Exception {
-        List<String> ids = pronadjiPoStatusu(status);
-        ListaZahteva listaZahteva = new ListaZahteva();
-        List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
-        for (String id : ids) {
-            ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
-            zahtevi.add(z);
+        try{
+            List<String> ids = pronadjiPoStatusu(status);
+            ListaZahteva listaZahteva = new ListaZahteva();
+            List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
+            for (String id : ids) {
+                ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
+                zahtevi.add(z);
+            }
+            listaZahteva.setZahtevi(zahtevi);
+
+            JAXBContext context = JAXBContext.newInstance(ListaZahteva.class);
+            OutputStream os = new ByteArrayOutputStream();
+
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            marshaller.marshal(listaZahteva, os);
+            return os.toString();
         }
-        listaZahteva.setZahtevi(zahtevi);
+        catch (Exception e){
+            return null;
+        }
+    }
 
-        JAXBContext context = JAXBContext.newInstance(ListaZahteva.class);
-        OutputStream os = new ByteArrayOutputStream();
+    public String getListuZahtevaPoStatusuIPeriodu(String status, String odDatum, String doDatum) throws Exception {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+        XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
 
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        try{
+            List<String> ids = getSveIdZahteva();
+            List<ZahtevZaZeleniSertifikat> zahtevi = new ArrayList<>();
+            for (String id : ids) {
+                ZahtevZaZeleniSertifikat z = pronadjiPoId(id);
+                if( z.getZaglavlje().getDanPodnosenjaZahteva().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+                        z.getZaglavlje().getDanPodnosenjaZahteva().getValue().compare(pocetak) == DatatypeConstants.GREATER &&
+                        z.getStatus().getValue().equalsIgnoreCase(status)){
+                    zahtevi.add(z);
+                }
 
-        marshaller.marshal(listaZahteva, os);
-        return os.toString();
+            }
+
+            return String.valueOf(zahtevi.size());
+        }
+        catch (Exception e){
+            return "0";
+        }
     }
 
     public List<String> pronadjiPoStatusu(String status) {

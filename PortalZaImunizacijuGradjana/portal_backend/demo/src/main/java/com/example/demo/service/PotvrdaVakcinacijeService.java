@@ -47,6 +47,24 @@ import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.*;
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static com.example.demo.util.PathConstants.*;
 import com.example.demo.dto.DokumentDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
@@ -400,6 +418,59 @@ public class PotvrdaVakcinacijeService extends AbstractService {
         return filteredIds;
     }
 
+    public String getByPeriodAndDose(int doza, String odDatum, String doDatum) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException, ParseException {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+        XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+
+        try{
+            List<String> sviId = this.getAllPotvrde();
+            int brVakcina = 0;
+            for(String id : sviId){
+                PotvrdaOVakcinaciji potvrda = this.pronadjiPoId(id);
+                if( potvrda.getDatumIzdavanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+                        potvrda.getDatumIzdavanja().getValue().compare(pocetak) == DatatypeConstants.GREATER &&
+                        potvrda.getVakcinacija().getDoze().getDoza().size()+1 >= doza){
+                    brVakcina+=1;
+                }
+            }
+
+            return String.valueOf(brVakcina);
+        }
+        catch (Exception e){
+            return "0";
+        }
+    }
+
+    public String getByPeriodAndManufacturer(String proizvodjac, String odDatum, String doDatum) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, IllegalAccessException, InstantiationException, DatatypeConfigurationException, ParseException {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+        XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+
+        try{
+            List<String> sviId = this.getAllPotvrde();
+            int brVakcina = 0;
+            for(String id : sviId){
+                PotvrdaOVakcinaciji potvrda = this.pronadjiPoId(id);
+                if( potvrda.getDatumIzdavanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+                        potvrda.getDatumIzdavanja().getValue().compare(pocetak) == DatatypeConstants.GREATER){
+                    for(PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza doza : potvrda.getVakcinacija().getDoze().getDoza()){
+                        if(doza.getNazivVakcine().contains(proizvodjac)){
+                            brVakcina+=1;
+                        }
+                    }
+
+                }
+            }
+
+            return String.valueOf(brVakcina);
+        }
+        catch (Exception e){
+            return "0";
+        }
+
+    }
+    
     public byte[] generateJson(String documentId) throws Exception {
         String about = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/" + documentId;
         String graphUri = "/lista_potvrda";

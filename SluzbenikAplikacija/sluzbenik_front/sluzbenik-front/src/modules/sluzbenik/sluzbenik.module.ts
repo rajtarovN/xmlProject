@@ -19,6 +19,7 @@ import { SaglasnostViewComponent } from './components/saglasnost-view/saglasnost
 import { SertifikatViewComponent } from './components/sertifikat-view/sertifikat-view.component';
 import { PotvrdaViewComponent } from './components/potvrda-view/potvrda-view.component';
 import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pretraga.component';
+import { IzvestajComponent } from './components/izvestaj/izvestaj.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ObicnaPretragaComponent } from './components/obicna-pretraga/obicna-pre
     SertifikatViewComponent,
     PotvrdaViewComponent,
     ObicnaPretragaComponent,
+    IzvestajComponent
   ],
   imports: [
     CommonModule,

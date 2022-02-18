@@ -29,6 +29,9 @@ export const environment = {
   rdfSaglasnost: 'saglasnost/generisiRDF',
   rdfPotvrda: 'potvrda/generisiRDF',
   rdfSertifikat: 'sertifikat/generisiRDF',
+  getIzvestaj: 'izvestaj/getIzvestaji',
+  htmlIzvestaj: 'izvestaj/generateHTML',
+  pdfIzvestaj: 'izvestaj/generatePDF'
 };
 
 /*

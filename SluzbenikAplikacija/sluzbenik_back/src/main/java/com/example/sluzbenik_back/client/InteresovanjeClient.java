@@ -30,6 +30,8 @@ public class InteresovanjeClient {
 
 	}
 
+
+
 	public void sendOutPendingInteresovanja() throws Exception {
 		System.out.println("Sent HTTP GET request to resolve pending interesovanja");
 		URL url = new URL(BASE_URL + "/updatePending");
@@ -41,6 +43,15 @@ public class InteresovanjeClient {
 
 	}
 
+	public int getNumberOfInteresovanja(String dateFrom, String dateTo) throws Exception {
+		URL url = new URL(BASE_URL + "/getAllInDateRange/"+dateFrom+"/"+dateTo);
+
+		InputStream in = url.openStream();
+
+		String txt = getStringFromInputStream(in);
+		System.out.println("Broj interesovanja:" + txt);
+		return Integer.parseInt(txt);
+	}
 	
 	public static String getStringFromInputStream(InputStream in) throws Exception {
 		return new String(IOUtils.toByteArray(in), URL_ENCODING);

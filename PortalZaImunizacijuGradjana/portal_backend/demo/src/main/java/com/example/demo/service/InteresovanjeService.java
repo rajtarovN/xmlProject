@@ -1,5 +1,8 @@
 package com.example.demo.service;
 
+import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import static com.example.demo.util.PathConstants.INTERESOVANJE_XSL;
 import static com.example.demo.util.PathConstants.INTERESOVANJE_XSL_FO;
 import static com.example.demo.util.PathConstants.SAVE_HTML;
@@ -25,11 +28,14 @@ import java.util.UUID;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.dto.DokumentDTO;
+import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
@@ -472,6 +478,50 @@ public class InteresovanjeService extends AbstractService {
 		}
 
 		return new ArrayList<>();
+	}
+
+	public List<String> getAllInteresovanja() throws IOException {
+		return this.repository.readAllDocumentIds(fusekiCollectionId);
+	}
+
+	public String pronadjiPoVremenskomPeriodu(String odDatum, String doDatum) throws DatatypeConfigurationException, IOException, ParseException, Exception {
+		System.out.println("uslo u service");
+		try{
+			List<String> sviId = this.getAllInteresovanja();
+			System.out.println("dobio sva interesovanja");
+			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+			XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+			XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+			System.out.println("parsirao datume");
+			int brojac = 0;
+			for(String id : sviId){
+				System.out.println("uslo u id");
+				XMLResource res = this.pronadjiPoId(id);
+				try {
+					if (res != null) {
+
+						JAXBContext context = JAXBContext.newInstance("com.example.demo.model.interesovanje");
+
+						Unmarshaller unmarshaller = context.createUnmarshaller();
+
+						Interesovanje interesovanje = (Interesovanje) unmarshaller
+								.unmarshal((res).getContentAsDOM());
+
+						if (interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+								interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(pocetak) == DatatypeConstants.GREATER){
+							brojac+=1;
+						}
+					}
+				} catch (Exception e) {
+					return "0";
+				}
+			}
+			return String.valueOf(brojac);
+		}
+		catch (Exception e){
+			return "0";
+		}
+
 	}
 
 	public byte[] generateJson(String documentId) throws Exception {
