@@ -17,6 +17,7 @@ import * as txml from 'txml';
 import { PotvrdaService } from '../../../shared/services/potvrda-vakcinacije-service/potvrda.service';
 import { SaglasnostService } from '../../../shared/services/saglasnost-service/saglasnost.service';
 import { SertifikatService } from '../../../shared/services/sertifikat/sertifikat.service';
+import { InteresovanjeService } from '../../../shared/services/interesovanje-service/interesovanje.service';
 
 @Component({
   selector: 'app-prikaz-dokumenata',
@@ -47,6 +48,7 @@ export class PrikazDokumenataComponent implements OnInit {
     private toastr: ToastrService,
     private liveAnnouncer: LiveAnnouncer,
     private saglasnostService: SaglasnostService,
+    private interesovanjeService: InteresovanjeService,
     private potvrdeService: PotvrdaService,
     private sertifservice: SertifikatService
   ) {
@@ -68,6 +70,10 @@ export class PrikazDokumenataComponent implements OnInit {
     } else if (this.tipDokumenta === 'Sertifikati') {
       this.title = 'Digitalni Zeleni Sertifikati';
       this.setSertifikate();
+    }
+    else if (this.tipDokumenta === 'Interesovanje') {
+      this.title = 'Interesovanje';
+      this.setInteresovanje();
     }
   }
 
@@ -208,9 +214,37 @@ export class PrikazDokumenataComponent implements OnInit {
   }
 
   setSertifikate() {
-    this.sertifservice.getXmlByEmail(this.email).subscribe(
+    this.interesovanjeService.getXmlByEmail(this.email).subscribe(
       (response) => {
         if (response != 'Nema izdatih sertifikata za prisutnog gradjana.') {
+          let obj: any = txml.parse(response);
+          let list: Array<Dokument> = [];
+          if (obj[0].children != []) {
+            obj[0].children.forEach((element: any, index: number) => {
+              console.log(element);
+              const temp: Dokument = {
+                id: String(element.children[0].children[0]),
+                datumKreiranja: String(element.children[1].children[0]),
+              };
+              list.push(temp);
+            });
+            this.data = list;
+            this.setData(list);
+          }
+        } else {
+          this.toastr.info(response);
+        }
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
+
+  setInteresovanje() {
+    this.interesovanjeService.getXmlByEmail(this.email).subscribe(
+      (response) => {
+        if (response != 'Nema interesovanja za prisutnog gradjana.') {
           let obj: any = txml.parse(response);
           let list: Array<Dokument> = [];
           if (obj[0].children != []) {
@@ -241,7 +275,6 @@ export class PrikazDokumenataComponent implements OnInit {
         (response) => {
           let file = new Blob([response], { type: 'text/html' });
           var fileURL = URL.createObjectURL(file);
-
           let a = document.createElement('a');
           document.body.appendChild(a);
           a.setAttribute('style', 'display: none');
@@ -324,6 +357,8 @@ export class PrikazDokumenataComponent implements OnInit {
           this.toastr.error(error.error);
         }
       );
+    }else if (this.tipDokumenta === 'Interesovanje'){
+      //TODO olja
     }
   }
 
@@ -355,6 +390,8 @@ export class PrikazDokumenataComponent implements OnInit {
           this.toastr.error(error.error);
         }
       );
+    }else if (this.tipDokumenta === 'Interesovanje'){
+      //TODO olja
     }
   }
 

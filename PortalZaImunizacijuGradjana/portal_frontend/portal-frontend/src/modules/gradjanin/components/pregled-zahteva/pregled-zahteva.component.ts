@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PodnosenjeZahtevaService } from '../../services/podnosenje-zahteva.service';
-
+import { ToastrService } from 'ngx-toastr'
 @Component({
   selector: 'app-pregled-zahteva',
   templateUrl: './pregled-zahteva.component.html',
@@ -23,6 +23,7 @@ export class PregledZahtevaComponent implements OnInit {
   id="";
 
   constructor(
+    private toastr: ToastrService,
     private zahtevService: PodnosenjeZahtevaService,
     private toastr: ToastrService,
   ) { 
@@ -48,7 +49,9 @@ export class PregledZahtevaComponent implements OnInit {
 
   setText(text: string){
     console.log(text.split(">"));
+    try{
     const first_part = text.split(">");
+
     this.id = first_part[2].split("za_sertifikatom/")[1].split('\"')[0];
     this.id = "zahtev_"+ this.id.split("/")[0]+"_" + this.id.split("/")[1]+".xml";
     this.ime = first_part[5].split("<")[0];
@@ -59,6 +62,9 @@ export class PregledZahtevaComponent implements OnInit {
     this.razlog = first_part[17].split("<")[0]
     this.mesto = first_part[21].split("<")[0]
     this.datumPodnosenjaZhteva = first_part[23].split("<")[0]
+  }catch(Exception){
+    this.toastr.error("Ne postoji yahtev sa tim jmbg-om")
+  }
   }
 
   getPdf() {

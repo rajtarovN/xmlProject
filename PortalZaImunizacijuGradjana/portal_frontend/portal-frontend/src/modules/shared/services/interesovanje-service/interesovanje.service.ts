@@ -50,6 +50,16 @@ export class InteresovanjeService {
     return this.http.get(
       `${environment.baseUrl}/${environment.rdfInteresovanje}/${id}`,
       { responseType: 'arraybuffer' as 'text' }
+      );
+  }
+
+  getXmlByEmail(email: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Accept: 'application/xml',
+    });
+    return this.http.get(
+      `${environment.baseUrl}/interesovanje/getAllI/${email}`,
+      { headers: headers, responseType: 'text' }
     );
   }
 }
