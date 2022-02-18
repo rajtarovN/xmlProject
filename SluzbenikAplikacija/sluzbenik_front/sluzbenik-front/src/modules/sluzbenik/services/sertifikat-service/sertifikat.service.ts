@@ -48,7 +48,7 @@ export class SertifikatService {
 
   obicnaPretraga(searchTerm: string): Observable<string> {
     const headers = new HttpHeaders({
-      Accept: 'application/xml'
+      Accept: 'application/xml',
     });
     return this.http.get(
       `${environment.baseUrl}/${environment.obicnaPretragaSertif}/${searchTerm}`,
@@ -59,6 +59,21 @@ export class SertifikatService {
   getXHtml(id: string): Observable<any> {
     return this.http.get(
       `${environment.baseUrl}/${environment.sertifikatXhtml}/${id}`,
-      { responseType: 'arraybuffer' });}
+      { responseType: 'arraybuffer' }
+    );
+  }
 
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonSertifikat}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfSertifikat}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
 }

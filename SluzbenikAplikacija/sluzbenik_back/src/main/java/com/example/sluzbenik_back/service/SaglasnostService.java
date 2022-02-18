@@ -6,12 +6,12 @@ import com.example.sluzbenik_back.dto.IdentificationDTO;
 import com.example.sluzbenik_back.dto.SaglasnostNaprednaDTO;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.sluzbenik_back.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
+import com.example.sluzbenik_back.util.FusekiManager;
 import com.example.sluzbenik_back.util.XSLFORTransformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
-import org.xmldb.api.modules.XMLResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,9 @@ import static com.example.sluzbenik_back.util.PathConstants.*;
 
 @Service
 public class SaglasnostService {
+
+    @Autowired
+    private FusekiManager fusekiManager;
 	
     @Autowired
     private SaglasnostClient saglasnostClient;
@@ -110,5 +113,15 @@ public class SaglasnostService {
 
     public IdentificationDTO obicnaPretraga(String searchTerm) throws Exception {
         return this.saglasnostClient.getByObicnaPretraga(searchTerm);
+    }
+
+    public byte[] generisiJSON(String documentId) throws Exception  {
+        String res = saglasnostClient.generateJson(documentId);
+        return res.getBytes();
+    }
+
+    public byte[] generisiRDF(String documentId) throws Exception  {
+        String res = saglasnostClient.generateRdf(documentId);
+        return res.getBytes();
     }
 }

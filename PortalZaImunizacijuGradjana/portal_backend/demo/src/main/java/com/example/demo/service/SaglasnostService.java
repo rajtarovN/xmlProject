@@ -6,6 +6,7 @@ import com.example.demo.dto.EvidencijaVakcinacijeDTO;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.SaglasnostDTO;
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.ForbiddenException;
 import com.example.demo.model.dostupne_vakcine.Zalihe;
 import com.example.demo.model.dostupne_vakcine.Zalihe.Vakcina;
@@ -13,13 +14,16 @@ import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnost
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.repository.SaglasnostRepository;
 import com.example.demo.util.DBManager;
+import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
 
-import com.example.sluzbenik_back.dto.DokumentDTO;
+import com.example.demo.dto.DokumentDTO;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
@@ -33,6 +37,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.math.BigInteger;
 import java.text.DateFormat;
@@ -721,9 +726,9 @@ public class SaglasnostService extends AbstractService {
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSaglasnosti saglasnosti = (ListaSaglasnosti) unmarshaller.unmarshal(reader);
-			List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+			List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
 			for (Saglasnost s: saglasnosti.getSaglasnosti()) {
-				ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
+				ret.add(new com.example.demo.dto.DokumentDTO(s));
 			}System.out.println("OVDEEEEEE");
 			return ret;
 
@@ -769,6 +774,50 @@ public class SaglasnostService extends AbstractService {
 			}
 		}
 		return filteredIds;
+	}
+
+	public byte[] generateJson(String documentId) throws Exception {
+		String about = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/obrazac_saglasnosti_za_imunizaciju/" + documentId;
+		String graphUri = "/lista_saglasnosti";
+		String documentNameId = "saglasnost_" + documentId;
+		String filePath = "src/main/resources/static/json/" + documentNameId + ".json";
+		saglasnostRepository.generateJson(documentNameId, graphUri, about);
+		File file = new File(filePath);
+		FileInputStream fileInputStream = new FileInputStream(file);
+
+		return IOUtils.toByteArray(fileInputStream);
+	}
+
+	public byte[] generateRdf(String id) throws SAXException, IOException {
+		String rdfFilePath = "src/main/resources/static/rdf/saglasnost_" + id + ".rdf";
+		String xmlFilePath = "src/main/resources/static/xml/saglasnost_" + id + ".xml";
+		MetadataExtractor metadataExtractor = new MetadataExtractor();
+		String rs;
+		FileWriter fw;
+		try {
+			XMLResource res = this.saglasnostRepository.pronadjiPoId(id);
+			rs = (String) res.getContent();
+			fw = new FileWriter(xmlFilePath);
+			fw.write(rs);
+			fw.close();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			metadataExtractor.extractMetadata(
+					new FileInputStream(new File(xmlFilePath)),
+					new FileOutputStream(new File(rdfFilePath)));
+
+			File file = new File(rdfFilePath);
+			FileInputStream fileInputStream = new FileInputStream(file);
+
+			return IOUtils.toByteArray(fileInputStream);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BadRequestException("Error pri generisanju rdf saglasnosti.");
+		}
 	}
 
 }

@@ -3,20 +3,21 @@ package com.example.demo.service;
 import com.example.demo.dto.EvidentiraneVakcineDTO;
 import com.example.demo.dto.ListaEvidentiranihVakcina;
 import com.example.demo.dto.PotvrdaVakcinacijeDTO;
-import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
+import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.Saglasnost;
 import com.example.demo.model.potvrda_o_vakcinaciji.ListaPotvrda;
 import com.example.demo.model.potvrda_o_vakcinaciji.PotvrdaOVakcinaciji;
-import com.example.demo.repository.DigitalniSertifikatRepository;
 import com.example.demo.repository.PotvrdaVakcinacijeRepository;
 import com.example.demo.util.DBManager;
 import com.example.demo.util.FusekiManager;
 import com.example.demo.util.MetadataExtractor;
 import com.example.demo.util.XSLFORTransformer;
+import org.apache.commons.io.IOUtils;
 import org.exist.xmldb.EXistResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
@@ -27,7 +28,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.*;
@@ -39,10 +39,9 @@ import java.util.Date;
 import java.util.List;
 
 import static com.example.demo.util.PathConstants.*;
-import static com.example.demo.util.PathConstants.ZAHTEV_ZA_SERTIFIKAT_XSL;
 
 @Service
-public class PotvrdaVakcinacijeService  extends AbstractService {
+public class PotvrdaVakcinacijeService extends AbstractService {
 
     private static final String TARGET_NAMESPACE = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji";
 
@@ -53,22 +52,16 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
     private SaglasnostService saglasnostService;
 
     @Autowired
-    private DBManager dbManager;
-
-    @Autowired
-    private FusekiManager fusekiManager;
-
-    @Autowired
     public PotvrdaVakcinacijeService(PotvrdaVakcinacijeRepository repository) {
-        super(repository,"/db/portal/lista_potvrda", "/lista_potvrda");
+        super(repository, "/db/portal/lista_potvrda", "/lista_potvrda");
     }
 
     public List<String> pronadjiPoJmbgIDatumu(String jmbg, Date datumIzdavanja) {
         List<String> ids = new ArrayList<>();
-        if(datumIzdavanja == null){
+        if (datumIzdavanja == null) {
             datumIzdavanja = new Date();
         }
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             ids = this.potvrdaVakcinacijeRepository.pronadjiPoJmbgIDatumu(jmbg, ft.format(datumIzdavanja));
@@ -80,10 +73,10 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
     public List<String> pronadjiPoEbsIDatumu(String ebs, Date datumIzdavanja) {
         List<String> ids = new ArrayList<>();
-        if(datumIzdavanja == null){
+        if (datumIzdavanja == null) {
             datumIzdavanja = new Date();
         }
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             ids = this.potvrdaVakcinacijeRepository.pronadjiPoEbsIDatumu(ebs, ft.format(datumIzdavanja));
@@ -114,22 +107,22 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         }
     }
 
-    public PotvrdaVakcinacijeDTO kreirajPotvrdu(Saglasnost saglasnost){
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+    public PotvrdaVakcinacijeDTO kreirajPotvrdu(Saglasnost saglasnost) {
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         String datumIzdavanja = ft.format(new Date());
         Date dateRodj = saglasnost.getPacijent().getLicniPodaci().getDatumRodjenja().toGregorianCalendar().getTime();
         String zUstanova = saglasnost.getEvidencijaOVakcinaciji().getZdravstvenaUstanova();
 
 
         PotvrdaVakcinacijeDTO dto = new PotvrdaVakcinacijeDTO(
-                        saglasnost.getBrojSaglasnosti(), saglasnost.getPacijent().getLicniPodaci().getIme().getValue(),
-                        saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue(), ft.format(dateRodj),
-                        saglasnost.getPacijent().getLicniPodaci().getPol(), zUstanova, datumIzdavanja);
+                saglasnost.getBrojSaglasnosti(), saglasnost.getPacijent().getLicniPodaci().getIme().getValue(),
+                saglasnost.getPacijent().getLicniPodaci().getPrezime().getValue(), ft.format(dateRodj),
+                saglasnost.getPacijent().getLicniPodaci().getPol(), zUstanova, datumIzdavanja);
 
-        if(saglasnost.getPacijent().getStraniDrzavljanin() != null){
+        if (saglasnost.getPacijent().getStraniDrzavljanin() != null) {
             dto.setDrz("str");
             dto.setEbs(saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue());
-        }else{
+        } else {
             dto.setDrz("srb");
             dto.setJmbg(saglasnost.getPacijent().getDrzavljaninSrbije().getJmbg().getValue());
         }
@@ -144,7 +137,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
         PotvrdaOVakcinaciji.DatumIzdavanja datumIzdavanja = new PotvrdaOVakcinaciji.DatumIzdavanja();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         XMLGregorianCalendar datumXML = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(new Date()));
         datumIzdavanja.setValue(datumXML);
         datumIzdavanja.setProperty("pred:datum_izdavanja");
@@ -166,13 +159,12 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         lp.setDatumRodjenja(datumXML);
 
         lp.setPol(content.getPol());
-        if(content.getDrz().equals("srb")){
+        if (content.getDrz().equals("srb")) {
             PotvrdaOVakcinaciji.LicniPodaci.Jmbg jmbg = new PotvrdaOVakcinaciji.LicniPodaci.Jmbg();
             jmbg.setValue(content.getJmbg());
             jmbg.setProperty("pred:jmbg");
             lp.setJmbg(jmbg);
-        }
-        else{
+        } else {
             PotvrdaOVakcinaciji.LicniPodaci.Ebs ebs = new PotvrdaOVakcinaciji.LicniPodaci.Ebs();
             ebs.setValue(content.getEbs());
             ebs.setProperty("pred:ebs");
@@ -191,7 +183,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         List<PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza> lista = new ArrayList<>();
         int i = 0;
         String lastVaxName = "";
-        for (EvidentiraneVakcineDTO vakcinaDto: evidentiraneVakcineDTO.getEvidentiraneVakcineDTO()){
+        for (EvidentiraneVakcineDTO vakcinaDto : evidentiraneVakcineDTO.getEvidentiraneVakcineDTO()) {
             i += 1;
             PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza doza = new PotvrdaOVakcinaciji.Vakcinacija.Doze.Doza();
             XMLGregorianCalendar result1 = DatatypeFactory.newInstance()
@@ -210,10 +202,9 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         String finalString = saveXMl(potvrdaOVakcinaciji, "potvrda_" + documentId);
         repository.saveRDF(finalString, fusekiCollectionId);
 
-        //TODO mail
         String ime = potvrdaOVakcinaciji.getLicniPodaci().getIme().getValue();
         String prezime = potvrdaOVakcinaciji.getLicniPodaci().getPrezime().getValue();
-        saglasnostService.createNextAppointment(i, lastVaxName, email,  ime, prezime);
+        saglasnostService.createNextAppointment(i, lastVaxName, email, ime, prezime);
 
         return "Uspesno izdata potvrda o vakcinaciji.";
     }
@@ -266,6 +257,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             return null;
         }
     }
+
     public String generateHTML(String id) throws XMLDBException {
         XSLFORTransformer transformer = null;
 
@@ -298,19 +290,19 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         Saglasnost saglasnost = saglasnostService.pronadjiSaglasnostPoEmailu(email);
         List<String> ids = new ArrayList<>();
         List<PotvrdaOVakcinaciji> ret = new ArrayList<>();
-        if(saglasnost != null){
-            if(saglasnost.getPacijent().getStraniDrzavljanin() != null &&
+        if (saglasnost != null) {
+            if (saglasnost.getPacijent().getStraniDrzavljanin() != null &&
                     saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija() != null &&
-                    saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue() != null){
+                    saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue() != null) {
                 ids = potvrdaVakcinacijeRepository.pronadjiPoEbs(saglasnost.getPacijent().getStraniDrzavljanin().getIdentifikacija().getValue());
-            }else{
+            } else {
                 ids = potvrdaVakcinacijeRepository.pronadjiPoJmbg(saglasnost.getPacijent().getDrzavljaninSrbije().getJmbg().getValue());
             }
 
-            if(!ids.isEmpty()){
-                for (String id: ids) {
+            if (!ids.isEmpty()) {
+                for (String id : ids) {
                     PotvrdaOVakcinaciji potvrdaOVakcinaciji = pronadjiPoId(id);
-                    if(potvrdaOVakcinaciji != null){
+                    if (potvrdaOVakcinaciji != null) {
                         ret.add(potvrdaOVakcinaciji);
                     }
                 }
@@ -333,7 +325,7 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         return this.potvrdaVakcinacijeRepository.pronadjiPoId(documentId);
     }
 
-    public List<com.example.sluzbenik_back.dto.DokumentDTO> getPotvrdaAllByEmail(String email) {
+    public List<com.example.demo.dto.DokumentDTO> getPotvrdaAllByEmail(String email) {
         try {
             System.out.println("OVDEEEEEE");
             String all = this.allXmlByEmail(email);
@@ -342,9 +334,9 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             Unmarshaller unmarshaller = context.createUnmarshaller();
             StringReader reader = new StringReader(all);
             ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
-            List<com.example.sluzbenik_back.dto.DokumentDTO> ret = new ArrayList<>();
+            List<com.example.demo.dto.DokumentDTO> ret = new ArrayList<>();
             for (PotvrdaOVakcinaciji s : potvrde.getPotvrde()) {
-                ret.add(new com.example.sluzbenik_back.dto.DokumentDTO(s));
+                ret.add(new com.example.demo.dto.DokumentDTO(s));
             }
             System.out.println("OVDEEEEEE");
             return ret;
@@ -354,11 +346,12 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
         }
         return new ArrayList<>();
     }
+
     public List<String> getAllPotvrde() throws IOException {
         return this.potvrdaVakcinacijeRepository.readAllDocumentIds(fusekiCollectionId);
     }
 
-    public List<String> obicnaPretraga(String searchTerm) throws Exception{
+    public List<String> obicnaPretraga(String searchTerm) throws Exception {
         List<String> filteredIds = new ArrayList<>();
         ResourceSet result = this.potvrdaVakcinacijeRepository.obicnaPretraga(searchTerm);
         ResourceIterator i = result.getIterator();
@@ -383,5 +376,49 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
             }
         }
         return filteredIds;
+    }
+
+    public byte[] generateJson(String documentId) throws Exception {
+        String about = "http://www.ftn.uns.ac.rs/xml_i_veb_servisi/potvrda_o_vakcinaciji/" + documentId;
+        String graphUri = "/lista_potvrda";
+        String documentNameId = "potvrda_" + documentId;
+        String filePath = "src/main/resources/static/json/" + documentNameId + ".json";
+        this.potvrdaVakcinacijeRepository.generateJson(documentNameId, graphUri, about);
+        File file = new File(filePath);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        return IOUtils.toByteArray(fileInputStream);
+    }
+
+    public byte[] generateRdf(String id) throws SAXException, IOException {
+        String rdfFilePath = "src/main/resources/static/rdf/potvrda_" + id + ".rdf";
+        String xmlFilePath = "src/main/resources/static/xml/potvrda_" + id + ".xml";
+        MetadataExtractor metadataExtractor = new MetadataExtractor();
+        String rs;
+        FileWriter fw;
+        try {
+            XMLResource res = this.potvrdaVakcinacijeRepository.pronadjiPoId(id);
+            rs = (String) res.getContent();
+            fw = new FileWriter(xmlFilePath);
+            fw.write(rs);
+            fw.close();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        try {
+            metadataExtractor.extractMetadata(
+                    new FileInputStream(new File(xmlFilePath)),
+                    new FileOutputStream(new File(rdfFilePath)));
+
+            File file = new File(rdfFilePath);
+            FileInputStream fileInputStream = new FileInputStream(file);
+
+            return IOUtils.toByteArray(fileInputStream);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BadRequestException("Error pri generisanju rdf potvrde.");
+        }
     }
 }

@@ -17,6 +17,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import com.example.demo.dto.DokumentDTO;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.util.XSLFORTransformer;
 import org.apache.commons.io.input.ReaderInputStream;
@@ -407,7 +408,7 @@ public class InteresovanjeService extends AbstractService {
 		}
 	}
 
-	public List<com.example.sluzbenik_back.dto.DokumentDTO> getInteresovanjeAllByEmail(String email){
+	public List<DokumentDTO> getInteresovanjeAllByEmail(String email){
 //		try {
 //			//System.out.println(pronadjiInteresovanjePoEmailu(email));
 //

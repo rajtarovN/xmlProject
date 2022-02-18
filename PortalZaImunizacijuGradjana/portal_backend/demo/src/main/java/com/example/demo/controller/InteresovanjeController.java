@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
+import com.example.demo.dto.DokumentDTO;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,7 +118,7 @@ public class InteresovanjeController {
 	public ResponseEntity<?> getAllI(@PathVariable("email") String email) {
 		System.out.println("USLOOOOOOO");
 		try {
-			List<com.example.sluzbenik_back.dto.DokumentDTO> retval = interesovanjeService.getInteresovanjeAllByEmail(email);
+			List<DokumentDTO> retval = interesovanjeService.getInteresovanjeAllByEmail(email);
 			if (retval.isEmpty()) {
 				return new ResponseEntity<>("Nema izdatih potvrda za prisutnog gradjana.", HttpStatus.OK);
 			} else

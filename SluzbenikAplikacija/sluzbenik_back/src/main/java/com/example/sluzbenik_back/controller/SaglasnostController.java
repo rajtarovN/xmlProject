@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.sluzbenik_back.dto.DokumentDTO;
 import com.example.sluzbenik_back.dto.SaglasnostNaprednaDTO;
 import com.example.sluzbenik_back.service.SaglasnostService;
+import org.xmldb.api.base.XMLDBException;
 
 @Controller
 @RequestMapping(value = "/saglasnost")
@@ -106,5 +107,26 @@ public class SaglasnostController {
 		}
 	}
 
+    @PreAuthorize("hasRole('S')")
+    @GetMapping("/generisiJSON/{idSaglasnosti}")
+    public ResponseEntity<byte[]> generisiJSON(@PathVariable("idSaglasnosti") String idSaglasnosti) throws XMLDBException {
+        try {
+            return new ResponseEntity<byte[]>(this.saglasnostService.generisiJSON(idSaglasnosti), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PreAuthorize("hasRole('S')")
+    @GetMapping("/generisiRDF/{idSaglasnosti}")
+    public ResponseEntity<byte[]> generisiRDF(@PathVariable("idSaglasnosti") String idSaglasnosti) throws XMLDBException {
+        try {
+            return new ResponseEntity<byte[]>(this.saglasnostService.generisiRDF(idSaglasnosti), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 
 }
