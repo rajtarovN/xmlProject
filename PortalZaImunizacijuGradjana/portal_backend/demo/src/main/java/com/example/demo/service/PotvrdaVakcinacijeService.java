@@ -163,20 +163,19 @@ public class PotvrdaVakcinacijeService  extends AbstractService {
 
         lp.setPol(content.getPol());
 
-        //TODO: uri?
-        p.setQrKod(QRCodeService.getQRCode(p.getAbout()));
-
         if(content.getDrz().equals("srb")){
             PotvrdaOVakcinaciji.LicniPodaci.Jmbg jmbg = new PotvrdaOVakcinaciji.LicniPodaci.Jmbg();
             jmbg.setValue(content.getJmbg());
             jmbg.setProperty("pred:jmbg");
             lp.setJmbg(jmbg);
+            p.setQrKod(QRCodeService.getQRCode("http://localhost:4001/potvrda_o_vakcinaciji/"+content.getJmbg()));
         }
         else{
             PotvrdaOVakcinaciji.LicniPodaci.Ebs ebs = new PotvrdaOVakcinaciji.LicniPodaci.Ebs();
             ebs.setValue(content.getEbs());
             ebs.setProperty("pred:ebs");
             lp.setEbs(ebs);
+            p.setQrKod(QRCodeService.getQRCode("http://localhost:4001/potvrda_o_vakcinaciji/"+content.getEbs()));
         }
 
         p.setLicniPodaci(lp);

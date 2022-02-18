@@ -190,8 +190,7 @@ public class DigitalniSertifikatService extends AbstractService {
 		podaciOVakcinaciji.setVakcinacija(vakcinacije);
 		sertifikat.setPodaciOVakcinaciji(podaciOVakcinaciji);
 
-		//TODO: sta je URI za dobavljanje dokumenta?
-		sertifikat.setQrKod(QRCodeService.getQRCode(sertifikat.getAbout()));
+		sertifikat.setQrKod(QRCodeService.getQRCode("http://localhost:4001/digitalni_zeleni_sertifikat/"+id));
 
 		JAXBContext contextSaglasnost = JAXBContext.newInstance(DigitalniZeleniSertifikat.class);
 		OutputStream os = new ByteArrayOutputStream();
