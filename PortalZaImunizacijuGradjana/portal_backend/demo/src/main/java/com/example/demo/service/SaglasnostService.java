@@ -717,7 +717,7 @@ public class SaglasnostService extends AbstractService {
 	}
 
 
-	public List<DokumentDTO> getSaglasnostiAllByEmail(String email){
+	public List<DokumentDTO> getSaglasnostiAllByEmail(String email) throws Exception{
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
@@ -734,21 +734,11 @@ public class SaglasnostService extends AbstractService {
 
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (XMLDBException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (DatatypeConfigurationException e) {
-			e.printStackTrace();
+			throw new BadRequestException("Error pri dobavljanju saglasnosti.");
 		}
-		return new ArrayList<>();
 	}
+
+
 	public List<String> obicnaPretraga(String searchTerm) throws Exception{
 		List<String> filteredIds = new ArrayList<>();
 		ResourceSet result = this.saglasnostRepository.obicnaPretraga(searchTerm);

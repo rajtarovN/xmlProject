@@ -38,4 +38,18 @@ export class InteresovanjeService {
       responseType: 'text',
     });
   }
+
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonInteresovanje}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfInteresovanje}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
 }

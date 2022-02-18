@@ -24,8 +24,8 @@ public class DokumentDTO {
     }
 
     public DokumentDTO(PotvrdaOVakcinaciji potvrdaOVakcinaciji){
-        String num = potvrdaOVakcinaciji.getAbout().split("/")[-1];
-        this.id = num;
+        String id = potvrdaOVakcinaciji.getAbout().substring(potvrdaOVakcinaciji.getAbout().lastIndexOf('/') + 1);
+        this.id = id;
         SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
         Date date = potvrdaOVakcinaciji.getDatumIzdavanja().getValue().toGregorianCalendar().getTime();
         this.datumKreiranja = ft.format(date);

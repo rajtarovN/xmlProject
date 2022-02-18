@@ -330,7 +330,7 @@ public class PotvrdaVakcinacijeService extends AbstractService {
             System.out.println("OVDEEEEEE");
             String all = this.allXmlByEmail(email);
 
-            JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+            JAXBContext context = JAXBContext.newInstance(ListaPotvrda.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             StringReader reader = new StringReader(all);
             ListaPotvrda potvrde = (ListaPotvrda) unmarshaller.unmarshal(reader);
@@ -343,8 +343,8 @@ public class PotvrdaVakcinacijeService extends AbstractService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new BadRequestException("Error pri dobavljanju potvrda.");
         }
-        return new ArrayList<>();
     }
 
     public List<String> getAllPotvrde() throws IOException {

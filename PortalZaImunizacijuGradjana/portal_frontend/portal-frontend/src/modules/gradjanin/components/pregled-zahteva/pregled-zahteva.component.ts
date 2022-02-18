@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { PodnosenjeZahtevaService } from '../../services/podnosenje-zahteva.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class PregledZahtevaComponent implements OnInit {
 
   constructor(
     private zahtevService: PodnosenjeZahtevaService,
+    private toastr: ToastrService,
   ) { 
     
   }
@@ -96,4 +98,39 @@ export class PregledZahtevaComponent implements OnInit {
     );
   }
 
+  getJSON(){
+    this.zahtevService.getHtml(this.id).subscribe(
+      data => {
+        this.doJsonRdf(data, `zahtev_${this.id}.json`, 'application/json');
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
+
+  getRDF(){
+    this.zahtevService.getHtml(this.id).subscribe(
+      data => {
+        this.doJsonRdf(data, `zahtev_${this.id}.rdf`, 'application/pdf');
+      },
+      (error) => {
+        this.toastr.error(error.error);
+      }
+    );
+  }
+
+
+  doJsonRdf(response: any, documentNameId: string, typee: string){
+    let file = new Blob([response], { type: typee });
+    var fileURL = URL.createObjectURL(file);
+    let a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = fileURL;
+    a.download = documentNameId;
+    a.click();
+    window.URL.revokeObjectURL(fileURL);
+    a.remove();
+  }
 }

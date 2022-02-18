@@ -108,4 +108,18 @@ export class PodnosenjeZahtevaService {
   getHtml(id: string): Observable<any> {
     return this.http.get(`${environment.baseUrl}` + '/zahtev/generateHTML/' + id, {responseType: 'arraybuffer'});
   }
+
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonZahtev}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfZahtev}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
 }

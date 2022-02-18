@@ -25,8 +25,16 @@ export const environment = {
   saglasnostPdf: 'saglasnost/generatePDF',
   getSaglasnosti: 'saglasnost/getAllXmlByEmail',
   getPotvrde: 'potvrda/getAllXmlByEmail',
- 
-
+  jsonSaglasnost: 'saglasnost/generateJson',
+  jsonPotvrda: 'potvrda/generateJson',
+  jsonSertifikat: 'sertifikat/generateJson',
+  jsonInteresovanje: 'interesovanje/generateJson',
+  jsonZahtev: 'zahtev/generateJson',
+  rdfSaglasnost: 'saglasnost/generateRdf',
+  rdfPotvrda: 'potvrda/generateRdf',
+  rdfSertifikat: 'sertifikat/generateRdf',
+  rdfInteresovanje: 'interesovanje/generateRdf',
+  rdfZahtev: 'zahtev/generateRdf',
 };
 
 /*

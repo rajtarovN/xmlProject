@@ -124,4 +124,18 @@ export class SaglasnostService {
       { headers: headers, responseType: 'text' }
     );
   }
+
+  getJSON(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.jsonSaglasnost}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
+
+  getRDF(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.baseUrl}/${environment.rdfSaglasnost}/${id}`,
+      { responseType: 'arraybuffer' as 'text' }
+    );
+  }
 }

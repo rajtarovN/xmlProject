@@ -107,6 +107,23 @@ public class InteresovanjeController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
 
+	@GetMapping(path = "/generateJson/{documentId}")
+	public ResponseEntity<byte[]> generateJson(@PathVariable("documentId") String documentId){
+		try {
+			return new ResponseEntity<>(interesovanjeService.generateJson(documentId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@GetMapping(path = "/generateRdf/{documentId}")
+	public ResponseEntity<byte[]> generateRdf(@PathVariable("documentId") String documentId){
+		try {
+			return new ResponseEntity<>(interesovanjeService.generateRdf(documentId), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }

@@ -282,12 +282,12 @@ public class DigitalniSertifikatService extends AbstractService {
 		return ((DigitalniSertifikatRepository) this.repository).pronadjiPoId(documentId);
 	}
 
-	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) {
+	public List<com.example.demo.dto.DokumentDTO> getSertifikatiAllByEmail(String email) throws Exception {
 		try {
 			System.out.println("OVDEEEEEE");
 			String all = allXmlByEmail(email);
 
-			JAXBContext context = JAXBContext.newInstance(ListaSaglasnosti.class);
+			JAXBContext context = JAXBContext.newInstance(ListaSertifikata.class);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			StringReader reader = new StringReader(all);
 			ListaSertifikata saglasnosti = (ListaSertifikata) unmarshaller.unmarshal(reader);
@@ -300,9 +300,10 @@ public class DigitalniSertifikatService extends AbstractService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new BadRequestException("Error pri dobavljanju sertifikata.");
 		}
-		return new ArrayList<>();
 	}
+
 	public List<String> obicnaPretraga(String searchTerm) throws Exception{
 		List<String> filteredIds = new ArrayList<>();
 		ResourceSet result = ((DigitalniSertifikatRepository) this.repository).obicnaPretraga(searchTerm);
