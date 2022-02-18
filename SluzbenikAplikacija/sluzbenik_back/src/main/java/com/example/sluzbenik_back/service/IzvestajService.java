@@ -10,7 +10,6 @@ import com.example.sluzbenik_back.model.izvestaj_o_imunizaciji.*;
 import com.example.sluzbenik_back.repository.IzvestajRepository;
 import com.example.sluzbenik_back.repository.RepositoryInterface;
 import com.example.sluzbenik_back.util.XSLFORTransformer;
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;

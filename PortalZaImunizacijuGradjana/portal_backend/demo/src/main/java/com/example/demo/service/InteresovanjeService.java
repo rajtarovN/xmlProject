@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -14,10 +16,12 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import com.example.demo.dto.DokumentDTO;
+import com.example.demo.model.digitalni_zeleni_sertifikat.DigitalniZeleniSertifikat;
 import com.example.demo.model.obrazac_saglasnosti_za_imunizaciju.ListaSaglasnosti;
 import com.example.demo.util.XSLFORTransformer;
 import org.apache.commons.io.input.ReaderInputStream;
@@ -441,4 +445,42 @@ public class InteresovanjeService extends AbstractService {
 //		}
 		return new ArrayList<>();
 	}
+
+	public List<String> getAllInteresovanja() throws IOException {
+		return this.repository.readAllDocumentIds(fusekiCollectionId);
+	}
+
+	public String pronadjiPoVremenskomPeriodu(String odDatum, String doDatum) throws DatatypeConfigurationException, IOException, ParseException, Exception {
+		List<String> sviId = this.getAllInteresovanja();
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+		XMLGregorianCalendar pocetak = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(odDatum)));
+		XMLGregorianCalendar kraj = DatatypeFactory.newInstance().newXMLGregorianCalendar(ft.format(ft.parse(doDatum)));
+		int brojac = 0;
+		for(String id : sviId){
+			XMLResource res = this.pronadjiPoId(id);
+			try {
+				if (res != null) {
+
+					JAXBContext context = JAXBContext.newInstance("com.example.demo.model.interesovanje");
+
+					Unmarshaller unmarshaller = context.createUnmarshaller();
+
+					Interesovanje interesovanje = (Interesovanje) unmarshaller
+							.unmarshal((res).getContentAsDOM());
+
+					if (interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(kraj) ==  DatatypeConstants.LESSER &&
+							interesovanje.getDatumPodnosenjaInteresovanja().getValue().compare(pocetak) == DatatypeConstants.GREATER){
+						brojac+=1;
+					}
+				} else {
+					return null;
+				}
+			} catch (Exception e) {
+				return null;
+			}
+
+		}
+		return String.valueOf(brojac);
+	}
+
 }

@@ -1,9 +1,14 @@
 package com.example.demo.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.xmldb.api.base.XMLDBException;
+import org.xmldb.api.modules.XMLResource;
+
+import javax.xml.bind.JAXBException;
 
 @Repository
 public class InteresovanjeRepository extends RepositoryInterface {
